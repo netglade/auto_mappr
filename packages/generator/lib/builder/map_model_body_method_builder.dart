@@ -1,13 +1,11 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
-import 'package:automapper_generator/builder/model/extensions.dart';
-import 'package:automapper_generator/models/auto_mapper_config.dart';
+import 'package:auto_mapper_generator/builder/value_assignment_builder.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
-import '../models/auto_map_part.dart';
-import 'model/source_assignment.dart';
+import '../models/models.dart';
 
 /*
 * Map positional fields
@@ -129,18 +127,20 @@ class MapModelBodyMethodBuilder {
     _mapSetterFields(mappedSourceFieldNames, sourceFields, targetClass, block);
 
     block.statements.add(refer('result').returned.statement);
+
     return block.build();
   }
 
   void _assertParamMemberCanBeIgnored(ParameterElement param, FieldElement sourceField) {
+    final sourceFieldName = sourceField.getDisplayString(withNullability: true);
     if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
       throw InvalidGenerationSourceError(
-          "Can't ignore member '${sourceField.displayName}' as it is positional not-nullable parameter");
+          "Can't ignore member '${sourceFieldName}' as it is positional not-nullable parameter");
     }
 
     if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
       throw InvalidGenerationSourceError(
-          "Can't ignore member '${sourceField.displayName}' as it is required not-nullable parameter");
+          "Can't ignore member '${sourceFieldName}' as it is required named not-nullable parameter");
     }
   }
 
@@ -155,8 +155,9 @@ class MapModelBodyMethodBuilder {
       }
 
       if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+        if (param.type.isDartCoreList) return;
         throw InvalidGenerationSourceError(
-          "Can't generate mapping ${mapping.toString()} as there is non mapped not-nullable required parameter ${param.displayName}",
+          "Can't generate mapping ${mapping.toString()} as there is non mapped not-nullable required named parameter ${param.displayName}",
         );
       }
     }
@@ -183,12 +184,14 @@ class MapModelBodyMethodBuilder {
 
       // assign result.X = model.X
       final expr = refer('result').property(sourceField.displayName).assign(
-            _assignValue(
-              SourceAssignment(
+            ValueAssignmentBuilder(
+              mapperConfig: mapperConfig,
+              mapping: mapping,
+              assignment: SourceAssignment(
                 sourceField: sourceField,
                 targetField: targetField,
               ),
-            ),
+            ).build(),
           );
 
       block.statements.add(expr.statement);
@@ -199,9 +202,12 @@ class MapModelBodyMethodBuilder {
       {required List<SourceAssignment> positional, required List<SourceAssignment> named}) {
     return declareFinal('result')
         .assign(refer(targetConstructor.displayName).newInstance(
-          positional.map((assignment) => _assignValue(assignment)),
+          positional.map((assignment) =>
+              ValueAssignmentBuilder(mapperConfig: mapperConfig, mapping: mapping, assignment: assignment).build()),
           {
-            for (final assignment in named) assignment.targetConstructorParam!.param.name: _assignValue(assignment),
+            for (final assignment in named)
+              assignment.targetConstructorParam!.param.name:
+                  ValueAssignmentBuilder(mapperConfig: mapperConfig, mapping: mapping, assignment: assignment).build(),
           },
         ))
         .statement;
@@ -222,56 +228,5 @@ class MapModelBodyMethodBuilder {
     constructors.sort(((a, b) => b.parameters.length - a.parameters.length));
 
     return constructors.first;
-  }
-
-  Expression _assignValue(SourceAssignment assignment) {
-    if (assignment.sourceField == null) return refer('null');
-
-    if (mapping.hasMapping(assignment.sourceField!.displayName)) {
-      final memberMapping = mapping.getMapping(assignment.sourceField!.displayName);
-
-      if (memberMapping.ignore) {
-        return refer('null');
-      }
-
-      final target = memberMapping.target;
-      // Support Function mapping
-      if (target != null) {
-        // Eg. when static class is used => Static.mapFrom()
-        final hasStaticProxy = target.enclosingElement.displayName.isNotEmpty;
-        final callRefer =
-            hasStaticProxy ? '${target.enclosingElement.displayName}.${target.displayName}' : target.displayName;
-
-        return refer(callRefer).call([refer('model')]);
-      }
-    }
-
-    if (assignment.shouldAssignList()) {
-      return _assignListvalue(assignment);
-    }
-
-    // Mapping nested object
-    if (assignment.sourceField!.type.isSimpleType == false) {}
-
-    return refer('model').property(assignment.sourceField!.name);
-  }
-
-  //todo tests
-  Expression _assignListvalue(SourceAssignment assignment) {
-    final sourceNullable = assignment.sourceField!.type.nullabilitySuffix == NullabilitySuffix.question;
-    final targetNullable = assignment.targetNullability == NullabilitySuffix.question;
-
-    print('S: $sourceNullable, T: $targetNullable');
-
-    if (targetNullable && sourceNullable == false) {
-      return refer('model').property(assignment.sourceField!.name);
-    }
-
-    if (targetNullable == false && sourceNullable) {
-      return refer('model').property(assignment.sourceField!.name).ifNullThen(refer('[]'));
-    }
-
-    // sourceNullable && targetNullable
-    return refer('model').property(assignment.sourceField!.name);
   }
 }

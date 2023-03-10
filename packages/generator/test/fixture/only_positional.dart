@@ -1,4 +1,4 @@
-import 'package:automapper/automapper.dart';
+import 'package:auto_mapper/auto_mapper.dart';
 
 part 'fixtures/only_positional.dart';
 
@@ -16,7 +16,9 @@ class UserDto {
   UserDto(this.id, this.name);
 }
 
-@AutoMapper(mappers: [
-  AutoMap<UserDto, User>(),
-])
+@AutoMapper(
+  mappers: [
+    AutoMap<UserDto, User>(),
+  ],
+)
 class Mapper extends $Mapper {}

@@ -1,4 +1,4 @@
-import 'package:automapper/automapper.dart';
+import 'package:auto_mapper/auto_mapper.dart';
 
 part 'test.g.dart';
 

@@ -1,19 +1,23 @@
-import 'package:automapper/automapper.dart';
+import 'package:auto_mapper/auto_mapper.dart';
+import 'package:equatable/equatable.dart';
 
 part 'automapper.g.dart';
 
-class User {
+class User extends Equatable {
   final int id;
   final String name;
   final String? tag;
 
-  int age = 0;
+  bool get hasTag => tag != null;
 
-  User({
+  const User({
     required this.id,
     required this.name,
     required this.tag,
   });
+
+  @override
+  List<Object?> get props => [id, name, tag];
 }
 
 class UserDto {
@@ -80,8 +84,7 @@ class ListTargetNullable {
 }
 
 @AutoMapper(mappers: [
-  AutoMap<UserDto, User>(reverse: true),
-  AutoMap<User, UserDto>(),
+  AutoMap<UserDto, User>(),
   //AutoMap<User, UserDto>(),
   // AutoMap<UserDto, NameDto>(),
   // AutoMap<UserDto, SetterNameDto>(),

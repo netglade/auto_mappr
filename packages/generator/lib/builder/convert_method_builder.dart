@@ -1,19 +1,19 @@
-import 'package:analyzer/dart/element/element.dart';
+import 'package:auto_mapper_generator/models/auto_mapper_config.dart';
 import 'package:code_builder/code_builder.dart';
 
 import '../models/auto_map_part.dart';
 
 /// Builds main `convert` method
 class ConvertMethodBuilder {
-  static Method buildCanConvert(ClassElement mapperClass, List<AutoMapPart> mappings) {
+  static Method buildCanConvert(AutoMapperConfig config) {
     return Method((b) => b
       ..name = 'canConvert'
       ..types.addAll([refer('I'), refer('R')])
       ..returns = refer('bool')
-      ..body = _buildCanConvertBody(mapperClass, mappings));
+      ..body = _buildCanConvertBody(config.parts));
   }
 
-  static Method buildConvertMethod(ClassElement mapperClass, List<AutoMapPart> mappings) {
+  static Method buildConvertMethod(AutoMapperConfig config) {
     return Method((b) => b
       ..name = 'convert'
       ..types.addAll([refer('I'), refer('R')])
@@ -21,13 +21,10 @@ class ConvertMethodBuilder {
         ..name = 'model'
         ..type = refer('I')))
       ..returns = refer('R')
-      ..body = _buildConvertMethodBody(mapperClass, mappings));
+      ..body = _buildConvertMethodBody(config.parts));
   }
 
-  static Code? _buildConvertMethodBody(
-    ClassElement mapperClass,
-    List<AutoMapPart> mappings,
-  ) {
+  static Code? _buildConvertMethodBody(List<AutoMapPart> mappings) {
     final block = BlockBuilder();
 
     final dartEmitter = DartEmitter();
@@ -57,7 +54,7 @@ class ConvertMethodBuilder {
     return block.build();
   }
 
-  static Code? _buildCanConvertBody(ClassElement mapperClass, List<AutoMapPart> mappings) {
+  static Code? _buildCanConvertBody(List<AutoMapPart> mappings) {
     final block = BlockBuilder();
 
     final dartEmitter = DartEmitter();

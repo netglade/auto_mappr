@@ -1,17 +1,17 @@
 name: automapper_example
-description: A starting point for Dart libraries or applications.
+description: Example project for AutoMapper
 version: 1.0.0
-# homepage: https://www.example.com
 publish_to: none
 
 environment:
   sdk: ">=2.18.7 <3.0.0"
 
 dependencies:
-  automapper: ^0.0.1
+  auto_mapper: ^0.1.0
+  equatable: ^2.0.5
 
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.16.0
-  automapper_generator: ^0.0.1
+  auto_mapper_generator: ^0.0.1
   build_runner: ^2.0.0

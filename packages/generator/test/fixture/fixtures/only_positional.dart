@@ -17,7 +17,7 @@ class $Mapper {
 
   R convert<I, R>(I model) {
     if (model is UserDto && _typeOf<R>() == User) {
-      return (_mapUserDtoToUser(model) as R);
+      return _mapUserDtoToUser(model) as R;
     }
     throw Exception('No mapper found for ${model.runtimeType}');
   }

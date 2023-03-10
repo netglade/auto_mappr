@@ -1,4 +1,4 @@
-import 'package:automapper/automapper.dart';
+import 'package:auto_mapper/auto_mapper.dart';
 
 part 'fixtures/member_mapping_nullables.dart';
 
@@ -33,15 +33,20 @@ class UserDto {
   });
 }
 
-@AutoMapper(mappers: [
-  AutoMap<UserDto, User>(mappings: [
-    MapMember(member: 'name', target: Mapper.m),
-    MapMember(member: 'age', target: mapAge),
-    MapMember(member: 'ignoreByMapping', ignore: true)
-  ]),
-])
+@AutoMapper(
+  mappers: [
+    AutoMap<UserDto, User>(
+      mappings: [
+        MapMember(member: 'name', target: Mapper.m),
+        MapMember(member: 'age', target: mapAge),
+        MapMember(member: 'ignoreByMapping', ignore: true)
+      ],
+    ),
+  ],
+)
 class Mapper extends $Mapper {
-  static dynamic m(UserDto from) => from.id;
+  static String m(UserDto from) => from.name;
 }
 
-dynamic mapAge(UserDto from) => 55;
+// ignore: prefer-static-class, for test
+int mapAge(UserDto _) => 55;

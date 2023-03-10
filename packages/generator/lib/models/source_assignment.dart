@@ -1,7 +1,10 @@
+//ignore_for_file: prefer-match-file-name
+
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:automapper_generator/builder/model/extensions.dart';
+import 'package:auto_mapper_generator/models/extensions.dart';
+import 'package:code_builder/code_builder.dart';
 
 import '../../models/auto_map_part.dart';
 
@@ -25,8 +28,11 @@ class SourceAssignment {
 
   bool get shouldBeIgnored => memberMapping?.ignore ?? false;
 
-  NullabilitySuffix get targetNullability =>
-      targetField?.type.nullabilitySuffix ?? targetConstructorParam!.param.type.nullabilitySuffix;
+  NullabilitySuffix get targetNullability => targetType.nullabilitySuffix;
+
+  DartType get targetType => targetConstructorParam?.param.type ?? targetField!.type;
+
+  String get targetName => targetConstructorParam?.param.displayName ?? targetField!.displayName;
 
   SourceAssignment({
     required this.sourceField,
@@ -35,14 +41,27 @@ class SourceAssignment {
     this.memberMapping,
   });
 
-  DartType get _targetType => targetConstructorParam?.param.type ?? targetField!.type;
-
   bool shouldAssignList() {
     // The source can be mapped to the target, if the source is mapable object and the target is listLike.
-    return _isCoreListLike(_targetType) && _isMapable(sourceField!.type);
+    return _isCoreListLike(targetType) && _isMapable(sourceField!.type);
   }
 
-  bool shouldAssignComplextObject() => !_targetType.isSimpleType;
+  bool shouldAssignComplextObject() => !targetType.isSimpleType;
+
+  @override
+  String toString() {
+    final targetTypeName = targetType.getDisplayString(withNullability: true);
+    final sourceName = sourceField?.getDisplayString(withNullability: true);
+
+    return '$sourceName -> $targetTypeName $targetName';
+  }
+
+  Expression getDefaultValue() {
+    if (targetType.isDartCoreList) return refer('[]');
+    if (targetType.isDartCoreSet || targetType.isDartCoreMap) return refer('{}');
+
+    return refer('null');
+  }
 
   bool _isCoreListLike(DartType type) {
     return type.isDartCoreList || type.isDartCoreSet || type.isDartCoreIterable;
@@ -56,6 +75,7 @@ class SourceAssignment {
     if (type is! InterfaceType) {
       return false;
     }
+
     return type.allSupertypes.any(_isCoreListLike);
   }
 }

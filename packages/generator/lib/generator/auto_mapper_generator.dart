@@ -1,49 +1,36 @@
+//ignore_for_file: avoid-dynamic
+
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:automapper/automapper.dart';
-import 'package:automapper_generator/builder/auto_mapper_builder.dart';
-import 'package:automapper_generator/models/auto_mapper_config.dart';
+import 'package:auto_mapper/auto_mapper.dart';
+import 'package:auto_mapper_generator/models/auto_map_part.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
-import '../models/auto_map_part.dart';
-
-// may be helpful to check which elements have a given annotation.
-// abstract class GeneratorForAnnotation2<T> extends GeneratorForAnnotation<T> {
-//   GeneratorForAnnotation2();
-
-//   late LibraryReader library;
-
-//   @override
-//   FutureOr<String> generate(LibraryReader library, BuildStep buildStep) async {
-//     this.library = library;
-
-//     return super.generate(library, buildStep);
-//   }
-// }
+import '../builder/auto_mapper_builder.dart';
+import '../models/auto_mapper_config.dart';
 
 /// Codegenerator to generate implemented mapping classes
-class MapperGenerator extends GeneratorForAnnotation<AutoMapper> {
+class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
   @override
   dynamic generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
     if (element is! ClassElement) {
-      throw InvalidGenerationSourceError('${element.displayName} is not a class and cannot be annotated with @Mapper',
-          element: element, todo: 'Add Mapper annotation to a class');
+      throw InvalidGenerationSourceError(
+        '${element.displayName} is not a class and cannot be annotated with @Mapper',
+        element: element,
+        todo: 'Add Mapper annotation to a class',
+      );
     }
     final annotation = element.metadata.single; // AutoMapper annotation
     final constant = annotation.computeConstantValue()!; // its instance
     final field = constant.getField('mappers')!;
     final list = field.toListValue()!;
-    //final firstElement = list.first;
-    //final autoMapType = firstElement.type as ParameterizedType;
-    // final userType = autoMapType.typeArguments[0];
-    // final userDtoType = autoMapType.typeArguments[1];
 
     final parts = list.map((x) {
       final mapType = x.type as ParameterizedType;
 
-      final from = mapType.typeArguments[0];
+      final from = mapType.typeArguments.first;
       final to = mapType.typeArguments[1];
 
       final isReverse = x.getField('reverse')?.toBoolValue();
@@ -67,7 +54,8 @@ class MapperGenerator extends GeneratorForAnnotation<AutoMapper> {
 
     if (parts.duplicates.isNotEmpty) {
       throw InvalidGenerationSourceError(
-          '@AutoMapper has configured duplicated mappings:\n\t${parts.duplicates.join('\n\t')}');
+        '@AutoMapper has configured duplicated mappings:\n\t${parts.duplicates.join('\n\t')}',
+      );
     }
 
     /**
@@ -87,11 +75,12 @@ class MapperGenerator extends GeneratorForAnnotation<AutoMapper> {
 
     final reverseMappings = parts.where((x) => x.isReverse).toList();
 
-    for (var reverseMapping in reverseMappings) {
-      final specific = config.getMorePreciseReverseMapping(reverseMapping);
+    for (final reverseMapping in reverseMappings) {
+      final specific = config.getExplicitReverseMapping(reverseMapping);
       if (specific != null) {
         log.warning(
-            'Mapping $reverseMapping has reverse=true but more specific mapping $specific is configured. Reverse flag will be ignored.');
+          'Mapping $reverseMapping has reverse=true but more specific mapping $specific is configured. Reverse flag will be ignored.',
+        );
       }
     }
 

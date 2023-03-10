@@ -1,4 +1,4 @@
-# melos_managed_dependency_overrides: automapper
+# melos_managed_dependency_overrides: auto_mapper
 dependency_overrides:
-  automapper:
-    path: ..\\automapper
+  auto_mapper:
+    path: ..\\auto_mapper

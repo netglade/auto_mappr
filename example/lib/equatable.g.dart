@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'test.dart';
+part of 'equatable.dart';
 
 // **************************************************************************
 // AutoMapperGenerator
 // **************************************************************************
 
-class $Mapper {
+class $ExampleMapper {
   Type _typeOf<X>() => X;
   bool canConvert<I, R>() {
     if (_typeOf<I>() == UserDto && _typeOf<R>() == User) {
@@ -24,12 +24,10 @@ class $Mapper {
 
   User _mapUserDtoToUser(UserDto model) {
     final result = User(
-      null,
       id: model.id,
-      name: Mapper.m(model),
-      namedIgnoredByNull: null,
+      name: model.name,
+      tag: null,
     );
-    result.age = mapAge(model);
     return result;
   }
 }

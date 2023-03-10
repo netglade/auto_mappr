@@ -1,4 +1,4 @@
-import 'package:automapper_generator/builder.dart';
+import 'package:auto_mapper_generator/builder.dart';
 import 'package:generator_test/generator_test.dart';
 import 'package:test/test.dart';
 

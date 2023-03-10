@@ -3,16 +3,13 @@
 part of 'automapper.dart';
 
 // **************************************************************************
-// MapperGenerator
+// AutoMapperGenerator
 // **************************************************************************
 
 class $ExampleMapper {
   Type _typeOf<X>() => X;
   bool canConvert<I, R>() {
     if (_typeOf<I>() == UserDto && _typeOf<R>() == User) {
-      return true;
-    }
-    if (_typeOf<I>() == User && _typeOf<R>() == UserDto) {
       return true;
     }
     return false;
@@ -22,9 +19,6 @@ class $ExampleMapper {
     if (model is UserDto && _typeOf<R>() == User) {
       return (_mapUserDtoToUser(model) as R);
     }
-    if (model is User && _typeOf<R>() == UserDto) {
-      return (_mapUserToUserDto(model) as R);
-    }
     throw Exception('No mapper found for ${model.runtimeType}');
   }
 
@@ -33,16 +27,6 @@ class $ExampleMapper {
       id: model.id,
       name: model.name,
       tag: null,
-    );
-    result.age = model.age;
-    return result;
-  }
-
-  UserDto _mapUserToUserDto(User model) {
-    final result = UserDto(
-      id: model.id,
-      name: model.name,
-      age: model.age,
     );
     return result;
   }
