@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'reverse.dart';
+part of 'nullable.dart';
 
 // **************************************************************************
 // AutoMapperGenerator
@@ -12,7 +12,7 @@ class $ExampleMapper {
     if (_typeOf<I>() == UserDto && _typeOf<R>() == User) {
       return true;
     }
-    if (_typeOf<I>() == User && _typeOf<R>() == UserDto) {
+    if (_typeOf<I>() == NestedDto && _typeOf<R>() == Nested) {
       return true;
     }
     return false;
@@ -28,10 +28,11 @@ class $ExampleMapper {
         (_typeOf<R>() == _typeOf<User>() || _typeOf<R>() == _typeOf<User?>())) {
       return (_mapUserDtoToUser((model as UserDto)) as R);
     }
-    if ((_typeOf<I>() == _typeOf<User>() || _typeOf<I>() == _typeOf<User?>()) &&
-        (_typeOf<R>() == _typeOf<UserDto>() ||
-            _typeOf<R>() == _typeOf<UserDto?>())) {
-      return (_mapUserToUserDto((model as User)) as R);
+    if ((_typeOf<I>() == _typeOf<NestedDto>() ||
+            _typeOf<I>() == _typeOf<NestedDto?>()) &&
+        (_typeOf<R>() == _typeOf<Nested>() ||
+            _typeOf<R>() == _typeOf<Nested?>())) {
+      return (_mapNestedDtoToNested((model as NestedDto?)) as R);
     }
     throw Exception('No mapping from ${model.runtimeType} -> ${_typeOf<R>()}');
   }
@@ -40,14 +41,16 @@ class $ExampleMapper {
     final model = input;
     final result = User(
       id: model.id,
-      name: model.name,
+      name: _convert(model.name),
+      tag: _convert(model.tag),
     );
     return result;
   }
 
-  UserDto _mapUserToUserDto(User input) {
+  Nested _mapNestedDtoToNested(NestedDto? input) {
     final model = input;
-    final result = UserDto(
+    if (model == null) return ExampleMapper.defaultNested();
+    final result = Nested(
       id: model.id,
       name: model.name,
     );

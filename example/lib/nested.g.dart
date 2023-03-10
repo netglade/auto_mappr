@@ -22,46 +22,58 @@ class $ExampleMapper {
   }
 
   R convert<I, R>(I model) {
-    if (model is UserDto && _typeOf<R>() == User) {
-      return (_mapUserDtoToUser(model) as R);
-    }
-    if (model is NestedDto && _typeOf<R>() == Nested) {
-      return (_mapNestedDtoToNested(model) as R);
-    }
-    if (model is NestedTagDto && _typeOf<R>() == NestedTag) {
-      return (_mapNestedTagDtoToNestedTag(model) as R);
-    }
-    throw Exception('No mapper found for ${model.runtimeType}');
+    return _convert(model);
   }
 
-  User _mapUserDtoToUser(UserDto model) {
+  R _convert<I, R>(I model) {
+    if ((_typeOf<I>() == _typeOf<UserDto>() ||
+            _typeOf<I>() == _typeOf<UserDto?>()) &&
+        (_typeOf<R>() == _typeOf<User>() || _typeOf<R>() == _typeOf<User?>())) {
+      return (_mapUserDtoToUser((model as UserDto)) as R);
+    }
+    if ((_typeOf<I>() == _typeOf<NestedDto>() ||
+            _typeOf<I>() == _typeOf<NestedDto?>()) &&
+        (_typeOf<R>() == _typeOf<Nested>() ||
+            _typeOf<R>() == _typeOf<Nested?>())) {
+      return (_mapNestedDtoToNested((model as NestedDto)) as R);
+    }
+    if ((_typeOf<I>() == _typeOf<NestedTagDto>() ||
+            _typeOf<I>() == _typeOf<NestedTagDto?>()) &&
+        (_typeOf<R>() == _typeOf<NestedTag>() ||
+            _typeOf<R>() == _typeOf<NestedTag?>())) {
+      return (_mapNestedTagDtoToNestedTag((model as NestedTagDto)) as R);
+    }
+    throw Exception('No mapping from ${model.runtimeType} -> ${_typeOf<R>()}');
+  }
+
+  User _mapUserDtoToUser(UserDto input) {
+    final model = input;
     final result = User(
       id: model.id,
-      name: convert<NestedDto, Nested>(model.name),
-      nestedItems:
-          model.nestedItems.map((e) => convert<NestedDto, Nested>(e)).toList(),
-      nestedItemsNullable: model.nestedItemsNullable
-              ?.map((e) => convert<NestedDto, Nested>(e))
-              .toList() ??
-          [],
-      nestedItemsNullable2: model.nestedItemsNullable2
-          .map((e) => convert<NestedDto, Nested>(e))
-          .toList(),
+      name: _convert(model.name),
+      nestedItems: model.nestedItems.map<Nested>((e) => _convert(e)).toList(),
+      nestedItemsNullable:
+          model.nestedItemsNullable?.map<Nested>((e) => _convert(e)).toList() ??
+              <Nested>[],
+      nestedItemsNullable2:
+          model.nestedItemsNullable2.map<Nested>((e) => _convert(e)).toList(),
       tag: null,
     );
     return result;
   }
 
-  Nested _mapNestedDtoToNested(NestedDto model) {
+  Nested _mapNestedDtoToNested(NestedDto input) {
+    final model = input;
     final result = Nested(
       id: model.id,
       name: model.name,
-      tag: convert<NestedTagDto, NestedTag>(model.tag),
+      tag: _convert(model.tag),
     );
     return result;
   }
 
-  NestedTag _mapNestedTagDtoToNestedTag(NestedTagDto model) {
+  NestedTag _mapNestedTagDtoToNestedTag(NestedTagDto input) {
+    final model = input;
     final result = NestedTag();
     return result;
   }

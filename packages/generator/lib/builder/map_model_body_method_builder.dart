@@ -40,6 +40,19 @@ class MapModelBodyMethodBuilder {
     final targetConstructor = _findBestConstructor(targetClass);
 
 //    block.statements.add(Code('// $targetConstructor'));
+    block.statements.add(declareFinal('model').assign(refer('input')).statement);
+
+    if (mapping.source.nullabilitySuffix == NullabilitySuffix.question) {
+      final ifConditionExp = refer('model').equalTo(refer('null')).accept(DartEmitter());
+
+      // Eg. when static class is used => Static.mapFrom()
+      final _target = mapping.whenNullDefault!;
+      final callRefer = _target.referCallString;
+
+      final defaultValueCall = refer(callRefer).call([]).statement.accept(DartEmitter());
+
+      block.statements.add(Code('if ($ifConditionExp) return $defaultValueCall'));
+    }
 
     final sourceFields = _getSourceFields(sourceClass);
 

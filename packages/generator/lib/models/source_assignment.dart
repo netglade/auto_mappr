@@ -41,6 +41,7 @@ class SourceAssignment {
     this.memberMapping,
   });
 
+  //todo (tests)
   bool shouldAssignList() {
     // The source can be mapped to the target, if the source is mapable object and the target is listLike.
     return _isCoreListLike(targetType) && _isMapable(sourceField!.type);

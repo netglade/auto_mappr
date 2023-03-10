@@ -36,7 +36,10 @@ class AutoMapperBuilder {
       _buildTypeOfHelperMethod(),
       ConvertMethodBuilder.buildCanConvert(config),
       // Public convert method
-      ConvertMethodBuilder.buildConvertMethod(config)
+      ConvertMethodBuilder.buildConvertMethod(),
+
+      // Internal convert method
+      ConvertMethodBuilder.buildInternalConvertMethod(config)
     ];
 
     // Individual mapper methods of each mappings
@@ -48,7 +51,7 @@ class AutoMapperBuilder {
             ..requiredParameters.addAll([
               Parameter(
                 (p) => p
-                  ..name = 'model'
+                  ..name = 'input'
                   ..type = refer(mapping.source.getDisplayString(withNullability: true)),
               )
             ])

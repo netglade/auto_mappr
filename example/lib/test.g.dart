@@ -16,13 +16,20 @@ class $Mapper {
   }
 
   R convert<I, R>(I model) {
-    if (model is UserDto && _typeOf<R>() == User) {
-      return (_mapUserDtoToUser(model) as R);
-    }
-    throw Exception('No mapper found for ${model.runtimeType}');
+    return _convert(model);
   }
 
-  User _mapUserDtoToUser(UserDto model) {
+  R _convert<I, R>(I model) {
+    if ((_typeOf<I>() == _typeOf<UserDto>() ||
+            _typeOf<I>() == _typeOf<UserDto?>()) &&
+        (_typeOf<R>() == _typeOf<User>() || _typeOf<R>() == _typeOf<User?>())) {
+      return (_mapUserDtoToUser((model as UserDto)) as R);
+    }
+    throw Exception('No mapping from ${model.runtimeType} -> ${_typeOf<R>()}');
+  }
+
+  User _mapUserDtoToUser(UserDto input) {
+    final model = input;
     final result = User(
       null,
       id: model.id,

@@ -13,9 +13,23 @@ class ConvertMethodBuilder {
       ..body = _buildCanConvertBody(config.parts));
   }
 
-  static Method buildConvertMethod(AutoMapperConfig config) {
+  static Method buildConvertMethod() {
+    return Method(
+      (b) => b
+        ..name = 'convert'
+        ..types.addAll([refer('I'), refer('R')])
+        ..requiredParameters.add(Parameter((p) => p
+          ..name = 'model'
+          ..type = refer('I')))
+        ..returns = refer('R')
+        ..lambda = false
+        ..body = refer('_convert(model)').returned.statement,
+    );
+  }
+
+  static Method buildInternalConvertMethod(AutoMapperConfig config) {
     return Method((b) => b
-      ..name = 'convert'
+      ..name = '_convert'
       ..types.addAll([refer('I'), refer('R')])
       ..requiredParameters.add(Parameter((p) => p
         ..name = 'model'
@@ -30,13 +44,26 @@ class ConvertMethodBuilder {
     final dartEmitter = DartEmitter();
 
     for (var mapping in mappings) {
-      final outputExpr = refer('_typeOf<R>()').equalTo(refer(mapping.target.toString()));
+      final sourceName = mapping.source.getDisplayString(withNullability: false);
+      final targetName = mapping.target.getDisplayString(withNullability: false);
 
-      final ifCondition = refer('model').isA(refer('${mapping.source}')).and(outputExpr).code.accept(dartEmitter);
+      // I is SOURCE || SOURCE?
+      final modelIsType = refer('_typeOf<I>()')
+          .equalTo(refer('_typeOf<$sourceName>()'))
+          .or(refer('_typeOf<I>()').equalTo(refer('_typeOf<$sourceName?>()')))
+          .accept(dartEmitter);
+
+      // R is TARGET || TARGET?
+      final outputExpr = refer('_typeOf<R>()')
+          .equalTo(refer('_typeOf<$targetName>()'))
+          .or(refer('_typeOf<R>()').equalTo(refer('_typeOf<$targetName?>()')))
+          .accept(dartEmitter);
+
+      final ifCondition = '($modelIsType) && ($outputExpr)';
 
       final inIfExpr = refer(mapping.mappingMapMethodName)
           .call([
-            refer('model'),
+            refer('model').asA(mapping.sourceRefer),
           ])
           .asA(refer('R'))
           .returned
@@ -48,8 +75,8 @@ class ConvertMethodBuilder {
       block.statements.add(ifStatemnet);
     }
 
-    block
-        .addExpression(refer('Exception').newInstance([refer('\'No mapper found for \${model.runtimeType}\'')]).thrown);
+    block.addExpression(refer('Exception')
+        .newInstance([refer('\'No mapping from \${model.runtimeType} -> \${_typeOf<R>()}\'')]).thrown);
 
     return block.build();
   }
@@ -60,10 +87,13 @@ class ConvertMethodBuilder {
     final dartEmitter = DartEmitter();
 
     for (var mapping in mappings) {
-      final outputExpr = refer('_typeOf<R>()').equalTo(refer(mapping.target.toString()));
+      final outputExpr = refer('_typeOf<R>()').equalTo(refer(mapping.target.getDisplayString(withNullability: false)));
 
-      final ifCondition =
-          refer('_typeOf<I>()').equalTo(refer('${mapping.source}')).and(outputExpr).code.accept(dartEmitter);
+      final ifCondition = refer('_typeOf<I>()')
+          .equalTo(refer('${mapping.source.getDisplayString(withNullability: false)}'))
+          .and(outputExpr)
+          .code
+          .accept(dartEmitter);
 
       final ifStatemnet = Code('''if( $ifCondition ) {return true;}''');
 

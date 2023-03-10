@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mapper_generator/models/extensions.dart';
 import 'package:auto_mapper_generator/models/source_assignment.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
@@ -11,6 +12,7 @@ class AutoMapPart extends Equatable {
   final DartType target;
   final bool isReverse;
   final List<MemberMapping>? mappings;
+  final ExecutableElement? whenNullDefault;
 
   Reference get sourceRefer => refer(source.getDisplayString(withNullability: true));
 
@@ -20,13 +22,22 @@ class AutoMapPart extends Equatable {
       '_map${source.getDisplayString(withNullability: false)}To${target.getDisplayString(withNullability: false)}';
 
   @override
-  List<Object?> get props => [source, target, isReverse, mappings];
+  List<Object?> get props {
+    return [
+      source,
+      target,
+      isReverse,
+      mappings,
+      whenNullDefault,
+    ];
+  }
 
   const AutoMapPart({
     required this.source,
     required this.target,
     required this.isReverse,
     required this.mappings,
+    this.whenNullDefault,
   });
 
   String sourceName({bool withNullability = false}) => source.getDisplayString(withNullability: withNullability);
@@ -50,14 +61,16 @@ class AutoMapPart extends Equatable {
 class MemberMapping extends Equatable {
   final String member;
   final ExecutableElement? target;
+  final ExecutableElement? whenNullDefault;
   final bool ignore;
 
   @override
-  List<Object?> get props => [member, target, ignore];
+  List<Object?> get props => [member, target, ignore, whenNullDefault];
 
   const MemberMapping({
     required this.member,
     this.target,
+    this.whenNullDefault,
     required this.ignore,
   });
 
@@ -69,13 +82,18 @@ class MemberMapping extends Equatable {
     final _target = target;
     // Support Function mapping
     if (_target != null) {
-      // Eg. when static class is used => Static.mapFrom()
-      final hasStaticProxy = _target.enclosingElement.displayName.isNotEmpty;
-      final callRefer =
-          hasStaticProxy ? '${_target.enclosingElement.displayName}.${_target.displayName}' : _target.displayName;
+      final callRefer = _target.referCallString;
 
       return refer(callRefer).call([refer('model')]);
     }
+
+    // final _whenNullDefault = whenNullDefault;
+
+    // if (_whenNullDefault != null) {
+    //    final callRefer = _whenNullDefault.referCallString;
+
+    //   return refer(callRefer).call([refer('model')]);
+    // }
 
     throw InvalidGenerationSourceError(
       'MemberMapping for member "${member}" from ${assignment} has ignore=false and target=null',

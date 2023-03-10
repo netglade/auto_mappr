@@ -30,14 +30,13 @@ class ValueAssignmentBuilder {
       return _assignListvalue(assignment);
     }
 
-    // TODO Mapping nested object
     final assignNestedObject = !assignment.targetType.isSimpleType;
     if (assignNestedObject) {
       return _assignNestedObject(
         source: assignment.sourceField!.type,
         target: assignment.targetType,
         assignment: assignment,
-        convertMethodCall: refer('model').property(assignment.sourceField!.name),
+        convertMethodArg: refer('model').property(assignment.sourceField!.name),
       );
     }
 
@@ -46,13 +45,15 @@ class ValueAssignmentBuilder {
 
   //todo tests
   Expression _assignListvalue(SourceAssignment assignment) {
-    final sourceNullable = assignment.sourceField!.type.nullabilitySuffix == NullabilitySuffix.question;
+    final sourceType = assignment.sourceField!.type;
+    final targetType = assignment.targetType;
+    final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
     final targetNullable = assignment.targetNullability == NullabilitySuffix.question;
 
     print('S: $sourceNullable, T: $targetNullable');
 
     final targetListType = (assignment.targetType as ParameterizedType).typeArguments.first;
-    final sourceListType = (assignment.sourceField!.type as ParameterizedType).typeArguments.first;
+    final sourceListType = (sourceType as ParameterizedType).typeArguments.first;
     final assignNestedObject = !targetListType.isSimpleType && (targetListType != sourceListType);
 
     if (assignNestedObject) {
@@ -60,10 +61,19 @@ class ValueAssignmentBuilder {
     }
 
     final sourceListExpr = refer('model').property(assignment.sourceField!.name);
+    final defaultListValueExpr = refer('<${targetListType.getDisplayString(withNullability: false)}>[]');
 
     if (!targetNullable && !sourceNullable) {
       if (assignNestedObject)
-        return sourceListExpr.property('map').call([_nestedListMapCall(assignment)]).property('toList').call([]);
+        return sourceListExpr
+            .property('map')
+            .call(
+              [_nestedListMapCall(assignment)],
+              {},
+              [refer(targetListType.getDisplayString(withNullability: false))],
+            )
+            .property('toList')
+            .call([]);
 
       return refer('model').property(assignment.sourceField!.name);
     }
@@ -72,17 +82,29 @@ class ValueAssignmentBuilder {
       if (assignNestedObject)
         return sourceListExpr
             .nullSafeProperty('map')
-            .call([_nestedListMapCall(assignment)])
+            .call(
+              [_nestedListMapCall(assignment)],
+              {},
+              [refer(targetListType.getDisplayString(withNullability: false))],
+            )
             .property('toList')
             .call([])
-            .ifNullThen(refer('[]'));
+            .ifNullThen(defaultListValueExpr);
 
       return refer('model').property(assignment.sourceField!.name).ifNullThen(refer('[]'));
     }
 
     if (targetNullable && !sourceNullable) {
       if (assignNestedObject)
-        return sourceListExpr.property('map').call([_nestedListMapCall(assignment)]).property('toList').call([]);
+        return sourceListExpr
+            .property('map')
+            .call(
+              [_nestedListMapCall(assignment)],
+              {},
+              [refer(targetListType.getDisplayString(withNullability: false))],
+            )
+            .property('toList')
+            .call([]);
 
       return refer('model').property(assignment.sourceField!.name);
     }
@@ -91,10 +113,14 @@ class ValueAssignmentBuilder {
     if (assignNestedObject)
       return sourceListExpr
           .nullSafeProperty('map')
-          .call([_nestedListMapCall(assignment)])
+          .call(
+            [_nestedListMapCall(assignment)],
+            {},
+            [refer(targetListType.getDisplayString(withNullability: false))],
+          )
           .property('toList')
           .call([])
-          .ifNullThen(refer('[]'));
+          .ifNullThen(defaultListValueExpr);
 
     return refer('model').property(assignment.sourceField!.name);
   }
@@ -103,7 +129,8 @@ class ValueAssignmentBuilder {
     required DartType source,
     required DartType target,
     required SourceAssignment assignment,
-    required Expression convertMethodCall,
+    required Expression convertMethodArg,
+    bool includeGenericTypes = false,
   }) {
     final reverseMapping = mapperConfig.findMapping(source: source, target: target);
 
@@ -123,12 +150,16 @@ class ValueAssignmentBuilder {
       );
     }
 
-    return refer('convert').call([
-      convertMethodCall
-    ], {}, [
-      refer(source.getDisplayString(withNullability: false)),
-      refer(target.getDisplayString(withNullability: false)),
-    ]);
+    return refer('_convert').call(
+      [convertMethodArg],
+      {},
+      includeGenericTypes
+          ? [
+              refer(source.getDisplayString(withNullability: true)),
+              refer(target.getDisplayString(withNullability: true)),
+            ]
+          : [],
+    );
   }
 
   Expression _nestedListMapCall(
@@ -137,7 +168,7 @@ class ValueAssignmentBuilder {
     final targetListType = (assignment.targetType as ParameterizedType).typeArguments.first;
     final sourceListType = (assignment.sourceField!.type as ParameterizedType).typeArguments.first;
     final convertMethodCall = _assignNestedObject(
-            assignment: assignment, source: sourceListType, target: targetListType, convertMethodCall: refer('e'))
+            assignment: assignment, source: sourceListType, target: targetListType, convertMethodArg: refer('e'))
         .accept(DartEmitter());
 
     return refer(('(e) => $convertMethodCall'));

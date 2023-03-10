@@ -35,6 +35,7 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
 
       final isReverse = x.getField('reverse')?.toBoolValue();
       final mappings = x.getField('mappings')?.toListValue();
+      final whenNullDefault = x.getField('whenNullDefault')?.toFunctionValue();
 
       final m = mappings?.map((e) {
         return MemberMapping(
@@ -49,6 +50,7 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
         target: to,
         isReverse: isReverse ?? false,
         mappings: m,
+        whenNullDefault: whenNullDefault,
       );
     }).toList();
 

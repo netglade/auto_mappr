@@ -25,10 +25,14 @@ class AutoMap<SOURCE, TARGET> {
   /// Configuration for TARGET's members.
   final List<MapMember<SOURCE>> mappings;
 
+  /// Provides default value if SOURCE is null.
+  final TARGET Function()? whenNullDefault;
+
   /// Constructs mapping.
   const AutoMap({
     this.reverse = false,
     this.mappings = const [],
+    this.whenNullDefault,
   });
 }
 

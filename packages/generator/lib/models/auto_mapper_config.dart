@@ -3,6 +3,7 @@ import 'package:auto_mapper_generator/models/auto_map_part.dart';
 import 'package:auto_mapper_generator/models/extensions.dart';
 import 'package:collection/collection.dart';
 
+//todo (tests)
 class AutoMapperConfig {
   final List<AutoMapPart> parts;
 
