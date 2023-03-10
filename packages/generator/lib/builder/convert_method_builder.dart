@@ -68,7 +68,7 @@ class ConvertMethodBuilder {
           .asA(refer('R'))
           .returned
           .statement
-          .accept(dartEmitter);
+          .accept(DartEmitter());
 
       final ifStatemnet = Code('''if( $ifCondition ) {$inIfExpr}''');
 

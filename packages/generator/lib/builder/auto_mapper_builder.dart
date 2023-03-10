@@ -34,7 +34,7 @@ class AutoMapperBuilder {
   List<Method> _buildMethods() {
     final methods = <Method>[
       _buildTypeOfHelperMethod(),
-      ConvertMethodBuilder.buildCanConvert(config),
+      //    ConvertMethodBuilder.buildCanConvert(config),
       // Public convert method
       ConvertMethodBuilder.buildConvertMethod(),
 

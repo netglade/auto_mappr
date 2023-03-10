@@ -10,7 +10,8 @@ class User extends Equatable {
   final List<Nested> nestedItems;
   final List<Nested>? nestedItemsNullable;
   final List<Nested>? nestedItemsNullable2;
-  // final List<Nested> itemsWithNullableItem; //todo
+  final List<Nested> itemsWithNullableItem; //todo
+  final List<Nested?> itemsWithNullableItem2; //todo
 
   bool get hasTag => tag != null;
 
@@ -21,6 +22,8 @@ class User extends Equatable {
     required this.nestedItems,
     this.nestedItemsNullable,
     this.nestedItemsNullable2,
+    required this.itemsWithNullableItem,
+    required this.itemsWithNullableItem2,
   });
 
   @override
@@ -48,7 +51,8 @@ class UserDto {
   final List<NestedDto> nestedItems;
   final List<NestedDto>? nestedItemsNullable;
   final List<NestedDto> nestedItemsNullable2;
-  //final List<NestedDto?> itemsWithNullableItem;
+  final List<NestedDto?> itemsWithNullableItem;
+  final List<NestedDto> itemsWithNullableItem2; //todo
 
   UserDto({
     required this.id,
@@ -57,6 +61,8 @@ class UserDto {
     required this.nestedItems,
     this.nestedItemsNullable,
     required this.nestedItemsNullable2,
+    required this.itemsWithNullableItem,
+    required this.itemsWithNullableItem2,
   });
 }
 

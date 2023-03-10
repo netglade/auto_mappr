@@ -8,13 +8,6 @@ part of 'test.dart';
 
 class $Mapper {
   Type _typeOf<X>() => X;
-  bool canConvert<I, R>() {
-    if (_typeOf<I>() == UserDto && _typeOf<R>() == User) {
-      return true;
-    }
-    return false;
-  }
-
   R convert<I, R>(I model) {
     return _convert(model);
   }

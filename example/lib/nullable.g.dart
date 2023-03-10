@@ -8,16 +8,6 @@ part of 'nullable.dart';
 
 class $ExampleMapper {
   Type _typeOf<X>() => X;
-  bool canConvert<I, R>() {
-    if (_typeOf<I>() == UserDto && _typeOf<R>() == User) {
-      return true;
-    }
-    if (_typeOf<I>() == NestedDto && _typeOf<R>() == Nested) {
-      return true;
-    }
-    return false;
-  }
-
   R convert<I, R>(I model) {
     return _convert(model);
   }

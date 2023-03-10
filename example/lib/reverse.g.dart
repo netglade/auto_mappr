@@ -8,16 +8,6 @@ part of 'reverse.dart';
 
 class $ExampleMapper {
   Type _typeOf<X>() => X;
-  bool canConvert<I, R>() {
-    if (_typeOf<I>() == UserDto && _typeOf<R>() == User) {
-      return true;
-    }
-    if (_typeOf<I>() == User && _typeOf<R>() == UserDto) {
-      return true;
-    }
-    return false;
-  }
-
   R convert<I, R>(I model) {
     return _convert(model);
   }

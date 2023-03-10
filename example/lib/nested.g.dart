@@ -8,19 +8,6 @@ part of 'nested.dart';
 
 class $ExampleMapper {
   Type _typeOf<X>() => X;
-  bool canConvert<I, R>() {
-    if (_typeOf<I>() == UserDto && _typeOf<R>() == User) {
-      return true;
-    }
-    if (_typeOf<I>() == NestedDto && _typeOf<R>() == Nested) {
-      return true;
-    }
-    if (_typeOf<I>() == NestedTagDto && _typeOf<R>() == NestedTag) {
-      return true;
-    }
-    return false;
-  }
-
   R convert<I, R>(I model) {
     return _convert(model);
   }
@@ -57,6 +44,11 @@ class $ExampleMapper {
               <Nested>[],
       nestedItemsNullable2:
           model.nestedItemsNullable2.map<Nested>((e) => _convert(e)).toList(),
+      itemsWithNullableItem:
+          model.itemsWithNullableItem.map<Nested>((e) => _convert(e)).toList(),
+      itemsWithNullableItem2: model.itemsWithNullableItem2
+          .map<Nested?>((e) => _convert(e))
+          .toList(),
       tag: null,
     );
     return result;

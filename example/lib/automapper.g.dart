@@ -8,13 +8,6 @@ part of 'automapper.dart';
 
 class $ExampleMapper {
   Type _typeOf<X>() => X;
-  bool canConvert<I, R>() {
-    if (_typeOf<I>() == UserDto && _typeOf<R>() == User) {
-      return true;
-    }
-    return false;
-  }
-
   R convert<I, R>(I model) {
     return _convert(model);
   }

@@ -61,7 +61,7 @@ class ValueAssignmentBuilder {
     }
 
     final sourceListExpr = refer('model').property(assignment.sourceField!.name);
-    final defaultListValueExpr = refer('<${targetListType.getDisplayString(withNullability: false)}>[]');
+    final defaultListValueExpr = refer('<${targetListType.getDisplayString(withNullability: true)}>[]');
 
     if (!targetNullable && !sourceNullable) {
       if (assignNestedObject)
@@ -70,7 +70,7 @@ class ValueAssignmentBuilder {
             .call(
               [_nestedListMapCall(assignment)],
               {},
-              [refer(targetListType.getDisplayString(withNullability: false))],
+              [refer(targetListType.getDisplayString(withNullability: true))],
             )
             .property('toList')
             .call([]);
@@ -85,7 +85,7 @@ class ValueAssignmentBuilder {
             .call(
               [_nestedListMapCall(assignment)],
               {},
-              [refer(targetListType.getDisplayString(withNullability: false))],
+              [refer(targetListType.getDisplayString(withNullability: true))],
             )
             .property('toList')
             .call([])
@@ -101,7 +101,7 @@ class ValueAssignmentBuilder {
             .call(
               [_nestedListMapCall(assignment)],
               {},
-              [refer(targetListType.getDisplayString(withNullability: false))],
+              [refer(targetListType.getDisplayString(withNullability: true))],
             )
             .property('toList')
             .call([]);
@@ -116,7 +116,7 @@ class ValueAssignmentBuilder {
           .call(
             [_nestedListMapCall(assignment)],
             {},
-            [refer(targetListType.getDisplayString(withNullability: false))],
+            [refer(targetListType.getDisplayString(withNullability: true))],
           )
           .property('toList')
           .call([])
