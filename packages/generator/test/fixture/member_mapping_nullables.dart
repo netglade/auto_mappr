@@ -37,7 +37,7 @@ class UserDto {
   mappers: [
     AutoMap<UserDto, User>(
       mappings: [
-        MapMember(member: 'name', target: Mapper.m),
+        MapMember(member: 'name', target: Mapper.mapName),
         MapMember(member: 'age', target: mapAge),
         MapMember(member: 'ignoreByMapping', ignore: true)
       ],
@@ -45,7 +45,7 @@ class UserDto {
   ],
 )
 class Mapper extends $Mapper {
-  static String m(UserDto from) => from.name;
+  static String mapName(UserDto from) => from.name.toUpperCase();
 }
 
 // ignore: prefer-static-class, for test
