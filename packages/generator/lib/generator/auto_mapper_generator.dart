@@ -58,20 +58,7 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
       );
     }
 
-    /**
-     *  1. Gather all AutoMap 
-     *  2. For each AutoMap 
-     *    -  a] Get  All fields of From
-     *    -  b] Get all constructor of From
-     *    -  a] Get all fields of To
-     *    - b] Get all constructors of To
-     *  3. CHECK if
-     *    a] From can be automatically mapped to To
-     *       - All fields are same
-     *       - There is 1:1 usable constructor
-     */
-
-    final config = AutoMapperConfig(parts: parts);
+    var config = AutoMapperConfig(parts: parts);
 
     final reverseMappings = parts.where((x) => x.isReverse).toList();
 
@@ -82,7 +69,12 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
           'Mapping $reverseMapping has reverse=true but more specific mapping $specific is configured. Reverse flag will be ignored.',
         );
       }
+      // add reverse mapping
+      parts.add(
+          AutoMapPart(source: reverseMapping.target, target: reverseMapping.source, isReverse: false, mappings: []));
     }
+
+    config = AutoMapperConfig(parts: parts);
 
     final builder = AutoMapperBuilder(mapperClassElement: element, config: config);
 
