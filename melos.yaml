@@ -2,7 +2,7 @@ name: my_project
 
 packages:
   - packages/**
-  - example/**
+  - example
 
 command:
   bootstrap:
