@@ -11,5 +11,5 @@ command:
 scripts:
   gen:
     run: melos exec -- dart pub run build_runner watch --delete-conflicting-outputs
-    select-package:
-      scope: "*example*"
+    packageFilters:
+      scope: '*example*'
