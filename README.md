@@ -11,7 +11,6 @@
 Developed with 💚 by [netglade][netglade_link]
 
 [![ci][ci_badge]][ci_badge_link]
-[![pub package][pub_badge]][pub_badge_link]
 [![license: MIT][license_badge]][license_badge_link]
 [![style: netglade analysis][style_badge]][style_badge_link]
 
@@ -23,10 +22,10 @@ Thanks to code-generation you can generate class, called mapper,
 which will allow to map between different objects automatically
 without need to write these mapping by hand. 
 
-| Package               | Pub                                                                                                 |
-|-----------------------|-----------------------------------------------------------------------------------------------------|
-| auto_mapper           | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                               |
-| auto_mapper_generator | [![auto_mapper_generator package][auto_mapper_generator_pub_badge]][auto_mapper_generator_pub_link] |
+| Package                                                 | Pub                                                                                                 |
+|---------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| [auto_mapper](packages/auto_mapper)                     | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                               |
+| [auto_mapper_generator](packages/auto_mapper_generator) | [![auto_mapper_generator package][auto_mapper_generator_pub_badge]][auto_mapper_generator_pub_link] |
 
 ## Get started
 
