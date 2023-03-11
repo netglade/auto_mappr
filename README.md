@@ -19,11 +19,18 @@ Developed with 💚 by [netglade][netglade_link]
 
 Mapper for mapping between different objects with ease. Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
 
-Thanks to code-generation you can generate class, called mapper, which will allow to map between different objects automatically without need to write these mapping by hand. 
+Thanks to code-generation you can generate class, called mapper,
+which will allow to map between different objects automatically
+without need to write these mapping by hand. 
 
+| Package               | Pub                                                                                                 |
+|-----------------------|-----------------------------------------------------------------------------------------------------|
+| auto_mapper           | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                               |
+| auto_mapper_generator | [![auto_mapper_generator package][auto_mapper_generator_pub_badge]][auto_mapper_generator_pub_link] |
 
 ## Get started
-Install `builder_runner` and `auto_mapper_generator` 
+
+Add `builder_runner` and `auto_mapper_generator` as dev dependency
 
 ```yaml
 dev_dependencies:
@@ -45,7 +52,6 @@ Define you mapper
   AutoMap<CompanyDto, CompanyAddress>(),
 ])
 class ExampleMapper extends $ExampleMapper {}
-
 ```
 
 run build_runner 
@@ -74,7 +80,6 @@ You can set these properties on each AutoMap:
  - `reverse`: If `true` reverse mapping from TARGET -> SOURCE will be generated as well. Note that, if explicit mappinng is configured, this flag is ignored.
  - `whenNullDefault` - callback which returns default value for TARGET if SOURCE is null. Used only if SOURCE is marked as nullable, e.g. `AutoMap<SOURCE?, TARGET>`. 
 
-
 ### Custom member mapping
 
 For each mapped member you can specify how it should be mapped. For example: 
@@ -97,7 +102,6 @@ class Mapper extends $Mapper {
 
 // ignore: prefer-static-class, for test
 int mapAge(UserDto _) => 55;
-
 ```
 
 Note that `member` parameter should match either TARGET's  member name OR constructor parameter name (In most cases they are same).
@@ -117,17 +121,18 @@ TODO
 
 Your contributions are always welcome! Feel free to open pull request. 
 
-[storybook_image_link]: https://github.com/netglade/sliver_app_bar_builder/raw/main/screenshots/storybook.png
-[storybook_demo_link]: https://netglade.github.io/sliver_app_bar_builder
-
 [netglade_link]: https://netglade.cz/en
 
 [ci_badge]: https://github.com/netglade/sliver_app_bar_builder/workflows/ci/badge.svg
 [ci_badge_link]: https://github.com/netglade/sliver_app_bar_builder/actions
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_badge_link]: https://opensource.org/licenses/MIT
-[pub_badge]: https://img.shields.io/pub/v/sliver_app_bar_builder.svg
-[pub_badge_link]: https://pub.dartlang.org/packages/sliver_app_bar_builder
 [style_badge]: https://img.shields.io/badge/style-netglade_analysis-26D07C.svg
 [style_badge_link]: https://pub.dev/packages/netglade_analysis
-[auto_mapper_net_link]: https://automapper.org/
+
+[auto_mapper_pub_badge]: https://img.shields.io/pub/v/auto_mapper.svg
+[auto_mapper_pub_link]: https://pub.dartlang.org/packages/auto_mapper
+[auto_mapper_generator_pub_badge]: https://img.shields.io/pub/v/auto_mapper_generator.svg
+[auto_mapper_generator_pub_link]: https://pub.dartlang.org/packages/auto_mapper_generator
+
+[auto_mapper_net_link]: https://automapper.org

@@ -1,6 +1,0 @@
-# melos_managed_dependency_overrides: auto_mapper,auto_mapper_generator
-dependency_overrides:
-  auto_mapper:
-    path: ..\\packages\\auto_mapper
-  auto_mapper_generator:
-    path: ..\\packages\\generator

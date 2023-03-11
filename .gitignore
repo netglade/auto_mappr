@@ -2,8 +2,9 @@
 .atom/
 .idea/
 !.idea/runConfigurations
-.vscode/*
 .melos_tool/*
+melos_my_project.iml
+.vscode/*
 !.vscode/tasks.json
 !.vscode/settings.json
 

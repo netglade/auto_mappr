@@ -21,7 +21,6 @@ dependencies:
 
 dev_dependencies:
   dart_code_metrics: ^5.5.1
-  lints: ^2.0.1
   generator_test: ^0.2.0
   netglade_analysis: 1.1.2
   source_gen_test: ^1.0.4
