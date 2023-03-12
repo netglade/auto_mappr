@@ -5,7 +5,7 @@ part 'fixtures/member_mapping_nullables.dart';
 class User {
   final int id;
   final String name;
-  final String? positionalCanbeIgnoredByNull;
+  final String? positionalCanBeIgnoredByNull;
 
   int age = 0;
 
@@ -14,7 +14,7 @@ class User {
   final int? namedIgnoredByNull;
 
   User(
-    this.positionalCanbeIgnoredByNull, {
+    this.positionalCanBeIgnoredByNull, {
     required this.id,
     required this.name,
     required this.namedIgnoredByNull,

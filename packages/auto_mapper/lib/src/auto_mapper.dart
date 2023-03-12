@@ -1,6 +1,6 @@
 //ignore_for_file: avoid-dynamic
 
-/// Annotates class which will be used as base for genereted mapper.
+/// Annotates class which will be used as base for generated mapper.
 class AutoMapper {
   ///
   final List<AutoMap<dynamic, dynamic>> mappers;
