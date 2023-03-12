@@ -60,18 +60,20 @@ class AutoMapPart extends Equatable {
 
 class MemberMapping extends Equatable {
   final String member;
-  final ExecutableElement? target;
+  final ExecutableElement? custom;
   final ExecutableElement? whenNullDefault;
   final bool ignore;
+  final String? rename;
 
   @override
-  List<Object?> get props => [member, target, ignore, whenNullDefault];
+  List<Object?> get props => [member, custom, ignore, whenNullDefault, rename];
 
   const MemberMapping({
     required this.member,
-    this.target,
+    this.custom,
     this.whenNullDefault,
     required this.ignore,
+    this.rename,
   });
 
   Expression apply(SourceAssignment assignment) {
@@ -79,12 +81,17 @@ class MemberMapping extends Equatable {
       return assignment.getDefaultValue();
     }
 
-    final _target = target;
     // Support Function mapping
-    if (_target != null) {
-      final callRefer = _target.referCallString;
+    final _custom = custom;
+    if (_custom != null) {
+      final callRefer = _custom.referCallString;
 
       return refer(callRefer).call([refer('model')]);
+    }
+
+    final _rename = rename;
+    if (_rename != null) {
+      return refer('model').property(_rename);
     }
 
     // final _whenNullDefault = whenNullDefault;

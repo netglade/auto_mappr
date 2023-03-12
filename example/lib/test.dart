@@ -35,8 +35,8 @@ class UserDto {
 
 @AutoMapper(mappers: [
   AutoMap<UserDto, User>(mappings: [
-    MapMember(member: 'name', target: Mapper.m),
-    MapMember(member: 'age', target: mapAge),
+    MapMember(member: 'name', custom: Mapper.m),
+    MapMember(member: 'age', custom: mapAge),
     MapMember(member: 'ignoreByMapping', ignore: true)
   ]),
 ])

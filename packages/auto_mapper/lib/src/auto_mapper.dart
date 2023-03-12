@@ -44,17 +44,23 @@ class MapMember<SOURCE> {
   final String member;
 
   /// Custom function mapping for given [member].
-  final dynamic Function(SOURCE from)? target;
+  final dynamic Function(SOURCE from)? custom;
 
   /// Given [member] should be ignored.
   ///
   /// Note that if [member] is required (or non-nullable) it is considered as error.
   final bool ignore;
 
+  /// Given [member] should be mapped from [rename].
+  ///
+  /// Note that [custom] has priority.
+  final String? rename;
+
   /// Constructs member mapping.
   const MapMember({
     required this.member,
-    this.target,
+    this.custom,
     this.ignore = false,
+    this.rename,
   });
 }

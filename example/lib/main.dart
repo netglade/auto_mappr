@@ -1,4 +1,4 @@
-import 'package:automapper_example/nullable.dart';
+import 'package:auto_mapper_example/nullable.dart';
 
 void main() {
   final dto = UserDto(id: 1, name: NestedDto(1, name: 'aa'));

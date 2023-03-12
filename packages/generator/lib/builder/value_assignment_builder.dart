@@ -56,10 +56,6 @@ class ValueAssignmentBuilder {
     final sourceListType = (sourceType as ParameterizedType).typeArguments.first;
     final assignNestedObject = !targetListType.isSimpleType && (targetListType != sourceListType);
 
-    if (assignNestedObject) {
-      print('Assign nested complext list type');
-    }
-
     final sourceListExpr = refer('model').property(assignment.sourceField!.name);
     final defaultListValueExpr = refer('<${targetListType.getDisplayString(withNullability: true)}>[]');
 

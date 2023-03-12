@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'automapper.dart';
+part of 'rename.dart';
 
 // **************************************************************************
 // AutoMapperGenerator
@@ -25,8 +25,7 @@ class $ExampleMapper {
     final model = input;
     final result = User(
       id: model.id,
-      name: model.name,
-      tag: null,
+      name: model.xname,
     );
     return result;
   }

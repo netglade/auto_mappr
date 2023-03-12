@@ -68,18 +68,27 @@ class MapModelBodyMethodBuilder {
       final paramPosition = param.isPositional ? i : null;
       final constructorAssignment = ConstructorAssignment(param: param, position: paramPosition);
 
-      if (sourceFields.containsKey(param.name)) {
-        final sourceField = sourceFields[param.name]!;
+      final memberMapping = mapping.tryGetMapping(param.name);
+      final rename = memberMapping?.rename;
 
-        final targetField =
-            targetClass.fields.firstWhere((targetField) => targetField.displayName == sourceField.displayName);
+      final sourceFieldName = rename ?? param.name;
+      if (sourceFields.containsKey(sourceFieldName)) {
+        print("SSSSS $param");
+        final sourceField = sourceFields[sourceFieldName]!;
+
+        final targetField = rename != null
+            // support custom member rename mapping
+            ? targetClass.fields.firstWhere((element) => element.displayName == memberMapping!.member)
+
+            // find target field based on matching source field
+            : targetClass.fields.firstWhere((targetField) => targetField.displayName == sourceField.displayName);
 
         if (mapping.memberShouldBeIgnored(targetField.displayName)) {
           _assertParamMemberCanBeIgnored(param, sourceField);
         }
 
         final sourceAssignment = SourceAssignment(
-          sourceField: sourceFields[param.name]!,
+          sourceField: sourceFields[sourceFieldName]!,
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
           memberMapping: mapping.tryGetMapping(targetField.displayName),
@@ -88,6 +97,7 @@ class MapModelBodyMethodBuilder {
         mappedTargetConstructorParams.add(sourceAssignment);
         mappedSourceFieldNames.add(param.name);
       } else {
+        print("NOT FOUND $param");
         // If not mapped constructor param is optional - skip it
         if (param.isOptional) continue;
 

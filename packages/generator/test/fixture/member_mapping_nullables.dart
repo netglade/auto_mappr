@@ -37,8 +37,8 @@ class UserDto {
   mappers: [
     AutoMap<UserDto, User>(
       mappings: [
-        MapMember(member: 'name', target: Mapper.mapName),
-        MapMember(member: 'age', target: mapAge),
+        MapMember(member: 'name', custom: Mapper.mapName),
+        MapMember(member: 'age', custom: mapAge),
         MapMember(member: 'ignoreByMapping', ignore: true)
       ],
     ),

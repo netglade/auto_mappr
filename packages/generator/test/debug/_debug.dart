@@ -28,7 +28,7 @@ class UserDto {
 
 @AutoMapper(mappers: [
   AutoMap<UserDto, User>(reverse: true, mappings: [
-    MapMember(member: 'name', target: ExampleMapper.mapUserDtoName),
+    MapMember(member: 'name', custom: ExampleMapper.mapUserDtoName),
   ]),
   AutoMap<User, UserDto>(),
   // AutoMap<UserDto, User>(reverse: true),
