@@ -47,7 +47,7 @@ class SourceAssignment {
     return _isCoreListLike(targetType) && _isMappable(sourceField!.type);
   }
 
-  bool shouldAssignComplextObject() => !targetType.isSimpleType;
+  bool shouldAssignComplexObject() => !targetType.isSimpleType;
 
   @override
   String toString() {

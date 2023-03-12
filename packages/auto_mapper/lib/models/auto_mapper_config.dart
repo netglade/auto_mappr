@@ -25,8 +25,9 @@ class AutoMapperConfig {
     return parts.firstWhereOrNull((x) {
       if (x.source.isSameExceptNullability(source) && x.target.isSameExceptNullability(target)) return true;
 
-      if (x.isReverse && x.source.isSameExceptNullability(target) && x.target.isSameExceptNullability(source))
+      if (x.isReverse && x.source.isSameExceptNullability(target) && x.target.isSameExceptNullability(source)) {
         return true;
+      }
       // if (x.source.element == source && x.target == target) return true;
 
       // if (x.isReverse && x.source == target && x.target == source) return true;

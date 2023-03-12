@@ -22,35 +22,36 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
         todo: 'Add AutoMapper annotation to a class',
       );
     }
+
     final annotation = element.metadata.single; // AutoMapper annotation
     final constant = annotation.computeConstantValue()!; // its instance
     final field = constant.getField('mappers')!;
     final list = field.toListValue()!;
 
-    final parts = list.map((x) {
-      final mapType = x.type as ParameterizedType;
+    final parts = list.map((mapper) {
+      final mapperType = mapper.type as ParameterizedType;
 
-      final from = mapType.typeArguments.first;
-      final to = mapType.typeArguments[1];
+      final sourceType = mapperType.typeArguments.first;
+      final targetType = mapperType.typeArguments[1];
 
-      final isReverse = x.getField('reverse')?.toBoolValue();
-      final mappings = x.getField('mappings')?.toListValue();
-      final whenNullDefault = x.getField('whenNullDefault')?.toFunctionValue();
+      final isReverse = mapper.getField('reverse')?.toBoolValue();
+      final mappings = mapper.getField('mappings')?.toListValue();
+      final whenNullDefault = mapper.getField('whenNullDefault')?.toFunctionValue();
 
-      final m = mappings?.map((e) {
+      final memberMappings = mappings?.map((mapping) {
         return MemberMapping(
-          member: e.getField('member')!.toStringValue()!,
-          ignore: e.getField('ignore')!.toBoolValue()!,
-          custom: e.getField('custom')!.toFunctionValue(),
-          rename: e.getField('rename')!.toStringValue(),
+          member: mapping.getField('member')!.toStringValue()!,
+          ignore: mapping.getField('ignore')!.toBoolValue()!,
+          custom: mapping.getField('custom')!.toFunctionValue(),
+          rename: mapping.getField('rename')!.toStringValue(),
         );
       }).toList();
 
       return AutoMapPart(
-        source: from,
-        target: to,
+        source: sourceType,
+        target: targetType,
         isReverse: isReverse ?? false,
-        mappings: m,
+        mappings: memberMappings,
         whenNullDefault: whenNullDefault,
       );
     }).toList();
@@ -81,10 +82,10 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
 
     final builder = AutoMapperBuilder(mapperClassElement: element, config: config);
 
-    final mapping = builder.build();
+    final output = builder.build();
     final emitter = DartEmitter(orderDirectives: true, useNullSafetySyntax: true);
 
-    return '${mapping.accept(emitter)}';
+    return '${output.accept(emitter)}';
   }
 }
 
