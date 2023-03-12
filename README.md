@@ -24,23 +24,23 @@ without need to write these mapping by hand.
 
 | Package                                                 | Pub                                                                                                 |
 |---------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| [auto_mapper](packages/auto_mapper_annotation)                     | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                               |
-| [auto_mapper_generator](packages/auto_mapper_generator) | [![auto_mapper_generator package][auto_mapper_generator_pub_badge]][auto_mapper_generator_pub_link] |
+| [auto_mapper](packages/auto_mapper)          | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                               |
+| [auto_mapper_anotation](packages/auto_mapper_annotation) | [![auto_mapper_annotation package][auto_mapper_annotation_pub_badge]][auto_mapper_annotation_pub_link] |
 
 ## Get started
 
-Add `builder_runner` and `auto_mapper_generator` as dev dependency
+Add `builder_runner` and `auto_mapper` as dev dependency
 
 ```yaml
 dev_dependencies:
-  auto_mapper_generator: ^0.0.1
+  auto_mapper: ^0.0.1
   build_runner: 
 ```
-and `auto_mapper` as dependecy for annotations
+and `auto_mapper_annotation` as dependency for annotations
 
 ```yaml
 dependencies:
-  auto_mapper: ^0.1.0
+  auto_mapper_annotation: ^0.1.0
 ```
 
 Define you mapper
@@ -131,7 +131,7 @@ Your contributions are always welcome! Feel free to open pull request.
 
 [auto_mapper_pub_badge]: https://img.shields.io/pub/v/auto_mapper.svg
 [auto_mapper_pub_link]: https://pub.dartlang.org/packages/auto_mapper
-[auto_mapper_generator_pub_badge]: https://img.shields.io/pub/v/auto_mapper_generator.svg
-[auto_mapper_generator_pub_link]: https://pub.dartlang.org/packages/auto_mapper_generator
+[auto_mapper_annotation_pub_badge]: https://img.shields.io/pub/v/auto_mapper_annotation.svg
+[auto_mapper_annotation_pub_link]: https://pub.dartlang.org/packages/auto_mapper_annotation
 
 [auto_mapper_net_link]: https://automapper.org
