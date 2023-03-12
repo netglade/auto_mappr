@@ -2,7 +2,7 @@ name: auto_mapper
 description: Mapping between different objects with ease
 version: 0.1.0
 repository: https://github.com/netglade/auto_mapper
-issue_tracker: https://github.com/netglade/auto_mapper
+issue_tracker: https://github.com/netglade/auto_mapper/issues
 
 environment:
   sdk: ">=2.18.7 <3.0.0"

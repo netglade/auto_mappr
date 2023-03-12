@@ -15,7 +15,7 @@ import '../models/models.dart';
 *   - Support mapping Map(?)
 * Null safety
 
-* Nested mappping (recursive convert<I,R> call)
+* Nested mapping (recursive convert<I,R> call)
 
     - Implicit = even when not defined as top mapping it should try recursively map it ?
         - FOR NOW THIS WILL BE COMPLICATED

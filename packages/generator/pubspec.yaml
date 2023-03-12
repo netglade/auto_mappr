@@ -2,7 +2,7 @@ name: auto_mapper_generator
 description: Mapping between different objects with ease
 version: 0.1.0
 repository: https://github.com/netglade/auto_mapper
-issue_tracker: https://github.com/netglade/auto_mapper
+issue_tracker: https://github.com/netglade/auto_mapper/issues
 
 # homepage: https://www.example.com
 

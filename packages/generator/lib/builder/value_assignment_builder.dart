@@ -27,7 +27,7 @@ class ValueAssignmentBuilder {
 
     //todo support Map and Set
     if (assignment.shouldAssignList()) {
-      return _assignListvalue(assignment);
+      return _assignListValue(assignment);
     }
 
     final assignNestedObject = !assignment.targetType.isSimpleType;
@@ -44,7 +44,7 @@ class ValueAssignmentBuilder {
   }
 
   //todo tests
-  Expression _assignListvalue(SourceAssignment assignment) {
+  Expression _assignListValue(SourceAssignment assignment) {
     final sourceType = assignment.sourceField!.type;
     final targetType = assignment.targetType;
     final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;

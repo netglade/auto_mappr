@@ -11,15 +11,15 @@ import 'package:source_gen/source_gen.dart';
 import '../builder/auto_mapper_builder.dart';
 import '../models/auto_mapper_config.dart';
 
-/// Codegenerator to generate implemented mapping classes
+/// Code generator to generate implemented mapping classes.
 class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
   @override
   dynamic generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
-        '${element.displayName} is not a class and cannot be annotated with @Mapper',
+        '${element.displayName} is not a class and cannot be annotated with @AutoMapper',
         element: element,
-        todo: 'Add Mapper annotation to a class',
+        todo: 'Add AutoMapper annotation to a class',
       );
     }
     final annotation = element.metadata.single; // AutoMapper annotation

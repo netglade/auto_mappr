@@ -70,9 +70,9 @@ class ConvertMethodBuilder {
           .statement
           .accept(DartEmitter());
 
-      final ifStatemnet = Code('''if( $ifCondition ) {$inIfExpr}''');
+      final ifStatement = Code('''if( $ifCondition ) {$inIfExpr}''');
 
-      block.statements.add(ifStatemnet);
+      block.statements.add(ifStatement);
     }
 
     block.addExpression(refer('Exception')

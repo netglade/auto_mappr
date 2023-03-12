@@ -43,8 +43,8 @@ class SourceAssignment {
 
   //todo (tests)
   bool shouldAssignList() {
-    // The source can be mapped to the target, if the source is mapable object and the target is listLike.
-    return _isCoreListLike(targetType) && _isMapable(sourceField!.type);
+    // The source can be mapped to the target, if the source is mappable object and the target is listLike.
+    return _isCoreListLike(targetType) && _isMappable(sourceField!.type);
   }
 
   bool shouldAssignComplextObject() => !targetType.isSimpleType;
@@ -68,7 +68,7 @@ class SourceAssignment {
     return type.isDartCoreList || type.isDartCoreSet || type.isDartCoreIterable;
   }
 
-  bool _isMapable(DartType type) {
+  bool _isMappable(DartType type) {
     if (_isCoreListLike(type)) {
       return true;
     }
