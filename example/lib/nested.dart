@@ -1,4 +1,4 @@
-import 'package:auto_mapper/auto_mapper.dart';
+import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:equatable/equatable.dart';
 
 part 'nested.g.dart';

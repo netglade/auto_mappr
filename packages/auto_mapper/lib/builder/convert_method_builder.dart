@@ -1,4 +1,4 @@
-import 'package:auto_mapper_generator/models/auto_mapper_config.dart';
+import 'package:auto_mapper/models/auto_mapper_config.dart';
 import 'package:code_builder/code_builder.dart';
 
 import '../models/auto_map_part.dart';

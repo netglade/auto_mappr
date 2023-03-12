@@ -2,9 +2,9 @@
 // ignore_for_file: format-comment
 
 import 'package:analyzer/dart/element/element.dart';
-import 'package:auto_mapper_generator/builder/convert_method_builder.dart';
-import 'package:auto_mapper_generator/builder/map_model_body_method_builder.dart';
-import 'package:auto_mapper_generator/models/auto_mapper_config.dart';
+import 'package:auto_mapper/builder/convert_method_builder.dart';
+import 'package:auto_mapper/builder/map_model_body_method_builder.dart';
+import 'package:auto_mapper/models/auto_mapper_config.dart';
 import 'package:code_builder/code_builder.dart';
 
 class AutoMapperBuilder {

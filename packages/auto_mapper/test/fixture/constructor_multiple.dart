@@ -1,4 +1,4 @@
-import 'package:auto_mapper/auto_mapper.dart';
+import 'package:auto_mapper_annotation/auto_mapper.dart';
 
 part 'fixtures/constructor_multiple.dart';
 
@@ -13,7 +13,8 @@ class User {
   User.moreParams({required this.id, required this.name, String? x, String? y});
 
   // This should be ignored
-  factory User.fromParams(int id, String firstName, String secondName) => User(id, '$firstName $secondName');
+  factory User.fromParams(int id, String firstName, String secondName) =>
+      User(id, '$firstName $secondName');
 }
 
 class UserDto {

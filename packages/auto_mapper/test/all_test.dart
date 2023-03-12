@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:auto_mapper_generator/builder.dart';
+import 'package:auto_mapper/builder.dart';
 import 'package:generator_test/generator_test.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';

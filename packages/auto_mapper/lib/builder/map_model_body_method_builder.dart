@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
-import 'package:auto_mapper_generator/builder/value_assignment_builder.dart';
+import 'package:auto_mapper/builder/value_assignment_builder.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';

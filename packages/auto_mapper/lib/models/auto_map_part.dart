@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mapper_generator/models/extensions.dart';
-import 'package:auto_mapper_generator/models/source_assignment.dart';
+import 'package:auto_mapper/models/extensions.dart';
+import 'package:auto_mapper/models/source_assignment.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';

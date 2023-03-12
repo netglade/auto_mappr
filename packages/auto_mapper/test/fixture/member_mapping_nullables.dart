@@ -1,4 +1,4 @@
-import 'package:auto_mapper/auto_mapper.dart';
+import 'package:auto_mapper_annotation/auto_mapper.dart';
 
 part 'fixtures/member_mapping_nullables.dart';
 

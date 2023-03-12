@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mapper_generator/models/auto_map_part.dart';
-import 'package:auto_mapper_generator/models/extensions.dart';
+import 'package:auto_mapper/models/auto_map_part.dart';
+import 'package:auto_mapper/models/extensions.dart';
 import 'package:collection/collection.dart';
 
 //todo (tests)

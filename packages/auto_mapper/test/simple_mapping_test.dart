@@ -1,4 +1,4 @@
-import 'package:auto_mapper_generator/builder.dart';
+import 'package:auto_mapper/builder.dart';
 import 'package:generator_test/generator_test.dart';
 import 'package:test/test.dart';
 
@@ -6,7 +6,8 @@ import 'fixture/only_positional.dart' as positional;
 
 void main() {
   test('Only positional', () async {
-    final generator = SuccessGenerator.fromBuilder('only_positional', automapperBuilder);
+    final generator =
+        SuccessGenerator.fromBuilder('only_positional', automapperBuilder);
     await generator.test();
 
     // Mapping test
@@ -19,7 +20,8 @@ void main() {
   });
 
   test('Only required named', () async {
-    final generator = SuccessGenerator.fromBuilder('only_required_named', automapperBuilder);
+    final generator =
+        SuccessGenerator.fromBuilder('only_required_named', automapperBuilder);
     await generator.test();
   });
 }
