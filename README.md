@@ -24,7 +24,7 @@ without need to write these mapping by hand.
 
 | Package                                                 | Pub                                                                                                 |
 |---------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| [auto_mapper](packages/auto_mapper)                     | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                               |
+| [auto_mapper](packages/auto_mapper_annotation)                     | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                               |
 | [auto_mapper_generator](packages/auto_mapper_generator) | [![auto_mapper_generator package][auto_mapper_generator_pub_badge]][auto_mapper_generator_pub_link] |
 
 ## Get started
