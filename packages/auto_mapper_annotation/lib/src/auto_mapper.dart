@@ -38,7 +38,10 @@ class MapMember<SOURCE> {
   final String member;
 
   /// Custom function mapping for given [member].
-  final dynamic Function(SOURCE from)? custom;
+  final dynamic Function(SOURCE? from)? custom;
+
+  /// Provides default value if SOURCE is null.
+  final dynamic Function()? whenNullDefault;
 
   /// Given [member] should be ignored.
   ///
@@ -56,5 +59,6 @@ class MapMember<SOURCE> {
     this.custom,
     this.ignore = false,
     this.rename,
+    this.whenNullDefault,
   });
 }

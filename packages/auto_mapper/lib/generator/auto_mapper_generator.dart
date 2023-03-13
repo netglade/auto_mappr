@@ -2,14 +2,13 @@
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mapper/models/auto_map_part.dart';
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
 import '../builder/auto_mapper_builder.dart';
-import '../models/auto_mapper_config.dart';
+import '../models/models.dart';
 
 /// Code generator to generate implemented mapping classes.
 class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
@@ -43,6 +42,7 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
           ignore: mapping.getField('ignore')!.toBoolValue()!,
           custom: mapping.getField('custom')!.toFunctionValue(),
           rename: mapping.getField('rename')!.toStringValue(),
+          whenNullDefault: mapping.getField('whenNullDefault')!.toFunctionValue(),
         );
       }).toList();
 

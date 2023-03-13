@@ -6,7 +6,7 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mapper/models/extensions.dart';
 import 'package:code_builder/code_builder.dart';
 
-import '../../models/auto_map_part.dart';
+import 'member_mapping.dart';
 
 class ConstructorAssignment {
   final ParameterElement param;

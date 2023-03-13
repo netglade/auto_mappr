@@ -1,7 +1,7 @@
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:equatable/equatable.dart';
 
-part 'equatable.g.dart';
+part 'equatable.mapper.g.dart';
 
 class User extends Equatable {
   final int id;

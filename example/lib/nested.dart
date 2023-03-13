@@ -1,7 +1,7 @@
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:equatable/equatable.dart';
 
-part 'nested.g.dart';
+part 'nested.mapper.g.dart';
 
 class User extends Equatable {
   final int id;

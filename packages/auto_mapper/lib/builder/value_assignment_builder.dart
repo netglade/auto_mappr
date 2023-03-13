@@ -19,9 +19,9 @@ class ValueAssignmentBuilder {
   Expression build() {
     if (assignment.sourceField == null) return assignment.getDefaultValue();
 
-    if (mapping.hasMapping(assignment.sourceField!.displayName)) {
-      final memberMapping = mapping.getMapping(assignment.sourceField!.displayName);
+    final memberMapping = mapping.tryGetMapping(assignment.sourceField!.displayName);
 
+    if (memberMapping != null && memberMapping.canBeApplied(assignment)) {
       return memberMapping.apply(assignment);
     }
 
@@ -31,6 +31,9 @@ class ValueAssignmentBuilder {
     }
 
     final assignNestedObject = !assignment.targetType.isSimpleType;
+    // print(
+    //     '${assignment.sourceField!.name} mapping as nested object: $assignNestedObject. DartType isEnum? ${assignment.targetType.isDartCoreEnum}');
+
     if (assignNestedObject) {
       return _assignNestedObject(
         source: assignment.sourceField!.type,
@@ -132,9 +135,8 @@ class ValueAssignmentBuilder {
       return refer('model').property(assignment.sourceField!.displayName);
     }
 
-    final mapping = mapperConfig.findMapping(source: source, target: target);
-
-    if (mapping == null) {
+    final nestedMapping = mapperConfig.findMapping(source: source, target: target);
+    if (nestedMapping == null) {
       final targetTypeName = target.getDisplayString(withNullability: true);
       final sourceName = assignment.sourceField?.getDisplayString(withNullability: true);
 
@@ -150,9 +152,9 @@ class ValueAssignmentBuilder {
       );
     }
 
-    return refer('_convert').call(
+    final convertCallExpr = refer('_convert').call(
       [convertMethodArg],
-      {},
+      {'canReturnNull': refer(target.nullabilitySuffix == NullabilitySuffix.question ? 'true' : 'false')},
       includeGenericTypes
           ? [
               refer(source.getDisplayString(withNullability: true)),
@@ -160,6 +162,17 @@ class ValueAssignmentBuilder {
             ]
           : [],
     );
+
+    // IF source == null and target not nullable -> use whenNullDefault if possible
+    final memberMapping = mapping.tryGetMapping(assignment.targetName);
+    if (source.nullabilitySuffix == NullabilitySuffix.question && memberMapping?.whenNullDefault != null) {
+      return refer('model').property(assignment.sourceField!.displayName).equalTo(refer('null')).conditional(
+            refer(memberMapping!.whenNullDefault!.referCallString).call([]),
+            convertCallExpr,
+          );
+    }
+
+    return convertCallExpr;
   }
 
   Expression _nestedListMapCall(

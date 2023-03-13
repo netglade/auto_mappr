@@ -1,7 +1,7 @@
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:equatable/equatable.dart';
 
-part 'nullable.g.dart';
+part 'nullable.mapper.g.dart';
 
 class User extends Equatable {
   final int id;
@@ -30,7 +30,7 @@ class Nested {
 
 class UserDto {
   final int id;
-  final NestedDto name;
+  final NestedDto? name;
   final NestedDto? tag;
 
   UserDto({
@@ -51,9 +51,13 @@ class NestedDto {
 }
 
 @AutoMapper(mappers: [
-  AutoMap<UserDto, User>(),
-  AutoMap<NestedDto?, Nested>(whenNullDefault: ExampleMapper.defaultNested),
+  AutoMap<UserDto, User>(
+    mappings: [
+      MapMember(member: 'tag', whenNullDefault: ExampleMapper.defaultNested),
+    ],
+  ),
+  AutoMap<NestedDto, Nested>(),
 ])
 class ExampleMapper extends $ExampleMapper {
-  static Nested defaultNested() => Nested(id: 1, name: 'default');
+  static Nested defaultNested() => Nested(id: 1, name: 'default_TAG');
 }

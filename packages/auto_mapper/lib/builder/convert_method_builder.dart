@@ -23,7 +23,7 @@ class ConvertMethodBuilder {
           ..type = refer('I')))
         ..returns = refer('R')
         ..lambda = false
-        ..body = refer('_convert(model)').returned.statement,
+        ..body = refer('_convert(model, canReturnNull: false)').returned.statement,
     );
   }
 
@@ -31,9 +31,19 @@ class ConvertMethodBuilder {
     return Method((b) => b
       ..name = '_convert'
       ..types.addAll([refer('I'), refer('R')])
-      ..requiredParameters.add(Parameter((p) => p
-        ..name = 'model'
-        ..type = refer('I')))
+
+      //..optionalParameters.add(value)
+      ..requiredParameters.add(
+        Parameter((p) => p
+          ..name = 'model'
+          ..type = refer('I')),
+      )
+      ..optionalParameters.add((ParameterBuilder()
+            ..name = 'canReturnNull'
+            ..type = refer('bool')
+            ..named = true
+            ..defaultTo = Code('false'))
+          .build())
       ..returns = refer('R')
       ..body = _buildConvertMethodBody(config.parts));
   }
@@ -63,8 +73,10 @@ class ConvertMethodBuilder {
 
       final inIfExpr = refer(mapping.mappingMapMethodName)
           .call([
-            refer('model').asA(mapping.sourceRefer),
-          ])
+            refer('model').asA(refer('${mapping.source.getDisplayString(withNullability: false)}?')),
+          ], {
+            'canReturnNull': refer('canReturnNull')
+          })
           .asA(refer('R'))
           .returned
           .statement

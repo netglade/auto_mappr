@@ -39,23 +39,11 @@ class MapModelBodyMethodBuilder {
 
     final targetConstructor = _findBestConstructor(targetClass);
 
-//    block.statements.add(Code('// $targetConstructor'));
+    // local model = input variable
     block.statements.add(declareFinal('model').assign(refer('input')).statement);
-
-    if (mapping.source.nullabilitySuffix == NullabilitySuffix.question) {
-      final ifConditionExp = refer('model').equalTo(refer('null')).accept(DartEmitter());
-
-      // Eg. when static class is used => Static.mapFrom()
-      final _target = mapping.whenNullDefault!;
-      final callRefer = _target.referCallString;
-
-      final defaultValueCall = refer(callRefer).call([]).statement.accept(DartEmitter());
-
-      block.statements.add(Code('if ($ifConditionExp) return $defaultValueCall'));
-    }
+    block.statements.add(_checkNullExpr());
 
     final sourceFields = _getSourceFields(sourceClass);
-
     final mappedTargetConstructorParams = <SourceAssignment>[];
     final notMappedTargetParameters = <SourceAssignment>[];
 
@@ -73,7 +61,6 @@ class MapModelBodyMethodBuilder {
 
       final sourceFieldName = rename ?? param.name;
       if (sourceFields.containsKey(sourceFieldName)) {
-        print("SSSSS $param");
         final sourceField = sourceFields[sourceFieldName]!;
 
         final targetField = rename != null
@@ -251,5 +238,24 @@ class MapModelBodyMethodBuilder {
     constructors.sort(((a, b) => b.parameters.length - a.parameters.length));
 
     return constructors.first;
+  }
+
+  Code _checkNullExpr() {
+    // if (model == null)
+    final ifConditionExp = refer('model').equalTo(refer('null')).accept(DartEmitter());
+    // Eg. when static class is used => Static.mapFrom()
+    if (mapping.whenNullDefault != null) {
+      // return whenNullDefault value
+      final _target = mapping.whenNullDefault!;
+      final callRefer = _target.referCallString;
+      final defaultValueCall = refer(callRefer).call([]).statement.accept(DartEmitter());
+
+      return Code('if ($ifConditionExp) return $defaultValueCall');
+    } else {
+      // otherwise throw exception
+
+      return Code(
+          "if ($ifConditionExp) { return canReturnNull ? null : throw Exception('Mapping $mapping when null but no default value provided!');}");
+    }
   }
 }

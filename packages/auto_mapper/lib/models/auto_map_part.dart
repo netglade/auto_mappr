@@ -1,21 +1,15 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mapper/models/extensions.dart';
-import 'package:auto_mapper/models/source_assignment.dart';
-import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:source_gen/source_gen.dart';
+
+import 'member_mapping.dart';
 
 class AutoMapPart extends Equatable {
   final DartType source;
   final DartType target;
   final List<MemberMapping>? mappings;
   final ExecutableElement? whenNullDefault;
-
-  Reference get sourceRefer => refer(source.getDisplayString(withNullability: true));
-
-  Reference get targetRefer => refer(target.getDisplayString(withNullability: true));
 
   String get mappingMapMethodName =>
       '_map${source.getDisplayString(withNullability: false)}To${target.getDisplayString(withNullability: false)}';
@@ -52,56 +46,5 @@ class AutoMapPart extends Equatable {
   @override
   String toString() {
     return '$source -> $target';
-  }
-}
-
-class MemberMapping extends Equatable {
-  final String member;
-  final ExecutableElement? custom;
-  final ExecutableElement? whenNullDefault;
-  final bool ignore;
-  final String? rename;
-
-  @override
-  List<Object?> get props => [member, custom, ignore, whenNullDefault, rename];
-
-  const MemberMapping({
-    required this.member,
-    this.custom,
-    this.whenNullDefault,
-    required this.ignore,
-    this.rename,
-  });
-
-  Expression apply(SourceAssignment assignment) {
-    if (ignore) {
-      return assignment.getDefaultValue();
-    }
-
-    // Support Function mapping
-    final _custom = custom;
-    if (_custom != null) {
-      final callRefer = _custom.referCallString;
-
-      return refer(callRefer).call([refer('model')]);
-    }
-
-    final _rename = rename;
-    if (_rename != null) {
-      return refer('model').property(_rename);
-    }
-
-    // final _whenNullDefault = whenNullDefault;
-
-    // if (_whenNullDefault != null) {
-    //    final callRefer = _whenNullDefault.referCallString;
-
-    //   return refer(callRefer).call([refer('model')]);
-    // }
-
-    throw InvalidGenerationSourceError(
-      'MemberMapping for member "${member}" from ${assignment} has ignore=false and target=null',
-      todo: 'Set ignore=true or define custom mapping',
-    );
   }
 }

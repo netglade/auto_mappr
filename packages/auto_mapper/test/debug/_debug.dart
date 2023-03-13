@@ -36,5 +36,5 @@ class UserDto {
   // AutoMap<NameDto, User>(),
 ])
 abstract class ExampleMapper {
-  static String mapUserDtoName(UserDto dto) => dto.name.toUpperCase();
+  static String mapUserDtoName(UserDto? dto) => dto!.name.toUpperCase();
 }

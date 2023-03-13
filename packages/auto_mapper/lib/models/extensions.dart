@@ -11,7 +11,8 @@ extension DartTypeExtension on DartType {
       isDartCoreString ||
       isDartCoreInt ||
       isDartCoreString ||
-      isDartCoreNum;
+      isDartCoreNum ||
+      isDartCoreEnum;
 
   bool isSameExceptNullability(DartType other) {
     final thisName = element?.name;

@@ -45,8 +45,8 @@ class UserDto {
   ],
 )
 class Mapper extends $Mapper {
-  static String mapName(UserDto from) => from.name.toUpperCase();
+  static String mapName(UserDto? from) => from!.name.toUpperCase();
 }
 
 // ignore: prefer-static-class, for test
-int mapAge(UserDto _) => 55;
+int mapAge(UserDto? _) => 55;
