@@ -128,6 +128,10 @@ class ValueAssignmentBuilder {
     required Expression convertMethodArg,
     bool includeGenericTypes = false,
   }) {
+    if (source == target) {
+      return refer('model').property(assignment.sourceField!.displayName);
+    }
+
     final mapping = mapperConfig.findMapping(source: source, target: target);
 
     if (mapping == null) {
