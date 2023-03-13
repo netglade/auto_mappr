@@ -1,7 +1,7 @@
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:equatable/equatable.dart';
 
-part 'debug.g.dart';
+part 'fixtures/when_null_default.dart';
 
 @AutoMapper(mappers: [
   AutoMap<NestedDto, Nested>(),

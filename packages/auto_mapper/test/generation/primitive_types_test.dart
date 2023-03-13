@@ -105,4 +105,21 @@ void main() {
       }
     },
   );
+
+  group(
+    'enum',
+    () {
+      for (final value in <fixture.Enum>[fixture.Enum.alpha, fixture.Enum.beta, fixture.Enum.gama]) {
+        test(
+          'value $value converts',
+          () {
+            final dto = fixture.EnumHolderDto(value);
+            final converted = mapper.convert<fixture.EnumHolderDto, fixture.EnumHolder>(dto);
+
+            expect(converted.value, dto.value);
+          },
+        );
+      }
+    },
+  );
 }

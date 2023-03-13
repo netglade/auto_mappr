@@ -43,7 +43,16 @@ class ValueAssignmentBuilder {
       );
     }
 
-    return refer('model').property(assignment.sourceField!.name);
+    final hasDefaultValue = memberMapping?.whenNullDefault?.referCallString != null;
+
+    // TODO: if whenNullDefault was used and the member is nullable, use nullAware
+    final x = refer('model').property(assignment.sourceField!.name);
+
+    if (hasDefaultValue) {
+      return x.ifNullThen(refer(memberMapping!.whenNullDefault!.referCallString)).call([]);
+    }
+
+    return x;
   }
 
   //todo tests

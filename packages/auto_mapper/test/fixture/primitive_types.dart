@@ -9,6 +9,7 @@ part 'fixtures/primitive_types.dart';
     AutoMap<DoubleHolderDto, DoubleHolder>(),
     AutoMap<StringHolderDto, StringHolder>(),
     AutoMap<BoolHolderDto, BoolHolder>(),
+    AutoMap<EnumHolderDto, EnumHolder>(),
   ],
 )
 class Mapper extends $Mapper {}
@@ -71,4 +72,18 @@ class BoolHolderDto {
   final bool value;
 
   BoolHolderDto(this.value);
+}
+
+enum Enum { alpha, beta, gama }
+
+class EnumHolder {
+  final Enum value;
+
+  EnumHolder(this.value);
+}
+
+class EnumHolderDto {
+  final Enum value;
+
+  EnumHolderDto(this.value);
 }

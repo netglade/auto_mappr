@@ -30,7 +30,7 @@ without need to write these mapping by hand.
 ## Features
 
 critical:
-- [x] primitive types (num, int, double, string, bool)
+- [x] primitive types (num, int, double, string, bool) + enum
 - iterable types
   - [ ] list
   - [ ] set
@@ -38,7 +38,7 @@ critical:
 - [ ] complex/nested types
 - [ ] renaming
 - [ ] custom mapping
-- [ ] when null default
+- [x] when null default
 - [ ] positional parameters
 - [ ] named parameters
 - [ ] setters

@@ -208,8 +208,11 @@ class MapModelBodyMethodBuilder {
     }
   }
 
-  Code _mapConstructor(ConstructorElement targetConstructor,
-      {required List<SourceAssignment> positional, required List<SourceAssignment> named}) {
+  Code _mapConstructor(
+    ConstructorElement targetConstructor, {
+    required List<SourceAssignment> positional,
+    required List<SourceAssignment> named,
+  }) {
     return declareFinal('result')
         .assign(refer(targetConstructor.displayName).newInstance(
           positional.map((assignment) =>
