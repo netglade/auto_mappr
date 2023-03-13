@@ -4,8 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('Multiple  constructors', () async {
-    final generator =
-        SuccessGenerator.fromBuilder('constructor_multiple', automapperBuilder);
+    final generator = SuccessGenerator.fromBuilder('constructor_multiple', autoMapperBuilder);
     await generator.test();
   });
 }

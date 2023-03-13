@@ -4,15 +4,8 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 
 extension DartTypeExtension on DartType {
-  bool get isSimpleType =>
-      isDartCoreBool ||
-      isDartCoreDouble ||
-      isDartCoreInt ||
-      isDartCoreString ||
-      isDartCoreInt ||
-      isDartCoreString ||
-      isDartCoreNum ||
-      isDartCoreEnum;
+  bool get isPrimitiveType =>
+      isDartCoreNum || isDartCoreInt || isDartCoreDouble || isDartCoreString || isDartCoreBool || isDartCoreEnum;
 
   bool isSameExceptNullability(DartType other) {
     final thisName = element?.name;

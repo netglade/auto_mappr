@@ -1,10 +1,11 @@
 builders:
   auto_mapper:
     import: "package:auto_mapper/builder.dart"
-    builder_factories: ["automapperBuilder"]
-    build_extensions: { ".dart": ["mapper.g.dart"] }
+    builder_factories: ["autoMapperBuilder"]
+    build_extensions: { ".dart": [".auto_mapper.g.part"] }
     auto_apply: dependents
-    build_to: source
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
 
   #  applies_builders: ["source_gen|combining_builder"]
    # required_inputs: [".g.dart"]

@@ -4,8 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('Nested object mapping', () async {
-    final generator =
-        SuccessGenerator.fromBuilder('nested_object', automapperBuilder);
+    final generator = SuccessGenerator.fromBuilder('nested_object', autoMapperBuilder);
     await generator.test();
   });
 }

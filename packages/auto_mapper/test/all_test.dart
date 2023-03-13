@@ -16,7 +16,7 @@ void main() async {
     test('Test ${file.uri.pathSegments.last}', () async {
       final generator = SuccessGenerator.fromBuilder(
         file.uri.pathSegments.last.replaceAll('.dart', ''),
-        automapperBuilder,
+        autoMapperBuilder,
         inputDir: 'test/fixture',
         fixtureDir: 'test/fixture/fixtures',
         compareWithFixture: true,

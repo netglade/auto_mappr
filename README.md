@@ -30,20 +30,21 @@ without need to write these mapping by hand.
 ## Features
 
 critical:
-- [x] simple objects
-- [ ] complex/nested objects
-- [ ] lists
-- [ ] sets
-- [ ] maps
-- [ ] enums
-- [x] renaming
+- [x] primitive types (num, int, double, string, bool)
+- iterable types
+  - [ ] list
+  - [ ] set
+  - [ ] map
+- [ ] complex/nested types
+- [ ] renaming
 - [ ] custom mapping
-- [x] when null default
+- [ ] when null default
 - [ ] positional parameters
 - [ ] named parameters
 - [ ] setters
 
 nice to have:
+- [ ] enum type
 - [ ] flattening
 - [ ] reverse mapping
 

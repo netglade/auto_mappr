@@ -5,11 +5,7 @@ import 'package:test/test.dart';
 void main() {
   test('debug', () async {
     final generator = SuccessGenerator.fromBuilder(
-        '_debug',
-        fixtureDir: 'test/debug',
-        inputDir: 'test/debug',
-        automapperBuilder,
-        compareWithFixture: false);
+        '_debug', fixtureDir: 'test/debug', inputDir: 'test/debug', autoMapperBuilder, compareWithFixture: false);
 
     await generator.test();
 

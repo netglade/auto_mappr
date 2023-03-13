@@ -30,10 +30,10 @@ class ValueAssignmentBuilder {
       return _assignListValue(assignment);
     }
 
-    final assignNestedObject = !assignment.targetType.isSimpleType;
     // print(
     //     '${assignment.sourceField!.name} mapping as nested object: $assignNestedObject. DartType isEnum? ${assignment.targetType.isDartCoreEnum}');
 
+    final assignNestedObject = !assignment.targetType.isPrimitiveType;
     if (assignNestedObject) {
       return _assignNestedObject(
         source: assignment.sourceField!.type,
@@ -57,7 +57,7 @@ class ValueAssignmentBuilder {
 
     final targetListType = (assignment.targetType as ParameterizedType).typeArguments.first;
     final sourceListType = (sourceType as ParameterizedType).typeArguments.first;
-    final assignNestedObject = !targetListType.isSimpleType && (targetListType != sourceListType);
+    final assignNestedObject = !targetListType.isPrimitiveType && (targetListType != sourceListType);
 
     final sourceListExpr = refer('model').property(assignment.sourceField!.name);
     final defaultListValueExpr = refer('<${targetListType.getDisplayString(withNullability: true)}>[]');

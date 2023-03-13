@@ -34,8 +34,8 @@ class MapModelBodyMethodBuilder {
   Code build() {
     final block = BlockBuilder();
 
-    final targetClass = mapping.target.element as ClassElement;
     final sourceClass = mapping.source.element as ClassElement;
+    final targetClass = mapping.target.element as ClassElement;
 
     final targetConstructor = _findBestConstructor(targetClass);
 
@@ -176,7 +176,7 @@ class MapModelBodyMethodBuilder {
   void _mapSetterFields(
     List<String> alreadyMapped,
     Map<String, FieldElement> sourceFields,
-    ClassElement targetClass,
+    InterfaceOrAugmentationElement targetClass,
     BlockBuilder block,
   ) {
     bool filterField(FieldElement field) =>
@@ -223,16 +223,14 @@ class MapModelBodyMethodBuilder {
         .statement;
   }
 
-  Map<String, FieldElement> _getSourceFields(ClassElement sourceClass) {
-    fieldFilter(FieldElement field) => !field.isSynthetic;
-
+  Map<String, FieldElement> _getSourceFields(InterfaceOrAugmentationElement sourceClass) {
     return {
-      for (final field in sourceClass.fields.where(fieldFilter)) field.name: field,
+      for (final field in sourceClass.fields.where((FieldElement field) => !field.isSynthetic)) field.name: field,
     };
   }
 
   /// Tries to find best constructor for mapping -> currently returns constructor with the most parameter count
-  ConstructorElement _findBestConstructor(ClassElement element) {
+  ConstructorElement _findBestConstructor(InterfaceOrAugmentationElement element) {
     final constructors = element.constructors.where((c) => !c.isFactory).toList();
 
     constructors.sort(((a, b) => b.parameters.length - a.parameters.length));

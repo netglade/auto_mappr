@@ -4,8 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('Member mapping - nullability', () async {
-    final generator = SuccessGenerator.fromBuilder(
-        'member_mapping_nullables', automapperBuilder);
+    final generator = SuccessGenerator.fromBuilder('member_mapping_nullables', autoMapperBuilder);
     await generator.test();
   });
 }
