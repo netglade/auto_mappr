@@ -32,19 +32,17 @@ class AutoMapperBuilder {
 
   /// Generates all methods within mapper.
   List<Method> _buildMethods() {
-    final methods = <Method>[
+    return [
       _buildTypeOfHelperMethod(),
       //    ConvertMethodBuilder.buildCanConvert(config),
       // Public convert method
       ConvertMethodBuilder.buildConvertMethod(),
 
       // Internal convert method
-      ConvertMethodBuilder.buildInternalConvertMethod(config)
-    ];
+      ConvertMethodBuilder.buildInternalConvertMethod(config),
 
-    // Individual mapper methods of each mappings
-    for (final mapping in config.parts) {
-      methods.add(
+      // Individual mapper methods of each mappings
+      for (final mapping in config.parts)
         Method(
           (b) => b
             ..name = mapping.mappingMapMethodName
@@ -58,10 +56,7 @@ class AutoMapperBuilder {
             ..returns = refer(mapping.target.getDisplayString(withNullability: true))
             ..body = MapModelBodyMethodBuilder(mapping: mapping, mapperConfig: config).build(),
         ),
-      );
-    }
-
-    return methods;
+    ];
   }
 
   Method _buildTypeOfHelperMethod() {

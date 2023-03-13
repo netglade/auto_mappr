@@ -27,6 +27,26 @@ without need to write these mapping by hand.
 | [auto_mapper](packages/auto_mapper)          | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                               |
 | [auto_mapper_anotation](packages/auto_mapper_annotation) | [![auto_mapper_annotation package][auto_mapper_annotation_pub_badge]][auto_mapper_annotation_pub_link] |
 
+## Features
+
+critical:
+- [x] simple objects
+- [ ] complex/nested objects
+- [ ] lists
+- [ ] sets
+- [ ] maps
+- [ ] enums
+- [x] renaming
+- [ ] custom mapping
+- [x] when null default
+- [ ] positional parameters
+- [ ] named parameters
+- [ ] setters
+
+nice to have:
+- [ ] flattening
+- [ ] reverse mapping
+
 ## Get started
 
 Add `builder_runner` and `auto_mapper` as dev dependency
