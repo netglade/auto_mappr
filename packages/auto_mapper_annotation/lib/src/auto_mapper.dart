@@ -17,11 +17,6 @@ const mapper = AutoMapper();
 
 /// Configured mapping from SOURCE to TARGET.
 class AutoMap<SOURCE, TARGET> {
-  /// Reverse mapping will be generated as well (from TARGET to SOURCE).
-  ///
-  /// Note that if concrete mapping from TARGET -> SOURCE is configured, reverse flag is ignored.
-  final bool reverse;
-
   /// Configuration for TARGET's members.
   final List<MapMember<SOURCE>> mappings;
 
@@ -30,7 +25,6 @@ class AutoMap<SOURCE, TARGET> {
 
   /// Constructs mapping.
   const AutoMap({
-    this.reverse = false,
     this.mappings = const [],
     this.whenNullDefault,
   });

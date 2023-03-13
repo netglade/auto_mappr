@@ -25,16 +25,15 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
 
     final annotation = element.metadata.single; // AutoMapper annotation
     final constant = annotation.computeConstantValue()!; // its instance
-    final field = constant.getField('mappers')!;
-    final list = field.toListValue()!;
+    final mappersField = constant.getField('mappers')!;
+    final mappers = mappersField.toListValue()!;
 
-    final parts = list.map((mapper) {
+    final parts = mappers.map((mapper) {
       final mapperType = mapper.type as ParameterizedType;
 
       final sourceType = mapperType.typeArguments.first;
       final targetType = mapperType.typeArguments[1];
 
-      final isReverse = mapper.getField('reverse')?.toBoolValue();
       final mappings = mapper.getField('mappings')?.toListValue();
       final whenNullDefault = mapper.getField('whenNullDefault')?.toFunctionValue();
 
@@ -50,35 +49,19 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
       return AutoMapPart(
         source: sourceType,
         target: targetType,
-        isReverse: isReverse ?? false,
         mappings: memberMappings,
         whenNullDefault: whenNullDefault,
       );
     }).toList();
 
-    if (parts.duplicates.isNotEmpty) {
+    final duplicates = parts.duplicates;
+    if (duplicates.isNotEmpty) {
       throw InvalidGenerationSourceError(
-        '@AutoMapper has configured duplicated mappings:\n\t${parts.duplicates.join('\n\t')}',
+        '@AutoMapper has configured duplicated mappings:\n\t${duplicates.join('\n\t')}',
       );
     }
 
-    var config = AutoMapperConfig(parts: parts);
-
-    final reverseMappings = parts.where((x) => x.isReverse).toList();
-
-    for (final reverseMapping in reverseMappings) {
-      final specific = config.getExplicitReverseMapping(reverseMapping);
-      if (specific != null) {
-        log.warning(
-          'Mapping $reverseMapping has reverse=true but more specific mapping $specific is configured. Reverse flag will be ignored.',
-        );
-      }
-      // add reverse mapping
-      parts.add(
-          AutoMapPart(source: reverseMapping.target, target: reverseMapping.source, isReverse: false, mappings: []));
-    }
-
-    config = AutoMapperConfig(parts: parts);
+    final config = AutoMapperConfig(parts: parts);
 
     final builder = AutoMapperBuilder(mapperClassElement: element, config: config);
 

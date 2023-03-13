@@ -76,7 +76,6 @@ Each mapping between two objects, from SOURCE to TARGET is done with `AutoMap<SO
 
 You can set these properties on each AutoMap: 
 
- - `reverse`: If `true` reverse mapping from TARGET -> SOURCE will be generated as well. Note that, if explicit mappinng is configured, this flag is ignored.
  - `whenNullDefault` - callback which returns default value for TARGET if SOURCE is null. Used only if SOURCE is marked as nullable, e.g. `AutoMap<SOURCE?, TARGET>`. 
 
 ### Custom member mapping

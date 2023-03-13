@@ -10,7 +10,6 @@ import 'package:source_gen/source_gen.dart';
 class AutoMapPart extends Equatable {
   final DartType source;
   final DartType target;
-  final bool isReverse;
   final List<MemberMapping>? mappings;
   final ExecutableElement? whenNullDefault;
 
@@ -26,7 +25,6 @@ class AutoMapPart extends Equatable {
     return [
       source,
       target,
-      isReverse,
       mappings,
       whenNullDefault,
     ];
@@ -35,7 +33,6 @@ class AutoMapPart extends Equatable {
   const AutoMapPart({
     required this.source,
     required this.target,
-    required this.isReverse,
     required this.mappings,
     this.whenNullDefault,
   });

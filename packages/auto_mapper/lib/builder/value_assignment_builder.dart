@@ -128,9 +128,9 @@ class ValueAssignmentBuilder {
     required Expression convertMethodArg,
     bool includeGenericTypes = false,
   }) {
-    final reverseMapping = mapperConfig.findMapping(source: source, target: target);
+    final mapping = mapperConfig.findMapping(source: source, target: target);
 
-    if (reverseMapping == null) {
+    if (mapping == null) {
       final targetTypeName = target.getDisplayString(withNullability: true);
       final sourceName = assignment.sourceField?.getDisplayString(withNullability: true);
 

@@ -95,9 +95,9 @@ class ConvertMethodBuilder {
           .code
           .accept(dartEmitter);
 
-      final ifStatemnet = Code('''if( $ifCondition ) {return true;}''');
+      final ifStatement = Code('''if( $ifCondition ) {return true;}''');
 
-      block.statements.add(ifStatemnet);
+      block.statements.add(ifStatement);
     }
 
     block.statements.add(Code('return false;'));
