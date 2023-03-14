@@ -48,17 +48,21 @@ class MapMember<SOURCE> {
   /// Note that if [member] is required (or non-nullable) it is considered as error.
   final bool ignore;
 
-  /// Given [member] should be mapped from [rename].
+  /// Given [member] should be mapped from [from].
   ///
   /// Note that [custom] has priority.
-  final String? rename;
+  final String? from;
+
+  // Selects constructor or factory constructor by name.
+  final String? constructor;
 
   /// Constructs member mapping.
   const MapMember({
     required this.member,
     this.custom,
+    this.from,
     this.ignore = false,
-    this.rename,
     this.whenNullDefault,
+    this.constructor,
   });
 }

@@ -7,42 +7,44 @@ part of 'nested.dart';
 // **************************************************************************
 
 class $ExampleMapper {
-  Type _typeOf<X>() => X;
-  R convert<I, R>(I model) {
+  Type _typeOf<T>() => T;
+  TARGET convert<SOURCE, TARGET>(SOURCE model) {
     return _convert(model, canReturnNull: false);
   }
 
-  R _convert<I, R>(
-    I model, {
+  TARGET _convert<SOURCE, TARGET>(
+    SOURCE model, {
     bool canReturnNull = false,
   }) {
-    if ((_typeOf<I>() == _typeOf<UserDto>() ||
-            _typeOf<I>() == _typeOf<UserDto?>()) &&
-        (_typeOf<R>() == _typeOf<User>() || _typeOf<R>() == _typeOf<User?>())) {
+    if ((_typeOf<SOURCE>() == _typeOf<UserDto>() ||
+            _typeOf<SOURCE>() == _typeOf<UserDto?>()) &&
+        (_typeOf<TARGET>() == _typeOf<User>() ||
+            _typeOf<TARGET>() == _typeOf<User?>())) {
       return (_mapUserDtoToUser(
         (model as UserDto?),
         canReturnNull: canReturnNull,
-      ) as R);
+      ) as TARGET);
     }
-    if ((_typeOf<I>() == _typeOf<NestedDto>() ||
-            _typeOf<I>() == _typeOf<NestedDto?>()) &&
-        (_typeOf<R>() == _typeOf<Nested>() ||
-            _typeOf<R>() == _typeOf<Nested?>())) {
+    if ((_typeOf<SOURCE>() == _typeOf<NestedDto>() ||
+            _typeOf<SOURCE>() == _typeOf<NestedDto?>()) &&
+        (_typeOf<TARGET>() == _typeOf<Nested>() ||
+            _typeOf<TARGET>() == _typeOf<Nested?>())) {
       return (_mapNestedDtoToNested(
         (model as NestedDto?),
         canReturnNull: canReturnNull,
-      ) as R);
+      ) as TARGET);
     }
-    if ((_typeOf<I>() == _typeOf<NestedTagDto>() ||
-            _typeOf<I>() == _typeOf<NestedTagDto?>()) &&
-        (_typeOf<R>() == _typeOf<NestedTag>() ||
-            _typeOf<R>() == _typeOf<NestedTag?>())) {
+    if ((_typeOf<SOURCE>() == _typeOf<NestedTagDto>() ||
+            _typeOf<SOURCE>() == _typeOf<NestedTagDto?>()) &&
+        (_typeOf<TARGET>() == _typeOf<NestedTag>() ||
+            _typeOf<TARGET>() == _typeOf<NestedTag?>())) {
       return (_mapNestedTagDtoToNestedTag(
         (model as NestedTagDto?),
         canReturnNull: canReturnNull,
-      ) as R);
+      ) as TARGET);
     }
-    throw Exception('No mapping from ${model.runtimeType} -> ${_typeOf<R>()}');
+    throw Exception(
+        'No mapping from ${model.runtimeType} -> ${_typeOf<TARGET>()}');
   }
 
   User? _mapUserDtoToUser(

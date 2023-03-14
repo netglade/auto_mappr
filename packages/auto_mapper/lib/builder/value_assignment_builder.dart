@@ -17,9 +17,17 @@ class ValueAssignmentBuilder {
   });
 
   Expression build() {
-    if (assignment.sourceField == null) return assignment.getDefaultValue();
+    if (assignment.sourceField == null) {
+      if (assignment.memberMapping != null &&
+          assignment.memberMapping!.custom != null &&
+          assignment.memberMapping!.canBeApplied(assignment)) {
+        return assignment.memberMapping!.apply(assignment);
+      }
 
-    final memberMapping = mapping.tryGetMapping(assignment.sourceField!.displayName);
+      return assignment.getDefaultValue();
+    }
+
+    final memberMapping = assignment.memberMapping;
 
     if (memberMapping != null && memberMapping.canBeApplied(assignment)) {
       return memberMapping.apply(assignment);

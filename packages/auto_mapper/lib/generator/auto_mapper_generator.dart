@@ -41,7 +41,7 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
           member: mapping.getField('member')!.toStringValue()!,
           ignore: mapping.getField('ignore')!.toBoolValue()!,
           custom: mapping.getField('custom')!.toFunctionValue(),
-          rename: mapping.getField('rename')!.toStringValue(),
+          from: mapping.getField('from')!.toStringValue(),
           whenNullDefault: mapping.getField('whenNullDefault')!.toFunctionValue(),
         );
       }).toList();

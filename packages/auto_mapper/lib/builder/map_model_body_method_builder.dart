@@ -37,7 +37,7 @@ class MapModelBodyMethodBuilder {
     final sourceClass = mapping.source.element as ClassElement;
     final targetClass = mapping.target.element as ClassElement;
 
-    final targetConstructor = _findBestConstructor(targetClass);
+    final targetConstructor = _findBestConstructor(targetClass, selectedConstructor: mapping.constructor);
 
     // local model = input variable
     block.statements.add(declareFinal('model').assign(refer('input')).statement);
@@ -57,16 +57,37 @@ class MapModelBodyMethodBuilder {
       final constructorAssignment = ConstructorAssignment(param: param, position: paramPosition);
 
       final memberMapping = mapping.tryGetMapping(param.name);
-      final rename = memberMapping?.rename;
 
-      final sourceFieldName = rename ?? param.name;
-      if (sourceFields.containsKey(sourceFieldName)) {
+      // Handles renaming.
+      final from = memberMapping?.from;
+      final sourceFieldName = from ?? param.name;
+
+      // Custom mapping has precedence.
+      if (memberMapping?.custom != null) {
+        final targetField =
+            targetClass.fields.firstWhere((targetField) => targetField.displayName == memberMapping!.member);
+
+        if (mapping.memberShouldBeIgnored(targetField.displayName)) {
+          _assertParamMemberCanBeIgnored(param, targetField);
+        }
+
+        final sourceAssignment = SourceAssignment(
+          sourceField: null,
+          targetField: targetField,
+          targetConstructorParam: constructorAssignment,
+          memberMapping: mapping.tryGetMapping(targetField.displayName),
+        );
+
+        mappedTargetConstructorParams.add(sourceAssignment);
+        mappedSourceFieldNames.add(param.name);
+      }
+      // Source field has the same name as target parameter or is renamed using [from].
+      else if (sourceFields.containsKey(sourceFieldName)) {
         final sourceField = sourceFields[sourceFieldName]!;
 
-        final targetField = rename != null
+        final targetField = from != null
             // support custom member rename mapping
-            ? targetClass.fields.firstWhere((element) => element.displayName == memberMapping!.member)
-
+            ? targetClass.fields.firstWhere((targetField) => targetField.displayName == memberMapping!.member)
             // find target field based on matching source field
             : targetClass.fields.firstWhere((targetField) => targetField.displayName == sourceField.displayName);
 
@@ -226,14 +247,14 @@ class MapModelBodyMethodBuilder {
         .statement;
   }
 
-  Map<String, FieldElement> _getSourceFields(InterfaceOrAugmentationElement sourceClass) {
+  Map<String, FieldElement> _getSourceFields(ClassElement sourceClass) {
     return {
       for (final field in sourceClass.fields.where((FieldElement field) => !field.isSynthetic)) field.name: field,
     };
   }
 
   /// Tries to find best constructor for mapping -> currently returns constructor with the most parameter count
-  ConstructorElement _findBestConstructor(InterfaceOrAugmentationElement element) {
+  ConstructorElement _findBestConstructor(ClassElement element, {String? selectedConstructor}) {
     final constructors = element.constructors.where((c) => !c.isFactory).toList();
 
     constructors.sort(((a, b) => b.parameters.length - a.parameters.length));

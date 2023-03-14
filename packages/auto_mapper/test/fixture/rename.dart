@@ -1,7 +1,7 @@
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:equatable/equatable.dart';
 
-part 'debug.g.dart';
+part 'fixtures/rename.dart';
 
 @AutoMapper(mappers: [
   // primitive

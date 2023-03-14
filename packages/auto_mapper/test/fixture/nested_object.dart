@@ -10,14 +10,14 @@ class User extends Equatable {
 
   bool get hasTag => tag != null;
 
+  @override
+  List<Object?> get props => [id, name, tag];
+
   const User({
     required this.id,
     required this.name,
     this.tag,
   });
-
-  @override
-  List<Object?> get props => [id, name, tag];
 }
 
 class Nested {

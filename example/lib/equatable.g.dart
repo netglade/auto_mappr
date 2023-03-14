@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'rename.dart';
+part of 'equatable.dart';
 
 // **************************************************************************
 // AutoMapperGenerator
@@ -42,7 +42,8 @@ class $ExampleMapper {
     }
     final result = User(
       id: model.id,
-      name: model.xname,
+      name: model.name,
+      tag: null,
     );
     return result;
   }

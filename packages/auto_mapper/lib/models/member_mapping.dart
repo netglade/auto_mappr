@@ -10,17 +10,17 @@ class MemberMapping extends Equatable {
   final ExecutableElement? custom;
   final ExecutableElement? whenNullDefault;
   final bool ignore;
-  final String? rename;
+  final String? from;
 
   @override
-  List<Object?> get props => [member, custom, ignore, whenNullDefault, rename];
+  List<Object?> get props => [member, custom, ignore, whenNullDefault, from];
 
   const MemberMapping({
     required this.member,
+    required this.ignore,
     this.custom,
     this.whenNullDefault,
-    required this.ignore,
-    this.rename,
+    this.from,
   });
 
   bool canBeApplied(SourceAssignment assignment) {
@@ -46,9 +46,9 @@ class MemberMapping extends Equatable {
       return refer(callRefer).call([refer('model')]);
     }
 
-    final _rename = rename;
-    if (_rename != null) {
-      return refer('model').property(_rename);
+    final _from = from;
+    if (_from != null) {
+      return refer('model').property(_from);
     }
 
     // final _whenNullDefault = whenNullDefault;

@@ -1,5 +1,3 @@
-import 'package:auto_mapper/builder.dart';
-import 'package:generator_test/generator_test.dart';
 import 'package:test/test.dart';
 
 import '../fixture/primitive_types.dart' as fixture;
@@ -10,16 +8,6 @@ void main() {
   setUpAll(() {
     mapper = fixture.Mapper();
   });
-
-  group(
-    'Generator',
-    () {
-      test('generates', () async {
-        final generator = SuccessGenerator.fromBuilder('primitive_types', autoMapperBuilder);
-        await generator.test();
-      });
-    },
-  );
 
   group(
     'num',

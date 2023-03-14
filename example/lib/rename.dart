@@ -25,7 +25,7 @@ class UserDto {
 @AutoMapper(mappers: [
   AutoMap<UserDto, User>(
     mappings: [
-      MapMember(member: 'name', rename: 'xname'),
+      MapMember(member: 'name', from: 'xname'),
     ],
   ),
 ])

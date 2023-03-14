@@ -33,8 +33,9 @@ class AutoMapperBuilder {
   /// Generates all methods within mapper.
   List<Method> _buildMethods() {
     return [
-      _buildTypeOfHelperMethod(),
-      //    ConvertMethodBuilder.buildCanConvert(config),
+      // Helper method for typeOf.
+      ConvertMethodBuilder.buildTypeOfHelperMethod(),
+
       // Public convert method
       ConvertMethodBuilder.buildConvertMethod(),
 
@@ -64,16 +65,5 @@ class AutoMapperBuilder {
             ..body = MapModelBodyMethodBuilder(mapping: mapping, mapperConfig: config).build(),
         ),
     ];
-  }
-
-  Method _buildTypeOfHelperMethod() {
-    return Method(
-      (b) => b
-        ..name = '_typeOf'
-        ..types.add(refer('X'))
-        ..returns = refer('Type')
-        ..lambda = true
-        ..body = const Code('X'),
-    );
   }
 }

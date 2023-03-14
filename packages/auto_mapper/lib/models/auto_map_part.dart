@@ -10,6 +10,7 @@ class AutoMapPart extends Equatable {
   final DartType target;
   final List<MemberMapping>? mappings;
   final ExecutableElement? whenNullDefault;
+  final String? constructor;
 
   String get mappingMapMethodName =>
       '_map${source.getDisplayString(withNullability: false)}To${target.getDisplayString(withNullability: false)}';
@@ -21,6 +22,7 @@ class AutoMapPart extends Equatable {
       target,
       mappings,
       whenNullDefault,
+      constructor,
     ];
   }
 
@@ -29,6 +31,7 @@ class AutoMapPart extends Equatable {
     required this.target,
     required this.mappings,
     this.whenNullDefault,
+    this.constructor,
   });
 
   String sourceName({bool withNullability = false}) => source.getDisplayString(withNullability: withNullability);

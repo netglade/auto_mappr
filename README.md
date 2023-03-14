@@ -16,34 +16,40 @@ Developed with 💚 by [netglade][netglade_link]
 
 ---
 
-Mapper for mapping between different objects with ease. Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
+Mapper for mapping between different objects with ease. Heavily inspired
+by [C# AutoMapper][auto_mapper_net_link].
 
 Thanks to code-generation you can generate class, called mapper,
 which will allow to map between different objects automatically
-without need to write these mapping by hand. 
+without need to write these mapping by hand.
 
-| Package                                                 | Pub                                                                                                 |
-|---------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| [auto_mapper](packages/auto_mapper)          | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                               |
+| Package                                                  | Pub                                                                                                    |
+|----------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| [auto_mapper](packages/auto_mapper)                      | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                                  |
 | [auto_mapper_anotation](packages/auto_mapper_annotation) | [![auto_mapper_annotation package][auto_mapper_annotation_pub_badge]][auto_mapper_annotation_pub_link] |
 
 ## Features
 
 critical:
+
 - [x] primitive types (num, int, double, string, bool) + enum
 - iterable types
-  - [ ] list
-  - [ ] set
-  - [ ] map
-- [ ] complex/nested types
-- [ ] renaming
+    - [ ] list
+    - [ ] set
+    - [ ] map
+- [ ] complex types
+- [x] renaming
 - [ ] custom mapping
 - [x] when null default
 - [ ] positional parameters
 - [ ] named parameters
 - [ ] setters
+- [ ] member name doesn't match constructor argument name
+- [ ] selecting constructor
 
 nice to have:
+
+- [ ] factory constructors
 - [ ] enum type
 - [ ] flattening
 - [ ] reverse mapping
@@ -57,6 +63,7 @@ dev_dependencies:
   auto_mapper: ^0.0.1
   build_runner: 
 ```
+
 and `auto_mapper_annotation` as dependency for annotations
 
 ```yaml
@@ -74,17 +81,19 @@ Define you mapper
 class ExampleMapper extends $ExampleMapper {}
 ```
 
-run build_runner 
+run build_runner
 
 ```
 dart run build_runner build
 ```
 
-use your mapper 
+use your mapper
 
 ```dart
 
-final userDto = await getUserDto();
+final userDto = await
+
+getUserDto();
 
 final mapper = ExampleMapper();
 final user = mapper.convert(userDto);
@@ -93,15 +102,17 @@ final user = mapper.convert(userDto);
 
 ## Configuration
 
-Each mapping between two objects, from SOURCE to TARGET is done with `AutoMap<SOURCE, TARGET>` class. 
+Each mapping between two objects, from SOURCE to TARGET is done with `AutoMap<SOURCE, TARGET>`
+class.
 
-You can set these properties on each AutoMap: 
+You can set these properties on each AutoMap:
 
- - `whenNullDefault` - callback which returns default value for TARGET if SOURCE is null. Used only if SOURCE is marked as nullable, e.g. `AutoMap<SOURCE?, TARGET>`. 
+- `whenNullDefault` - callback which returns default value for TARGET if SOURCE is null. Used only
+  if SOURCE is marked as nullable, e.g. `AutoMap<SOURCE?, TARGET>`.
 
 ### Custom member mapping
 
-For each mapped member you can specify how it should be mapped. For example: 
+For each mapped member you can specify how it should be mapped. For example:
 
 ```dart
 @AutoMapper(
@@ -123,35 +134,42 @@ class Mapper extends $Mapper {
 int mapAge(UserDto _) => 55;
 ```
 
-Note that `member` parameter should match either TARGET's  member name OR constructor parameter name (In most cases they are same).
+Note that `member` parameter should match either TARGET's member name OR constructor parameter
+name (In most cases they are same).
 
-`target` property is optional mapping function which can define custom mapping logic from SOURCE. 
+`target` property is optional mapping function which can define custom mapping logic from SOURCE.
 
-`ignore` - if `true` member will be ignored. Note that nullability cases are handled as well. (e.g. Target is nullable but required parameter, mapper will assing null automatically).
-
+`ignore` - if `true` member will be ignored. Note that nullability cases are handled as well. (e.g.
+Target is nullable but required parameter, mapper will assing null automatically).
 
 ### Null handling
 
 TODO
 
-
-
 ## Contributing
 
-Your contributions are always welcome! Feel free to open pull request. 
+Your contributions are always welcome! Feel free to open pull request.
 
 [netglade_link]: https://netglade.cz/en
 
 [ci_badge]: https://github.com/netglade/sliver_app_bar_builder/workflows/ci/badge.svg
+
 [ci_badge_link]: https://github.com/netglade/sliver_app_bar_builder/actions
+
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
+
 [license_badge_link]: https://opensource.org/licenses/MIT
+
 [style_badge]: https://img.shields.io/badge/style-netglade_analysis-26D07C.svg
+
 [style_badge_link]: https://pub.dev/packages/netglade_analysis
 
 [auto_mapper_pub_badge]: https://img.shields.io/pub/v/auto_mapper.svg
+
 [auto_mapper_pub_link]: https://pub.dartlang.org/packages/auto_mapper
+
 [auto_mapper_annotation_pub_badge]: https://img.shields.io/pub/v/auto_mapper_annotation.svg
+
 [auto_mapper_annotation_pub_link]: https://pub.dartlang.org/packages/auto_mapper_annotation
 
 [auto_mapper_net_link]: https://automapper.org
