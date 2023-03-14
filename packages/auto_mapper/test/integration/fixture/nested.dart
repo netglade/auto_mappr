@@ -1,7 +1,7 @@
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:equatable/equatable.dart';
 
-part 'fixtures/nested_object.dart';
+part 'nested.g.dart';
 
 class User extends Equatable {
   final int id;
@@ -20,10 +20,13 @@ class User extends Equatable {
   });
 }
 
-class Nested {
+class Nested extends Equatable {
   final int id;
   final String name;
   final NestedTag tag;
+
+  @override
+  List<Object?> get props => [id, name, tag];
 
   Nested({
     required this.id,
@@ -32,7 +35,10 @@ class Nested {
   });
 }
 
-class NestedTag {}
+class NestedTag extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class UserDto {
   final int id;
@@ -51,8 +57,7 @@ class NestedDto {
   final String name;
   final NestedTagDto tag;
 
-  NestedDto(
-    this.id, {
+  NestedDto(this.id, {
     required this.name,
     required this.tag,
   });
@@ -65,4 +70,4 @@ class NestedTagDto {}
   AutoMap<NestedDto, Nested>(),
   AutoMap<NestedTagDto, NestedTag>(),
 ])
-class ExampleMapper extends $ExampleMapper {}
+class Mapper extends $Mapper {}

@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:auto_mapper/builder/value_assignment_builder.dart';
+import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
@@ -37,7 +38,7 @@ class MapModelBodyMethodBuilder {
     final sourceClass = mapping.source.element as ClassElement;
     final targetClass = mapping.target.element as ClassElement;
 
-    final targetConstructor = _findBestConstructor(targetClass, selectedConstructor: mapping.constructor);
+    final targetConstructor = _findBestConstructor(targetClass, forcedConstructor: mapping.constructor);
 
     // local model = input variable
     block.statements.add(declareFinal('model').assign(refer('input')).statement);
@@ -201,7 +202,7 @@ class MapModelBodyMethodBuilder {
     BlockBuilder block,
   ) {
     bool filterField(FieldElement field) =>
-        targetClass.fields.any((element) => element.displayName == field.displayName);
+        targetClass.fields.any((element) => element.displayName == field.displayName && !element.isFinal);
 
     final potentialSetterFields = sourceFields.keys.where((field) => !alreadyMapped.contains(field)).toList();
     final fields =
@@ -254,7 +255,16 @@ class MapModelBodyMethodBuilder {
   }
 
   /// Tries to find best constructor for mapping -> currently returns constructor with the most parameter count
-  ConstructorElement _findBestConstructor(ClassElement element, {String? selectedConstructor}) {
+  ConstructorElement _findBestConstructor(ClassElement element, {String? forcedConstructor}) {
+    if (forcedConstructor != null) {
+      final selectedConstructor = element.constructors.firstWhereOrNull((c) => c.name == forcedConstructor);
+      if (selectedConstructor != null) return selectedConstructor;
+
+      log.warning(
+        "Couldn't find constructor '$forcedConstructor', fall-backing to using the most fitted one instead.",
+      );
+    }
+
     final constructors = element.constructors.where((c) => !c.isFactory).toList();
 
     constructors.sort(((a, b) => b.parameters.length - a.parameters.length));

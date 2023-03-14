@@ -23,10 +23,17 @@ class AutoMap<SOURCE, TARGET> {
   /// Provides default value if SOURCE is null.
   final TARGET Function()? whenNullDefault;
 
+  /// Selects constructor or factory constructor by name.
+  ///
+  /// If no constructor with this name is found,
+  /// it will fallback to the most fitted constructor.
+  final String? constructor;
+
   /// Constructs mapping.
   const AutoMap({
     this.mappings = const [],
     this.whenNullDefault,
+    this.constructor,
   });
 }
 
@@ -53,9 +60,6 @@ class MapMember<SOURCE> {
   /// Note that [custom] has priority.
   final String? from;
 
-  // Selects constructor or factory constructor by name.
-  final String? constructor;
-
   /// Constructs member mapping.
   const MapMember({
     required this.member,
@@ -63,6 +67,5 @@ class MapMember<SOURCE> {
     this.from,
     this.ignore = false,
     this.whenNullDefault,
-    this.constructor,
   });
 }

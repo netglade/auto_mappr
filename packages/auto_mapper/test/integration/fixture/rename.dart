@@ -1,10 +1,23 @@
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:equatable/equatable.dart';
 
-part 'fixtures/rename.dart';
+part 'rename.g.dart';
 
 @AutoMapper(mappers: [
-  // primitive
+  // nested
+  AutoMap<NestedDto, Nested>(
+    mappings: [
+      MapMember(member: 'id', from: 'idx'),
+      MapMember(member: 'name', from: 'namex'),
+    ],
+  ),
+  AutoMap<NestedReversedDto, NestedReversed>(
+    mappings: [
+      MapMember(member: 'id', from: 'namex'),
+      MapMember(member: 'name', from: 'idx'),
+    ],
+  ),
+  // same
   AutoMap<SamePositionalDto, SamePositional>(
     mappings: [
       MapMember(member: 'id', from: 'id'),
@@ -250,7 +263,7 @@ class ComplexPositional extends Equatable {
 }
 
 class ComplexPositionalDto {
-  final Nested datax;
+  final NestedDto datax;
 
   ComplexPositionalDto(
     this.datax,
@@ -269,7 +282,7 @@ class ComplexNamed extends Equatable {
 }
 
 class ComplexNamedDto {
-  final Nested datax;
+  final NestedDto datax;
 
   ComplexNamedDto({
     required this.datax,
@@ -289,15 +302,15 @@ class NestedReversed extends Equatable {
 }
 
 class NestedReversedDto {
-  final int name;
-  final String id;
+  final int namex;
+  final String idx;
 
-  NestedReversedDto(this.id, {required this.name});
+  NestedReversedDto(this.idx, {required this.namex});
 }
 
 class ComplexPositionalReversed extends Equatable {
   final int first;
-  final Nested second;
+  final NestedReversed second;
 
   @override
   List<Object?> get props => [first, second];
@@ -310,7 +323,7 @@ class ComplexPositionalReversed extends Equatable {
 
 class ComplexPositionalReversedDto {
   final int second;
-  final Nested first;
+  final NestedReversedDto first;
 
   ComplexPositionalReversedDto(
     this.first,
@@ -320,7 +333,7 @@ class ComplexPositionalReversedDto {
 
 class ComplexNamedReversed extends Equatable {
   final int first;
-  final Nested second;
+  final NestedReversed second;
 
   @override
   List<Object?> get props => [first, second];
@@ -333,7 +346,7 @@ class ComplexNamedReversed extends Equatable {
 
 class ComplexNamedReversedDto {
   final int second;
-  final Nested first;
+  final NestedReversedDto first;
 
   ComplexNamedReversedDto({
     required this.first,

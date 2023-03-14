@@ -10,6 +10,11 @@ command:
 
 scripts:
   gen:
-    run: melos exec -- dart pub run build_runner watch --delete-conflicting-outputs
+    run: melos exec -- dart run build_runner watch --delete-conflicting-outputs
     packageFilters:
       scope: '*example*'
+  gen:test:
+    run: melos exec -- dart run build_runner watch --delete-conflicting-outputs
+    packageFilters:
+      dirExists:
+        - test

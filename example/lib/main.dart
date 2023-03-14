@@ -1,12 +1,11 @@
-import 'package:auto_mapper_example/nullable.dart';
+import 'package:auto_mapper_example/debug.dart';
 
 void main() {
-  final dto = UserDto(id: 1, name: null);
+  final dto = TestDto(1, 2, 3);
 
-  ExampleMapper mapper = ExampleMapper();
+  Mapper mapper = Mapper();
 
-  final user = mapper.convert<UserDto, User>(dto);
+  final output = mapper.convert<TestDto, Test>(dto);
 
-  print(user.name?.name ?? 'NULL');
-  print(user.tag.name);
+  print(output);
 }

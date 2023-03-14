@@ -13,8 +13,7 @@ class User {
   User.moreParams({required this.id, required this.name, String? x, String? y});
 
   // This should be ignored
-  factory User.fromParams(int id, String firstName, String secondName) =>
-      User(id, '$firstName $secondName');
+  factory User.fromParams(int id, String firstName, String secondName) => User(id, '$firstName $secondName');
 }
 
 class UserDto {

@@ -1,3 +1,9 @@
+targets:
+  $default:
+    builders:
+      auto_mapper:auto_mapper:
+        enabled: true
+
 builders:
   auto_mapper:
     import: "package:auto_mapper/builder.dart"
@@ -7,5 +13,4 @@ builders:
     build_to: cache
     applies_builders: ["source_gen|combining_builder"]
 
-  #  applies_builders: ["source_gen|combining_builder"]
    # required_inputs: [".g.dart"]

@@ -37,15 +37,28 @@ critical:
     - [ ] list
     - [ ] set
     - [ ] map
-- [ ] complex types
+- [x] complex/nested types
 - [x] renaming
 - [ ] custom mapping
 - [x] when null default
 - [ ] positional parameters
 - [ ] named parameters
 - [ ] setters
+- [x] selecting constructor
 - [ ] member name doesn't match constructor argument name
-- [ ] selecting constructor
+  - [ ] mapping constructor parameters that are not `this.xx` and have `...get xx...` are handled correctly. 
+```dart
+class Source {
+  final int a;
+  Source(this.a);
+}
+class Target {
+  final int _a;
+  int get a => _a;
+  Target(int a) : _a = a;
+}
+```
+
 
 nice to have:
 

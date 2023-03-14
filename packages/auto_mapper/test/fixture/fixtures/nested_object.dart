@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../nested_object.dart';
+part of '../nested.dart';
 
 // **************************************************************************
 // AutoMapperGenerator
@@ -13,21 +13,16 @@ class $ExampleMapper {
   }
 
   R _convert<I, R>(I model) {
-    if ((_typeOf<I>() == _typeOf<UserDto>() ||
-            _typeOf<I>() == _typeOf<UserDto?>()) &&
+    if ((_typeOf<I>() == _typeOf<UserDto>() || _typeOf<I>() == _typeOf<UserDto?>()) &&
         (_typeOf<R>() == _typeOf<User>() || _typeOf<R>() == _typeOf<User?>())) {
       return (_mapUserDtoToUser((model as UserDto)) as R);
     }
-    if ((_typeOf<I>() == _typeOf<NestedDto>() ||
-            _typeOf<I>() == _typeOf<NestedDto?>()) &&
-        (_typeOf<R>() == _typeOf<Nested>() ||
-            _typeOf<R>() == _typeOf<Nested?>())) {
+    if ((_typeOf<I>() == _typeOf<NestedDto>() || _typeOf<I>() == _typeOf<NestedDto?>()) &&
+        (_typeOf<R>() == _typeOf<Nested>() || _typeOf<R>() == _typeOf<Nested?>())) {
       return (_mapNestedDtoToNested((model as NestedDto)) as R);
     }
-    if ((_typeOf<I>() == _typeOf<NestedTagDto>() ||
-            _typeOf<I>() == _typeOf<NestedTagDto?>()) &&
-        (_typeOf<R>() == _typeOf<NestedTag>() ||
-            _typeOf<R>() == _typeOf<NestedTag?>())) {
+    if ((_typeOf<I>() == _typeOf<NestedTagDto>() || _typeOf<I>() == _typeOf<NestedTagDto?>()) &&
+        (_typeOf<R>() == _typeOf<NestedTag>() || _typeOf<R>() == _typeOf<NestedTag?>())) {
       return (_mapNestedTagDtoToNestedTag((model as NestedTagDto)) as R);
     }
     throw Exception('No mapping from ${model.runtimeType} -> ${_typeOf<R>()}');

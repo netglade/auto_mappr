@@ -35,6 +35,7 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
 
       final mappings = mapper.getField('mappings')?.toListValue();
       final whenNullDefault = mapper.getField('whenNullDefault')?.toFunctionValue();
+      final constructor = mapper.getField('constructor')?.toStringValue();
 
       final memberMappings = mappings?.map((mapping) {
         return MemberMapping(
@@ -51,6 +52,7 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
         target: targetType,
         mappings: memberMappings,
         whenNullDefault: whenNullDefault,
+        constructor: constructor,
       );
     }).toList();
 

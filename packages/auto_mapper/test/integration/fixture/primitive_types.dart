@@ -1,6 +1,6 @@
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 
-part 'fixtures/primitive_types.dart';
+part 'primitive_types.g.dart';
 
 @AutoMapper(
   mappers: [

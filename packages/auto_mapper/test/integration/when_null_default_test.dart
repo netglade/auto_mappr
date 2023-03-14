@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import '../fixture/when_null_default.dart' as fixture;
+import 'fixture/when_null_default.dart' as fixture;
 
 void main() {
   late final fixture.Mapper mapper;
