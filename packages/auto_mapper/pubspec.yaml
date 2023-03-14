@@ -10,7 +10,8 @@ environment:
   sdk: ">=2.18.7 <3.0.0"
 
 dependencies:
-  auto_mapper_annotation: ^0.1.0
+  auto_mapper_annotation:
+    path: ../auto_mapper_annotation
   analyzer: ^5.4.0
   build: ^2.3.1
   code_builder: ^4.4.0
@@ -26,7 +27,3 @@ dev_dependencies:
   source_gen_test: ^1.0.4
   test: ^1.16.0
   mocktail: ^0.3.0
-
-dependency_overrides:
-  auto_mapper_annotation:
-    path: ../auto_mapper_annotation
