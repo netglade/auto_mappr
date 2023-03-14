@@ -39,11 +39,11 @@ critical:
     - [ ] map
 - [x] complex/nested types
 - [x] renaming
-- [ ] custom mapping
+- [ ]? custom mapping
 - [x] when null default
-- [ ] positional parameters
-- [ ] named parameters
-- [ ] setters
+- [ ]? positional parameters
+- [ ]? named parameters
+- [ ]? setters
 - [x] selecting constructor
 - [ ] member name doesn't match constructor argument name
   - [ ] mapping constructor parameters that are not `this.xx` and have `...get xx...` are handled correctly. 
@@ -59,13 +59,13 @@ class Target {
 }
 ```
 
-
 nice to have:
 
-- [ ] factory constructors
+- [ ] improved better-fitted constructor selector (factory constructors etc.)
 - [ ] enum type
 - [ ] flattening
 - [ ] reverse mapping
+- [ ] implicit mappings of nested
 
 ## Get started
 
