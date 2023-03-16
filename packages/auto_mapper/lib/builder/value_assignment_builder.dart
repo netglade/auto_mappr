@@ -20,17 +20,17 @@ class ValueAssignmentBuilder {
 
   Expression build() {
     if (assignment.sourceField == null) {
-      if (assignment.memberMapping != null && assignment.memberMapping!.canBeApplied(assignment)) {
-        return assignment.memberMapping!.apply(assignment);
+      if (assignment.fieldMapping != null && assignment.fieldMapping!.canBeApplied(assignment)) {
+        return assignment.fieldMapping!.apply(assignment);
       }
 
       return assignment.getDefaultValue();
     }
 
-    final memberMapping = assignment.memberMapping;
+    final fieldMapping = assignment.fieldMapping;
 
-    if (memberMapping != null && memberMapping.canBeApplied(assignment)) {
-      return memberMapping.apply(assignment);
+    if (fieldMapping != null && fieldMapping.canBeApplied(assignment)) {
+      return fieldMapping.apply(assignment);
     }
 
     //todo support Map and Set
@@ -53,8 +53,8 @@ class ValueAssignmentBuilder {
 
     final x = refer('model').property(assignment.sourceField!.name);
 
-    if (memberMapping?.hasWhenNullDefault() ?? false) {
-      return x.ifNullThen(memberMapping!.whenNullExpression!);
+    if (fieldMapping?.hasWhenNullDefault() ?? false) {
+      return x.ifNullThen(fieldMapping!.whenNullExpression!);
     }
 
     return x;
@@ -175,10 +175,10 @@ class ValueAssignmentBuilder {
     ).asA(refer(target.getDisplayString(withNullability: true)));
 
     // IF source == null and target not nullable -> use whenNullDefault if possible
-    final memberMapping = mapping.tryGetFieldMapping(assignment.targetName);
-    if (source.nullabilitySuffix == NullabilitySuffix.question && (memberMapping?.hasWhenNullDefault() ?? false)) {
+    final fieldMapping = mapping.tryGetFieldMapping(assignment.targetName);
+    if (source.nullabilitySuffix == NullabilitySuffix.question && (fieldMapping?.hasWhenNullDefault() ?? false)) {
       return refer('model').property(assignment.sourceField!.displayName).equalTo(refer('null')).conditional(
-            memberMapping!.whenNullExpression!,
+            fieldMapping!.whenNullExpression!,
             convertCallExpr,
           );
     }

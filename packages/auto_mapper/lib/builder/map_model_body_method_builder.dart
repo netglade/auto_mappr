@@ -70,16 +70,16 @@ class MapModelBodyMethodBuilder {
     return block.build();
   }
 
-  void _assertParamMemberCanBeIgnored(ParameterElement param, FieldElement sourceField) {
+  void _assertParamFieldCanBeIgnored(ParameterElement param, FieldElement sourceField) {
     final sourceFieldName = sourceField.getDisplayString(withNullability: true);
     if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
       throw InvalidGenerationSourceError(
-          "Can't ignore member '${sourceFieldName}' as it is positional not-nullable parameter");
+          "Can't ignore field '${sourceFieldName}' as it is positional not-nullable parameter");
     }
 
     if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
       throw InvalidGenerationSourceError(
-          "Can't ignore member '${sourceFieldName}' as it is required named not-nullable parameter");
+          "Can't ignore field '${sourceFieldName}' as it is required named not-nullable parameter");
     }
   }
 
@@ -119,26 +119,26 @@ class MapModelBodyMethodBuilder {
       final paramPosition = param.isPositional ? i : null;
       final constructorAssignment = ConstructorAssignment(param: param, position: paramPosition);
 
-      final memberMapping = mapping.tryGetFieldMapping(param.name);
+      final fieldMapping = mapping.tryGetFieldMapping(param.name);
 
       // Handles renaming.
-      final from = memberMapping?.from;
+      final from = fieldMapping?.from;
       final sourceFieldName = from ?? param.name;
 
       // Custom mapping has precedence.
-      if (memberMapping?.hasCustomMapping() ?? false) {
+      if (fieldMapping?.hasCustomMapping() ?? false) {
         final targetField =
-            targetClass.fields.firstWhere((targetField) => targetField.displayName == memberMapping!.member);
+            targetClass.fields.firstWhere((targetField) => targetField.displayName == fieldMapping!.field);
 
         if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
-          _assertParamMemberCanBeIgnored(param, targetField);
+          _assertParamFieldCanBeIgnored(param, targetField);
         }
 
         final sourceAssignment = SourceAssignment(
           sourceField: null,
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
-          memberMapping: mapping.tryGetFieldMapping(targetField.displayName),
+          fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -149,20 +149,20 @@ class MapModelBodyMethodBuilder {
         final sourceField = sourceFields[sourceFieldName]!;
 
         final targetField = from != null
-            // support custom member rename mapping
-            ? targetClass.fields.firstWhere((targetField) => targetField.displayName == memberMapping!.member)
+            // support custom field rename mapping
+            ? targetClass.fields.firstWhere((targetField) => targetField.displayName == fieldMapping!.field)
             // find target field based on matching source field
             : targetClass.fields.firstWhere((targetField) => targetField.displayName == sourceField.displayName);
 
         if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
-          _assertParamMemberCanBeIgnored(param, sourceField);
+          _assertParamFieldCanBeIgnored(param, sourceField);
         }
 
         final sourceAssignment = SourceAssignment(
           sourceField: sourceFields[sourceFieldName]!,
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
-          memberMapping: mapping.tryGetFieldMapping(targetField.displayName),
+          fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -176,9 +176,9 @@ class MapModelBodyMethodBuilder {
         final targetField =
             targetClass.fields.firstWhereOrNull((targetField) => targetField.displayName == param.displayName);
 
-        final memberMapping = mapping.tryGetFieldMapping(param.displayName);
+        final fieldMapping = mapping.tryGetFieldMapping(param.displayName);
 
-        if (targetField == null && memberMapping == null) {
+        if (targetField == null && fieldMapping == null) {
           throw InvalidGenerationSourceError(
               "Can't find mapping for target's constructor parameter: ${param.displayName}. Parameter is required and no mapping or target's class field not found");
         }
@@ -187,7 +187,7 @@ class MapModelBodyMethodBuilder {
           SourceAssignment(
             sourceField: null,
             targetField: targetField,
-            memberMapping: memberMapping,
+            fieldMapping: fieldMapping,
             targetConstructorParam: constructorAssignment,
           ),
         );

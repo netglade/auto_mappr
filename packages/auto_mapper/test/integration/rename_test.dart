@@ -13,7 +13,7 @@ void main() {
     'same',
     () {
       test(
-        'Renamed members with the same name when using positional parameters',
+        'Renamed fields with the same name when using positional parameters',
         () {
           final dto = fixture.SamePositionalDto(123, 'test');
           final converted = mapper.convert<fixture.SamePositionalDto, fixture.SamePositional>(dto);
@@ -26,7 +26,7 @@ void main() {
       );
 
       test(
-        'Renamed members with the same name when using named parameters',
+        'Renamed fields with the same name when using named parameters',
         () {
           final dto = fixture.SameNamedDto(id: 123, name: 'test');
           final converted = mapper.convert<fixture.SameNamedDto, fixture.SameNamed>(dto);

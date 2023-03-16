@@ -34,13 +34,13 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
       final sourceType = mapperType.typeArguments.first;
       final targetType = mapperType.typeArguments[1];
 
-      final fieldMappings = mapper.getField('fields')?.toListValue();
+      final fields = mapper.getField('fields')?.toListValue();
       final whenSourceIsNull = mapper.getField('whenSourceIsNull')?.toCodeExpression();
       final constructor = mapper.getField('constructor')?.toStringValue();
 
-      final memberMappings = fieldMappings
+      final fieldMappings = fields
           ?.map((fieldMapping) => FieldMapping(
-                member: fieldMapping.getField('member')!.toStringValue()!,
+                field: fieldMapping.getField('field')!.toStringValue()!,
                 ignore: fieldMapping.getField('ignore')!.toBoolValue()!,
                 from: fieldMapping.getField('from')!.toStringValue(),
                 customExpression: fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true),
@@ -51,7 +51,7 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
       return TypeMapping(
         source: sourceType,
         target: targetType,
-        fieldMappings: memberMappings,
+        fieldMappings: fieldMappings,
         whenSourceIsNullExpression: whenSourceIsNull,
         constructor: constructor,
       );

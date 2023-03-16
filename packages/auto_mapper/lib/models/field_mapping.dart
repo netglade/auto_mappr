@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:source_gen/source_gen.dart';
 
 class FieldMapping extends Equatable {
-  final String member;
+  final String field;
   final bool ignore;
   final String? from;
   final Expression? customExpression;
@@ -12,7 +12,7 @@ class FieldMapping extends Equatable {
 
   @override
   List<Object?> get props => [
-        member,
+        field,
         ignore,
         from,
         customExpression,
@@ -20,7 +20,7 @@ class FieldMapping extends Equatable {
       ];
 
   const FieldMapping({
-    required this.member,
+    required this.field,
     required this.ignore,
     this.from,
     this.customExpression,
@@ -79,7 +79,7 @@ class FieldMapping extends Equatable {
     // }
 
     throw InvalidGenerationSourceError(
-      'MemberMapping for member "${member}" from ${assignment} has ignore=false and target=null',
+      'FieldMapping for field "${field}" from ${assignment} has ignore=false and target=null',
       todo: 'Set ignore=true or define custom mapping',
     );
   }

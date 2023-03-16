@@ -24,9 +24,9 @@ class SourceAssignment {
   final FieldElement? sourceField;
   final ConstructorAssignment? targetConstructorParam;
   final FieldElement? targetField;
-  final FieldMapping? memberMapping;
+  final FieldMapping? fieldMapping;
 
-  bool get shouldBeIgnored => memberMapping?.ignore ?? false;
+  bool get shouldBeIgnored => fieldMapping?.ignore ?? false;
 
   NullabilitySuffix get targetNullability => targetType.nullabilitySuffix;
 
@@ -38,7 +38,7 @@ class SourceAssignment {
     required this.sourceField,
     required this.targetField,
     this.targetConstructorParam,
-    this.memberMapping,
+    this.fieldMapping,
   });
 
   //todo (tests)

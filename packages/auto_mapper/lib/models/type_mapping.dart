@@ -42,13 +42,13 @@ class TypeMapping extends Equatable {
 
   String targetName({bool withNullability = false}) => target.getDisplayString(withNullability: withNullability);
 
-  bool hasFieldMapping(String member) => fieldMappings?.any((x) => x.member == member) ?? false;
+  bool hasFieldMapping(String field) => fieldMappings?.any((x) => x.field == field) ?? false;
 
-  FieldMapping getFieldMapping(String member) => fieldMappings!.firstWhere((x) => x.member == member);
+  FieldMapping getFieldMapping(String field) => fieldMappings!.firstWhere((x) => x.field == field);
 
-  FieldMapping? tryGetFieldMapping(String member) => fieldMappings?.firstWhereOrNull((x) => x.member == member);
+  FieldMapping? tryGetFieldMapping(String field) => fieldMappings?.firstWhereOrNull((x) => x.field == field);
 
-  bool fieldShouldBeIgnored(String member) => hasFieldMapping(member) && getFieldMapping(member).ignore;
+  bool fieldShouldBeIgnored(String field) => hasFieldMapping(field) && getFieldMapping(field).ignore;
 
   @override
   String toString() {

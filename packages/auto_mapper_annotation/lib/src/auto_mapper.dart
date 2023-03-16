@@ -11,7 +11,7 @@ class AutoMapper {
 
 /// Configured mapping from SOURCE to TARGET.
 class MapType<SOURCE, TARGET> {
-  /// Configuration for TARGET's members.
+  /// Configuration for TARGET's fields.
   final List<Field<SOURCE>> fields;
 
   /// Provides default value if SOURCE is null.
@@ -34,14 +34,14 @@ class MapType<SOURCE, TARGET> {
   });
 }
 
-/// Mapping configuration for concrete member of target class.
+/// Mapping configuration for concrete field of target class.
 class Field<SOURCE> {
-  /// Which member is mapped.
+  /// Which field is mapped.
   ///
   /// It should be either name of TARGET's field OR name of TARGET's constructor.
-  final String member;
+  final String field;
 
-  /// Custom function mapping for given [member].
+  /// Custom function mapping for given [field].
   ///
   /// Accepts `Target Function(Source dto)` or `const Target`.
   // ignore: no-object-declaration, is correct
@@ -53,19 +53,19 @@ class Field<SOURCE> {
   // ignore: no-object-declaration, is correct
   final Object? whenNull;
 
-  /// Given [member] should be ignored.
+  /// Given [field] should be ignored.
   ///
-  /// Note that if [member] is required (or non-nullable) it is considered as error.
+  /// Note that if [field] is required (or non-nullable) it is considered as error.
   final bool ignore;
 
-  /// Given [member] should be mapped from [from].
+  /// Given [field] should be mapped from [from].
   ///
   /// Note that [custom] has priority.
   final String? from;
 
-  /// Constructs member mapping.
+  /// Constructs field mapping.
   const Field(
-    this.member, {
+    this.field, {
     this.custom,
     this.from,
     this.ignore = false,
