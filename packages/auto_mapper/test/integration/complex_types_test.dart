@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'fixture/nested.dart' as fixture;
+import 'fixture/complex_types.dart' as fixture;
 
 void main() {
   late final fixture.Mapper mapper;
@@ -10,7 +10,7 @@ void main() {
   });
 
   test(
-    'converting nested objects works',
+    'converting nested objects',
     () {
       final dto = fixture.UserDto(
         id: 123,

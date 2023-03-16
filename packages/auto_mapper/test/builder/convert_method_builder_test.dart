@@ -1,5 +1,6 @@
 import 'package:auto_mapper/builder/convert_method_builder.dart';
 import 'package:auto_mapper/models/auto_mapper_config.dart';
+import 'package:auto_mapper/models/reference_extension.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:test/test.dart';
 
@@ -18,7 +19,7 @@ void main() {
         Parameter(
           (p) => p
             ..name = 'model'
-            ..type = result.types.first,
+            ..type = result.types.first.nullabled,
         ),
       ]);
     },
@@ -40,7 +41,7 @@ void main() {
         Parameter(
           (p) => p
             ..name = 'model'
-            ..type = result.types.first,
+            ..type = result.types.first.nullabled,
         ),
       ]);
     },

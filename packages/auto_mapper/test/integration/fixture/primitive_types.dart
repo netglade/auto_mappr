@@ -2,16 +2,14 @@ import 'package:auto_mapper_annotation/auto_mapper.dart';
 
 part 'primitive_types.g.dart';
 
-@AutoMapper(
-  mappers: [
-    AutoMap<NumHolderDto, NumHolder>(),
-    AutoMap<IntHolderDto, IntHolder>(),
-    AutoMap<DoubleHolderDto, DoubleHolder>(),
-    AutoMap<StringHolderDto, StringHolder>(),
-    AutoMap<BoolHolderDto, BoolHolder>(),
-    AutoMap<EnumHolderDto, EnumHolder>(),
-  ],
-)
+@AutoMapper([
+  MapType<NumHolderDto, NumHolder>(),
+  MapType<IntHolderDto, IntHolder>(),
+  MapType<DoubleHolderDto, DoubleHolder>(),
+  MapType<StringHolderDto, StringHolder>(),
+  MapType<BoolHolderDto, BoolHolder>(),
+  MapType<EnumHolderDto, EnumHolder>(),
+])
 class Mapper extends $Mapper {}
 
 class NumHolder {

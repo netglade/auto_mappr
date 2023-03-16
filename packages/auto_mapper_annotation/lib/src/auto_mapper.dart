@@ -1,27 +1,24 @@
-//ignore_for_file: avoid-dynamic
+// ignore_for_file: avoid-dynamic
 
 /// Annotates class which will be used as base for generated mapper.
 class AutoMapper {
   ///
-  final List<AutoMap<dynamic, dynamic>> mappers;
+  final List<MapType<Object?, Object?>> mappers;
 
   /// Constructs AutoMapper.
-  const AutoMapper({
-    this.mappers = const [],
-  });
+  const AutoMapper(this.mappers);
 }
 
-/// Const for AutoMapper annotation.
-// ignore: prefer-static-class, it is annotation
-const mapper = AutoMapper();
-
 /// Configured mapping from SOURCE to TARGET.
-class AutoMap<SOURCE, TARGET> {
+class MapType<SOURCE, TARGET> {
   /// Configuration for TARGET's members.
-  final List<MapMember<SOURCE>> mappings;
+  final List<Field<SOURCE>> fields;
 
   /// Provides default value if SOURCE is null.
-  final TARGET Function()? whenNullDefault;
+  ///
+  /// Accepts `Target Function()` or `const Target`.
+  // ignore: no-object-declaration, is correct
+  final Object? whenSourceIsNull;
 
   /// Selects constructor or factory constructor by name.
   ///
@@ -30,25 +27,31 @@ class AutoMap<SOURCE, TARGET> {
   final String? constructor;
 
   /// Constructs mapping.
-  const AutoMap({
-    this.mappings = const [],
-    this.whenNullDefault,
+  const MapType({
+    this.fields = const [],
+    this.whenSourceIsNull,
     this.constructor,
   });
 }
 
 /// Mapping configuration for concrete member of target class.
-class MapMember<SOURCE> {
+class Field<SOURCE> {
   /// Which member is mapped.
   ///
   /// It should be either name of TARGET's field OR name of TARGET's constructor.
   final String member;
 
   /// Custom function mapping for given [member].
-  final dynamic Function(SOURCE? from)? custom;
+  ///
+  /// Accepts `Target Function(Source dto)` or `const Target`.
+  // ignore: no-object-declaration, is correct
+  final Object? custom;
 
   /// Provides default value if SOURCE is null.
-  final dynamic Function()? whenNullDefault;
+  ///
+  /// Accepts `Target Function()` or `const Target`.
+  // ignore: no-object-declaration, is correct
+  final Object? whenNull;
 
   /// Given [member] should be ignored.
   ///
@@ -61,11 +64,11 @@ class MapMember<SOURCE> {
   final String? from;
 
   /// Constructs member mapping.
-  const MapMember({
-    required this.member,
+  const Field(
+    this.member, {
     this.custom,
     this.from,
     this.ignore = false,
-    this.whenNullDefault,
+    this.whenNull,
   });
 }

@@ -1,14 +1,19 @@
+import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mapper/models/auto_mapper_config.dart';
 import 'package:code_builder/code_builder.dart';
 
-import '../models/auto_map_part.dart';
+import '../models/type_mapping.dart';
 
 /// Builds main `convert` method
 class ConvertMethodBuilder {
   static const sourceKey = 'SOURCE';
   static const sourceTypeReference = Reference(sourceKey);
+  static const nullableSourceTypeReference = Reference('$sourceKey?');
   static const targetKey = 'TARGET';
   static const targetTypeReference = Reference(targetKey);
+
+  static String concreteConvertMethodName(DartType source, DartType target) =>
+      '_map${source.getDisplayString(withNullability: false)}To${target.getDisplayString(withNullability: false)}';
 
   static Method buildCanConvert(AutoMapperConfig config) {
     return Method((b) => b
@@ -27,7 +32,7 @@ class ConvertMethodBuilder {
           Parameter(
             (p) => p
               ..name = 'model'
-              ..type = sourceTypeReference,
+              ..type = nullableSourceTypeReference,
           ),
         )
         ..returns = targetTypeReference
@@ -41,9 +46,11 @@ class ConvertMethodBuilder {
       ..name = '_convert'
       ..types.addAll([sourceTypeReference, targetTypeReference])
       ..requiredParameters.add(
-        Parameter((p) => p
-          ..name = 'model'
-          ..type = sourceTypeReference),
+        Parameter(
+          (p) => p
+            ..name = 'model'
+            ..type = nullableSourceTypeReference,
+        ),
       )
       ..optionalParameters.add(
         Parameter(
@@ -69,7 +76,7 @@ class ConvertMethodBuilder {
     );
   }
 
-  static Code? _buildConvertMethodBody(List<AutoMapPart> mappings) {
+  static Code? _buildConvertMethodBody(List<TypeMapping> mappings) {
     final block = BlockBuilder();
 
     final dartEmitter = DartEmitter();
@@ -112,7 +119,7 @@ class ConvertMethodBuilder {
     return block.build();
   }
 
-  static Code? _buildCanConvertBody(List<AutoMapPart> mappings) {
+  static Code? _buildCanConvertBody(List<TypeMapping> mappings) {
     final block = BlockBuilder();
 
     final dartEmitter = DartEmitter();

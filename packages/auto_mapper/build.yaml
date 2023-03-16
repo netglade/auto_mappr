@@ -1,11 +1,11 @@
 targets:
   $default:
     builders:
-      auto_mapper:auto_mapper:
+      auto_mapper:
         enabled: true
 
 builders:
-  auto_mapper:
+  auto_mapper:auto_mapper:
     import: "package:auto_mapper/builder.dart"
     builder_factories: ["autoMapperBuilder"]
     build_extensions: { ".dart": [".auto_mapper.g.part"] }

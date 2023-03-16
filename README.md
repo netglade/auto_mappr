@@ -26,9 +26,14 @@ without need to write these mapping by hand.
 | Package                                                  | Pub                                                                                                    |
 |----------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | [auto_mapper](packages/auto_mapper)                      | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                                  |
-| [auto_mapper_anotation](packages/auto_mapper_annotation) | [![auto_mapper_annotation package][auto_mapper_annotation_pub_badge]][auto_mapper_annotation_pub_link] |
+| [auto_mapper_annotation](packages/auto_mapper_annotation) | [![auto_mapper_annotation package][auto_mapper_annotation_pub_badge]][auto_mapper_annotation_pub_link] |
 
 ## Features
+
+todos:
+
+- [ ] log.warning when mapping unknown target field
+- [x] concrete convert method calls 
 
 critical:
 
@@ -39,11 +44,11 @@ critical:
     - [ ] map
 - [x] complex/nested types
 - [x] renaming
-- [ ]? custom mapping
-- [x] when null default
-- [ ]? positional parameters
-- [ ]? named parameters
-- [ ]? setters
+- [x] custom mapping - functions or const values
+- [x] when null default - field
+- [x] when null default - target
+- [ ]? constructor parameters (positional, named)
+- [ ]? setters (when not set in constructor and if not final)
 - [x] selecting constructor
 - [ ] member name doesn't match constructor argument name
   - [ ] mapping constructor parameters that are not `this.xx` and have `...get xx...` are handled correctly. 
@@ -87,7 +92,7 @@ dependencies:
 Define you mapper
 
 ```dart
-@AutoMapper(mappers: [
+@AutoMapper([
   AutoMap<UserDto, User>(),
   AutoMap<CompanyDto, CompanyAddress>(),
 ])
@@ -128,17 +133,15 @@ You can set these properties on each AutoMap:
 For each mapped member you can specify how it should be mapped. For example:
 
 ```dart
-@AutoMapper(
-  mappers: [
-    AutoMap<UserDto, User>(
-      mappings: [
-        MapMember(member: 'name', target: Mapper.mapName),
-        MapMember(member: 'age', target: mapAge),
-        MapMember(member: 'tag', ignore: true)
-      ],
-    ),
-  ],
-)
+@AutoMapper([
+  MapType<UserDto, User>(
+    mappings: [
+      Field('name', target: Mapper.mapName),
+      Field('age', target: mapAge),
+      Field('tag', ignore: true)
+    ],
+  ),
+])
 class Mapper extends $Mapper {
   static String mapName(UserDto from) => from.name.toUpperCase();
 }

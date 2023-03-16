@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 
 part 'debug.g.dart';
 
-@AutoMapper(mappers: [
-  AutoMap<TestDto, Test>(
+@AutoMapper([
+  MapType<TestDto, Test>(
     constructor: 'asasd',
   ),
 ])

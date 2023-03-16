@@ -1,5 +1,7 @@
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mapper/builder/convert_method_builder.dart';
+import 'package:auto_mapper/models/dart_type_extension.dart';
 import 'package:auto_mapper/models/models.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
@@ -7,7 +9,7 @@ import 'package:source_gen/source_gen.dart';
 
 class ValueAssignmentBuilder {
   final AutoMapperConfig mapperConfig;
-  final AutoMapPart mapping;
+  final TypeMapping mapping;
   final SourceAssignment assignment;
 
   ValueAssignmentBuilder({
@@ -18,9 +20,7 @@ class ValueAssignmentBuilder {
 
   Expression build() {
     if (assignment.sourceField == null) {
-      if (assignment.memberMapping != null &&
-          assignment.memberMapping!.custom != null &&
-          assignment.memberMapping!.canBeApplied(assignment)) {
+      if (assignment.memberMapping != null && assignment.memberMapping!.canBeApplied(assignment)) {
         return assignment.memberMapping!.apply(assignment);
       }
 
@@ -51,33 +51,27 @@ class ValueAssignmentBuilder {
       );
     }
 
-    final hasDefaultValue = memberMapping?.whenNullDefault?.referCallString != null;
-
-    // TODO: if whenNullDefault was used and the member is nullable, use nullAware
     final x = refer('model').property(assignment.sourceField!.name);
 
-    if (hasDefaultValue) {
-      return x.ifNullThen(refer(memberMapping!.whenNullDefault!.referCallString)).call([]);
+    if (memberMapping?.hasWhenNullDefault() ?? false) {
+      return x.ifNullThen(memberMapping!.whenNullExpression!);
     }
 
     return x;
   }
 
-  //todo tests
   Expression _assignListValue(SourceAssignment assignment) {
     final sourceType = assignment.sourceField!.type;
     final targetType = assignment.targetType;
     final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
     final targetNullable = assignment.targetNullability == NullabilitySuffix.question;
 
-    print('S: $sourceNullable, T: $targetNullable');
-
     final targetListType = (assignment.targetType as ParameterizedType).typeArguments.first;
     final sourceListType = (sourceType as ParameterizedType).typeArguments.first;
     final assignNestedObject = !targetListType.isPrimitiveType && (targetListType != sourceListType);
 
     final sourceListExpr = refer('model').property(assignment.sourceField!.name);
-    final defaultListValueExpr = refer('<${targetListType.getDisplayString(withNullability: true)}>[]');
+    final defaultListValueExpr = literalList([], refer(targetListType.getDisplayString(withNullability: true)));
 
     if (!targetNullable && !sourceNullable) {
       if (assignNestedObject)
@@ -169,7 +163,7 @@ class ValueAssignmentBuilder {
       );
     }
 
-    final convertCallExpr = refer('_convert').call(
+    final convertCallExpr = refer(ConvertMethodBuilder.concreteConvertMethodName(source, target)).call(
       [convertMethodArg],
       {'canReturnNull': refer(target.nullabilitySuffix == NullabilitySuffix.question ? 'true' : 'false')},
       includeGenericTypes
@@ -178,13 +172,13 @@ class ValueAssignmentBuilder {
               refer(target.getDisplayString(withNullability: true)),
             ]
           : [],
-    );
+    ).asA(refer(target.getDisplayString(withNullability: true)));
 
     // IF source == null and target not nullable -> use whenNullDefault if possible
-    final memberMapping = mapping.tryGetMapping(assignment.targetName);
-    if (source.nullabilitySuffix == NullabilitySuffix.question && memberMapping?.whenNullDefault != null) {
+    final memberMapping = mapping.tryGetFieldMapping(assignment.targetName);
+    if (source.nullabilitySuffix == NullabilitySuffix.question && (memberMapping?.hasWhenNullDefault() ?? false)) {
       return refer('model').property(assignment.sourceField!.displayName).equalTo(refer('null')).conditional(
-            refer(memberMapping!.whenNullDefault!.referCallString).call([]),
+            memberMapping!.whenNullExpression!,
             convertCallExpr,
           );
     }

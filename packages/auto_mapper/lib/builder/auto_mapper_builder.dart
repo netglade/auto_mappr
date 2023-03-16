@@ -55,11 +55,13 @@ class AutoMapperBuilder {
               )
             ])
             ..optionalParameters.addAll([
-              Parameter((p) => p
-                ..name = 'canReturnNull'
-                ..named = true
-                ..type = refer('bool')
-                ..required = true)
+              Parameter(
+                (p) => p
+                  ..name = 'canReturnNull'
+                  ..named = true
+                  ..type = refer('bool')
+                  ..required = true,
+              )
             ])
             ..returns = refer('${mapping.target.getDisplayString(withNullability: false)}?')
             ..body = MapModelBodyMethodBuilder(mapping: mapping, mapperConfig: config).build(),

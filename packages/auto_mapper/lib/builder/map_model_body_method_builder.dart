@@ -25,7 +25,7 @@ import '../models/models.dart';
   */
 class MapModelBodyMethodBuilder {
   final AutoMapperConfig mapperConfig;
-  final AutoMapPart mapping;
+  final TypeMapping mapping;
 
   MapModelBodyMethodBuilder({
     required this.mapperConfig,
@@ -57,18 +57,18 @@ class MapModelBodyMethodBuilder {
       final paramPosition = param.isPositional ? i : null;
       final constructorAssignment = ConstructorAssignment(param: param, position: paramPosition);
 
-      final memberMapping = mapping.tryGetMapping(param.name);
+      final memberMapping = mapping.tryGetFieldMapping(param.name);
 
       // Handles renaming.
       final from = memberMapping?.from;
       final sourceFieldName = from ?? param.name;
 
       // Custom mapping has precedence.
-      if (memberMapping?.custom != null) {
+      if (memberMapping?.hasCustomMapping() ?? false) {
         final targetField =
             targetClass.fields.firstWhere((targetField) => targetField.displayName == memberMapping!.member);
 
-        if (mapping.memberShouldBeIgnored(targetField.displayName)) {
+        if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
           _assertParamMemberCanBeIgnored(param, targetField);
         }
 
@@ -76,7 +76,7 @@ class MapModelBodyMethodBuilder {
           sourceField: null,
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
-          memberMapping: mapping.tryGetMapping(targetField.displayName),
+          memberMapping: mapping.tryGetFieldMapping(targetField.displayName),
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -92,7 +92,7 @@ class MapModelBodyMethodBuilder {
             // find target field based on matching source field
             : targetClass.fields.firstWhere((targetField) => targetField.displayName == sourceField.displayName);
 
-        if (mapping.memberShouldBeIgnored(targetField.displayName)) {
+        if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
           _assertParamMemberCanBeIgnored(param, sourceField);
         }
 
@@ -100,20 +100,21 @@ class MapModelBodyMethodBuilder {
           sourceField: sourceFields[sourceFieldName]!,
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
-          memberMapping: mapping.tryGetMapping(targetField.displayName),
+          memberMapping: mapping.tryGetFieldMapping(targetField.displayName),
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
         mappedSourceFieldNames.add(param.name);
       } else {
-        print("NOT FOUND $param");
+        log.warning("NOT FOUND parameter $param");
+
         // If not mapped constructor param is optional - skip it
         if (param.isOptional) continue;
 
         final targetField =
             targetClass.fields.firstWhereOrNull((targetField) => targetField.displayName == param.displayName);
 
-        final memberMapping = mapping.tryGetMapping(param.displayName);
+        final memberMapping = mapping.tryGetFieldMapping(param.displayName);
 
         if (targetField == null && memberMapping == null) {
           throw InvalidGenerationSourceError(
@@ -203,6 +204,7 @@ class MapModelBodyMethodBuilder {
   ) {
     bool filterField(FieldElement field) =>
         targetClass.fields.any((element) => element.displayName == field.displayName && !element.isFinal);
+    // TODO: check isPrivate
 
     final potentialSetterFields = sourceFields.keys.where((field) => !alreadyMapped.contains(field)).toList();
     final fields =
@@ -212,7 +214,7 @@ class MapModelBodyMethodBuilder {
       final targetField = targetClass.fields.firstWhere((field) => field.displayName == sourceField.displayName);
 
       // Source.X has ignore:true -> skip
-      if (mapping.memberShouldBeIgnored(sourceField.displayName)) continue;
+      if (mapping.fieldShouldBeIgnored(sourceField.displayName)) continue;
 
       // assign result.X = model.X
       final expr = refer('result').property(sourceField.displayName).assign(
@@ -236,15 +238,25 @@ class MapModelBodyMethodBuilder {
     required List<SourceAssignment> named,
   }) {
     return declareFinal('result')
-        .assign(refer(targetConstructor.displayName).newInstance(
-          positional.map((assignment) =>
-              ValueAssignmentBuilder(mapperConfig: mapperConfig, mapping: mapping, assignment: assignment).build()),
-          {
-            for (final assignment in named)
-              assignment.targetConstructorParam!.param.name:
-                  ValueAssignmentBuilder(mapperConfig: mapperConfig, mapping: mapping, assignment: assignment).build(),
-          },
-        ))
+        .assign(
+          refer(targetConstructor.displayName).newInstance(
+            positional.map(
+              (assignment) => ValueAssignmentBuilder(
+                mapperConfig: mapperConfig,
+                mapping: mapping,
+                assignment: assignment,
+              ).build(),
+            ),
+            {
+              for (final assignment in named)
+                assignment.targetConstructorParam!.param.name: ValueAssignmentBuilder(
+                  mapperConfig: mapperConfig,
+                  mapping: mapping,
+                  assignment: assignment,
+                ).build(),
+            },
+          ),
+        )
         .statement;
   }
 
@@ -276,13 +288,11 @@ class MapModelBodyMethodBuilder {
     // if (model == null)
     final ifConditionExp = refer('model').equalTo(refer('null')).accept(DartEmitter());
     // Eg. when static class is used => Static.mapFrom()
-    if (mapping.whenNullDefault != null) {
+    if (mapping.hasWhenNullDefault()) {
       // return whenNullDefault value
-      final _target = mapping.whenNullDefault!;
-      final callRefer = _target.referCallString;
-      final defaultValueCall = refer(callRefer).call([]).statement.accept(DartEmitter());
+      final _target = mapping.whenSourceIsNullExpression!;
 
-      return Code('if ($ifConditionExp) return $defaultValueCall');
+      return Code('if ($ifConditionExp) return ${_target.statement.accept(DartEmitter())}');
     } else {
       // otherwise throw exception
 

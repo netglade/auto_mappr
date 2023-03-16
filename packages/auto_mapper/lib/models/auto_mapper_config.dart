@@ -1,17 +1,19 @@
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mapper/models/auto_map_part.dart';
-import 'package:auto_mapper/models/extensions.dart';
+import 'package:auto_mapper/models/dart_type_extension.dart';
+import 'package:auto_mapper/models/type_mapping.dart';
 import 'package:collection/collection.dart';
 
-//todo (tests)
 class AutoMapperConfig {
-  final List<AutoMapPart> parts;
+  final List<TypeMapping> parts;
 
   const AutoMapperConfig({
     required this.parts,
   });
 
-  AutoMapPart? findMapping({required DartType source, required DartType target}) {
+  TypeMapping? findMapping({
+    required DartType source,
+    required DartType target,
+  }) {
     return parts.firstWhereOrNull((x) {
       if (x.source.isSameExceptNullability(source) && x.target.isSameExceptNullability(target)) return true;
 

@@ -1,7 +1,14 @@
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:equatable/equatable.dart';
 
-part 'nested.g.dart';
+part 'complex_types.g.dart';
+
+@AutoMapper([
+  MapType<UserDto, User>(),
+  MapType<NestedDto, Nested>(),
+  MapType<NestedTagDto, NestedTag>(),
+])
+class Mapper extends $Mapper {}
 
 class User extends Equatable {
   final int id;
@@ -57,17 +64,11 @@ class NestedDto {
   final String name;
   final NestedTagDto tag;
 
-  NestedDto(this.id, {
+  NestedDto(
+    this.id, {
     required this.name,
     required this.tag,
   });
 }
 
 class NestedTagDto {}
-
-@AutoMapper(mappers: [
-  AutoMap<UserDto, User>(),
-  AutoMap<NestedDto, Nested>(),
-  AutoMap<NestedTagDto, NestedTag>(),
-])
-class Mapper extends $Mapper {}

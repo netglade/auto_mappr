@@ -3,10 +3,10 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mapper/models/extensions.dart';
+import 'package:auto_mapper/models/dart_type_extension.dart';
 import 'package:code_builder/code_builder.dart';
 
-import 'member_mapping.dart';
+import 'field_mapping.dart';
 
 class ConstructorAssignment {
   final ParameterElement param;
@@ -24,7 +24,7 @@ class SourceAssignment {
   final FieldElement? sourceField;
   final ConstructorAssignment? targetConstructorParam;
   final FieldElement? targetField;
-  final MemberMapping? memberMapping;
+  final FieldMapping? memberMapping;
 
   bool get shouldBeIgnored => memberMapping?.ignore ?? false;
 
@@ -58,10 +58,11 @@ class SourceAssignment {
   }
 
   Expression getDefaultValue() {
-    if (targetType.isDartCoreList) return refer('[]');
-    if (targetType.isDartCoreSet || targetType.isDartCoreMap) return refer('{}');
+    if (targetType.isDartCoreList) return literalList([]);
+    if (targetType.isDartCoreSet) return literalSet({});
+    if (targetType.isDartCoreMap) return literalMap({});
 
-    return refer('null');
+    return literalNull;
   }
 
   bool _isCoreListLike(DartType type) {

@@ -32,7 +32,7 @@ class UserDto {
   });
 }
 
-@AutoMapper(mappers: [
-  AutoMap<UserDto, User>(),
+@AutoMapper([
+  MapType<UserDto, User>(),
 ])
 class ExampleMapper extends $ExampleMapper {}

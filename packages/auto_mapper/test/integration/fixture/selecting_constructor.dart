@@ -3,22 +3,22 @@ import 'package:equatable/equatable.dart';
 
 part 'selecting_constructor.g.dart';
 
-@AutoMapper(mappers: [
+@AutoMapper([
   // empty
-  AutoMap<TestEmptyDto, FinalTarget>(),
-  AutoMap<TestEmptyDto, NonFinalTarget>(),
+  MapType<TestEmptyDto, FinalTarget>(),
+  MapType<TestEmptyDto, NonFinalTarget>(),
   // alpha
-  AutoMap<TestAlphaDto, FinalTarget>(constructor: 'alpha'),
-  AutoMap<TestAlphaDto, NonFinalTarget>(constructor: 'alpha'),
+  MapType<TestAlphaDto, FinalTarget>(constructor: 'alpha'),
+  MapType<TestAlphaDto, NonFinalTarget>(constructor: 'alpha'),
   // beta
-  AutoMap<TestBetaDto, FinalTarget>(constructor: 'beta'),
-  AutoMap<TestBetaDto, NonFinalTarget>(constructor: 'beta'),
+  MapType<TestBetaDto, FinalTarget>(constructor: 'beta'),
+  MapType<TestBetaDto, NonFinalTarget>(constructor: 'beta'),
   // gama
-  AutoMap<TestGamaDto, FinalTarget>(constructor: 'gama'),
-  AutoMap<TestGamaDto, NonFinalTarget>(constructor: 'gama'),
+  MapType<TestGamaDto, FinalTarget>(constructor: 'gama'),
+  MapType<TestGamaDto, NonFinalTarget>(constructor: 'gama'),
   // nonsense
-  AutoMap<TestNonsenseDto, FinalTarget>(constructor: 'testtesttest'),
-  AutoMap<TestNonsenseDto, NonFinalTarget>(constructor: 'testtesttest'),
+  MapType<TestNonsenseDto, FinalTarget>(constructor: 'testtesttest'),
+  MapType<TestNonsenseDto, NonFinalTarget>(constructor: 'testtesttest'),
 ])
 class Mapper extends $Mapper {}
 

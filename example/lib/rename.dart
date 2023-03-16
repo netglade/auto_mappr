@@ -22,10 +22,10 @@ class UserDto {
   });
 }
 
-@AutoMapper(mappers: [
-  AutoMap<UserDto, User>(
-    mappings: [
-      MapMember(member: 'name', from: 'xname'),
+@AutoMapper([
+  MapType<UserDto, User>(
+    fields: [
+      Field('name', from: 'xname'),
     ],
   ),
 ])

@@ -50,13 +50,13 @@ class NestedDto {
   });
 }
 
-@AutoMapper(mappers: [
-  AutoMap<UserDto, User>(
-    mappings: [
-      MapMember(member: 'tag', whenNullDefault: ExampleMapper.defaultNested),
+@AutoMapper([
+  MapType<UserDto, User>(
+    fields: [
+      Field('tag', whenNull: ExampleMapper.defaultNested),
     ],
   ),
-  AutoMap<NestedDto, Nested>(),
+  MapType<NestedDto, Nested>(),
 ])
 class ExampleMapper extends $ExampleMapper {
   static Nested defaultNested() => Nested(id: 1, name: 'default_TAG');

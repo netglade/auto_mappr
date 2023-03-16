@@ -3,90 +3,90 @@ import 'package:equatable/equatable.dart';
 
 part 'rename.g.dart';
 
-@AutoMapper(mappers: [
+@AutoMapper([
   // nested
-  AutoMap<NestedDto, Nested>(
-    mappings: [
-      MapMember(member: 'id', from: 'idx'),
-      MapMember(member: 'name', from: 'namex'),
+  MapType<NestedDto, Nested>(
+    fields: [
+      Field('id', from: 'idx'),
+      Field('name', from: 'namex'),
     ],
   ),
-  AutoMap<NestedReversedDto, NestedReversed>(
-    mappings: [
-      MapMember(member: 'id', from: 'namex'),
-      MapMember(member: 'name', from: 'idx'),
+  MapType<NestedReversedDto, NestedReversed>(
+    fields: [
+      Field('id', from: 'namex'),
+      Field('name', from: 'idx'),
     ],
   ),
   // same
-  AutoMap<SamePositionalDto, SamePositional>(
-    mappings: [
-      MapMember(member: 'id', from: 'id'),
-      MapMember(member: 'name', from: 'name'),
+  MapType<SamePositionalDto, SamePositional>(
+    fields: [
+      Field('id', from: 'id'),
+      Field('name', from: 'name'),
     ],
   ),
-  AutoMap<SameNamedDto, SameNamed>(
-    mappings: [
-      MapMember(member: 'id', from: 'id'),
-      MapMember(member: 'name', from: 'name'),
+  MapType<SameNamedDto, SameNamed>(
+    fields: [
+      Field('id', from: 'id'),
+      Field('name', from: 'name'),
     ],
   ),
   // primitive
-  AutoMap<PrimitivePositionalDto, PrimitivePositional>(
-    mappings: [
-      MapMember(member: 'id', from: 'idx'),
+  MapType<PrimitivePositionalDto, PrimitivePositional>(
+    fields: [
+      Field('id', from: 'idx'),
     ],
   ),
-  AutoMap<PrimitiveNamedDto, PrimitiveNamed>(
-    mappings: [
-      MapMember(member: 'id', from: 'idx'),
+  MapType<PrimitiveNamedDto, PrimitiveNamed>(
+    fields: [
+      Field('id', from: 'idx'),
     ],
   ),
   // primitive reversed
-  AutoMap<PrimitivePositionalReversedDto, PrimitivePositionalReversed>(
-    mappings: [
-      MapMember(member: 'alpha', from: 'beta'),
-      MapMember(member: 'beta', from: 'alpha'),
+  MapType<PrimitivePositionalReversedDto, PrimitivePositionalReversed>(
+    fields: [
+      Field('alpha', from: 'beta'),
+      Field('beta', from: 'alpha'),
     ],
   ),
-  AutoMap<PrimitiveNamedReversedDto, PrimitiveNamedReversed>(
-    mappings: [
-      MapMember(member: 'alpha', from: 'beta'),
-      MapMember(member: 'beta', from: 'alpha'),
+  MapType<PrimitiveNamedReversedDto, PrimitiveNamedReversed>(
+    fields: [
+      Field('alpha', from: 'beta'),
+      Field('beta', from: 'alpha'),
     ],
   ),
   // complex
-  AutoMap<ComplexPositionalDto, ComplexPositional>(
-    mappings: [
-      MapMember(member: 'data', from: 'datax'),
+  MapType<ComplexPositionalDto, ComplexPositional>(
+    fields: [
+      Field('data', from: 'datax'),
     ],
   ),
-  AutoMap<ComplexNamedDto, ComplexNamed>(
-    mappings: [
-      MapMember(member: 'data', from: 'datax'),
+  MapType<ComplexNamedDto, ComplexNamed>(
+    fields: [
+      Field('data', from: 'datax'),
     ],
   ),
   // complex reversed
-  AutoMap<ComplexPositionalReversedDto, ComplexPositionalReversed>(
-    mappings: [
-      MapMember(member: 'first', from: 'second'),
-      MapMember(member: 'second', from: 'first'),
+  MapType<ComplexPositionalReversedDto, ComplexPositionalReversed>(
+    fields: [
+      Field('first', from: 'second'),
+      Field('second', from: 'first'),
     ],
   ),
-  AutoMap<ComplexNamedReversedDto, ComplexNamedReversed>(
-    mappings: [
-      MapMember(member: 'first', from: 'second'),
-      MapMember(member: 'second', from: 'first'),
+  MapType<ComplexNamedReversedDto, ComplexNamedReversed>(
+    fields: [
+      Field('first', from: 'second'),
+      Field('second', from: 'first'),
     ],
   ),
   // custom
-  AutoMap<CustomPositionalDto, CustomPositional>(
-    mappings: [
-      MapMember(member: 'nameAndId', custom: Mapper.convertToNameAndIdPositional),
+  MapType<CustomPositionalDto, CustomPositional>(
+    fields: [
+      Field('nameAndId', custom: Mapper.convertToNameAndIdPositional),
     ],
   ),
-  AutoMap<CustomNamedDto, CustomNamed>(
-    mappings: [
-      MapMember(member: 'nameAndId', custom: Mapper.convertToNameAndIdNamed),
+  MapType<CustomNamedDto, CustomNamed>(
+    fields: [
+      Field('nameAndId', custom: Mapper.convertToNameAndIdNamed),
     ],
   ),
 ])
@@ -246,6 +246,7 @@ class Nested extends Equatable {
 
 class NestedDto {
   final int idx;
+
   final String namex;
 
   NestedDto(this.idx, {required this.namex});
@@ -367,12 +368,9 @@ class CustomPositional extends Equatable {
   );
 }
 
-class CustomPositionalDto extends Equatable {
+class CustomPositionalDto {
   final int id;
   final String name;
-
-  @override
-  List<Object?> get props => [id, name];
 
   const CustomPositionalDto(
     this.id,
@@ -391,12 +389,9 @@ class CustomNamed extends Equatable {
   });
 }
 
-class CustomNamedDto extends Equatable {
+class CustomNamedDto {
   final int id;
   final String name;
-
-  @override
-  List<Object?> get props => [id, name];
 
   const CustomNamedDto({
     required this.id,

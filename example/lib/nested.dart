@@ -10,8 +10,8 @@ class User extends Equatable {
   final List<Nested> nestedItems;
   final List<Nested>? nestedItemsNullable;
   final List<Nested>? nestedItemsNullable2;
-  final List<Nested> itemsWithNullableItem; //todo
-  final List<Nested?> itemsWithNullableItem2; //todo
+  final List<Nested> itemsWithNullableItem;
+  final List<Nested?> itemsWithNullableItem2;
 
   bool get hasTag => tag != null;
 
@@ -52,7 +52,7 @@ class UserDto {
   final List<NestedDto>? nestedItemsNullable;
   final List<NestedDto> nestedItemsNullable2;
   final List<NestedDto?> itemsWithNullableItem;
-  final List<NestedDto> itemsWithNullableItem2; //todo
+  final List<NestedDto> itemsWithNullableItem2;
 
   UserDto({
     required this.id,
@@ -80,11 +80,11 @@ class NestedDto {
 
 class NestedTagDto {}
 
-@AutoMapper(mappers: [
-  AutoMap<UserDto, User>(
-    mappings: [],
+@AutoMapper([
+  MapType<UserDto, User>(
+    fields: [],
   ),
-  AutoMap<NestedDto, Nested>(),
-  AutoMap<NestedTagDto, NestedTag>(),
+  MapType<NestedDto, Nested>(),
+  MapType<NestedTagDto, NestedTag>(),
 ])
 class ExampleMapper extends $ExampleMapper {}

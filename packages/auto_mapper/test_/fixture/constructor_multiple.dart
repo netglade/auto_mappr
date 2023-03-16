@@ -1,6 +1,9 @@
-import 'package:auto_mapper_annotation/auto_mapper.dart';
-
-part 'fixtures/constructor_multiple.dart';
+// part 'fixtures/constructor_multiple.dart';
+//
+// @AutoMapper([
+//   MapType<UserDto, User>(),
+// ])
+// class Mapper extends $Mapper {}
 
 class User {
   final int id;
@@ -22,8 +25,3 @@ class UserDto {
 
   UserDto(this.id, this.name);
 }
-
-@AutoMapper(mappers: [
-  AutoMap<UserDto, User>(),
-])
-class Mapper extends $Mapper {}

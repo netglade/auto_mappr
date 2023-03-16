@@ -1,30 +1,46 @@
-import 'package:analyzer/dart/element/element.dart';
-import 'package:auto_mapper/models/extensions.dart';
 import 'package:auto_mapper/models/source_assignment.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:equatable/equatable.dart';
 import 'package:source_gen/source_gen.dart';
 
-class MemberMapping extends Equatable {
+class FieldMapping extends Equatable {
   final String member;
-  final ExecutableElement? custom;
-  final ExecutableElement? whenNullDefault;
   final bool ignore;
   final String? from;
+  final Expression? customExpression;
+  final Expression? whenNullExpression;
 
   @override
-  List<Object?> get props => [member, custom, ignore, whenNullDefault, from];
+  List<Object?> get props => [
+        member,
+        ignore,
+        from,
+        customExpression,
+        whenNullExpression,
+      ];
 
-  const MemberMapping({
+  const FieldMapping({
     required this.member,
     required this.ignore,
-    this.custom,
-    this.whenNullDefault,
     this.from,
+    this.customExpression,
+    this.whenNullExpression,
   });
 
+  bool isRenamed() {
+    return from != null;
+  }
+
+  bool hasWhenNullDefault() {
+    return whenNullExpression != null;
+  }
+
+  bool hasCustomMapping() {
+    return customExpression != null;
+  }
+
   bool canBeApplied(SourceAssignment assignment) {
-    if (ignore || custom != null) return true;
+    if (ignore || hasCustomMapping()) return true;
 
     // source is null and whenNullDefault is set -> can be applied
     // if (assignment.sourceField?.type.nullabilitySuffix == NullabilitySuffix.question && whenNullDefault != null)
@@ -38,18 +54,13 @@ class MemberMapping extends Equatable {
       return assignment.getDefaultValue();
     }
 
-    // Support Function mapping
-    final _custom = custom;
-    if (_custom != null) {
-      final callRefer = _custom.referCallString;
-
-      return refer(callRefer).call([refer('model')]);
+    if (hasCustomMapping()) {
+      return customExpression!;
     }
 
-    final _from = from;
-    if (_from != null) {
-      return refer('model').property(_from);
-    }
+    // if (isRenamed()) {
+    //   return refer('model').property(from!);
+    // }
 
     // final _whenNullDefault = whenNullDefault;
 

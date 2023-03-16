@@ -2,6 +2,7 @@
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mapper/models/dart_object_extension.dart';
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
@@ -33,25 +34,25 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
       final sourceType = mapperType.typeArguments.first;
       final targetType = mapperType.typeArguments[1];
 
-      final mappings = mapper.getField('mappings')?.toListValue();
-      final whenNullDefault = mapper.getField('whenNullDefault')?.toFunctionValue();
+      final fieldMappings = mapper.getField('fields')?.toListValue();
+      final whenSourceIsNull = mapper.getField('whenSourceIsNull')?.toCodeExpression();
       final constructor = mapper.getField('constructor')?.toStringValue();
 
-      final memberMappings = mappings?.map((mapping) {
-        return MemberMapping(
-          member: mapping.getField('member')!.toStringValue()!,
-          ignore: mapping.getField('ignore')!.toBoolValue()!,
-          custom: mapping.getField('custom')!.toFunctionValue(),
-          from: mapping.getField('from')!.toStringValue(),
-          whenNullDefault: mapping.getField('whenNullDefault')!.toFunctionValue(),
-        );
-      }).toList();
+      final memberMappings = fieldMappings
+          ?.map((fieldMapping) => FieldMapping(
+                member: fieldMapping.getField('member')!.toStringValue()!,
+                ignore: fieldMapping.getField('ignore')!.toBoolValue()!,
+                from: fieldMapping.getField('from')!.toStringValue(),
+                customExpression: fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true),
+                whenNullExpression: fieldMapping.getField('whenNull')!.toCodeExpression(),
+              ))
+          .toList();
 
-      return AutoMapPart(
+      return TypeMapping(
         source: sourceType,
         target: targetType,
-        mappings: memberMappings,
-        whenNullDefault: whenNullDefault,
+        fieldMappings: memberMappings,
+        whenSourceIsNullExpression: whenSourceIsNull,
         constructor: constructor,
       );
     }).toList();
