@@ -38,18 +38,80 @@ class MapModelBodyMethodBuilder {
     final sourceClass = mapping.source.element as ClassElement;
     final targetClass = mapping.target.element as ClassElement;
 
-    final targetConstructor = _findBestConstructor(targetClass, forcedConstructor: mapping.constructor);
-
-    // local model = input variable
-    block.statements.add(declareFinal('model').assign(refer('input')).statement);
-    block.statements.add(_checkNullExpr());
-
     final sourceFields = _getSourceFields(sourceClass);
+    // Name of the source field names which can be mapped into constructor field
+
+    final mappedSourceFieldNames = <String>[];
+
+    // Input as local model.
+    block.statements.add(declareFinal('model').assign(refer('input')).statement);
+    // Add handling of whenSourceIsNull.
+    block.statements.add(_whenModelIsNullHandling());
+
+    // Map fields using a constructor.
+    _processConstructorMapping(
+      mappedSourceFieldNames: mappedSourceFieldNames,
+      sourceFields: sourceFields,
+      targetClass: targetClass,
+      block: block,
+    );
+
+    // Map fields not mapped directly in constructor as setters if possible.
+    _mapSetterFields(
+      alreadyMapped: mappedSourceFieldNames,
+      sourceFields: sourceFields,
+      targetClass: targetClass,
+      block: block,
+    );
+
+    // Return target.
+    block.statements.add(refer('result').returned.statement);
+
+    return block.build();
+  }
+
+  void _assertParamMemberCanBeIgnored(ParameterElement param, FieldElement sourceField) {
+    final sourceFieldName = sourceField.getDisplayString(withNullability: true);
+    if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+      throw InvalidGenerationSourceError(
+          "Can't ignore member '${sourceFieldName}' as it is positional not-nullable parameter");
+    }
+
+    if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+      throw InvalidGenerationSourceError(
+          "Can't ignore member '${sourceFieldName}' as it is required named not-nullable parameter");
+    }
+  }
+
+  void _assertNotMappedConstructorParameters(List<SourceAssignment> notMappedParameters) {
+    final notMapped = notMappedParameters.map((e) => e.targetConstructorParam!.param);
+
+    for (var param in notMapped) {
+      if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+        throw InvalidGenerationSourceError(
+          "Can't generate mapping ${mapping.toString()} as there is non mapped not-nullable positional parameter ${param.displayName}",
+        );
+      }
+
+      if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+        if (param.type.isDartCoreList) return;
+        throw InvalidGenerationSourceError(
+          "Can't generate mapping ${mapping.toString()} as there is non mapped not-nullable required named parameter ${param.displayName}",
+        );
+      }
+    }
+  }
+
+  void _processConstructorMapping({
+    required List<String> mappedSourceFieldNames,
+    required Map<String, FieldElement> sourceFields,
+    required ClassElement targetClass,
+    required BlockBuilder block,
+  }) {
     final mappedTargetConstructorParams = <SourceAssignment>[];
     final notMappedTargetParameters = <SourceAssignment>[];
 
-    // Name of the source field names which can be mapped into constructor field
-    final mappedSourceFieldNames = <String>[];
+    final targetConstructor = _findBestConstructor(targetClass, forcedConstructor: mapping.constructor);
 
     // Map constructor parameters
     for (var i = 0; i < targetConstructor.parameters.length; i++) {
@@ -149,87 +211,12 @@ class MapModelBodyMethodBuilder {
     ];
 
     // Mapped fields into constructor - positional and named
-    final constructorExpr = _mapConstructor(
+    final constructorCode = _mapConstructor(
       targetConstructor,
       positional: positionalParameters,
       named: namedParameters,
     );
-    block.statements.add(constructorExpr);
-
-    // Not mapped directly in constructor
-    _mapSetterFields(mappedSourceFieldNames, sourceFields, targetClass, block);
-
-    block.statements.add(refer('result').returned.statement);
-
-    return block.build();
-  }
-
-  void _assertParamMemberCanBeIgnored(ParameterElement param, FieldElement sourceField) {
-    final sourceFieldName = sourceField.getDisplayString(withNullability: true);
-    if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
-      throw InvalidGenerationSourceError(
-          "Can't ignore member '${sourceFieldName}' as it is positional not-nullable parameter");
-    }
-
-    if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
-      throw InvalidGenerationSourceError(
-          "Can't ignore member '${sourceFieldName}' as it is required named not-nullable parameter");
-    }
-  }
-
-  void _assertNotMappedConstructorParameters(List<SourceAssignment> notMappedParameters) {
-    final notMapped = notMappedParameters.map((e) => e.targetConstructorParam!.param);
-
-    for (var param in notMapped) {
-      if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
-        throw InvalidGenerationSourceError(
-          "Can't generate mapping ${mapping.toString()} as there is non mapped not-nullable positional parameter ${param.displayName}",
-        );
-      }
-
-      if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
-        if (param.type.isDartCoreList) return;
-        throw InvalidGenerationSourceError(
-          "Can't generate mapping ${mapping.toString()} as there is non mapped not-nullable required named parameter ${param.displayName}",
-        );
-      }
-    }
-  }
-
-  void _mapSetterFields(
-    List<String> alreadyMapped,
-    Map<String, FieldElement> sourceFields,
-    InterfaceOrAugmentationElement targetClass,
-    BlockBuilder block,
-  ) {
-    bool filterField(FieldElement field) =>
-        targetClass.fields.any((element) => element.displayName == field.displayName && !element.isFinal);
-    // TODO: check isPrivate
-
-    final potentialSetterFields = sourceFields.keys.where((field) => !alreadyMapped.contains(field)).toList();
-    final fields =
-        potentialSetterFields.where((key) => filterField(sourceFields[key]!)).map((e) => sourceFields[e]!).toList();
-
-    for (final sourceField in fields) {
-      final targetField = targetClass.fields.firstWhere((field) => field.displayName == sourceField.displayName);
-
-      // Source.X has ignore:true -> skip
-      if (mapping.fieldShouldBeIgnored(sourceField.displayName)) continue;
-
-      // assign result.X = model.X
-      final expr = refer('result').property(sourceField.displayName).assign(
-            ValueAssignmentBuilder(
-              mapperConfig: mapperConfig,
-              mapping: mapping,
-              assignment: SourceAssignment(
-                sourceField: sourceField,
-                targetField: targetField,
-              ),
-            ).build(),
-          );
-
-      block.statements.add(expr.statement);
-    }
+    block.statements.add(constructorCode);
   }
 
   Code _mapConstructor(
@@ -260,6 +247,42 @@ class MapModelBodyMethodBuilder {
         .statement;
   }
 
+  void _mapSetterFields({
+    required List<String> alreadyMapped,
+    required Map<String, FieldElement> sourceFields,
+    required ClassElement targetClass,
+    required BlockBuilder block,
+  }) {
+    bool filterField(FieldElement field) =>
+        targetClass.fields.any((element) => element.displayName == field.displayName && !element.isFinal);
+    // TODO: check isPrivate
+
+    final potentialSetterFields = sourceFields.keys.where((field) => !alreadyMapped.contains(field)).toList();
+    final fields =
+        potentialSetterFields.where((key) => filterField(sourceFields[key]!)).map((e) => sourceFields[e]!).toList();
+
+    for (final sourceField in fields) {
+      final targetField = targetClass.fields.firstWhere((field) => field.displayName == sourceField.displayName);
+
+      // Source.X has ignore:true -> skip
+      if (mapping.fieldShouldBeIgnored(sourceField.displayName)) continue;
+
+      // assign result.X = model.X
+      final expr = refer('result').property(sourceField.displayName).assign(
+            ValueAssignmentBuilder(
+              mapperConfig: mapperConfig,
+              mapping: mapping,
+              assignment: SourceAssignment(
+                sourceField: sourceField,
+                targetField: targetField,
+              ),
+            ).build(),
+          );
+
+      block.statements.add(expr.statement);
+    }
+  }
+
   Map<String, FieldElement> _getSourceFields(ClassElement sourceClass) {
     return {
       for (final field in sourceClass.fields.where((FieldElement field) => !field.isSynthetic)) field.name: field,
@@ -284,20 +307,16 @@ class MapModelBodyMethodBuilder {
     return constructors.first;
   }
 
-  Code _checkNullExpr() {
-    // if (model == null)
+  Code _whenModelIsNullHandling() {
     final ifConditionExp = refer('model').equalTo(refer('null')).accept(DartEmitter());
-    // Eg. when static class is used => Static.mapFrom()
-    if (mapping.hasWhenNullDefault()) {
-      // return whenNullDefault value
-      final _target = mapping.whenSourceIsNullExpression!;
 
-      return Code('if ($ifConditionExp) return ${_target.statement.accept(DartEmitter())}');
-    } else {
-      // otherwise throw exception
+    final ifBodyExpression = mapping.hasWhenNullDefault()
+        ? mapping.whenSourceIsNullExpression!
+        : refer('canReturnNull').conditional(
+            literalNull,
+            refer("throw Exception('Mapping $mapping when null but no default value provided!')"),
+          );
 
-      return Code(
-          "if ($ifConditionExp) { return canReturnNull ? null : throw Exception('Mapping $mapping when null but no default value provided!');}");
-    }
+    return Code('if ($ifConditionExp) { return ${ifBodyExpression.statement.accept(DartEmitter())} }');
   }
 }

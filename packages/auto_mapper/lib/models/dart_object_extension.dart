@@ -89,7 +89,7 @@ extension DartObjectExtension on DartObject {
     ///
     /// location[1] - class
     /// revived.accessor - named constructor
-    final instantiation = location[1]; // + (revived.accessor.isNotEmpty ? '.${revived.accessor}' : '');
+    final instantiation = location[1];
     final useNamedConstructor = revived.accessor.isNotEmpty;
 
     final revivedInstance = refer(instantiation);
@@ -105,112 +105,4 @@ extension DartObjectExtension on DartObject {
 
     return revivedInstance.constInstance(positionalArguments, namedArguments);
   }
-}
-
-// ignore: prefer-static-class, ok ok ok
-String revivedLiteral(
-  Object object, {
-  DartEmitter? dartEmitter,
-}) {
-  dartEmitter ??= DartEmitter();
-
-  late final Revivable revived;
-  if (object is Revivable) {
-    revived = object;
-  }
-  if (object is DartObject) {
-    revived = ConstantReader(object).revive();
-  }
-  if (object is ConstantReader) {
-    revived = object.revive();
-  }
-  if (revived == null) {
-    throw ArgumentError.value(
-        object, 'object', 'Only `Revivable`, `DartObject`, `ConstantReader` are supported values');
-  }
-
-  String instantiation = '';
-  final location = revived.source.toString().split('#');
-
-  /// If this is a class instantiation then `location[1]` will be populated
-  /// with the class name
-  if (location.length > 1) {
-    instantiation = location[1] + (revived.accessor.isNotEmpty ? '.${revived.accessor}' : '');
-  } else {
-    /// Getters, Setters, Methods can't be declared as constants so this
-    /// literal must either be a top-level constant or a static constant and
-    /// can be directly accessed by `revived.accessor`
-    return revived.accessor;
-  }
-
-  final args = StringBuffer();
-  final kwargs = StringBuffer();
-  Spec objectToSpec(DartObject object) {
-    final constant = ConstantReader(object);
-    if (constant.isNull) {
-      return literalNull;
-    }
-
-    if (constant.isBool) {
-      return literal(constant.boolValue);
-    }
-
-    if (constant.isDouble) {
-      return literal(constant.doubleValue);
-    }
-
-    if (constant.isInt) {
-      return literal(constant.intValue);
-    }
-
-    if (constant.isString) {
-      return literal(constant.stringValue);
-    }
-
-    if (constant.isList) {
-      return literalList(constant.listValue.map(objectToSpec));
-      // return literal(constant.listValue);
-    }
-
-    if (constant.isMap) {
-      return literalMap(Map.fromIterables(
-          constant.mapValue.keys.map((e) => objectToSpec(e!)), constant.mapValue.values.map((e) => objectToSpec(e!))));
-      // return literal(constant.mapValue);
-    }
-
-    if (constant.isSymbol) {
-      return Code('Symbol(${constant.symbolValue.toString()})');
-      // return literal(constant.symbolValue);
-    }
-
-    if (constant.isNull) {
-      return literalNull;
-    }
-
-    if (constant.isType) {
-      return refer(constant.typeValue.getDisplayString(withNullability: true));
-    }
-
-    if (constant.isLiteral) {
-      return literal(constant.literalValue);
-    }
-
-    final revived = revivedLiteral(constant.revive(), dartEmitter: dartEmitter);
-
-    return Code(revived);
-  }
-
-  for (var arg in revived.positionalArguments) {
-    final literalValue = objectToSpec(arg);
-
-    args.write('${literalValue.accept(dartEmitter)},');
-  }
-
-  for (var arg in revived.namedArguments.keys) {
-    final literalValue = objectToSpec(revived.namedArguments[arg]!);
-
-    kwargs.write('$arg:${literalValue.accept(dartEmitter)},');
-  }
-
-  return '$instantiation($args $kwargs)';
 }

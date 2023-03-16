@@ -34,6 +34,7 @@ todos:
 
 - [ ] log.warning when mapping unknown target field
 - [x] concrete convert method calls 
+- [ ] what should `canReturnNull` do, how to handle `as TARGET` etc.
 
 critical:
 
