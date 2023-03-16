@@ -47,8 +47,8 @@ critical:
 - [x] custom mapping - functions or const values
 - [x] when null default - field
 - [x] when null default - target
-- [ ]? constructor parameters (positional, named)
-- [ ]? setters (when not set in constructor and if not final)
+- [ ] ? constructor parameters (positional, named)
+- [ ] ? setters (when not set in constructor and if not final) -- todo check final and private
 - [x] selecting constructor
 - [ ] member name doesn't match constructor argument name
   - [ ] mapping constructor parameters that are not `this.xx` and have `...get xx...` are handled correctly. 
