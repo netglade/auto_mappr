@@ -40,9 +40,10 @@ todos:
 critical:
 
 - [x] primitive types (num, int, double, string, bool) + enum
-- iterable types
-  - [ ] list
-  - [ ] set
+- [ ] iterable types 
+  - [x] iterable
+  - [x] list
+  - [x] set
   - [ ] map
 - [x] complex/nested types
 - [x] renaming

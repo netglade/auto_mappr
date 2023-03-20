@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'fixture/list.dart' as fixture;
+import 'fixture/iterable.dart' as fixture;
 
 void main() {
   late final fixture.Mapper mapper;

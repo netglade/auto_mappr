@@ -10,22 +10,12 @@ part 'complex_types.g.dart';
 ])
 class Mapper extends $Mapper {}
 
-class User extends Equatable {
-  final int id;
-  final Nested name;
-  final NestedTag? tag;
-
-  bool get hasTag => tag != null;
-
+class NestedTag extends Equatable {
   @override
-  List<Object?> get props => [id, name, tag];
-
-  const User({
-    required this.id,
-    required this.name,
-    this.tag,
-  });
+  List<Object?> get props => [];
 }
+
+class NestedTagDto {}
 
 class Nested extends Equatable {
   final int id;
@@ -36,23 +26,6 @@ class Nested extends Equatable {
   List<Object?> get props => [id, name, tag];
 
   const Nested({
-    required this.id,
-    required this.name,
-    required this.tag,
-  });
-}
-
-class NestedTag extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class UserDto {
-  final int id;
-  final NestedDto name;
-  final NestedTagDto tag;
-
-  UserDto({
     required this.id,
     required this.name,
     required this.tag,
@@ -71,4 +44,31 @@ class NestedDto {
   });
 }
 
-class NestedTagDto {}
+class UserDto {
+  final int id;
+  final NestedDto name;
+  final NestedTagDto tag;
+
+  UserDto({
+    required this.id,
+    required this.name,
+    required this.tag,
+  });
+}
+
+class User extends Equatable {
+  final int id;
+  final Nested name;
+  final NestedTag? tag;
+
+  bool get hasTag => tag != null;
+
+  @override
+  List<Object?> get props => [id, name, tag];
+
+  const User({
+    required this.id,
+    required this.name,
+    this.tag,
+  });
+}

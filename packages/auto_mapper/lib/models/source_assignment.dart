@@ -40,9 +40,9 @@ class SourceAssignment {
     this.fieldMapping,
   });
 
-  bool shouldAssignList() {
+  bool shouldAssignListLike() {
     // The source can be mapped to the target, if the source is mappable object and the target is listLike.
-    return _isCoreListLike(targetType) && _isMappable(sourceField!.type);
+    return _isCoreListLike(targetType) && _isMappableListLke(sourceField!.type);
   }
 
   bool shouldAssignComplexObject() => !targetType.isPrimitiveType;
@@ -67,7 +67,7 @@ class SourceAssignment {
     return type.isDartCoreList || type.isDartCoreSet || type.isDartCoreIterable;
   }
 
-  bool _isMappable(DartType type) {
+  bool _isMappableListLke(DartType type) {
     if (_isCoreListLike(type)) {
       return true;
     }

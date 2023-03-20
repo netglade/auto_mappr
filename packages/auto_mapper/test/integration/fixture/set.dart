@@ -1,7 +1,7 @@
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:equatable/equatable.dart';
 
-part 'list.g.dart';
+part 'set.g.dart';
 
 @AutoMapper([
   MapType<PrimitiveDto, Primitive>(),
@@ -12,7 +12,7 @@ part 'list.g.dart';
 class Mapper extends $Mapper {}
 
 class Primitive extends Equatable {
-  final List<int> value;
+  final Set<int> value;
 
   @override
   List<Object?> get props => [value];
@@ -21,7 +21,7 @@ class Primitive extends Equatable {
 }
 
 class PrimitiveDto extends Equatable {
-  final List<int> value;
+  final Set<int> value;
 
   @override
   List<Object?> get props => [value];
@@ -76,7 +76,7 @@ class NestedDto {
 // complex
 
 class Complex extends Equatable {
-  final List<Nested> value;
+  final Set<Nested> value;
 
   @override
   List<Object?> get props => [value];
@@ -85,7 +85,7 @@ class Complex extends Equatable {
 }
 
 class ComplexDto extends Equatable {
-  final List<NestedDto> value;
+  final Set<NestedDto> value;
 
   @override
   List<Object?> get props => [value];

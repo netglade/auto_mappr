@@ -2,6 +2,7 @@ import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mapper/builder/convert_method_builder.dart';
 import 'package:auto_mapper/models/dart_type_extension.dart';
+import 'package:auto_mapper/models/expression_extension.dart';
 import 'package:auto_mapper/models/models.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
@@ -36,8 +37,8 @@ class ValueAssignmentBuilder {
     }
 
     // TODO(collections): support Map and Set
-    if (assignment.shouldAssignList()) {
-      return _assignListValue(assignment);
+    if (assignment.shouldAssignListLike()) {
+      return _assignListLikeValue(assignment);
     }
 
     // print(
@@ -63,7 +64,7 @@ class ValueAssignmentBuilder {
     return rightSide;
   }
 
-  Expression _assignListValue(SourceAssignment assignment) {
+  Expression _assignListLikeValue(SourceAssignment assignment) {
     final sourceType = assignment.sourceField!.type;
     // final targetType = assignment.targetType;
     final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
@@ -76,70 +77,76 @@ class ValueAssignmentBuilder {
     final sourceListExpr = refer('model').property(assignment.sourceField!.name);
     final defaultListValueExpr = literalList([], refer(targetListType.getDisplayString(withNullability: true)));
 
-    if (!targetNullable && !sourceNullable) {
-      if (assignNestedObject) {
-        return sourceListExpr
-            .property('map')
-            .call(
-              [_nestedListMapCall(assignment)],
-              {},
-              [refer(targetListType.getDisplayString(withNullability: true))],
-            )
-            .property('toList')
-            .call([]);
-      }
-
-      return refer('model').property(assignment.sourceField!.name);
-    }
-
-    if (!targetNullable && sourceNullable) {
-      if (assignNestedObject) {
-        return sourceListExpr
-            .nullSafeProperty('map')
-            .call(
-              [_nestedListMapCall(assignment)],
-              {},
-              [refer(targetListType.getDisplayString(withNullability: true))],
-            )
-            .property('toList')
-            .call([])
-            .ifNullThen(defaultListValueExpr);
-      }
-
-      return refer('model').property(assignment.sourceField!.name).ifNullThen(refer('[]'));
-    }
-
-    if (targetNullable && !sourceNullable) {
-      if (assignNestedObject) {
-        return sourceListExpr
-            .property('map')
-            .call(
-              [_nestedListMapCall(assignment)],
-              {},
-              [refer(targetListType.getDisplayString(withNullability: true))],
-            )
-            .property('toList')
-            .call([]);
-      }
-
-      return refer('model').property(assignment.sourceField!.name);
-    }
-
-    // sourceNullable && targetNullable
     if (assignNestedObject) {
       return sourceListExpr
-          .nullSafeProperty('map')
+          .maybeNullSafeProperty('map', isNullable: sourceNullable)
           .call(
-            [_nestedListMapCall(assignment)],
+            [_nestedListLikeMapCall(assignment)],
             {},
             [refer(targetListType.getDisplayString(withNullability: true))],
           )
-          .property('toList')
-          .call([])
-          .ifNullThen(defaultListValueExpr);
+          .maybeToIterableCall(assignment.targetType)
+          .maybeIfNullThen(defaultListValueExpr, isNullable: sourceNullable);
     }
 
-    return refer('model').property(assignment.sourceField!.name);
+    return refer('model')
+        .property(assignment.sourceField!.name)
+        .maybeIfNullThen(refer('[]'), isNullable: !targetNullable && sourceNullable);
+
+    // if (!targetNullable && !sourceNullable) {
+    //   if (assignNestedObject) {
+    //     return sourceListExpr.maybeNullSafeProperty('map', isNullable: sourceNullable).call(
+    //       [_nestedListLikeMapCall(assignment)],
+    //       {},
+    //       [refer(targetListType.getDisplayString(withNullability: true))],
+    //     ).toIterableCall(assignment.targetType);
+    //   }
+    //
+    //   return refer('model').property(assignment.sourceField!.name);
+    // }
+    //
+    // if (!targetNullable && sourceNullable) {
+    //   if (assignNestedObject) {
+    //     return sourceListExpr
+    //         .maybeNullSafeProperty('map', isNullable: sourceNullable)
+    //         .call(
+    //           [_nestedListLikeMapCall(assignment)],
+    //           {},
+    //           [refer(targetListType.getDisplayString(withNullability: true))],
+    //         )
+    //         .toIterableCall(assignment.targetType)
+    //         .ifNullThen(defaultListValueExpr);
+    //   }
+    //
+    //   return refer('model').property(assignment.sourceField!.name).ifNullThen(refer('[]'));
+    // }
+    //
+    // if (targetNullable && !sourceNullable) {
+    //   if (assignNestedObject) {
+    //     return sourceListExpr.maybeNullSafeProperty('map', isNullable: sourceNullable).call(
+    //       [_nestedListLikeMapCall(assignment)],
+    //       {},
+    //       [refer(targetListType.getDisplayString(withNullability: true))],
+    //     ).toIterableCall(assignment.targetType);
+    //   }
+    //
+    //   return refer('model').property(assignment.sourceField!.name);
+    // }
+    //
+    // // sourceNullable && targetNullable
+    // if (assignNestedObject) {
+    //   return sourceListExpr
+    //       .maybeNullSafeProperty('map', isNullable: sourceNullable)
+    //       .call(
+    //         [_nestedListLikeMapCall(assignment)],
+    //         {},
+    //         [refer(targetListType.getDisplayString(withNullability: true))],
+    //       )
+    //       .toIterableCall(assignment.targetType)
+    //       .maybeIfNullThen(defaultListValueExpr, isNullable: sourceNullable);
+    // }
+    //
+    // return refer('model').property(assignment.sourceField!.name);
   }
 
   Expression _assignNestedObject({
@@ -193,7 +200,7 @@ class ValueAssignmentBuilder {
     return convertCallExpr;
   }
 
-  Expression _nestedListMapCall(
+  Expression _nestedListLikeMapCall(
     SourceAssignment assignment,
   ) {
     final targetListType = (assignment.targetType as ParameterizedType).typeArguments.first;
