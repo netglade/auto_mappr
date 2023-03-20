@@ -41,9 +41,9 @@ critical:
 
 - [x] primitive types (num, int, double, string, bool) + enum
 - iterable types
-    - [ ] list
-    - [ ] set
-    - [ ] map
+  - [ ] list
+  - [ ] set
+  - [ ] map
 - [x] complex/nested types
 - [x] renaming
 - [x] custom mapping - functions or const values
@@ -55,7 +55,6 @@ critical:
 - [x] selecting constructor
 - [x] works with Equatable
 - [x] works with JSON serializable
-```
 
 nice to have:
 
