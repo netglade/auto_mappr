@@ -46,7 +46,7 @@ void main() {
   group(
     'double',
     () {
-      for (final value in <double>[-42.69, -3.12, 0.0, 420.78, 666.666]) {
+      for (final value in <double>[-42.69, -3.12, 0, 420.78, 666.666]) {
         test(
           "value '$value' converts",
           () {

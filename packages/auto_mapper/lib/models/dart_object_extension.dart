@@ -54,6 +54,10 @@ extension DartObjectExtension on DartObject {
       return Code('Symbol(${constant.symbolValue})');
     }
 
+    if (constant.isString) {
+      return literalString(constant.stringValue, raw: true);
+    }
+
     // Collections
 
     if (constant.isList) {
@@ -68,7 +72,7 @@ extension DartObjectExtension on DartObject {
       return literalMap(constant.mapValue.map((key, value) => MapEntry(key!._toSpec(), value!._toSpec())));
     }
 
-    // int, double, String, num, null
+    // int, double, num, null
     return literal(constant.literalValue);
   }
 

@@ -35,7 +35,7 @@ class Nested extends Equatable {
   @override
   List<Object?> get props => [id, name, tag];
 
-  Nested({
+  const Nested({
     required this.id,
     required this.name,
     required this.tag,

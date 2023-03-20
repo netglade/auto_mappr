@@ -15,12 +15,12 @@ void main() {
       test(
         'Renamed fields with the same name when using positional parameters',
         () {
-          final dto = fixture.SamePositionalDto(123, 'test');
+          const dto = fixture.SamePositionalDto(123, 'test');
           final converted = mapper.convert<fixture.SamePositionalDto, fixture.SamePositional>(dto);
 
           expect(
             converted,
-            fixture.SamePositional(123, 'test'),
+            const fixture.SamePositional(123, 'test'),
           );
         },
       );
@@ -28,12 +28,12 @@ void main() {
       test(
         'Renamed fields with the same name when using named parameters',
         () {
-          final dto = fixture.SameNamedDto(id: 123, name: 'test');
+          const dto = fixture.SameNamedDto(id: 123, name: 'test');
           final converted = mapper.convert<fixture.SameNamedDto, fixture.SameNamed>(dto);
 
           expect(
             converted,
-            fixture.SameNamed(id: 123, name: 'test'),
+            const fixture.SameNamed(id: 123, name: 'test'),
           );
         },
       );
@@ -51,7 +51,7 @@ void main() {
 
           expect(
             converted,
-            fixture.PrimitivePositional(456),
+            const fixture.PrimitivePositional(456),
           );
         },
       );
@@ -64,7 +64,7 @@ void main() {
 
           expect(
             converted,
-            fixture.PrimitiveNamed(id: 456),
+            const fixture.PrimitiveNamed(id: 456),
           );
         },
       );
@@ -83,7 +83,7 @@ void main() {
 
           expect(
             converted,
-            fixture.PrimitivePositionalReversed(789, 'test123'),
+            const fixture.PrimitivePositionalReversed(789, 'test123'),
           );
         },
       );
@@ -96,7 +96,7 @@ void main() {
 
           expect(
             converted,
-            fixture.PrimitiveNamedReversed(alpha: 258, beta: 'test741'),
+            const fixture.PrimitiveNamedReversed(alpha: 258, beta: 'test741'),
           );
         },
       );
@@ -114,7 +114,7 @@ void main() {
 
           expect(
             converted,
-            fixture.ComplexPositional(fixture.Nested(id: 13, name: 'testtest3')),
+            const fixture.ComplexPositional(fixture.Nested(id: 13, name: 'testtest3')),
           );
         },
       );
@@ -127,7 +127,7 @@ void main() {
 
           expect(
             converted,
-            fixture.ComplexNamed(data: fixture.Nested(id: 789123, name: 'xyz')),
+            const fixture.ComplexNamed(data: fixture.Nested(id: 789123, name: 'xyz')),
           );
         },
       );
@@ -146,7 +146,7 @@ void main() {
 
           expect(
             converted,
-            fixture.ComplexPositionalReversed(951, fixture.NestedReversed(id: 13, name: 'testtest3')),
+            const fixture.ComplexPositionalReversed(951, fixture.NestedReversed(id: 13, name: 'testtest3')),
           );
         },
       );
@@ -160,7 +160,7 @@ void main() {
 
           expect(
             converted,
-            fixture.ComplexNamedReversed(first: 18, second: fixture.NestedReversed(id: 666, name: 'hello')),
+            const fixture.ComplexNamedReversed(first: 18, second: fixture.NestedReversed(id: 666, name: 'hello')),
           );
         },
       );
@@ -173,12 +173,12 @@ void main() {
       test(
         'Renamed when using positional parameters',
         () {
-          final dto = fixture.CustomPositionalDto(1, 'computer');
+          const dto = fixture.CustomPositionalDto(1, 'computer');
           final converted = mapper.convert<fixture.CustomPositionalDto, fixture.CustomPositional>(dto);
 
           expect(
             converted,
-            fixture.CustomPositional('computer #1'),
+            const fixture.CustomPositional('computer #1'),
           );
         },
       );
@@ -186,12 +186,12 @@ void main() {
       test(
         'Renamed when using named parameters',
         () {
-          final dto = fixture.CustomNamedDto(id: 11, name: 'monitor');
+          const dto = fixture.CustomNamedDto(id: 11, name: 'monitor');
           final converted = mapper.convert<fixture.CustomNamedDto, fixture.CustomNamed>(dto);
 
           expect(
             converted,
-            fixture.CustomNamed(nameAndId: 'monitor #11'),
+            const fixture.CustomNamed(nameAndId: 'monitor #11'),
           );
         },
       );

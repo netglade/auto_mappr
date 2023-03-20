@@ -16,22 +16,22 @@ void main() {
         'complex-type default with positional parameters',
         () {
           test('default value used when null', () {
-            final converted = mapper.convert<fixture.ComplexPositionalValueDto, fixture.ComplexPositionalValue>(null);
+            const fixture.ComplexPositionalValueDto? dto = null;
+            final converted = mapper.convert<fixture.ComplexPositionalValueDto, fixture.ComplexPositionalValue>(dto);
 
             expect(
               converted,
-              fixture.ComplexPositionalValue(99, fixture.Nested(id: 123, name: 'test qwerty')),
+              const fixture.ComplexPositionalValue(99, fixture.Nested(id: 123, name: 'test qwerty')),
             );
           });
 
           test('default value not used when not null', () {
-            final converted = mapper.convert<fixture.ComplexPositionalValueDto, fixture.ComplexPositionalValue>(
-              fixture.ComplexPositionalValueDto(18, fixture.NestedDto(12, name: 'Alpha test')),
-            );
+            final dto = fixture.ComplexPositionalValueDto(18, fixture.NestedDto(12, name: 'Alpha test'));
+            final converted = mapper.convert<fixture.ComplexPositionalValueDto, fixture.ComplexPositionalValue>(dto);
 
             expect(
               converted,
-              fixture.ComplexPositionalValue(18, fixture.Nested(id: 12, name: 'Alpha test')),
+              const fixture.ComplexPositionalValue(18, fixture.Nested(id: 12, name: 'Alpha test')),
             );
           });
         },
@@ -41,19 +41,19 @@ void main() {
         'complex-type default with named parameters',
         () {
           test('default value used when null', () {
-            final converted = mapper.convert<fixture.ComplexNamedValueDto, fixture.ComplexNamedValue>(null);
+            const fixture.ComplexNamedValueDto? dto = null;
+            final converted = mapper.convert<fixture.ComplexNamedValueDto, fixture.ComplexNamedValue>(dto);
 
-            expect(converted, fixture.ComplexNamedValue(age: 4567, name: fixture.Nested(id: 12, name: 'mko')));
+            expect(converted, const fixture.ComplexNamedValue(age: 4567, name: fixture.Nested(id: 12, name: 'mko')));
           });
 
           test('default value not used when not null', () {
-            final converted = mapper.convert<fixture.ComplexNamedValueDto, fixture.ComplexNamedValue>(
-              fixture.ComplexNamedValueDto(age: 23, name: fixture.NestedDto(24, name: 'Beta test')),
-            );
+            final dto = fixture.ComplexNamedValueDto(age: 23, name: fixture.NestedDto(24, name: 'Beta test'));
+            final converted = mapper.convert<fixture.ComplexNamedValueDto, fixture.ComplexNamedValue>(dto);
 
             expect(
               converted,
-              fixture.ComplexNamedValue(age: 23, name: fixture.Nested(id: 24, name: 'Beta test')),
+              const fixture.ComplexNamedValue(age: 23, name: fixture.Nested(id: 24, name: 'Beta test')),
             );
           });
         },
@@ -63,20 +63,24 @@ void main() {
         'primitive-type default with positional parameters',
         () {
           test('default value used when null', () {
+            const fixture.PrimitivePositionalValueDto? dto = null;
             final converted =
-                mapper.convert<fixture.PrimitivePositionalValueDto, fixture.PrimitivePositionalValue>(null);
-
-            expect(converted, fixture.PrimitivePositionalValue(99, 'xyx'));
-          });
-
-          test('default value not used when not null', () {
-            final converted = mapper.convert<fixture.PrimitivePositionalValueDto, fixture.PrimitivePositionalValue>(
-              fixture.PrimitivePositionalValueDto(25, 'Gama test'),
-            );
+                mapper.convert<fixture.PrimitivePositionalValueDto, fixture.PrimitivePositionalValue>(dto);
 
             expect(
               converted,
-              fixture.PrimitivePositionalValue(25, 'Gama test'),
+              const fixture.PrimitivePositionalValue(99, 'xyx'),
+            );
+          });
+
+          test('default value not used when not null', () {
+            final dto = fixture.PrimitivePositionalValueDto(25, 'Gama test');
+            final converted =
+                mapper.convert<fixture.PrimitivePositionalValueDto, fixture.PrimitivePositionalValue>(dto);
+
+            expect(
+              converted,
+              const fixture.PrimitivePositionalValue(25, 'Gama test'),
             );
           });
         },
@@ -86,19 +90,19 @@ void main() {
         'primitive-type default with named parameters',
         () {
           test('default value used when null', () {
-            final converted = mapper.convert<fixture.PrimitiveNamedValueDto, fixture.PrimitiveNamedValue>(null);
+            const fixture.PrimitiveNamedValueDto? dto = null;
+            final converted = mapper.convert<fixture.PrimitiveNamedValueDto, fixture.PrimitiveNamedValue>(dto);
 
-            expect(converted, fixture.PrimitiveNamedValue(age: 99, name: 'xyx'));
+            expect(converted, const fixture.PrimitiveNamedValue(age: 99, name: 'xyx'));
           });
 
           test('default value not used when not null', () {
-            final converted = mapper.convert<fixture.PrimitiveNamedValueDto, fixture.PrimitiveNamedValue>(
-              fixture.PrimitiveNamedValueDto(age: 26, name: 'Delta test'),
-            );
+            final dto = fixture.PrimitiveNamedValueDto(age: 26, name: 'Delta test');
+            final converted = mapper.convert<fixture.PrimitiveNamedValueDto, fixture.PrimitiveNamedValue>(dto);
 
             expect(
               converted,
-              fixture.PrimitiveNamedValue(age: 26, name: 'Delta test'),
+              const fixture.PrimitiveNamedValue(age: 26, name: 'Delta test'),
             );
           });
         },
@@ -113,20 +117,24 @@ void main() {
         'complex-type default with positional parameters',
         () {
           test('default value used when null', () {
+            const fixture.ComplexPositionalFunctionDto? dto = null;
             final converted =
-                mapper.convert<fixture.ComplexPositionalFunctionDto, fixture.ComplexPositionalFunction>(null);
-
-            expect(converted, fixture.ComplexPositionalFunction(99, fixture.Nested(id: 123, name: 'test qwerty')));
-          });
-
-          test('default value not used when not null', () {
-            final converted = mapper.convert<fixture.ComplexPositionalFunctionDto, fixture.ComplexPositionalFunction>(
-              fixture.ComplexPositionalFunctionDto(31, fixture.NestedDto(32, name: 'test alpha')),
-            );
+                mapper.convert<fixture.ComplexPositionalFunctionDto, fixture.ComplexPositionalFunction>(dto);
 
             expect(
               converted,
-              fixture.ComplexPositionalFunction(31, fixture.Nested(id: 32, name: 'test alpha')),
+              const fixture.ComplexPositionalFunction(99, fixture.Nested(id: 123, name: 'test qwerty')),
+            );
+          });
+
+          test('default value not used when not null', () {
+            final dto = fixture.ComplexPositionalFunctionDto(31, fixture.NestedDto(32, name: 'test alpha'));
+            final converted =
+                mapper.convert<fixture.ComplexPositionalFunctionDto, fixture.ComplexPositionalFunction>(dto);
+
+            expect(
+              converted,
+              const fixture.ComplexPositionalFunction(31, fixture.Nested(id: 32, name: 'test alpha')),
             );
           });
         },
@@ -136,22 +144,22 @@ void main() {
         'complex-type default with named parameters',
         () {
           test('default value used when null', () {
-            final converted = mapper.convert<fixture.ComplexNamedFunctionDto, fixture.ComplexNamedFunction>(null);
+            const fixture.ComplexNamedFunctionDto? dto = null;
+            final converted = mapper.convert<fixture.ComplexNamedFunctionDto, fixture.ComplexNamedFunction>(dto);
 
             expect(
               converted,
-              fixture.ComplexNamedFunction(age: 99, name: fixture.Nested(id: 123, name: 'test qwerty')),
+              const fixture.ComplexNamedFunction(age: 99, name: fixture.Nested(id: 123, name: 'test qwerty')),
             );
           });
 
           test('default value not used when not null', () {
-            final converted = mapper.convert<fixture.ComplexNamedFunctionDto, fixture.ComplexNamedFunction>(
-              fixture.ComplexNamedFunctionDto(age: 32, name: fixture.NestedDto(33, name: 'test beta')),
-            );
+            final dto = fixture.ComplexNamedFunctionDto(age: 32, name: fixture.NestedDto(33, name: 'test beta'));
+            final converted = mapper.convert<fixture.ComplexNamedFunctionDto, fixture.ComplexNamedFunction>(dto);
 
             expect(
               converted,
-              fixture.ComplexNamedFunction(age: 32, name: fixture.Nested(id: 33, name: 'test beta')),
+              const fixture.ComplexNamedFunction(age: 32, name: fixture.Nested(id: 33, name: 'test beta')),
             );
           });
         },
@@ -161,24 +169,24 @@ void main() {
         'primitive-type default with positional parameters',
         () {
           test('default value used when null', () {
+            const fixture.PrimitivePositionalFunctionDto? dto = null;
             final converted =
-                mapper.convert<fixture.PrimitivePositionalFunctionDto, fixture.PrimitivePositionalFunction>(null);
+                mapper.convert<fixture.PrimitivePositionalFunctionDto, fixture.PrimitivePositionalFunction>(dto);
 
             expect(
               converted,
-              fixture.PrimitivePositionalFunction(99, 'bbb'),
+              const fixture.PrimitivePositionalFunction(99, 'bbb'),
             );
           });
 
           test('default value not used when not null', () {
+            final dto = fixture.PrimitivePositionalFunctionDto(34, 'test gama');
             final converted =
-                mapper.convert<fixture.PrimitivePositionalFunctionDto, fixture.PrimitivePositionalFunction>(
-              fixture.PrimitivePositionalFunctionDto(34, 'test gama'),
-            );
+                mapper.convert<fixture.PrimitivePositionalFunctionDto, fixture.PrimitivePositionalFunction>(dto);
 
             expect(
               converted,
-              fixture.PrimitivePositionalFunction(34, 'test gama'),
+              const fixture.PrimitivePositionalFunction(34, 'test gama'),
             );
           });
         },
@@ -188,19 +196,19 @@ void main() {
         'primitive-type default with named parameters',
         () {
           test('default value used when null', () {
-            final converted = mapper.convert<fixture.PrimitiveNamedFunctionDto, fixture.PrimitiveNamedFunction>(null);
+            const fixture.PrimitiveNamedFunctionDto? dto = null;
+            final converted = mapper.convert<fixture.PrimitiveNamedFunctionDto, fixture.PrimitiveNamedFunction>(dto);
 
-            expect(converted, fixture.PrimitiveNamedFunction(age: 99, name: 'aaa'));
+            expect(converted, const fixture.PrimitiveNamedFunction(age: 99, name: 'aaa'));
           });
 
           test('default value not used when not null', () {
-            final converted = mapper.convert<fixture.PrimitiveNamedFunctionDto, fixture.PrimitiveNamedFunction>(
-              fixture.PrimitiveNamedFunctionDto(age: 35, name: 'test delta'),
-            );
+            final dto = fixture.PrimitiveNamedFunctionDto(age: 35, name: 'test delta');
+            final converted = mapper.convert<fixture.PrimitiveNamedFunctionDto, fixture.PrimitiveNamedFunction>(dto);
 
             expect(
               converted,
-              fixture.PrimitiveNamedFunction(age: 35, name: 'test delta'),
+              const fixture.PrimitiveNamedFunction(age: 35, name: 'test delta'),
             );
           });
         },

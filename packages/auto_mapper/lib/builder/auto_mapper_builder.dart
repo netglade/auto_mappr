@@ -43,7 +43,7 @@ class AutoMapperBuilder {
       ConvertMethodBuilder.buildInternalConvertMethod(config),
 
       // Individual mapper methods of each mappings
-      for (final mapping in config.parts)
+      for (final mapping in config.mappers)
         Method(
           (b) => b
             ..name = mapping.mappingMapMethodName

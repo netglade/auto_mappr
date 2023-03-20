@@ -1,10 +1,9 @@
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mapper/builder/convert_method_builder.dart';
+import 'package:auto_mapper/models/field_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-
-import 'field_mapping.dart';
 
 class TypeMapping extends Equatable {
   final DartType source;

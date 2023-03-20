@@ -6,34 +6,51 @@ part 'default_field.g.dart';
 @AutoMapper([
   MapType<NestedDto, Nested>(),
   // value
-  MapType<ComplexPositionalValueDto, ComplexPositionalValue>(fields: [
-    Field('name', whenNull: Nested(id: 963, name: 'tag test')),
-  ]),
-  MapType<ComplexNamedValueDto, ComplexNamedValue>(fields: [
-    Field('name', whenNull: Nested(id: 492, name: 'tag test 2')),
-  ]),
-  MapType<PrimitivePositionalValueDto, PrimitivePositionalValue>(fields: [
-    Field('name', whenNull: 'test abc'),
-  ]),
-  MapType<PrimitiveNamedValueDto, PrimitiveNamedValue>(fields: [
-    Field('name', whenNull: 'test def'),
-  ]),
+  MapType<ComplexPositionalValueDto, ComplexPositionalValue>(
+    fields: [
+      Field('name', whenNull: Nested(id: 963, name: 'tag test')),
+    ],
+  ),
+  MapType<ComplexNamedValueDto, ComplexNamedValue>(
+    fields: [
+      Field('name', whenNull: Nested(id: 492, name: 'tag test 2')),
+    ],
+  ),
+  MapType<PrimitivePositionalValueDto, PrimitivePositionalValue>(
+    fields: [
+      Field('name', whenNull: 'test abc'),
+    ],
+  ),
+  MapType<PrimitiveNamedValueDto, PrimitiveNamedValue>(
+    fields: [
+      Field('name', whenNull: 'test def'),
+    ],
+  ),
   // function
-  MapType<ComplexPositionalFunctionDto, ComplexPositionalFunction>(fields: [
-    Field('name', whenNull: Mapper.defaultNested),
-  ]),
-  MapType<ComplexNamedFunctionDto, ComplexNamedFunction>(fields: [
-    Field('name', whenNull: Mapper.defaultNested),
-  ]),
-  MapType<PrimitivePositionalFunctionDto, PrimitivePositionalFunction>(fields: [
-    Field('name', whenNull: Mapper.defaultString),
-  ]),
-  MapType<PrimitiveNamedFunctionDto, PrimitiveNamedFunction>(fields: [
-    Field('name', whenNull: Mapper.defaultString),
-  ]),
+  MapType<ComplexPositionalFunctionDto, ComplexPositionalFunction>(
+    fields: [
+      Field('name', whenNull: Mapper.defaultNested),
+    ],
+  ),
+  MapType<ComplexNamedFunctionDto, ComplexNamedFunction>(
+    fields: [
+      Field('name', whenNull: Mapper.defaultNested),
+    ],
+  ),
+  MapType<PrimitivePositionalFunctionDto, PrimitivePositionalFunction>(
+    fields: [
+      Field('name', whenNull: Mapper.defaultString),
+    ],
+  ),
+  MapType<PrimitiveNamedFunctionDto, PrimitiveNamedFunction>(
+    fields: [
+      Field('name', whenNull: Mapper.defaultString),
+    ],
+  ),
 ])
 class Mapper extends $Mapper {
-  static Nested defaultNested() => Nested(id: 1, name: 'default_TAG');
+  static Nested defaultNested() => const Nested(id: 1, name: 'default_TAG');
+
   static String defaultString() => 'Test123';
 }
 
@@ -67,7 +84,7 @@ class ComplexPositionalValue extends Equatable {
   @override
   List<Object?> get props => [age, name];
 
-  ComplexPositionalValue(this.age, this.name);
+  const ComplexPositionalValue(this.age, this.name);
 }
 
 class ComplexPositionalValueDto {
@@ -84,7 +101,7 @@ class ComplexNamedValue extends Equatable {
   @override
   List<Object?> get props => [age, name];
 
-  ComplexNamedValue({required this.age, required this.name});
+  const ComplexNamedValue({required this.age, required this.name});
 }
 
 class ComplexNamedValueDto {
@@ -103,7 +120,7 @@ class PrimitivePositionalValue extends Equatable {
   @override
   List<Object?> get props => [age, name];
 
-  PrimitivePositionalValue(this.age, this.name);
+  const PrimitivePositionalValue(this.age, this.name);
 }
 
 class PrimitivePositionalValueDto {
@@ -120,7 +137,7 @@ class PrimitiveNamedValue extends Equatable {
   @override
   List<Object?> get props => [age, name];
 
-  PrimitiveNamedValue({required this.age, required this.name});
+  const PrimitiveNamedValue({required this.age, required this.name});
 }
 
 class PrimitiveNamedValueDto {
@@ -141,7 +158,7 @@ class ComplexPositionalFunction extends Equatable {
   @override
   List<Object?> get props => [age, name];
 
-  ComplexPositionalFunction(this.age, this.name);
+  const ComplexPositionalFunction(this.age, this.name);
 }
 
 class ComplexPositionalFunctionDto {
@@ -158,7 +175,7 @@ class ComplexNamedFunction extends Equatable {
   @override
   List<Object?> get props => [age, name];
 
-  ComplexNamedFunction({required this.age, required this.name});
+  const ComplexNamedFunction({required this.age, required this.name});
 }
 
 class ComplexNamedFunctionDto {
@@ -177,7 +194,7 @@ class PrimitivePositionalFunction extends Equatable {
   @override
   List<Object?> get props => [age, name];
 
-  PrimitivePositionalFunction(this.age, this.name);
+  const PrimitivePositionalFunction(this.age, this.name);
 }
 
 class PrimitivePositionalFunctionDto {
@@ -194,7 +211,7 @@ class PrimitiveNamedFunction extends Equatable {
   @override
   List<Object?> get props => [age, name];
 
-  PrimitiveNamedFunction({required this.age, required this.name});
+  const PrimitiveNamedFunction({required this.age, required this.name});
 }
 
 class PrimitiveNamedFunctionDto {

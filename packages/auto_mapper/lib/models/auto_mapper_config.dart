@@ -4,18 +4,18 @@ import 'package:auto_mapper/models/type_mapping.dart';
 import 'package:collection/collection.dart';
 
 class AutoMapperConfig {
-  final List<TypeMapping> parts;
+  final List<TypeMapping> mappers;
 
   const AutoMapperConfig({
-    required this.parts,
+    required this.mappers,
   });
 
   TypeMapping? findMapping({
     required DartType source,
     required DartType target,
   }) {
-    return parts.firstWhereOrNull((x) {
-      if (x.source.isSameExceptNullability(source) && x.target.isSameExceptNullability(target)) return true;
+    return mappers.firstWhereOrNull((mapper) {
+      if (mapper.source.isSameExceptNullability(source) && mapper.target.isSameExceptNullability(target)) return true;
 
       // if (x.source.element == source && x.target == target) return true;
 

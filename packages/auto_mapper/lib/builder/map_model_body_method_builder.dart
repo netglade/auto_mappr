@@ -1,12 +1,12 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:auto_mapper/builder/value_assignment_builder.dart';
+import 'package:auto_mapper/models/field_element_extension.dart';
+import 'package:auto_mapper/models/models.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
-
-import '../models/models.dart';
 
 /*
 * Map positional fields
@@ -35,10 +35,10 @@ class MapModelBodyMethodBuilder {
   Code build() {
     final block = BlockBuilder();
 
-    final sourceClass = mapping.source.element as ClassElement;
-    final targetClass = mapping.target.element as ClassElement;
+    final sourceClass = mapping.source.element! as ClassElement;
+    final targetClass = mapping.target.element! as ClassElement;
 
-    final sourceFields = _getSourceFields(sourceClass);
+    final sourceFields = _getAllReadableFields(sourceClass);
     // Name of the source field names which can be mapped into constructor field
 
     final mappedSourceFieldNames = <String>[];
@@ -74,29 +74,29 @@ class MapModelBodyMethodBuilder {
     final sourceFieldName = sourceField.getDisplayString(withNullability: true);
     if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
       throw InvalidGenerationSourceError(
-          "Can't ignore field '${sourceFieldName}' as it is positional not-nullable parameter");
+        "Can't ignore field '$sourceFieldName' as it is positional not-nullable parameter",
+      );
     }
 
     if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
       throw InvalidGenerationSourceError(
-          "Can't ignore field '${sourceFieldName}' as it is required named not-nullable parameter");
+        "Can't ignore field '$sourceFieldName' as it is required named not-nullable parameter",
+      );
     }
   }
 
-  void _assertNotMappedConstructorParameters(List<SourceAssignment> notMappedParameters) {
-    final notMapped = notMappedParameters.map((e) => e.targetConstructorParam!.param);
-
-    for (var param in notMapped) {
+  void _assertNotMappedConstructorParameters(Iterable<ParameterElement> notMapped) {
+    for (final param in notMapped) {
       if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
         throw InvalidGenerationSourceError(
-          "Can't generate mapping ${mapping.toString()} as there is non mapped not-nullable positional parameter ${param.displayName}",
+          "Can't generate mapping $mapping as there is non mapped not-nullable positional parameter ${param.displayName}",
         );
       }
 
       if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
         if (param.type.isDartCoreList) return;
         throw InvalidGenerationSourceError(
-          "Can't generate mapping ${mapping.toString()} as there is non mapped not-nullable required named parameter ${param.displayName}",
+          "Can't generate mapping $mapping as there is non mapped not-nullable required named parameter ${param.displayName}",
         );
       }
     }
@@ -128,7 +128,7 @@ class MapModelBodyMethodBuilder {
       // Custom mapping has precedence.
       if (fieldMapping?.hasCustomMapping() ?? false) {
         final targetField =
-            targetClass.fields.firstWhere((targetField) => targetField.displayName == fieldMapping!.field);
+            targetClass.fields.firstWhere((targetField) => targetField.displayName == fieldMapping?.field);
 
         if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
           _assertParamFieldCanBeIgnored(param, targetField);
@@ -150,7 +150,7 @@ class MapModelBodyMethodBuilder {
 
         final targetField = from != null
             // support custom field rename mapping
-            ? targetClass.fields.firstWhere((targetField) => targetField.displayName == fieldMapping!.field)
+            ? targetClass.fields.firstWhere((targetField) => targetField.displayName == fieldMapping?.field)
             // find target field based on matching source field
             : targetClass.fields.firstWhere((targetField) => targetField.displayName == sourceField.displayName);
 
@@ -159,7 +159,7 @@ class MapModelBodyMethodBuilder {
         }
 
         final sourceAssignment = SourceAssignment(
-          sourceField: sourceFields[sourceFieldName]!,
+          sourceField: sourceFields[sourceFieldName],
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
           fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
@@ -168,7 +168,7 @@ class MapModelBodyMethodBuilder {
         mappedTargetConstructorParams.add(sourceAssignment);
         mappedSourceFieldNames.add(param.name);
       } else {
-        log.warning("NOT FOUND parameter $param");
+        log.warning('NOT FOUND parameter $param');
 
         // If not mapped constructor param is optional - skip it
         if (param.isOptional) continue;
@@ -180,7 +180,8 @@ class MapModelBodyMethodBuilder {
 
         if (targetField == null && fieldMapping == null) {
           throw InvalidGenerationSourceError(
-              "Can't find mapping for target's constructor parameter: ${param.displayName}. Parameter is required and no mapping or target's class field not found");
+            "Can't find mapping for target's constructor parameter: ${param.displayName}. Parameter is required and no mapping or target's class field not found",
+          );
         }
 
         notMappedTargetParameters.add(
@@ -194,7 +195,7 @@ class MapModelBodyMethodBuilder {
       }
     }
 
-    _assertNotMappedConstructorParameters(notMappedTargetParameters);
+    _assertNotMappedConstructorParameters(notMappedTargetParameters.map((e) => e.targetConstructorParam!.param));
 
     // Prepare and merge mapped and notMapped parameters into Positional and Named arrays
     final mappedPositionalParameters =
@@ -202,8 +203,8 @@ class MapModelBodyMethodBuilder {
     final notMappedPositionalParameters =
         notMappedTargetParameters.where((x) => x.targetConstructorParam?.position != null);
 
-    final positionalParameters = <SourceAssignment>[...mappedPositionalParameters, ...notMappedPositionalParameters];
-    positionalParameters.sortByCompare((x) => x.targetConstructorParam!.position!, (a, b) => a - b);
+    final positionalParameters = <SourceAssignment>[...mappedPositionalParameters, ...notMappedPositionalParameters]
+      ..sortByCompare((x) => x.targetConstructorParam!.position!, (a, b) => a - b);
 
     final namedParameters = <SourceAssignment>[
       ...mappedTargetConstructorParams.where((x) => x.targetConstructorParam?.isNamed ?? false),
@@ -253,13 +254,15 @@ class MapModelBodyMethodBuilder {
     required ClassElement targetClass,
     required BlockBuilder block,
   }) {
-    bool filterField(FieldElement field) =>
-        targetClass.fields.any((element) => element.displayName == field.displayName && !element.isFinal);
-    // TODO: check isPrivate
-
     final potentialSetterFields = sourceFields.keys.where((field) => !alreadyMapped.contains(field)).toList();
-    final fields =
-        potentialSetterFields.where((key) => filterField(sourceFields[key]!)).map((e) => sourceFields[e]!).toList();
+    final fields = potentialSetterFields
+        .map((key) => sourceFields[key])
+        .whereNotNull()
+        .where(
+          (field) =>
+              targetClass.fields.any((element) => element.displayName == field.displayName && element.isWritable),
+        )
+        .toList();
 
     for (final sourceField in fields) {
       final targetField = targetClass.fields.firstWhere((field) => field.displayName == sourceField.displayName);
@@ -283,9 +286,12 @@ class MapModelBodyMethodBuilder {
     }
   }
 
-  Map<String, FieldElement> _getSourceFields(ClassElement sourceClass) {
+  /// Returns all public fields (instance or static) that have a getter.
+  Map<String, FieldElement> _getAllReadableFields(ClassElement classElement) {
+    final fieldsWithGetter = classElement.fields.where((field) => field.isReadable);
+
     return {
-      for (final field in sourceClass.fields.where((FieldElement field) => !field.isSynthetic)) field.name: field,
+      for (final field in fieldsWithGetter) field.name: field,
     };
   }
 
@@ -300,9 +306,8 @@ class MapModelBodyMethodBuilder {
       );
     }
 
-    final constructors = element.constructors.where((c) => !c.isFactory).toList();
-
-    constructors.sort(((a, b) => b.parameters.length - a.parameters.length));
+    final constructors = element.constructors.where((c) => !c.isFactory).toList()
+      ..sort((a, b) => b.parameters.length - a.parameters.length);
 
     return constructors.first;
   }

@@ -10,6 +10,7 @@ part 'debug.g.dart';
 ])
 class Mapper extends $Mapper {}
 
+// ignore: must_be_immutable, for testing
 class Test extends Equatable {
   int? a;
   int? b;

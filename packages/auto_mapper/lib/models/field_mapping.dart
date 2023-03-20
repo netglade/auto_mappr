@@ -39,7 +39,7 @@ class FieldMapping extends Equatable {
     return customExpression != null;
   }
 
-  bool canBeApplied(SourceAssignment assignment) {
+  bool canBeApplied(SourceAssignment _) {
     if (ignore || hasCustomMapping()) return true;
 
     // source is null and whenNullDefault is set -> can be applied
@@ -79,7 +79,7 @@ class FieldMapping extends Equatable {
     // }
 
     throw InvalidGenerationSourceError(
-      'FieldMapping for field "${field}" from ${assignment} has ignore=false and target=null',
+      'FieldMapping for field "$field" from $assignment has ignore=false and target=null',
       todo: 'Set ignore=true or define custom mapping',
     );
   }

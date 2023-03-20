@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:equatable/equatable.dart';
 
@@ -17,12 +19,15 @@ part 'custom_mapping.g.dart';
   ),
   MapType<CustomValueFromEmptyDto, CustomListValue>(
     fields: [
-      Field('list', custom: [
-        CustomListValue([
-          CustomListValue([CustomValue(1)]),
-          CustomValue.named(2, xxx: 3)
-        ])
-      ]),
+      Field(
+        'list',
+        custom: [
+          CustomListValue([
+            CustomListValue([CustomValue(1)]),
+            CustomValue.named(2, xxx: 3)
+          ])
+        ],
+      ),
     ],
   ),
   // from empty
@@ -34,10 +39,13 @@ part 'custom_mapping.g.dart';
       Field('stringValue', custom: 'test text'),
       Field('boolValue', custom: false),
       Field('listValue', custom: ['alpha', 3, true, null]),
-      Field('listListValue', custom: [
-        ['alpha', 3],
-        [true, null]
-      ]),
+      Field(
+        'listListValue',
+        custom: [
+          ['alpha', 3],
+          [true, null]
+        ],
+      ),
       Field('setValue', custom: {3, -1, 123, -888}),
       Field('mapValue', custom: {'alpha': 1, 'beta': 2, 'gama': 3}),
     ],
@@ -58,7 +66,7 @@ part 'custom_mapping.g.dart';
   // from value
   MapType<CustomValuePositionalDto, CustomValuePositional>(
     fields: [
-      Field('nameAndId', custom: r"hello there, obi 'ben' wan"),
+      Field('nameAndId', custom: r'''hello there, $obi "ben" wan'''),
     ],
   ),
   MapType<CustomValueNamedDto, CustomValueNamed>(

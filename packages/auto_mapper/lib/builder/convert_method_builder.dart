@@ -1,8 +1,7 @@
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mapper/models/auto_mapper_config.dart';
+import 'package:auto_mapper/models/type_mapping.dart';
 import 'package:code_builder/code_builder.dart';
-
-import '../models/type_mapping.dart';
 
 /// Builds main `convert` method
 class ConvertMethodBuilder {
@@ -16,11 +15,13 @@ class ConvertMethodBuilder {
       '_map${source.getDisplayString(withNullability: false)}To${target.getDisplayString(withNullability: false)}';
 
   static Method buildCanConvert(AutoMapperConfig config) {
-    return Method((b) => b
-      ..name = 'canConvert'
-      ..types.addAll([sourceTypeReference, targetTypeReference])
-      ..returns = refer('bool')
-      ..body = _buildCanConvertBody(config.parts));
+    return Method(
+      (b) => b
+        ..name = 'canConvert'
+        ..types.addAll([sourceTypeReference, targetTypeReference])
+        ..returns = refer('bool')
+        ..body = _buildCanConvertBody(config.mappers),
+    );
   }
 
   static Method buildConvertMethod() {
@@ -42,27 +43,29 @@ class ConvertMethodBuilder {
   }
 
   static Method buildInternalConvertMethod(AutoMapperConfig config) {
-    return Method((b) => b
-      ..name = '_convert'
-      ..types.addAll([sourceTypeReference, targetTypeReference])
-      ..requiredParameters.add(
-        Parameter(
-          (p) => p
-            ..name = 'model'
-            ..type = nullableSourceTypeReference,
-        ),
-      )
-      ..optionalParameters.add(
-        Parameter(
-          (p) => p
-            ..name = 'canReturnNull'
-            ..type = refer('bool')
-            ..named = true
-            ..defaultTo = Code('false'),
-        ),
-      )
-      ..returns = targetTypeReference
-      ..body = _buildConvertMethodBody(config.parts));
+    return Method(
+      (b) => b
+        ..name = '_convert'
+        ..types.addAll([sourceTypeReference, targetTypeReference])
+        ..requiredParameters.add(
+          Parameter(
+            (p) => p
+              ..name = 'model'
+              ..type = nullableSourceTypeReference,
+          ),
+        )
+        ..optionalParameters.add(
+          Parameter(
+            (p) => p
+              ..name = 'canReturnNull'
+              ..type = refer('bool')
+              ..named = true
+              ..defaultTo = const Code('false'),
+          ),
+        )
+        ..returns = targetTypeReference
+        ..body = _buildConvertMethodBody(config.mappers),
+    );
   }
 
   static Method buildTypeOfHelperMethod() {
@@ -81,7 +84,7 @@ class ConvertMethodBuilder {
 
     final dartEmitter = DartEmitter();
 
-    for (var mapping in mappings) {
+    for (final mapping in mappings) {
       final sourceName = mapping.source.getDisplayString(withNullability: false);
       final targetName = mapping.target.getDisplayString(withNullability: false);
 
@@ -113,8 +116,10 @@ class ConvertMethodBuilder {
       block.statements.add(ifStatement);
     }
 
-    block.addExpression(refer('Exception')
-        .newInstance([refer("'No mapping from \${model.runtimeType} -> \${_typeOf<$targetKey>()}'")]).thrown);
+    block.addExpression(
+      refer('Exception')
+          .newInstance([refer("'No mapping from \${model.runtimeType} -> \${_typeOf<$targetKey>()}'")]).thrown,
+    );
 
     return block.build();
   }
@@ -124,12 +129,12 @@ class ConvertMethodBuilder {
 
     final dartEmitter = DartEmitter();
 
-    for (var mapping in mappings) {
+    for (final mapping in mappings) {
       final outputExpr =
           refer('_typeOf<$targetKey>()').equalTo(refer(mapping.target.getDisplayString(withNullability: false)));
 
       final ifCondition = refer('_typeOf<$sourceKey>()')
-          .equalTo(refer('${mapping.source.getDisplayString(withNullability: false)}'))
+          .equalTo(refer(mapping.source.getDisplayString(withNullability: false)))
           .and(outputExpr)
           .code
           .accept(dartEmitter);
@@ -139,7 +144,7 @@ class ConvertMethodBuilder {
       block.statements.add(ifStatement);
     }
 
-    block.statements.add(Code('return false;'));
+    block.statements.add(const Code('return false;'));
 
     return block.build();
   }

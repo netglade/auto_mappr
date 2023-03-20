@@ -4,9 +4,8 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mapper/models/dart_type_extension.dart';
+import 'package:auto_mapper/models/field_mapping.dart';
 import 'package:code_builder/code_builder.dart';
-
-import 'field_mapping.dart';
 
 class ConstructorAssignment {
   final ParameterElement param;
@@ -41,7 +40,6 @@ class SourceAssignment {
     this.fieldMapping,
   });
 
-  //todo (tests)
   bool shouldAssignList() {
     // The source can be mapped to the target, if the source is mappable object and the target is listLike.
     return _isCoreListLike(targetType) && _isMappable(sourceField!.type);

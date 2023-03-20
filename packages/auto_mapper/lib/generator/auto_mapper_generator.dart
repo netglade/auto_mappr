@@ -2,14 +2,13 @@
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mapper/builder/auto_mapper_builder.dart';
 import 'package:auto_mapper/models/dart_object_extension.dart';
+import 'package:auto_mapper/models/models.dart';
 import 'package:auto_mapper_annotation/auto_mapper.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
-
-import '../builder/auto_mapper_builder.dart';
-import '../models/models.dart';
 
 /// Code generator to generate implemented mapping classes.
 class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
@@ -29,7 +28,7 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
     final mappers = mappersField.toListValue()!;
 
     final parts = mappers.map((mapper) {
-      final mapperType = mapper.type as ParameterizedType;
+      final mapperType = mapper.type! as ParameterizedType;
 
       final sourceType = mapperType.typeArguments.first;
       final targetType = mapperType.typeArguments[1];
@@ -39,13 +38,15 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
       final constructor = mapper.getField('constructor')?.toStringValue();
 
       final fieldMappings = fields
-          ?.map((fieldMapping) => FieldMapping(
-                field: fieldMapping.getField('field')!.toStringValue()!,
-                ignore: fieldMapping.getField('ignore')!.toBoolValue()!,
-                from: fieldMapping.getField('from')!.toStringValue(),
-                customExpression: fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true),
-                whenNullExpression: fieldMapping.getField('whenNull')!.toCodeExpression(),
-              ))
+          ?.map(
+            (fieldMapping) => FieldMapping(
+              field: fieldMapping.getField('field')!.toStringValue()!,
+              ignore: fieldMapping.getField('ignore')!.toBoolValue()!,
+              from: fieldMapping.getField('from')!.toStringValue(),
+              customExpression: fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true),
+              whenNullExpression: fieldMapping.getField('whenNull')!.toCodeExpression(),
+            ),
+          )
           .toList();
 
       return TypeMapping(
@@ -64,7 +65,7 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
       );
     }
 
-    final config = AutoMapperConfig(parts: parts);
+    final config = AutoMapperConfig(mappers: parts);
 
     final builder = AutoMapperBuilder(mapperClassElement: element, config: config);
 

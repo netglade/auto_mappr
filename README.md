@@ -32,9 +32,10 @@ without need to write these mapping by hand.
 
 todos:
 
-- [ ] log.warning when mapping unknown target field
+- [ ] log.warning when mapping to unknown target field
 - [x] concrete convert method calls 
 - [ ] what should `canReturnNull` do, how to handle `as TARGET` etc.
+  - add _convertXxxToYyyNullable - nested values can use this when nullable
 
 critical:
 
@@ -48,30 +49,24 @@ critical:
 - [x] custom mapping - functions or const values
 - [x] when null default - field
 - [x] when null default - target
-- [ ] ? constructor parameters (positional, named)
-- [ ] ? setters (when not set in constructor and if not final) -- todo check final and private
+- [x] constructor parameters (positional, named)
+- [x] mapping to target (1. to constructor parameters, 2. to public fields and setters that have not been set)
+- [x] mapping from source (public fields or getters of either instance or static)
 - [x] selecting constructor
-- [ ] member name doesn't match constructor argument name
-  - [ ] mapping constructor parameters that are not `this.xx` and have `...get xx...` are handled correctly. 
-```dart
-class Source {
-  final int a;
-  Source(this.a);
-}
-class Target {
-  final int _a;
-  int get a => _a;
-  Target(int a) : _a = a;
-}
+- [x] works with Equatable
+- [x] works with JSON serializable
 ```
 
 nice to have:
 
-- [ ] improved better-fitted constructor selector (factory constructors etc.)
-- [ ] enum type
-- [ ] flattening
-- [ ] reverse mapping
+- [ ] if no 1:1 mapping found, try to find some case insensitive or different letter type names,
+  - for example: 'auto' would be matched from 'Auto', 'AUTO', 'áuto', 'aútó', ...    
 - [ ] implicit mappings of nested
+- [ ] improved better-fitted constructor selector (factory constructors etc.)
+- [ ] flattening
+- [ ] enum type
+- [ ] reverse mapping
+- [ ] member name doesn't match constructor argument name
 
 ## Get started
 

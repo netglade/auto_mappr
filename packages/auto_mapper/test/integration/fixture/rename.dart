@@ -241,7 +241,7 @@ class Nested extends Equatable {
   @override
   List<Object?> get props => [id, name];
 
-  Nested({required this.id, required this.name});
+  const Nested({required this.id, required this.name});
 }
 
 class NestedDto {
@@ -299,7 +299,7 @@ class NestedReversed extends Equatable {
   @override
   List<Object?> get props => [id, name];
 
-  NestedReversed({required this.id, required this.name});
+  const NestedReversed({required this.id, required this.name});
 }
 
 class NestedReversedDto {

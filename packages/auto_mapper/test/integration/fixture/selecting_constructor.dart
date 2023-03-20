@@ -30,17 +30,17 @@ class FinalTarget extends Equatable {
   @override
   List<Object?> get props => [a, b, c];
 
-  FinalTarget(this.a, this.b, this.c);
+  const FinalTarget(this.a, this.b, this.c);
 
-  FinalTarget.alpha(this.a)
+  const FinalTarget.alpha(this.a)
       : b = null,
         c = null;
 
-  FinalTarget.beta(this.b)
+  const FinalTarget.beta(this.b)
       : a = null,
         c = null;
 
-  FinalTarget.gama(this.c)
+  const FinalTarget.gama(this.c)
       : a = null,
         b = null;
 }

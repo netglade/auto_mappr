@@ -13,35 +13,32 @@ void main() {
     'Empty DTO - complex objects',
     () {
       test('Default constructor', () {
-        final converted = mapper.convert<fixture.CustomValueFromEmptyDto, fixture.CustomValueHolder>(
-          fixture.CustomValueFromEmptyDto(),
-        );
+        const dto = fixture.CustomValueFromEmptyDto();
+        final converted = mapper.convert<fixture.CustomValueFromEmptyDto, fixture.CustomValueHolder>(dto);
 
         expect(
           converted,
-          fixture.CustomValueHolder(fixture.CustomValue(42)),
+          const fixture.CustomValueHolder(fixture.CustomValue(42)),
         );
       });
 
       test('Named constructor', () {
-        final converted = mapper.convert<fixture.CustomValueFromEmptyDto, fixture.CustomValueHolderNamed>(
-          fixture.CustomValueFromEmptyDto(),
-        );
+        const dto = fixture.CustomValueFromEmptyDto();
+        final converted = mapper.convert<fixture.CustomValueFromEmptyDto, fixture.CustomValueHolderNamed>(dto);
 
         expect(
           converted,
-          fixture.CustomValueHolderNamed(fixture.CustomValue.named(420, xxx: 421)),
+          const fixture.CustomValueHolderNamed(fixture.CustomValue.named(420, xxx: 421)),
         );
       });
 
       test('Deeply nested', () {
-        final converted = mapper.convert<fixture.CustomValueFromEmptyDto, fixture.CustomListValue>(
-          fixture.CustomValueFromEmptyDto(),
-        );
+        const dto = fixture.CustomValueFromEmptyDto();
+        final converted = mapper.convert<fixture.CustomValueFromEmptyDto, fixture.CustomListValue>(dto);
 
         expect(
           converted,
-          fixture.CustomListValue([
+          const fixture.CustomListValue([
             fixture.CustomListValue([
               fixture.CustomListValue([fixture.CustomValue(1)]),
               fixture.CustomValue.named(2, xxx: 3)
@@ -56,13 +53,12 @@ void main() {
     'Empty DTO - literal objects',
     () {
       test('From values', () {
-        final converted = mapper.convert<fixture.CustomValueFromEmptyDto, fixture.CustomValueFromEmpty>(
-          fixture.CustomValueFromEmptyDto(),
-        );
+        const dto = fixture.CustomValueFromEmptyDto();
+        final converted = mapper.convert<fixture.CustomValueFromEmptyDto, fixture.CustomValueFromEmpty>(dto);
 
         expect(
           converted,
-          fixture.CustomValueFromEmpty(
+          const fixture.CustomValueFromEmpty(
             5,
             123,
             12.45,
@@ -80,13 +76,12 @@ void main() {
       });
 
       test('From functions', () {
-        final converted = mapper.convert<fixture.CustomFunctionFromEmptyDto, fixture.CustomFunctionFromEmpty>(
-          fixture.CustomFunctionFromEmptyDto(),
-        );
+        const dto = fixture.CustomFunctionFromEmptyDto();
+        final converted = mapper.convert<fixture.CustomFunctionFromEmptyDto, fixture.CustomFunctionFromEmpty>(dto);
 
         expect(
           converted,
-          fixture.CustomFunctionFromEmpty(
+          const fixture.CustomFunctionFromEmpty(
             1.2,
             2,
             74.58,
@@ -109,22 +104,20 @@ void main() {
     test(
       'in positional parameters',
       () {
-        final converted = mapper.convert<fixture.CustomValuePositionalDto, fixture.CustomValuePositional>(
-          fixture.CustomValuePositionalDto(123456, 'test name'),
-        );
+        const dto = fixture.CustomValuePositionalDto(123456, 'test name');
+        final converted = mapper.convert<fixture.CustomValuePositionalDto, fixture.CustomValuePositional>(dto);
 
-        expect(converted, fixture.CustomValuePositional(r"hello there, obi 'ben' wan"));
+        expect(converted, const fixture.CustomValuePositional(r'hello there, $obi "ben" wan'));
       },
     );
 
     test(
       'in named parameters',
       () {
-        final converted = mapper.convert<fixture.CustomValueNamedDto, fixture.CustomValueNamed>(
-          fixture.CustomValueNamedDto(id: 123456, name: 'test name'),
-        );
+        const dto = fixture.CustomValueNamedDto(id: 123456, name: 'test name');
+        final converted = mapper.convert<fixture.CustomValueNamedDto, fixture.CustomValueNamed>(dto);
 
-        expect(converted, fixture.CustomValueNamed(nameAndId: 'hello "there" kenobi'));
+        expect(converted, const fixture.CustomValueNamed(nameAndId: 'hello "there" kenobi'));
       },
     );
   });
@@ -133,22 +126,20 @@ void main() {
     test(
       'in positional parameters',
       () {
-        final converted = mapper.convert<fixture.CustomFunctionPositionalDto, fixture.CustomFunctionPositional>(
-          fixture.CustomFunctionPositionalDto(963852, 'test xxx'),
-        );
+        const dto = fixture.CustomFunctionPositionalDto(963852, 'test xxx');
+        final converted = mapper.convert<fixture.CustomFunctionPositionalDto, fixture.CustomFunctionPositional>(dto);
 
-        expect(converted, fixture.CustomFunctionPositional('test xxx #963852'));
+        expect(converted, const fixture.CustomFunctionPositional('test xxx #963852'));
       },
     );
 
     test(
       'in named parameters',
       () {
-        final converted = mapper.convert<fixture.CustomFunctionNamedDto, fixture.CustomFunctionNamed>(
-          fixture.CustomFunctionNamedDto(id: 123456, name: 'test name'),
-        );
+        const dto = fixture.CustomFunctionNamedDto(id: 123456, name: 'test name');
+        final converted = mapper.convert<fixture.CustomFunctionNamedDto, fixture.CustomFunctionNamed>(dto);
 
-        expect(converted, fixture.CustomFunctionNamed(nameAndId: 'test name #123456'));
+        expect(converted, const fixture.CustomFunctionNamed(nameAndId: 'test name #123456'));
       },
     );
   });

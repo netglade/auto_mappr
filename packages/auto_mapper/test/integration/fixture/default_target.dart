@@ -34,19 +34,19 @@ part 'default_target.g.dart';
 ])
 class Mapper extends $Mapper {
   static ComplexPositionalFunction defaultComplexPositionalFunction() {
-    return ComplexPositionalFunction(99, Nested(id: 123, name: 'test qwerty'));
+    return const ComplexPositionalFunction(99, Nested(id: 123, name: 'test qwerty'));
   }
 
   static ComplexNamedFunction defaultComplexNamedFunction() {
-    return ComplexNamedFunction(age: 99, name: Nested(id: 123, name: 'test qwerty'));
+    return const ComplexNamedFunction(age: 99, name: Nested(id: 123, name: 'test qwerty'));
   }
 
   static PrimitivePositionalFunction defaultPrimitivePositionalFunction() {
-    return PrimitivePositionalFunction(99, 'bbb');
+    return const PrimitivePositionalFunction(99, 'bbb');
   }
 
   static PrimitiveNamedFunction defaultPrimitiveNamedFunction() {
-    return PrimitiveNamedFunction(age: 99, name: 'aaa');
+    return const PrimitiveNamedFunction(age: 99, name: 'aaa');
   }
 }
 
