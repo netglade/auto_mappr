@@ -14,12 +14,8 @@ class AutoMapperConfig {
     required DartType source,
     required DartType target,
   }) {
-    return mappers.firstWhereOrNull((mapper) {
-      if (mapper.source.isSameExceptNullability(source) && mapper.target.isSameExceptNullability(target)) return true;
-
-      // if (x.source.element == source && x.target == target) return true;
-
-      return false;
-    });
+    return mappers.firstWhereOrNull(
+      (mapper) => mapper.source.isSameExceptNullability(source) && mapper.target.isSameExceptNullability(target),
+    );
   }
 }

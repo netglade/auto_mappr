@@ -23,9 +23,9 @@ Thanks to code-generation you can generate class, called mapper,
 which will allow to map between different objects automatically
 without need to write these mapping by hand.
 
-| Package                                                  | Pub                                                                                                    |
-|----------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| [auto_mapper](packages/auto_mapper)                      | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                                  |
+| Package                                                   | Pub                                                                                                    |
+|-----------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| [auto_mapper](packages/auto_mapper)                       | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                                  |
 | [auto_mapper_annotation](packages/auto_mapper_annotation) | [![auto_mapper_annotation package][auto_mapper_annotation_pub_badge]][auto_mapper_annotation_pub_link] |
 
 ## Features
@@ -33,18 +33,17 @@ without need to write these mapping by hand.
 todos:
 
 - [ ] log.warning when mapping to unknown target field
-- [x] concrete convert method calls 
 - [ ] what should `canReturnNull` do, how to handle `as TARGET` etc.
-  - add _convertXxxToYyyNullable - nested values can use this when nullable
+  - add _convertXxxToYyy__Nullable - nested values can use this when nullable
 
 critical:
 
 - [x] primitive types (num, int, double, string, bool) + enum
-- [ ] iterable types 
+- [x] iterable types 
   - [x] iterable
   - [x] list
   - [x] set
-  - [ ] map
+  - [x] map
 - [x] complex/nested types
 - [x] renaming
 - [x] custom mapping - functions or const values
@@ -62,6 +61,7 @@ nice to have:
 - [ ] if no 1:1 mapping found, try to find some case insensitive or different letter type names,
   - for example: 'auto' would be matched from 'Auto', 'AUTO', 'áuto', 'aútó', ...    
 - [ ] implicit mappings of nested
+- [ ] consider generics (we can access it, but we do not use it)
 - [ ] improved better-fitted constructor selector (factory constructors etc.)
 - [ ] flattening
 - [ ] enum type

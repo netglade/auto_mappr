@@ -25,11 +25,13 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
     final annotation = element.metadata.single; // AutoMapper annotation
     final constant = annotation.computeConstantValue()!; // its instance
     final mappersField = constant.getField('mappers')!;
-    final mappers = mappersField.toListValue()!;
+    final mappersList = mappersField.toListValue()!;
 
-    final parts = mappers.map((mapper) {
+    final mappers = mappersList.map((mapper) {
       final mapperType = mapper.type! as ParameterizedType;
 
+      // TODO(generics): (sourceType as ParameterizedType).typeArguments -> [int]
+      // TODO(generics): (sourceType.element! as ClassElement).typeParameters -> [T]
       final sourceType = mapperType.typeArguments.first;
       final targetType = mapperType.typeArguments[1];
 
@@ -58,14 +60,14 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMapper> {
       );
     }).toList();
 
-    final duplicates = parts.duplicates;
+    final duplicates = mappers.duplicates;
     if (duplicates.isNotEmpty) {
       throw InvalidGenerationSourceError(
         '@AutoMapper has configured duplicated mappings:\n\t${duplicates.join('\n\t')}',
       );
     }
 
-    final config = AutoMapperConfig(mappers: parts);
+    final config = AutoMapperConfig(mappers: mappers);
 
     final builder = AutoMapperBuilder(mapperClassElement: element, config: config);
 

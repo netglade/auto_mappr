@@ -1,7 +1,6 @@
 //ignore_for_file: prefer-match-file-name
 
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mapper/models/dart_type_extension.dart';
 import 'package:auto_mapper/models/field_mapping.dart';
@@ -27,8 +26,6 @@ class SourceAssignment {
 
   bool get shouldBeIgnored => fieldMapping?.ignore ?? false;
 
-  NullabilitySuffix get targetNullability => targetType.nullabilitySuffix;
-
   DartType get targetType => targetConstructorParam?.param.type ?? targetField!.type;
 
   String get targetName => targetConstructorParam?.param.displayName ?? targetField!.displayName;
@@ -42,7 +39,12 @@ class SourceAssignment {
 
   bool shouldAssignListLike() {
     // The source can be mapped to the target, if the source is mappable object and the target is listLike.
-    return _isCoreListLike(targetType) && _isMappableListLke(sourceField!.type);
+    return _isCoreListLike(targetType) && _isMappableListLike(sourceField!.type);
+  }
+
+  bool shouldAssignMap() {
+    // The source can be mapped to the target, if the source is mappable object and the target is map.
+    return targetType.isDartCoreMap && _isMappableMap(sourceField!.type);
   }
 
   bool shouldAssignComplexObject() => !targetType.isPrimitiveType;
@@ -67,7 +69,7 @@ class SourceAssignment {
     return type.isDartCoreList || type.isDartCoreSet || type.isDartCoreIterable;
   }
 
-  bool _isMappableListLke(DartType type) {
+  bool _isMappableListLike(DartType type) {
     if (_isCoreListLike(type)) {
       return true;
     }
@@ -77,5 +79,17 @@ class SourceAssignment {
     }
 
     return type.allSupertypes.any(_isCoreListLike);
+  }
+
+  bool _isMappableMap(DartType type) {
+    if (type.isDartCoreMap) {
+      return true;
+    }
+
+    if (type is! InterfaceType) {
+      return false;
+    }
+
+    return type.allSupertypes.any((superType) => superType.isDartCoreMap);
   }
 }

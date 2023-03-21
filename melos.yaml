@@ -18,3 +18,8 @@ scripts:
     packageFilters:
       dirExists:
         - test
+  gen:test:v:
+    run: melos exec -- dart run build_runner watch --delete-conflicting-outputs --verbose
+    packageFilters:
+      dirExists:
+        - test

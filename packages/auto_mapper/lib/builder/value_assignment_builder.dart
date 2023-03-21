@@ -36,13 +36,13 @@ class ValueAssignmentBuilder {
       return fieldMapping.apply(assignment);
     }
 
-    // TODO(collections): support Map and Set
     if (assignment.shouldAssignListLike()) {
       return _assignListLikeValue(assignment);
     }
 
-    // print(
-    //     '${sourceField!.name} mapping as nested object: $assignNestedObject. DartType isEnum? ${assignment.targetType.isDartCoreEnum}');
+    if (assignment.shouldAssignMap()) {
+      return _assignMapValue(assignment);
+    }
 
     final assignNestedObject = !assignment.targetType.isPrimitiveType;
     if (assignNestedObject) {
@@ -66,87 +66,109 @@ class ValueAssignmentBuilder {
 
   Expression _assignListLikeValue(SourceAssignment assignment) {
     final sourceType = assignment.sourceField!.type;
-    // final targetType = assignment.targetType;
+    final targetType = assignment.targetType;
+
     final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
-    final targetNullable = assignment.targetNullability == NullabilitySuffix.question;
+    final targetNullable = targetType.nullabilitySuffix == NullabilitySuffix.question;
 
-    final targetListType = (assignment.targetType as ParameterizedType).typeArguments.first;
-    final sourceListType = (sourceType as ParameterizedType).typeArguments.first;
-    final assignNestedObject = !targetListType.isPrimitiveType && (targetListType != sourceListType);
+    final targetListLikeType = (targetType as ParameterizedType).typeArguments.first;
+    final sourceListLikeType = (sourceType as ParameterizedType).typeArguments.first;
 
-    final sourceListExpr = refer('model').property(assignment.sourceField!.name);
-    final defaultListValueExpr = literalList([], refer(targetListType.getDisplayString(withNullability: true)));
+    final shouldFilterNullInSource = sourceListLikeType.nullabilitySuffix == NullabilitySuffix.question &&
+        targetListLikeType.nullabilitySuffix != NullabilitySuffix.question;
+    final assignNestedObject = !targetListLikeType.isPrimitiveType && (targetListLikeType != sourceListLikeType);
+
+    // When [sourceListLikeType] is nullable and [targetListLikeType] is not, remove null values.
+    final sourceListLikeExpression = refer('model').property(assignment.sourceField!.name).maybeWhereListLikeNotNull(
+          condition: shouldFilterNullInSource,
+          isOnNullable: sourceNullable,
+        );
+
+    final defaultListLikeValueExpression = targetListLikeType.defaultListLikeExpression();
 
     if (assignNestedObject) {
-      return sourceListExpr
-          .maybeNullSafeProperty('map', isNullable: sourceNullable)
+      return sourceListLikeExpression
+          // Map complex nested types.
+          .maybeNullSafeProperty('map', isOnNullable: sourceNullable)
           .call(
-            [_nestedListLikeMapCall(assignment)],
+            [_nestedMapCallForListLike(assignment)],
             {},
-            [refer(targetListType.getDisplayString(withNullability: true))],
+            [refer(targetListLikeType.getDisplayString(withNullability: true))],
           )
-          .maybeToIterableCall(assignment.targetType)
-          .maybeIfNullThen(defaultListValueExpr, isNullable: sourceNullable);
+          // Call toList, toSet or nothing.
+          .maybeToIterableCall(assignment.targetType, isOnNullable: sourceNullable)
+          // When [sourceNullable], use default value.
+          .maybeIfNullThen(defaultListLikeValueExpression, isOnNullable: sourceNullable);
     }
 
-    return refer('model')
-        .property(assignment.sourceField!.name)
-        .maybeIfNullThen(refer('[]'), isNullable: !targetNullable && sourceNullable);
+    return sourceListLikeExpression
+        .maybeToIterableCall(
+          assignment.targetType,
+          isOnNullable: !targetNullable && sourceNullable,
+        )
+        .maybeIfNullThen(
+          defaultListLikeValueExpression,
+          isOnNullable: !targetNullable && sourceNullable,
+        );
+  }
 
-    // if (!targetNullable && !sourceNullable) {
-    //   if (assignNestedObject) {
-    //     return sourceListExpr.maybeNullSafeProperty('map', isNullable: sourceNullable).call(
-    //       [_nestedListLikeMapCall(assignment)],
-    //       {},
-    //       [refer(targetListType.getDisplayString(withNullability: true))],
-    //     ).toIterableCall(assignment.targetType);
-    //   }
-    //
-    //   return refer('model').property(assignment.sourceField!.name);
-    // }
-    //
-    // if (!targetNullable && sourceNullable) {
-    //   if (assignNestedObject) {
-    //     return sourceListExpr
-    //         .maybeNullSafeProperty('map', isNullable: sourceNullable)
-    //         .call(
-    //           [_nestedListLikeMapCall(assignment)],
-    //           {},
-    //           [refer(targetListType.getDisplayString(withNullability: true))],
-    //         )
-    //         .toIterableCall(assignment.targetType)
-    //         .ifNullThen(defaultListValueExpr);
-    //   }
-    //
-    //   return refer('model').property(assignment.sourceField!.name).ifNullThen(refer('[]'));
-    // }
-    //
-    // if (targetNullable && !sourceNullable) {
-    //   if (assignNestedObject) {
-    //     return sourceListExpr.maybeNullSafeProperty('map', isNullable: sourceNullable).call(
-    //       [_nestedListLikeMapCall(assignment)],
-    //       {},
-    //       [refer(targetListType.getDisplayString(withNullability: true))],
-    //     ).toIterableCall(assignment.targetType);
-    //   }
-    //
-    //   return refer('model').property(assignment.sourceField!.name);
-    // }
-    //
-    // // sourceNullable && targetNullable
-    // if (assignNestedObject) {
-    //   return sourceListExpr
-    //       .maybeNullSafeProperty('map', isNullable: sourceNullable)
-    //       .call(
-    //         [_nestedListLikeMapCall(assignment)],
-    //         {},
-    //         [refer(targetListType.getDisplayString(withNullability: true))],
-    //       )
-    //       .toIterableCall(assignment.targetType)
-    //       .maybeIfNullThen(defaultListValueExpr, isNullable: sourceNullable);
-    // }
-    //
-    // return refer('model').property(assignment.sourceField!.name);
+  Expression _assignMapValue(SourceAssignment assignment) {
+    final sourceType = assignment.sourceField!.type;
+    final targetType = assignment.targetType;
+
+    final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
+
+    final sourceKeyType = (sourceType as ParameterizedType).typeArguments.first;
+    final sourceValueType = sourceType.typeArguments.last;
+
+    final targetKeyType = (targetType as ParameterizedType).typeArguments.first;
+    final targetValueType = targetType.typeArguments.last;
+
+    final sourceNullableKey = sourceKeyType.nullabilitySuffix == NullabilitySuffix.question;
+    final sourceNullableValue = sourceValueType.nullabilitySuffix == NullabilitySuffix.question;
+    final targetNullableKey = targetKeyType.nullabilitySuffix == NullabilitySuffix.question;
+    final targetNullableValue = targetValueType.nullabilitySuffix == NullabilitySuffix.question;
+
+    final keyMapping = mapperConfig.findMapping(source: sourceKeyType, target: targetKeyType);
+    final valueMapping = mapperConfig.findMapping(source: sourceValueType, target: targetValueType);
+
+    final shouldRemoveNullsKey =
+        sourceNullableKey && !targetNullableKey && (!(keyMapping?.hasWhenNullDefault() ?? false));
+
+    final shouldRemoveNullsValue =
+        sourceNullableValue && !targetNullableValue && (!(valueMapping?.hasWhenNullDefault() ?? false));
+
+    // Source is null, target is not null, and default value does not exist.
+    final shouldRemoveNulls = shouldRemoveNullsKey || shouldRemoveNullsValue;
+
+    final sourceMapExpression = refer('model').property(assignment.sourceField!.name);
+
+    final defaultMapValueExpression = literalMap(
+      {},
+      refer(targetKeyType.getDisplayString(withNullability: true)),
+      refer(targetValueType.getDisplayString(withNullability: true)),
+    );
+
+    return sourceMapExpression
+        // Filter nulls when source key/value is nullable and target is not.
+        .maybeWhereMapNotNull(
+          condition: shouldRemoveNulls,
+          isOnNullable: sourceNullable,
+          keyType: sourceKeyType,
+          valueType: sourceValueType,
+        )
+        // Map map entries.
+        .maybeNullSafeProperty('map', isOnNullable: sourceNullable)
+        .call(
+      [_callMapForMap(assignment)],
+      {},
+      [
+        refer(targetKeyType.getDisplayString(withNullability: true)),
+        refer(targetValueType.getDisplayString(withNullability: true)),
+      ],
+    )
+        // When [sourceNullable], use default value.
+        .maybeIfNullThen(defaultMapValueExpression, isOnNullable: sourceNullable);
   }
 
   Expression _assignNestedObject({
@@ -200,9 +222,7 @@ class ValueAssignmentBuilder {
     return convertCallExpr;
   }
 
-  Expression _nestedListLikeMapCall(
-    SourceAssignment assignment,
-  ) {
+  Expression _nestedMapCallForListLike(SourceAssignment assignment) {
     final targetListType = (assignment.targetType as ParameterizedType).typeArguments.first;
     final sourceListType = (assignment.sourceField!.type as ParameterizedType).typeArguments.first;
     final convertMethodCall = _assignNestedObject(
@@ -213,5 +233,43 @@ class ValueAssignmentBuilder {
     ).accept(DartEmitter());
 
     return refer('(e) => $convertMethodCall');
+  }
+
+  Expression _callMapForMap(
+    SourceAssignment assignment,
+  ) {
+    final targetKeyType = (assignment.targetType as ParameterizedType).typeArguments.first;
+    final targetValueType = (assignment.targetType as ParameterizedType).typeArguments.last;
+
+    final sourceKeyType = (assignment.sourceField!.type as ParameterizedType).typeArguments.first;
+    final sourceValueType = (assignment.sourceField!.type as ParameterizedType).typeArguments.last;
+
+    final assignNestedObjectKey = !targetKeyType.isPrimitiveType && (targetKeyType != sourceKeyType);
+    final assignNestedObjectValue = !targetValueType.isPrimitiveType && (targetValueType != sourceValueType);
+
+    final sourceMapExpression = refer('key');
+    final targetMapExpression = refer('value');
+
+    final keyExpression = assignNestedObjectKey
+        ? _assignNestedObject(
+            assignment: assignment,
+            source: sourceKeyType,
+            target: targetKeyType,
+            convertMethodArg: sourceMapExpression,
+          )
+        : sourceMapExpression;
+
+    final valueExpression = assignNestedObjectValue
+        ? _assignNestedObject(
+            assignment: assignment,
+            source: sourceValueType,
+            target: targetValueType,
+            convertMethodArg: targetMapExpression,
+          )
+        : targetMapExpression;
+
+    return refer(
+      '(key, value) => MapEntry(${keyExpression.accept(DartEmitter())}, ${valueExpression.accept(DartEmitter())})',
+    );
   }
 }
