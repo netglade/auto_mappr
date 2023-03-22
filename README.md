@@ -152,9 +152,9 @@ Your contributions are always welcome! Feel free to open pull request.
 
 [netglade_link]: https://netglade.cz/en
 
-[ci_badge]: https://github.com/netglade/sliver_app_bar_builder/workflows/ci/badge.svg
+[ci_badge]: https://github.com/netglade/auto_mappr/workflows/ci/badge.svg
 
-[ci_badge_link]: https://github.com/netglade/sliver_app_bar_builder/actions
+[ci_badge_link]: https://github.com/netglade/auto_mappr/actions
 
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 

@@ -63,10 +63,19 @@ class Field {
   /// Note that [custom] has priority.
   final String? from;
 
-  /// Field renaming using [from] or assigning default value with [whenNull].
+  /// Universal constructor.
   const Field(
     this.field, {
     this.from,
+    this.custom,
+    this.ignore = false,
+    this.whenNull,
+  });
+
+  /// Field renaming using [from] or assigning default value with [whenNull].
+  const Field.from(
+    this.field, {
+    required this.from,
     this.whenNull,
   })  : custom = null,
         ignore = false;
