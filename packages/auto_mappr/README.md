@@ -143,24 +143,19 @@ Your contributions are always welcome! Feel free to open pull request.
 
 [netglade_link]: https://netglade.com/en
 
-[ci_badge]: https://github.com/netglade/auto_mappr/workflows/ci/badge.svg
-
+[ci_badge]: https://github.com/netglade/auto_mappr/actions/workflows/build.yaml/badge.svg
 [ci_badge_link]: https://github.com/netglade/auto_mappr/actions
 
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
-
 [license_badge_link]: https://opensource.org/licenses/MIT
 
 [style_badge]: https://img.shields.io/badge/style-netglade_analysis-26D07C.svg
-
 [style_badge_link]: https://pub.dev/packages/netglade_analysis
 
 [auto_mappr_pub_badge]: https://img.shields.io/pub/v/auto_mappr.svg
-
 [auto_mappr_pub_link]: https://pub.dartlang.org/packages/auto_mappr
 
 [auto_mappr_annotation_pub_badge]: https://img.shields.io/pub/v/auto_mappr_annotation.svg
-
 [auto_mappr_annotation_pub_link]: https://pub.dartlang.org/packages/auto_mappr_annotation
 
 [auto_mapper_net_link]: https://automapper.org
