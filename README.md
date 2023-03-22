@@ -56,18 +56,6 @@ critical:
 - [x] works with Equatable
 - [x] works with JSON serializable
 
-nice to have:
-
-- [ ] if no 1:1 mapping found, try to find some case insensitive or different letter type names,
-  - for example: 'auto' would be matched from 'Auto', 'AUTO', 'áuto', 'aútó', ...    
-- [ ] implicit mappings of nested
-- [ ] consider generics (we can access it, but we do not use it)
-- [ ] improved better-fitted constructor selector (factory constructors etc.)
-- [ ] flattening
-- [ ] enum type
-- [ ] reverse mapping
-- [ ] member name doesn't match constructor argument name
-
 ## Get started
 
 Add `builder_runner` and `auto_mappr` as dev dependency

@@ -30,8 +30,6 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMappr> {
     final mappers = mappersList.map((mapper) {
       final mapperType = mapper.type! as ParameterizedType;
 
-      // TODO(generics): (sourceType as ParameterizedType).typeArguments -> [int]
-      // TODO(generics): (sourceType.element! as ClassElement).typeParameters -> [T]
       final sourceType = mapperType.typeArguments.first;
       final targetType = mapperType.typeArguments[1];
 
