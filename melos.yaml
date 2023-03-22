@@ -54,7 +54,7 @@ scripts:
   # TESTING
 
   test:
-    run: melos run -- dart test
+    run: melos exec -- dart test
     packageFilters:
       dirExists: test
     description: Run all Dart tests in this project.
