@@ -17,39 +17,45 @@ scripts:
 
   lint:dart:
     run: melos exec -c 10 -- dart analyze --fatal-infos
-    description: Run `flutter analyze` for all packages.
+    description: Run Dart static analysis checks.
 
   lint:dcm:
-    run: melos exec -c 10 -- dart analyze --fatal-infos
-    description: Run `flutter analyze` for all packages.
+    run: melos exec -c 10 -- dart run dart_code_metrics:metrics analyze . --fatal-style --fatal-performance --fatal-warnings
+    packageFilters:
+      ignore: '*example*'
+    description: Run DCM static analysis checks.
 
   # GENERATION
 
   gen:build-all:
     run: melos run gen:example:build && melos run gen:test:build
-    description: Run `flutter analyze` for all packages.
+    description: Generate everything.
 
   gen:example:
     run: melos exec -- dart run build_runner watch --delete-conflicting-outputs
     packageFilters:
       scope: '*example*'
+    description: Generate example mappers.
 
   gen:example:build:
     run: melos exec -- dart run build_runner build --delete-conflicting-outputs
     packageFilters:
       scope: '*example*'
+    description: Generate example mappers once.
 
   gen:test:
     run: melos exec -- dart run build_runner watch --delete-conflicting-outputs
     packageFilters:
       dirExists:
         - test
+    description: Generate test mappers.
 
   gen:test:build:
     run: melos exec -- dart run build_runner build --delete-conflicting-outputs
     packageFilters:
       dirExists:
         - test
+    description: Generate test mappers once.
 
   # TESTING
 
@@ -57,4 +63,4 @@ scripts:
     run: melos exec -- dart test
     packageFilters:
       dirExists: test
-    description: Run all Dart tests in this project.
+    description: Run all Dart tests.
