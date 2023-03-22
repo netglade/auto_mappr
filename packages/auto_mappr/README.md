@@ -77,8 +77,8 @@ Define you mapper
 
 ```dart
 @AutoMappr([
-  AutoMap<UserDto, User>(),
-  AutoMap<CompanyDto, CompanyAddress>(),
+  MapType<UserDto, User>(),
+  MapType<CompanyDto, CompanyAddress>(),
 ])
 class ExampleMapper extends $ExampleMapper {}
 ```
@@ -92,25 +92,21 @@ dart run build_runner build
 use your mapper
 
 ```dart
-
-final userDto = await
-
-getUserDto();
+final userDto = await getUserDto();
 
 final mapper = ExampleMapper();
 final user = mapper.convert(userDto);
-
 ```
 
 ## Configuration
 
-Each mapping between two objects, from SOURCE to TARGET is done with `AutoMap<SOURCE, TARGET>`
+Each mapping between two objects, from SOURCE to TARGET is done with `MapType<SOURCE, TARGET>`
 class.
 
-You can set these properties on each AutoMap:
+You can set these properties on each MapType:
 
 - `whenNullDefault` - callback which returns default value for TARGET if SOURCE is null. Used only
-  if SOURCE is marked as nullable, e.g. `AutoMap<SOURCE?, TARGET>`.
+  if SOURCE is marked as nullable, e.g. `MapType<SOURCE?, TARGET>`.
 
 ### Custom member mapping
 
@@ -141,10 +137,6 @@ name (In most cases they are same).
 
 `ignore` - if `true` member will be ignored. Note that nullability cases are handled as well. (e.g.
 Target is nullable but required parameter, mapper will assing null automatically).
-
-### Null handling
-
-TODO
 
 ## Contributing
 
