@@ -203,18 +203,26 @@ class ValueAssignmentBuilder {
     // final sourceNullable = source.nullabilitySuffix == NullabilitySuffix.question;
     final targetNullable = target.nullabilitySuffix == NullabilitySuffix.question;
 
-    final convertCallExpr = refer(ConvertMethodBuilder.concreteConvertMethodName(source, target)).call(
+    // When target is nullable, use nullable convert method.
+    // But use non-nullable when the mapping has default value.
+    //
+    // Otherwise use non-nullable.
+    final convertMethod = (targetNullable && !mapping.hasWhenNullDefault())
+        ? refer(ConvertMethodBuilder.concreteNullableConvertMethodName(source, target))
+        : refer(ConvertMethodBuilder.concreteConvertMethodName(source, target));
+
+    final convertCallExpr = convertMethod.call(
       [convertMethodArg],
-      {'canReturnNull': refer(targetNullable ? 'true' : 'false')},
+      {},
       includeGenericTypes
           ? [
               refer(source.getDisplayString(withNullability: true)),
               refer(target.getDisplayString(withNullability: true)),
             ]
           : [],
-    ).maybeAsA(refer(target.getDisplayString(withNullability: true)), condition: !targetNullable);
+    );
 
-    // IF source == null and target not nullable -> use whenNullDefault if possible
+    // If source == null and target not nullable -> use whenNullDefault if possible
     final fieldMapping = mapping.tryGetFieldMapping(assignment.targetName);
     if (source.nullabilitySuffix == NullabilitySuffix.question && (fieldMapping?.hasWhenNullDefault() ?? false)) {
       return refer('model').property(assignment.sourceField!.displayName).equalTo(refer('null')).conditional(

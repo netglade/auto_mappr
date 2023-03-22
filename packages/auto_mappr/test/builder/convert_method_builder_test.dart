@@ -34,9 +34,7 @@ void main() {
       expect(result.name, '_convert');
       expect(result.types.length, 2);
       expect(result.returns, result.types[1]);
-      expect(result.optionalParameters.length, 1);
-      expect(result.optionalParameters.first.name, 'canReturnNull');
-      expect(result.optionalParameters.first.type, refer('bool'));
+      expect(result.optionalParameters.isEmpty, true);
       expect(result.requiredParameters, [
         Parameter(
           (p) => p

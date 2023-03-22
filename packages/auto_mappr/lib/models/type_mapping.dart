@@ -12,7 +12,8 @@ class TypeMapping extends Equatable {
   final Expression? whenSourceIsNullExpression;
   final String? constructor;
 
-  String get mappingMapMethodName => ConvertMethodBuilder.concreteConvertMethodName(source, target);
+  String get mappingMethodName => ConvertMethodBuilder.concreteConvertMethodName(source, target);
+  String get nullableMappingMethodName => ConvertMethodBuilder.concreteNullableConvertMethodName(source, target);
 
   @override
   List<Object?> get props {

@@ -33,8 +33,6 @@ without need to write these mapping by hand.
 todos:
 
 - [ ] log.warning when mapping to unknown target field
-- [ ] what should `canReturnNull` do, how to handle `as TARGET` etc.
-    - add _convertXxxToYyy__Nullable - nested values can use this when nullable
 
 critical:
 
@@ -55,6 +53,7 @@ critical:
 - [x] selecting constructor
 - [x] works with Equatable
 - [x] works with JSON serializable
+- [x] generate nullable convert methods for nested mapping (only when needed - no default value provided)
 
 ## Get started
 

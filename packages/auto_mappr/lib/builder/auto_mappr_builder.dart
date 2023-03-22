@@ -43,10 +43,11 @@ class AutoMapprBuilder {
       ConvertMethodBuilder.buildInternalConvertMethod(config),
 
       // Individual mapper methods of each mappings
-      for (final mapping in config.mappers)
+      for (final mapping in config.mappers) ...[
+        // Returns non nullable.
         Method(
           (b) => b
-            ..name = mapping.mappingMapMethodName
+            ..name = mapping.mappingMethodName
             ..requiredParameters.addAll([
               Parameter(
                 (p) => p
@@ -54,18 +55,25 @@ class AutoMapprBuilder {
                   ..type = refer('${mapping.source.getDisplayString(withNullability: false)}?'),
               )
             ])
-            ..optionalParameters.addAll([
-              Parameter(
-                (p) => p
-                  ..name = 'canReturnNull'
-                  ..named = true
-                  ..type = refer('bool')
-                  ..required = true,
-              )
-            ])
-            ..returns = refer('${mapping.target.getDisplayString(withNullability: false)}?')
+            ..returns = refer(mapping.target.getDisplayString(withNullability: false))
             ..body = MapModelBodyMethodBuilder(mapping: mapping, mapperConfig: config).build(),
         ),
+        // Returns nullable.
+        if (!mapping.hasWhenNullDefault())
+          Method(
+            (b) => b
+              ..name = mapping.nullableMappingMethodName
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = 'input'
+                    ..type = refer('${mapping.source.getDisplayString(withNullability: false)}?'),
+                )
+              ])
+              ..returns = refer('${mapping.target.getDisplayString(withNullability: true)}?')
+              ..body = MapModelBodyMethodBuilder(mapping: mapping, mapperConfig: config, nullable: true).build(),
+          ),
+      ]
     ];
   }
 }

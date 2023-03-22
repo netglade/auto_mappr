@@ -12,10 +12,12 @@ import 'package:source_gen/source_gen.dart';
 class MapModelBodyMethodBuilder {
   final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
+  final bool nullable;
 
   MapModelBodyMethodBuilder({
     required this.mapperConfig,
     required this.mapping,
+    this.nullable = false,
   });
 
   Code build() {
@@ -299,21 +301,28 @@ class MapModelBodyMethodBuilder {
   Code _whenModelIsNullHandling() {
     final ifConditionExpression = refer('model').equalTo(refer('null'));
 
+    if (nullable) {
+      final ifBodyExpression = mapping.hasWhenNullDefault() ? mapping.whenSourceIsNullExpression! : literalNull;
+
+      // Generates code like:
+      //
+      // if (model == null) {
+      //   return whenSourceIsNullExpression; // When whenSourceIsNullExpression is set.
+      //   return null; // Otherwise.
+      // }
+      return ifConditionExpression.ifStatement(ifBody: ifBodyExpression.returned.statement).code;
+    }
+
     final ifBodyExpression = mapping.hasWhenNullDefault()
-        ? mapping.whenSourceIsNullExpression!
-        : refer('canReturnNull').conditional(
-            literalNull,
-            refer("throw Exception('Mapping $mapping when null but no default value provided!')"),
-          );
+        ? mapping.whenSourceIsNullExpression!.returned
+        : refer("throw Exception('Mapping $mapping when null but no default value provided!')");
 
     // Generates code like:
     //
     // if (model == null) {
-    //   return canReturnNull
-    //       ? null
-    //       : throw Exception(
-    //       'Mapping UserDto -> User when null but no default value provided!');
+    //   return whenSourceIsNullExpression; // When whenSourceIsNullExpression is set.
+    //   throw Exception('Mapping UserDto -> User when null but no default value provided!'); // Otherwise.
     // }
-    return ifConditionExpression.ifStatement(ifBody: ifBodyExpression.returned.statement).code;
+    return ifConditionExpression.ifStatement(ifBody: ifBodyExpression.statement).code;
   }
 }

@@ -15,6 +15,9 @@ class ConvertMethodBuilder {
   static String concreteConvertMethodName(DartType source, DartType target) =>
       '_map${source.getDisplayString(withNullability: false)}To${target.getDisplayString(withNullability: false)}';
 
+  static String concreteNullableConvertMethodName(DartType source, DartType target) =>
+      '${concreteConvertMethodName(source, target)}__Nullable';
+
   static Method buildCanConvert(AutoMapprConfig config) {
     return Method(
       (b) => b
@@ -39,7 +42,7 @@ class ConvertMethodBuilder {
         )
         ..returns = targetTypeReference
         ..lambda = false
-        ..body = refer('_convert(model, canReturnNull: false)').returned.statement,
+        ..body = refer('_convert(model)').returned.statement,
     );
   }
 
@@ -53,15 +56,6 @@ class ConvertMethodBuilder {
             (p) => p
               ..name = 'model'
               ..type = nullableSourceTypeReference,
-          ),
-        )
-        ..optionalParameters.add(
-          Parameter(
-            (p) => p
-              ..name = 'canReturnNull'
-              ..type = refer('bool')
-              ..named = true
-              ..defaultTo = const Code('false'),
           ),
         )
         ..returns = targetTypeReference
@@ -97,12 +91,12 @@ class ConvertMethodBuilder {
 
       final ifConditionExpression = modelIsTypeExpression.bracketed().and(outputExpression.bracketed());
 
-      final inIfExpression = refer(mapping.mappingMapMethodName)
-          .call([
-            refer('model').asA(refer('${mapping.source.getDisplayString(withNullability: false)}?')),
-          ], {
-            'canReturnNull': refer('canReturnNull')
-          })
+      final inIfExpression = refer(mapping.mappingMethodName)
+          .call(
+            [
+              refer('model').asA(refer('${mapping.source.getDisplayString(withNullability: false)}?')),
+            ],
+          )
           .asA(targetTypeReference)
           .returned
           .statement;
@@ -115,10 +109,7 @@ class ConvertMethodBuilder {
       //     _typeOf<SOURCE>() == _typeOf<UserDto?>()) &&
       //     (_typeOf<TARGET>() == _typeOf<User>() ||
       //         _typeOf<TARGET>() == _typeOf<User?>())) {
-      //   return (_mapUserDtoToUser(
-      //     (model as UserDto?),
-      //     canReturnNull: canReturnNull,
-      //   ) as TARGET);
+      //   return _mapUserDtoToUser(model as UserDto?);
       // }
       block.statements.add(ifStatementExpression.code);
     }
