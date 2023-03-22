@@ -11,14 +11,14 @@ import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
 /// Code generator to generate implemented mapping classes.
-class AutoMapperGenerator extends GeneratorForAnnotation<AutoMappr> {
+class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
   @override
   dynamic generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
-        '${element.displayName} is not a class and cannot be annotated with @AutoMap',
+        '${element.displayName} is not a class and cannot be annotated with @AutoMappr',
         element: element,
-        todo: 'Add AutoMap annotation to a class',
+        todo: 'Add @AutoMappr annotation to a class',
       );
     }
 
@@ -61,11 +61,11 @@ class AutoMapperGenerator extends GeneratorForAnnotation<AutoMappr> {
     final duplicates = mappers.duplicates;
     if (duplicates.isNotEmpty) {
       throw InvalidGenerationSourceError(
-        '@AutoMap has configured duplicated mappings:\n\t${duplicates.join('\n\t')}',
+        '@AutoMappr has configured duplicated mappings:\n\t${duplicates.join('\n\t')}',
       );
     }
 
-    final config = AutoMapperConfig(mappers: mappers);
+    final config = AutoMapprConfig(mappers: mappers);
 
     final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
 

@@ -9,7 +9,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
 class ValueAssignmentBuilder {
-  final AutoMapperConfig mapperConfig;
+  final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
   final SourceAssignment assignment;
 
@@ -22,15 +22,15 @@ class ValueAssignmentBuilder {
   Expression build() {
     final sourceField = assignment.sourceField;
 
+    final fieldMapping = assignment.fieldMapping;
+
     if (sourceField == null) {
-      if (assignment.fieldMapping != null && assignment.fieldMapping!.canBeApplied(assignment)) {
-        return assignment.fieldMapping!.apply(assignment);
+      if (fieldMapping != null && fieldMapping.canBeApplied(assignment)) {
+        return fieldMapping.apply(assignment);
       }
 
       return assignment.getDefaultValue();
     }
-
-    final fieldMapping = assignment.fieldMapping;
 
     if (fieldMapping != null && fieldMapping.canBeApplied(assignment)) {
       return fieldMapping.apply(assignment);
@@ -96,7 +96,7 @@ class ValueAssignmentBuilder {
             [refer(targetListLikeType.getDisplayString(withNullability: true))],
           )
           // Call toList, toSet or nothing.
-          // isOnNullable is false, because if mas was called, the value is non-null
+          // isOnNullable is false, because if map() was called, the value is non-null
           .maybeToIterableCall(assignment.targetType, isOnNullable: false)
           // When [sourceNullable], use default value.
           .maybeIfNullThen(defaultListLikeValueExpression, isOnNullable: sourceNullable && !targetNullable);

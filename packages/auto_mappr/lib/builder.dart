@@ -6,6 +6,6 @@ import 'package:source_gen/source_gen.dart';
 
 /// Main Builder for the `AutoMappr` Annotation
 Builder autoMapprBuilder(BuilderOptions _) => SharedPartBuilder(
-      [AutoMapperGenerator()],
+      [AutoMapprGenerator()],
       'auto_mappr',
     );

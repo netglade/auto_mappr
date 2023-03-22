@@ -34,10 +34,6 @@ extension ExpressionExtension on Expression {
     return isOnNullable ? nullSafeProperty(name) : property(name);
   }
 
-  Expression nullabled() {
-    return refer('${accept(DartEmitter())}?');
-  }
-
   Expression maybeIfNullThen(
     Expression other, {
     required bool isOnNullable,
@@ -81,5 +77,22 @@ extension ExpressionExtension on Expression {
     if (!condition) return this;
 
     return asA(expression);
+  }
+
+  Expression ifStatement({required Spec ifBody, Spec? elseBody}) {
+    final dartEmitter = DartEmitter();
+
+    final ifBlock = '{ ${ifBody.accept(dartEmitter)} }';
+    final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(dartEmitter)} }' : '';
+
+    return refer('''if ( ${accept(dartEmitter)} ) $ifBlock $elseBlock''');
+  }
+
+  Expression bracketed() {
+    return refer('(${accept(DartEmitter())})');
+  }
+
+  Expression nullabled() {
+    return refer('${accept(DartEmitter())}?');
   }
 }

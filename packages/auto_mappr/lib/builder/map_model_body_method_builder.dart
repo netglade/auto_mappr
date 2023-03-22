@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:auto_mappr/builder/value_assignment_builder.dart';
+import 'package:auto_mappr/extensions/expression_extension.dart';
 import 'package:auto_mappr/extensions/field_element_extension.dart';
 import 'package:auto_mappr/models/models.dart';
 import 'package:build/build.dart';
@@ -8,23 +9,8 @@ import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
-/*
-* Map positional fields
-* Map named fields
-* Map setters
-* Support mapping List
-*   - Support mapping Map(?)
-* Null safety
-
-* Nested mapping (recursive convert<I,R> call)
-
-    - Implicit = even when not defined as top mapping it should try recursively map it ?
-        - FOR NOW THIS WILL BE COMPLICATED
-    
-    - Explicit = use canConvert and convert<I,R> call
-  */
 class MapModelBodyMethodBuilder {
-  final AutoMapperConfig mapperConfig;
+  final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
 
   MapModelBodyMethodBuilder({
@@ -168,8 +154,6 @@ class MapModelBodyMethodBuilder {
         mappedTargetConstructorParams.add(sourceAssignment);
         mappedSourceFieldNames.add(param.name);
       } else {
-        log.warning('NOT FOUND parameter $param');
-
         // If not mapped constructor param is optional - skip it
         if (param.isOptional) continue;
 
@@ -313,7 +297,7 @@ class MapModelBodyMethodBuilder {
   }
 
   Code _whenModelIsNullHandling() {
-    final ifConditionExp = refer('model').equalTo(refer('null')).accept(DartEmitter());
+    final ifConditionExpression = refer('model').equalTo(refer('null'));
 
     final ifBodyExpression = mapping.hasWhenNullDefault()
         ? mapping.whenSourceIsNullExpression!
@@ -322,6 +306,14 @@ class MapModelBodyMethodBuilder {
             refer("throw Exception('Mapping $mapping when null but no default value provided!')"),
           );
 
-    return Code('if ($ifConditionExp) { return ${ifBodyExpression.statement.accept(DartEmitter())} }');
+    // Generates code like:
+    //
+    // if (model == null) {
+    //   return canReturnNull
+    //       ? null
+    //       : throw Exception(
+    //       'Mapping UserDto -> User when null but no default value provided!');
+    // }
+    return ifConditionExpression.ifStatement(ifBody: ifBodyExpression.returned.statement).code;
   }
 }

@@ -28,7 +28,7 @@ void main() {
   test(
     'buildInternalConvertMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder.buildInternalConvertMethod(const AutoMapperConfig(mappers: []));
+      final result = ConvertMethodBuilder.buildInternalConvertMethod(const AutoMapprConfig(mappers: []));
 
       expect(result, isA<Method>());
       expect(result.name, '_convert');

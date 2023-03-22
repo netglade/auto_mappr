@@ -58,26 +58,6 @@ class FieldMapping extends Equatable {
       return customExpression!;
     }
 
-    // if (isRenamed()) {
-    //   return refer('model').property(from!);
-    // }
-
-    // final _whenNullDefault = whenNullDefault;
-
-    // if (_whenNullDefault != null) {
-    //   final callRefer = _whenNullDefault.referCallString;
-
-    //   return refer(callRefer).call([refer('model')]);
-    // }
-
-    // final _whenNullDefault = whenNullDefault;
-    // if (assignment.sourceField?.type.nullabilitySuffix == NullabilitySuffix.question && _whenNullDefault != null) {
-    //   return refer('model').property(assignment.sourceField!.displayName).equalTo(refer('null')).conditional(
-    //         refer(_whenNullDefault.referCallString).call([]),
-    //         convertCallExpr,
-    //       );
-    // }
-
     throw InvalidGenerationSourceError(
       'FieldMapping for field "$field" from $assignment has ignore=false and target=null',
       todo: 'Set ignore=true or define custom mapping',

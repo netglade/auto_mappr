@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mappr/extensions/expression_extension.dart';
 import 'package:auto_mappr/models/auto_mapper_config.dart';
 import 'package:auto_mappr/models/type_mapping.dart';
 import 'package:code_builder/code_builder.dart';
@@ -14,7 +15,7 @@ class ConvertMethodBuilder {
   static String concreteConvertMethodName(DartType source, DartType target) =>
       '_map${source.getDisplayString(withNullability: false)}To${target.getDisplayString(withNullability: false)}';
 
-  static Method buildCanConvert(AutoMapperConfig config) {
+  static Method buildCanConvert(AutoMapprConfig config) {
     return Method(
       (b) => b
         ..name = 'canConvert'
@@ -42,7 +43,7 @@ class ConvertMethodBuilder {
     );
   }
 
-  static Method buildInternalConvertMethod(AutoMapperConfig config) {
+  static Method buildInternalConvertMethod(AutoMapprConfig config) {
     return Method(
       (b) => b
         ..name = '_convert'
@@ -82,25 +83,21 @@ class ConvertMethodBuilder {
   static Code? _buildConvertMethodBody(List<TypeMapping> mappings) {
     final block = BlockBuilder();
 
-    final dartEmitter = DartEmitter();
-
     for (final mapping in mappings) {
       final sourceName = mapping.source.getDisplayString(withNullability: false);
       final targetName = mapping.target.getDisplayString(withNullability: false);
 
-      final modelIsType = refer('_typeOf<$sourceKey>()')
+      final modelIsTypeExpression = refer('_typeOf<$sourceKey>()')
           .equalTo(refer('_typeOf<$sourceName>()'))
-          .or(refer('_typeOf<$sourceKey>()').equalTo(refer('_typeOf<$sourceName?>()')))
-          .accept(dartEmitter);
+          .or(refer('_typeOf<$sourceKey>()').equalTo(refer('_typeOf<$sourceName?>()')));
 
-      final outputExpr = refer('_typeOf<$targetKey>()')
+      final outputExpression = refer('_typeOf<$targetKey>()')
           .equalTo(refer('_typeOf<$targetName>()'))
-          .or(refer('_typeOf<$targetKey>()').equalTo(refer('_typeOf<$targetName?>()')))
-          .accept(dartEmitter);
+          .or(refer('_typeOf<$targetKey>()').equalTo(refer('_typeOf<$targetName?>()')));
 
-      final ifCondition = '($modelIsType) && ($outputExpr)';
+      final ifConditionExpression = modelIsTypeExpression.bracketed().and(outputExpression.bracketed());
 
-      final inIfExpr = refer(mapping.mappingMapMethodName)
+      final inIfExpression = refer(mapping.mappingMapMethodName)
           .call([
             refer('model').asA(refer('${mapping.source.getDisplayString(withNullability: false)}?')),
           ], {
@@ -108,12 +105,22 @@ class ConvertMethodBuilder {
           })
           .asA(targetTypeReference)
           .returned
-          .statement
-          .accept(DartEmitter());
+          .statement;
 
-      final ifStatement = Code('''if( $ifCondition ) {$inIfExpr}''');
+      final ifStatementExpression = ifConditionExpression.ifStatement(ifBody: inIfExpression);
 
-      block.statements.add(ifStatement);
+      // Generates code like:
+      //
+      // if ((_typeOf<SOURCE>() == _typeOf<UserDto>() ||
+      //     _typeOf<SOURCE>() == _typeOf<UserDto?>()) &&
+      //     (_typeOf<TARGET>() == _typeOf<User>() ||
+      //         _typeOf<TARGET>() == _typeOf<User?>())) {
+      //   return (_mapUserDtoToUser(
+      //     (model as UserDto?),
+      //     canReturnNull: canReturnNull,
+      //   ) as TARGET);
+      // }
+      block.statements.add(ifStatementExpression.code);
     }
 
     block.addExpression(
@@ -127,24 +134,20 @@ class ConvertMethodBuilder {
   static Code? _buildCanConvertBody(List<TypeMapping> mappings) {
     final block = BlockBuilder();
 
-    final dartEmitter = DartEmitter();
-
     for (final mapping in mappings) {
-      final outputExpr =
+      final outputExpression =
           refer('_typeOf<$targetKey>()').equalTo(refer(mapping.target.getDisplayString(withNullability: false)));
 
-      final ifCondition = refer('_typeOf<$sourceKey>()')
+      final ifConditionExpression = refer('_typeOf<$sourceKey>()')
           .equalTo(refer(mapping.source.getDisplayString(withNullability: false)))
-          .and(outputExpr)
-          .code
-          .accept(dartEmitter);
+          .and(outputExpression);
 
-      final ifStatement = Code('if( $ifCondition ) {return true;}');
+      final ifStatement = ifConditionExpression.ifStatement(ifBody: literalTrue.returned.statement);
 
-      block.statements.add(ifStatement);
+      block.statements.add(ifStatement.code);
     }
 
-    block.statements.add(const Code('return false;'));
+    block.statements.add(literalFalse.returned.statement);
 
     return block.build();
   }

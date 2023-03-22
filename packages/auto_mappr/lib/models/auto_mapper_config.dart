@@ -3,10 +3,10 @@ import 'package:auto_mappr/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/models/type_mapping.dart';
 import 'package:collection/collection.dart';
 
-class AutoMapperConfig {
+class AutoMapprConfig {
   final List<TypeMapping> mappers;
 
-  const AutoMapperConfig({
+  const AutoMapprConfig({
     required this.mappers,
   });
 
