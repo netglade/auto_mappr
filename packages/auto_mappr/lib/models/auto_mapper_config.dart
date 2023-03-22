@@ -1,0 +1,21 @@
+import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mappr/models/dart_type_extension.dart';
+import 'package:auto_mappr/models/type_mapping.dart';
+import 'package:collection/collection.dart';
+
+class AutoMapperConfig {
+  final List<TypeMapping> mappers;
+
+  const AutoMapperConfig({
+    required this.mappers,
+  });
+
+  TypeMapping? findMapping({
+    required DartType source,
+    required DartType target,
+  }) {
+    return mappers.firstWhereOrNull(
+      (mapper) => mapper.source.isSameExceptNullability(source) && mapper.target.isSameExceptNullability(target),
+    );
+  }
+}

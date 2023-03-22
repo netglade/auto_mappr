@@ -1,4 +1,4 @@
-import 'package:auto_mapper_annotation/auto_mapper.dart';
+import 'package:auto_mappr_annotation/auto_mappr.dart';
 import 'package:equatable/equatable.dart';
 
 part 'nullable.g.dart';
@@ -50,7 +50,7 @@ class NestedDto {
   });
 }
 
-@AutoMapper([
+@AutoMappr([
   MapType<UserDto, User>(
     fields: [
       Field('tag', whenNull: ExampleMapper.defaultNested),

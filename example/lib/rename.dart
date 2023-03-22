@@ -1,4 +1,4 @@
-import 'package:auto_mapper_annotation/auto_mapper.dart';
+import 'package:auto_mappr_annotation/auto_mappr.dart';
 
 part 'rename.g.dart';
 
@@ -22,7 +22,7 @@ class UserDto {
   });
 }
 
-@AutoMapper([
+@AutoMappr([
   MapType<UserDto, User>(
     fields: [
       Field('name', from: 'xname'),

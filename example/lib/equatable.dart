@@ -1,4 +1,4 @@
-import 'package:auto_mapper_annotation/auto_mapper.dart';
+import 'package:auto_mappr_annotation/auto_mappr.dart';
 import 'package:equatable/equatable.dart';
 
 part 'equatable.g.dart';
@@ -32,7 +32,7 @@ class UserDto {
   });
 }
 
-@AutoMapper([
+@AutoMappr([
   MapType<UserDto, User>(),
 ])
 class ExampleMapper extends $ExampleMapper {}

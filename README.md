@@ -1,4 +1,4 @@
-# AutoMapper
+# AutoMappr
 
 <a href="https://netglade.cz/en">
   <picture>
@@ -16,17 +16,17 @@ Developed with 💚 by [netglade][netglade_link]
 
 ---
 
-Mapper for mapping between different objects with ease. Heavily inspired
-by [C# AutoMapper][auto_mapper_net_link].
+Mapper for mapping between different objects with ease.
+Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
 
 Thanks to code-generation you can generate class, called mapper,
 which will allow to map between different objects automatically
 without need to write these mapping by hand.
 
-| Package                                                   | Pub                                                                                                    |
-|-----------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| [auto_mapper](packages/auto_mapper)                       | [![auto_mapper package][auto_mapper_pub_badge]][auto_mapper_pub_link]                                  |
-| [auto_mapper_annotation](packages/auto_mapper_annotation) | [![auto_mapper_annotation package][auto_mapper_annotation_pub_badge]][auto_mapper_annotation_pub_link] |
+| Package                                                 | Pub                                                                                                 |
+|---------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| [auto_mappr](packages/auto_mappr)                       | [![auto_mappr package][auto_mappr_pub_badge]][auto_mappr_pub_link]                                  |
+| [auto_mappr_annotation](packages/auto_mappr_annotation) | [![auto_mappr_annotation package][auto_mappr_annotation_pub_badge]][auto_mappr_annotation_pub_link] |
 
 ## Features
 
@@ -70,25 +70,25 @@ nice to have:
 
 ## Get started
 
-Add `builder_runner` and `auto_mapper` as dev dependency
+Add `builder_runner` and `auto_mappr` as dev dependency
 
 ```yaml
 dev_dependencies:
-  auto_mapper: ^0.0.1
+  auto_mappr: ^0.0.1
   build_runner: 
 ```
 
-and `auto_mapper_annotation` as dependency for annotations
+and `auto_mappr_annotation` as dependency for annotations
 
 ```yaml
 dependencies:
-  auto_mapper_annotation: ^0.1.0
+  auto_mappr_annotation: ^0.1.0
 ```
 
 Define you mapper
 
 ```dart
-@AutoMapper([
+@AutoMappr([
   AutoMap<UserDto, User>(),
   AutoMap<CompanyDto, CompanyAddress>(),
 ])
@@ -129,7 +129,7 @@ You can set these properties on each AutoMap:
 For each mapped member you can specify how it should be mapped. For example:
 
 ```dart
-@AutoMapper([
+@AutoMappr([
   MapType<UserDto, User>(
     mappings: [
       Field('name', target: Mapper.mapName),
@@ -176,12 +176,12 @@ Your contributions are always welcome! Feel free to open pull request.
 
 [style_badge_link]: https://pub.dev/packages/netglade_analysis
 
-[auto_mapper_pub_badge]: https://img.shields.io/pub/v/auto_mapper.svg
+[auto_mappr_pub_badge]: https://img.shields.io/pub/v/auto_mappr.svg
 
-[auto_mapper_pub_link]: https://pub.dartlang.org/packages/auto_mapper
+[auto_mappr_pub_link]: https://pub.dartlang.org/packages/auto_mappr
 
-[auto_mapper_annotation_pub_badge]: https://img.shields.io/pub/v/auto_mapper_annotation.svg
+[auto_mappr_annotation_pub_badge]: https://img.shields.io/pub/v/auto_mappr_annotation.svg
 
-[auto_mapper_annotation_pub_link]: https://pub.dartlang.org/packages/auto_mapper_annotation
+[auto_mappr_annotation_pub_link]: https://pub.dartlang.org/packages/auto_mappr_annotation
 
 [auto_mapper_net_link]: https://automapper.org
