@@ -1,5 +1,5 @@
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mappr/models/dart_type_extension.dart';
+import 'package:auto_mappr/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/models/type_mapping.dart';
 import 'package:collection/collection.dart';
 

@@ -24,11 +24,13 @@ extension DartTypeExtension on DartType {
   }
 
   Expression defaultListLikeExpression() {
+    final itemType = (this as ParameterizedType).typeArguments.first;
+
     if (isDartCoreList) {
-      return literalList([], refer(getDisplayString(withNullability: true)));
+      return literalList([], refer(itemType.getDisplayString(withNullability: true)));
     }
 
     // set
-    return literalSet({}, refer(getDisplayString(withNullability: true)));
+    return literalSet({}, refer(itemType.getDisplayString(withNullability: true)));
   }
 }

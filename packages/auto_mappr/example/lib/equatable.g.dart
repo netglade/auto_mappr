@@ -6,14 +6,14 @@ part of 'equatable.dart';
 // AutoMapperGenerator
 // **************************************************************************
 
-class $ExampleMapper {
+class $Mapper {
   Type _typeOf<T>() => T;
-  TARGET convert<SOURCE, TARGET>(SOURCE model) {
+  TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     return _convert(model, canReturnNull: false);
   }
 
   TARGET _convert<SOURCE, TARGET>(
-    SOURCE model, {
+    SOURCE? model, {
     bool canReturnNull = false,
   }) {
     if ((_typeOf<SOURCE>() == _typeOf<UserDto>() ||

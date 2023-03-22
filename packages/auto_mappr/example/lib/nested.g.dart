@@ -6,14 +6,14 @@ part of 'nested.dart';
 // AutoMapperGenerator
 // **************************************************************************
 
-class $ExampleMapper {
+class $Mapper {
   Type _typeOf<T>() => T;
-  TARGET convert<SOURCE, TARGET>(SOURCE model) {
+  TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     return _convert(model, canReturnNull: false);
   }
 
   TARGET _convert<SOURCE, TARGET>(
-    SOURCE model, {
+    SOURCE? model, {
     bool canReturnNull = false,
   }) {
     if ((_typeOf<SOURCE>() == _typeOf<UserDto>() ||
@@ -60,37 +60,38 @@ class $ExampleMapper {
     }
     final result = User(
       id: model.id,
-      name: _convert(
+      name: (_mapNestedDtoToNested(
         model.name,
         canReturnNull: false,
-      ),
+      ) as Nested),
       nestedItems: model.nestedItems
-          .map<Nested>((e) => _convert(
+          .map<Nested>((e) => (_mapNestedDtoToNested(
                 e,
                 canReturnNull: false,
-              ))
+              ) as Nested))
           .toList(),
       nestedItemsNullable: model.nestedItemsNullable
-              ?.map<Nested>((e) => _convert(
+              ?.map<Nested>((e) => (_mapNestedDtoToNested(
                     e,
                     canReturnNull: false,
-                  ))
+                  ) as Nested))
               .toList() ??
           <Nested>[],
       nestedItemsNullable2: model.nestedItemsNullable2
-          .map<Nested>((e) => _convert(
+          .map<Nested>((e) => (_mapNestedDtoToNested(
                 e,
                 canReturnNull: false,
-              ))
+              ) as Nested))
           .toList(),
       itemsWithNullableItem: model.itemsWithNullableItem
-          .map<Nested>((e) => _convert(
+          .whereNotNull()
+          .map<Nested>((e) => (_mapNestedDtoToNested(
                 e,
                 canReturnNull: false,
-              ))
+              ) as Nested))
           .toList(),
       itemsWithNullableItem2: model.itemsWithNullableItem2
-          .map<Nested?>((e) => _convert(
+          .map<Nested?>((e) => _mapNestedDtoToNested(
                 e,
                 canReturnNull: true,
               ))
@@ -114,10 +115,10 @@ class $ExampleMapper {
     final result = Nested(
       id: model.id,
       name: model.name,
-      tag: _convert(
+      tag: (_mapNestedTagDtoToNestedTag(
         model.tag,
         canReturnNull: false,
-      ),
+      ) as NestedTag),
     );
     return result;
   }

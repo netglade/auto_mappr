@@ -2,6 +2,15 @@ import 'package:auto_mappr_annotation/auto_mappr.dart';
 
 part 'rename.g.dart';
 
+@AutoMappr([
+  MapType<UserDto, User>(
+    fields: [
+      Field('name', from: 'xname'),
+    ],
+  ),
+])
+class Mapper extends $Mapper {}
+
 class User {
   final int id;
   final String name;
@@ -21,12 +30,3 @@ class UserDto {
     required this.xname,
   });
 }
-
-@AutoMappr([
-  MapType<UserDto, User>(
-    fields: [
-      Field('name', from: 'xname'),
-    ],
-  ),
-])
-class ExampleMapper extends $ExampleMapper {}

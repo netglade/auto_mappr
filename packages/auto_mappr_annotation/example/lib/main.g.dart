@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'rename.dart';
+part of 'main.dart';
 
 // **************************************************************************
 // AutoMapperGenerator
 // **************************************************************************
 
-class $ExampleMapper {
+class $Mapper {
   Type _typeOf<T>() => T;
-  TARGET convert<SOURCE, TARGET>(SOURCE model) {
+  TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     return _convert(model, canReturnNull: false);
   }
 
   TARGET _convert<SOURCE, TARGET>(
-    SOURCE model, {
+    SOURCE? model, {
     bool canReturnNull = false,
   }) {
     if ((_typeOf<SOURCE>() == _typeOf<UserDto>() ||
@@ -41,8 +41,8 @@ class $ExampleMapper {
               'Mapping UserDto -> User when null but no default value provided!');
     }
     final result = User(
-      id: model.id,
-      name: model.xname,
+      age: model.age,
+      username: model.username,
     );
     return result;
   }

@@ -1,6 +1,6 @@
 import 'package:auto_mappr/builder/convert_method_builder.dart';
+import 'package:auto_mappr/extensions/reference_extension.dart';
 import 'package:auto_mappr/models/auto_mapper_config.dart';
-import 'package:auto_mappr/models/reference_extension.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:test/test.dart';
 

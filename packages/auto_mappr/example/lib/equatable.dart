@@ -3,6 +3,11 @@ import 'package:equatable/equatable.dart';
 
 part 'equatable.g.dart';
 
+@AutoMappr([
+  MapType<UserDto, User>(),
+])
+class Mapper extends $Mapper {}
+
 class User extends Equatable {
   final int id;
   final String name;
@@ -31,8 +36,3 @@ class UserDto {
     required this.age,
   });
 }
-
-@AutoMappr([
-  MapType<UserDto, User>(),
-])
-class ExampleMapper extends $ExampleMapper {}

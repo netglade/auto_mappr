@@ -2,7 +2,7 @@
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mappr/models/dart_type_extension.dart';
+import 'package:auto_mappr/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/models/field_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 

@@ -3,7 +3,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/builder/auto_mappr_builder.dart';
-import 'package:auto_mappr/models/dart_object_extension.dart';
+import 'package:auto_mappr/extensions/dart_object_extension.dart';
 import 'package:auto_mappr/models/models.dart';
 import 'package:auto_mappr_annotation/auto_mappr.dart';
 import 'package:build/build.dart';

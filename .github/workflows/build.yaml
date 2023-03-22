@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - uses: bluefireteam/melos-action@v1
+
+      - name: Analyze
+        run: melos run lint:all
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - uses: bluefireteam/melos-action@v1
+
+      - name: Generate AutoMappr files
+        run: melos run gen:build-all
+
+      - name: Test
+        run: melos run test

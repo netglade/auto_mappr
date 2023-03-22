@@ -3,6 +3,18 @@ import 'package:equatable/equatable.dart';
 
 part 'nullable.g.dart';
 
+@AutoMappr([
+  MapType<UserDto, User>(
+    fields: [
+      Field('tag', whenNull: Mapper.defaultNested),
+    ],
+  ),
+  MapType<NestedDto, Nested>(),
+])
+class Mapper extends $Mapper {
+  static Nested defaultNested() => Nested(id: 1, name: 'default_TAG');
+}
+
 class User extends Equatable {
   final int id;
   final Nested? name;
@@ -10,8 +22,8 @@ class User extends Equatable {
 
   const User({
     required this.id,
-    this.name,
     required this.tag,
+    this.name,
   });
 
   @override
@@ -48,16 +60,4 @@ class NestedDto {
     this.id, {
     required this.name,
   });
-}
-
-@AutoMappr([
-  MapType<UserDto, User>(
-    fields: [
-      Field('tag', whenNull: ExampleMapper.defaultNested),
-    ],
-  ),
-  MapType<NestedDto, Nested>(),
-])
-class ExampleMapper extends $ExampleMapper {
-  static Nested defaultNested() => Nested(id: 1, name: 'default_TAG');
 }

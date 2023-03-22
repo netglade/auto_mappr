@@ -1,14 +1,23 @@
+// ignore_for_file: always_put_required_named_parameters_first
+
 import 'package:auto_mappr_annotation/auto_mappr.dart';
 import 'package:equatable/equatable.dart';
 
 part 'nested.g.dart';
+
+@AutoMappr([
+  MapType<UserDto, User>(),
+  MapType<NestedDto, Nested>(),
+  MapType<NestedTagDto, NestedTag>(),
+])
+class Mapper extends $Mapper {}
 
 class User extends Equatable {
   final int id;
   final Nested name;
   final NestedTag? tag;
   final List<Nested> nestedItems;
-  final List<Nested>? nestedItemsNullable;
+  final List<Nested> nestedItemsNullable;
   final List<Nested>? nestedItemsNullable2;
   final List<Nested> itemsWithNullableItem;
   final List<Nested?> itemsWithNullableItem2;
@@ -20,7 +29,7 @@ class User extends Equatable {
     required this.name,
     required this.tag,
     required this.nestedItems,
-    this.nestedItemsNullable,
+    required this.nestedItemsNullable,
     this.nestedItemsNullable2,
     required this.itemsWithNullableItem,
     required this.itemsWithNullableItem2,
@@ -79,12 +88,3 @@ class NestedDto {
 }
 
 class NestedTagDto {}
-
-@AutoMappr([
-  MapType<UserDto, User>(
-    fields: [],
-  ),
-  MapType<NestedDto, Nested>(),
-  MapType<NestedTagDto, NestedTag>(),
-])
-class ExampleMapper extends $ExampleMapper {}

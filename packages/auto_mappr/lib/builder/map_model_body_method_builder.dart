@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:auto_mappr/builder/value_assignment_builder.dart';
-import 'package:auto_mappr/models/field_element_extension.dart';
+import 'package:auto_mappr/extensions/field_element_extension.dart';
 import 'package:auto_mappr/models/models.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';

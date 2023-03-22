@@ -1,8 +1,8 @@
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/builder/convert_method_builder.dart';
-import 'package:auto_mappr/models/dart_type_extension.dart';
-import 'package:auto_mappr/models/expression_extension.dart';
+import 'package:auto_mappr/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/extensions/expression_extension.dart';
 import 'package:auto_mappr/models/models.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
@@ -84,7 +84,7 @@ class ValueAssignmentBuilder {
           isOnNullable: sourceNullable,
         );
 
-    final defaultListLikeValueExpression = targetListLikeType.defaultListLikeExpression();
+    final defaultListLikeValueExpression = targetType.defaultListLikeExpression();
 
     if (assignNestedObject) {
       return sourceListLikeExpression
@@ -96,9 +96,10 @@ class ValueAssignmentBuilder {
             [refer(targetListLikeType.getDisplayString(withNullability: true))],
           )
           // Call toList, toSet or nothing.
-          .maybeToIterableCall(assignment.targetType, isOnNullable: sourceNullable)
+          // isOnNullable is false, because if mas was called, the value is non-null
+          .maybeToIterableCall(assignment.targetType, isOnNullable: false)
           // When [sourceNullable], use default value.
-          .maybeIfNullThen(defaultListLikeValueExpression, isOnNullable: sourceNullable);
+          .maybeIfNullThen(defaultListLikeValueExpression, isOnNullable: sourceNullable && !targetNullable);
     }
 
     return sourceListLikeExpression
@@ -199,16 +200,19 @@ class ValueAssignmentBuilder {
       );
     }
 
+    // final sourceNullable = source.nullabilitySuffix == NullabilitySuffix.question;
+    final targetNullable = target.nullabilitySuffix == NullabilitySuffix.question;
+
     final convertCallExpr = refer(ConvertMethodBuilder.concreteConvertMethodName(source, target)).call(
       [convertMethodArg],
-      {'canReturnNull': refer(target.nullabilitySuffix == NullabilitySuffix.question ? 'true' : 'false')},
+      {'canReturnNull': refer(targetNullable ? 'true' : 'false')},
       includeGenericTypes
           ? [
               refer(source.getDisplayString(withNullability: true)),
               refer(target.getDisplayString(withNullability: true)),
             ]
           : [],
-    ).asA(refer(target.getDisplayString(withNullability: true)));
+    ).maybeAsA(refer(target.getDisplayString(withNullability: true)), condition: !targetNullable);
 
     // IF source == null and target not nullable -> use whenNullDefault if possible
     final fieldMapping = mapping.tryGetFieldMapping(assignment.targetName);

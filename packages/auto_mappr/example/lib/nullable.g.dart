@@ -6,14 +6,14 @@ part of 'nullable.dart';
 // AutoMapperGenerator
 // **************************************************************************
 
-class $ExampleMapper {
+class $Mapper {
   Type _typeOf<T>() => T;
-  TARGET convert<SOURCE, TARGET>(SOURCE model) {
+  TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     return _convert(model, canReturnNull: false);
   }
 
   TARGET _convert<SOURCE, TARGET>(
-    SOURCE model, {
+    SOURCE? model, {
     bool canReturnNull = false,
   }) {
     if ((_typeOf<SOURCE>() == _typeOf<UserDto>() ||
@@ -51,16 +51,16 @@ class $ExampleMapper {
     }
     final result = User(
       id: model.id,
-      name: _convert(
+      tag: model.tag == null
+          ? Mapper.defaultNested()
+          : (_mapNestedDtoToNested(
+              model.tag,
+              canReturnNull: false,
+            ) as Nested),
+      name: _mapNestedDtoToNested(
         model.name,
         canReturnNull: true,
       ),
-      tag: model.tag == null
-          ? ExampleMapper.defaultNested()
-          : _convert(
-              model.tag,
-              canReturnNull: false,
-            ),
     );
     return result;
   }

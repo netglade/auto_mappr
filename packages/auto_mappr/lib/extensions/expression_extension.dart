@@ -73,4 +73,13 @@ extension ExpressionExtension on Expression {
       ],
     );
   }
+
+  Expression maybeAsA(
+    Expression expression, {
+    required bool condition,
+  }) {
+    if (!condition) return this;
+
+    return asA(expression);
+  }
 }
