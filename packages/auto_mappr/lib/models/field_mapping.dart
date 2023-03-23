@@ -59,8 +59,8 @@ class FieldMapping extends Equatable {
     }
 
     throw InvalidGenerationSourceError(
-      'FieldMapping for field "$field" from $assignment has ignore=false and target=null',
-      todo: 'Set ignore=true or define custom mapping',
+      'Field mapping for field "$field" from $assignment has ignore=false and no custom mapping.',
+      todo: 'Either set ignore to true or define a custom mapping.',
     );
   }
 }
