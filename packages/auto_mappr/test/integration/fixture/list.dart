@@ -10,6 +10,7 @@ part 'list.g.dart';
   MapType<PrimitiveNullableDto, Primitive>(),
   MapType<ComplexDto, Complex>(),
   MapType<ComplexNullableDto, Complex>(),
+  MapType<ComplexDtoWithNullList, ComplexWithNullList>(),
 ])
 class Mapper extends $Mapper {}
 
@@ -95,6 +96,15 @@ class Complex extends Equatable {
   const Complex(this.value);
 }
 
+class ComplexWithNullList extends Equatable {
+  final List<Nested>? value;
+
+  @override
+  List<Object?> get props => [value];
+
+  const ComplexWithNullList(this.value);
+}
+
 class ComplexDto extends Equatable {
   final List<NestedDto> value;
 
@@ -102,6 +112,15 @@ class ComplexDto extends Equatable {
   List<Object?> get props => [value];
 
   const ComplexDto(this.value);
+}
+
+class ComplexDtoWithNullList extends Equatable {
+  final List<NestedDto>? value;
+
+  @override
+  List<Object?> get props => [value];
+
+  const ComplexDtoWithNullList(this.value);
 }
 
 class ComplexNullableDto extends Equatable {

@@ -2,15 +2,17 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
 
 extension ExpressionExtension on Expression {
-  Expression maybeToIterableCall(
-    DartType target, {
+  Expression maybeToIterableCall({
+    required DartType source,
+    required DartType target,
+    required bool forceCast,
     required bool isOnNullable,
   }) {
-    if (target.isDartCoreList) {
+    if ((!source.isDartCoreList || forceCast) && target.isDartCoreList) {
       return maybeProperty('toList', isOnNullable: isOnNullable).call([]);
     }
 
-    if (target.isDartCoreSet) {
+    if ((!source.isDartCoreSet || forceCast) && target.isDartCoreSet) {
       return maybeProperty('toSet', isOnNullable: isOnNullable).call([]);
     }
 

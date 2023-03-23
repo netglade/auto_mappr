@@ -86,6 +86,27 @@ void main() {
           );
         },
       );
+
+      test(
+        'nullable list to nullable list',
+        () {
+          final dto = fixture.ComplexDtoWithNullList([
+            fixture.NestedDto(111789, name: 'first x', tag: fixture.NestedTagDto(flag: false)),
+            fixture.NestedDto(111456, name: 'second x', tag: fixture.NestedTagDto(flag: false)),
+            fixture.NestedDto(111123, name: 'third x', tag: fixture.NestedTagDto(flag: true)),
+          ]);
+          final converted = mapper.convert<fixture.ComplexDtoWithNullList, fixture.ComplexWithNullList>(dto);
+
+          expect(
+            converted,
+            const fixture.ComplexWithNullList([
+              fixture.Nested(id: 111789, name: 'first x', tag: fixture.NestedTag(flag: false)),
+              fixture.Nested(id: 111456, name: 'second x', tag: fixture.NestedTag(flag: false)),
+              fixture.Nested(id: 111123, name: 'third x', tag: fixture.NestedTag(flag: true)),
+            ]),
+          );
+        },
+      );
     },
   );
 }

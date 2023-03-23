@@ -97,14 +97,21 @@ class ValueAssignmentBuilder {
           )
           // Call toList, toSet or nothing.
           // isOnNullable is false, because if map() was called, the value is non-null
-          .maybeToIterableCall(assignment.targetType, isOnNullable: false)
+          .maybeToIterableCall(
+            source: sourceType,
+            target: targetType,
+            forceCast: true, //map was used so we want force toIterable() call
+            isOnNullable: false,
+          )
           // When [sourceNullable], use default value.
           .maybeIfNullThen(defaultListLikeValueExpression, isOnNullable: sourceNullable && !targetNullable);
     }
 
     return sourceListLikeExpression
         .maybeToIterableCall(
-          assignment.targetType,
+          source: sourceType,
+          target: targetType,
+          forceCast: shouldFilterNullInSource, // if whereNotNull was used -> we want to force toIterable() call
           isOnNullable: !targetNullable && sourceNullable,
         )
         .maybeIfNullThen(
