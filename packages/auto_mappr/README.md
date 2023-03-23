@@ -10,7 +10,8 @@
 
 Developed with 💚 by [netglade][netglade_link]
 
-[![ci][ci_badge]][ci_badge_link]
+[![build][build_badge]][build_badge_link]
+[![auto_mappr][auto_mappr_pub_badge]][auto_mappr_pub_link]
 [![license: MIT][license_badge]][license_badge_link]
 [![style: netglade analysis][style_badge]][style_badge_link]
 
@@ -307,8 +308,8 @@ Your contributions are always welcome! Feel free to open pull request.
 
 [netglade_link]: https://netglade.com/en
 
-[ci_badge]: https://github.com/netglade/auto_mappr/actions/workflows/build.yaml/badge.svg
-[ci_badge_link]: https://github.com/netglade/auto_mappr/actions
+[build_badge]: https://github.com/netglade/auto_mappr/actions/workflows/build.yaml/badge.svg
+[build_badge_link]: https://github.com/netglade/auto_mappr/actions
 
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_badge_link]: https://opensource.org/licenses/MIT

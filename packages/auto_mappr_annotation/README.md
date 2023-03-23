@@ -1,39 +1,48 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# AutoMappr annotation
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+<a href="https://netglade.com/en">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_light.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_dark.png">
+    <img alt="netglade" src="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_dark.png">
+  </picture>
+</a>
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+Developed with 💚 by [netglade][netglade_link]
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+[![build][build_badge]][build_badge_link]
+[![auto_mappr_annotation][auto_mappr_annotation_pub_badge]][auto_mappr_annotation_pub_link]
+[![license: MIT][license_badge]][license_badge_link]
+[![style: netglade analysis][style_badge]][style_badge_link]
 
-## Features
+---
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+`@AutoMappr` annotation used for [AutoMappr][auto_mappr_pub_link] code generator.
 
 ```dart
-const like = 'sample';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+
+part 'main.g.dart';
+
+@AutoMappr([
+  MapType<UserDto, User>(),
+])
+class Mappr extends $Mappr {}
 ```
 
-## Additional information
+[netglade_link]: https://netglade.com/en
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+[build_badge]: https://github.com/netglade/auto_mappr/actions/workflows/build.yaml/badge.svg
+[build_badge_link]: https://github.com/netglade/auto_mappr/actions
+
+[license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
+[license_badge_link]: https://opensource.org/licenses/MIT
+
+[style_badge]: https://img.shields.io/badge/style-netglade_analysis-26D07C.svg
+[style_badge_link]: https://pub.dev/packages/netglade_analysis
+
+[auto_mappr_pub_badge]: https://img.shields.io/pub/v/auto_mappr.svg
+[auto_mappr_pub_link]: https://pub.dartlang.org/packages/auto_mappr
+
+[auto_mappr_annotation_pub_badge]: https://img.shields.io/pub/v/auto_mappr_annotation.svg
+[auto_mappr_annotation_pub_link]: https://pub.dartlang.org/packages/auto_mappr_annotation
