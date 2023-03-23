@@ -3,16 +3,16 @@ import 'package:test/test.dart';
 import 'fixture/map.dart' as fixture;
 
 void main() {
-  late final fixture.Mapper mapper;
+  late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mapper = fixture.Mapper();
+    mappr = fixture.Mappr();
   });
 
   group('primitive key, primitive value', () {
     test('non nullable to non nullable', () {
       const dto = fixture.PrimitivePrimitiveDto({'alpha': 1, 'beta': 2, 'gama': 3});
-      final converted = mapper.convert<fixture.PrimitivePrimitiveDto, fixture.PrimitivePrimitive>(dto);
+      final converted = mappr.convert<fixture.PrimitivePrimitiveDto, fixture.PrimitivePrimitive>(dto);
 
       expect(
         converted,
@@ -22,7 +22,7 @@ void main() {
 
     test('nullable source key', () {
       const dto = fixture.PrimitivePrimitiveNullableKeyDto({'alpha': 1, 'beta': 2, 'gama': 3, null: 42});
-      final converted = mapper.convert<fixture.PrimitivePrimitiveNullableKeyDto, fixture.PrimitivePrimitive>(dto);
+      final converted = mappr.convert<fixture.PrimitivePrimitiveNullableKeyDto, fixture.PrimitivePrimitive>(dto);
 
       expect(
         converted,
@@ -32,7 +32,7 @@ void main() {
 
     test('nullable source value', () {
       const dto = fixture.PrimitivePrimitiveNullableValueDto({'alpha': 1, 'beta': 2, 'gama': 3, 'delta': null});
-      final converted = mapper.convert<fixture.PrimitivePrimitiveNullableValueDto, fixture.PrimitivePrimitive>(dto);
+      final converted = mappr.convert<fixture.PrimitivePrimitiveNullableValueDto, fixture.PrimitivePrimitive>(dto);
 
       expect(
         converted,
@@ -42,7 +42,7 @@ void main() {
 
     test('nullable source both', () {
       const dto = fixture.PrimitivePrimitiveNullableBothDto({'alpha': 1, 'beta': 2, 'gama': 3, 'delta': null, null: 5});
-      final converted = mapper.convert<fixture.PrimitivePrimitiveNullableBothDto, fixture.PrimitivePrimitive>(dto);
+      final converted = mappr.convert<fixture.PrimitivePrimitiveNullableBothDto, fixture.PrimitivePrimitive>(dto);
 
       expect(
         converted,
@@ -58,7 +58,7 @@ void main() {
         'beta': fixture.NestedDto(1002, name: 'beta', tag: fixture.NestedTagDto(flag: true)),
         'gama': fixture.NestedDto(1003, name: 'gama', tag: fixture.NestedTagDto(flag: true)),
       });
-      final converted = mapper.convert<fixture.PrimitiveComplexDto, fixture.PrimitiveComplex>(dto);
+      final converted = mappr.convert<fixture.PrimitiveComplexDto, fixture.PrimitiveComplex>(dto);
 
       expect(
         converted,
@@ -78,7 +78,7 @@ void main() {
         fixture.NestedDto(852, name: 'test beta', tag: fixture.NestedTagDto(flag: true)): 456,
         fixture.NestedDto(741, name: 'test gama', tag: fixture.NestedTagDto(flag: true)): 123,
       });
-      final converted = mapper.convert<fixture.ComplexPrimitiveDto, fixture.ComplexPrimitive>(dto);
+      final converted = mappr.convert<fixture.ComplexPrimitiveDto, fixture.ComplexPrimitive>(dto);
 
       expect(
         converted,
@@ -99,7 +99,7 @@ void main() {
         fixture.NestedDto(3, name: 'second', tag: fixture.NestedTagDto(flag: false)):
             fixture.NestedDto(4, name: 'second test', tag: fixture.NestedTagDto(flag: true)),
       });
-      final converted = mapper.convert<fixture.ComplexComplexDto, fixture.ComplexComplex>(dto);
+      final converted = mappr.convert<fixture.ComplexComplexDto, fixture.ComplexComplex>(dto);
 
       expect(
         converted,
@@ -120,7 +120,7 @@ void main() {
             fixture.NestedDto(4, name: 'second test', tag: fixture.NestedTagDto(flag: true)),
         null: fixture.NestedDto(6, name: 'third test', tag: fixture.NestedTagDto(flag: false)),
       });
-      final converted = mapper.convert<fixture.ComplexComplexNullableKeyDto, fixture.ComplexComplex>(dto);
+      final converted = mappr.convert<fixture.ComplexComplexNullableKeyDto, fixture.ComplexComplex>(dto);
 
       expect(
         converted,
@@ -143,7 +143,7 @@ void main() {
             fixture.NestedDto(4, name: 'second test', tag: fixture.NestedTagDto(flag: true)),
         fixture.NestedDto(5, name: 'third', tag: fixture.NestedTagDto(flag: true)): null,
       });
-      final converted = mapper.convert<fixture.ComplexComplexNullableValueDto, fixture.ComplexComplex>(dto);
+      final converted = mappr.convert<fixture.ComplexComplexNullableValueDto, fixture.ComplexComplex>(dto);
 
       expect(
         converted,
@@ -167,7 +167,7 @@ void main() {
         null: fixture.NestedDto(6, name: 'third test', tag: fixture.NestedTagDto(flag: false)),
         fixture.NestedDto(7, name: 'fourth', tag: fixture.NestedTagDto(flag: false)): null,
       });
-      final converted = mapper.convert<fixture.ComplexComplexNullableBothDto, fixture.ComplexComplex>(dto);
+      final converted = mappr.convert<fixture.ComplexComplexNullableBothDto, fixture.ComplexComplex>(dto);
 
       expect(
         converted,

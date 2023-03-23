@@ -1,4 +1,4 @@
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'complex_types.g.dart';
@@ -8,7 +8,7 @@ part 'complex_types.g.dart';
   MapType<NestedDto, Nested>(),
   MapType<NestedTagDto, NestedTag>(),
 ])
-class Mapper extends $Mapper {}
+class Mappr extends $Mappr {}
 
 class NestedTag extends Equatable {
   @override

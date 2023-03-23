@@ -1,4 +1,4 @@
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'equatable.g.dart';
@@ -6,7 +6,7 @@ part 'equatable.g.dart';
 @AutoMappr([
   MapType<Source, Target>(),
 ])
-class Mapper extends $Mapper {}
+class Mappr extends $Mappr {}
 
 class Target extends Equatable {
   final int value;

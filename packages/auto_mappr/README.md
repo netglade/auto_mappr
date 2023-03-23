@@ -16,7 +16,7 @@ Developed with 💚 by [netglade][netglade_link]
 
 ---
 
-Mapping between different objects with ease.
+A mapper that maps between different objects with ease.
 Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
 
 Thanks to code generation, you can generate AutoMappr classes,

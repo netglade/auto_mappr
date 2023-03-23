@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_positional_boolean_parameters
 
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'custom_mapping.g.dart';
@@ -52,15 +52,15 @@ part 'custom_mapping.g.dart';
   ),
   MapType<CustomFunctionFromEmptyDto, CustomFunctionFromEmpty>(
     fields: [
-      Field.custom('numValue', custom: Mapper.emptyToNumValue),
-      Field.custom('intValue', custom: Mapper.emptyToIntValue),
-      Field.custom('doubleValue', custom: Mapper.emptyToDoubleValue),
-      Field.custom('stringValue', custom: Mapper.emptyToStringValue),
-      Field.custom('boolValue', custom: Mapper.emptyToBoolValue),
-      Field.custom('listValue', custom: Mapper.emptyToListValue),
-      Field.custom('listListValue', custom: Mapper.emptyToListListValue),
-      Field.custom('setValue', custom: Mapper.emptyToSetValue),
-      Field.custom('mapValue', custom: Mapper.emptyToMapValue),
+      Field.custom('numValue', custom: Mappr.emptyToNumValue),
+      Field.custom('intValue', custom: Mappr.emptyToIntValue),
+      Field.custom('doubleValue', custom: Mappr.emptyToDoubleValue),
+      Field.custom('stringValue', custom: Mappr.emptyToStringValue),
+      Field.custom('boolValue', custom: Mappr.emptyToBoolValue),
+      Field.custom('listValue', custom: Mappr.emptyToListValue),
+      Field.custom('listListValue', custom: Mappr.emptyToListListValue),
+      Field.custom('setValue', custom: Mappr.emptyToSetValue),
+      Field.custom('mapValue', custom: Mappr.emptyToMapValue),
     ],
   ),
   // from value
@@ -77,16 +77,16 @@ part 'custom_mapping.g.dart';
   // from function
   MapType<CustomFunctionPositionalDto, CustomFunctionPositional>(
     fields: [
-      Field.custom('nameAndId', custom: Mapper.convertToNameAndIdPositional),
+      Field.custom('nameAndId', custom: Mappr.convertToNameAndIdPositional),
     ],
   ),
   MapType<CustomFunctionNamedDto, CustomFunctionNamed>(
     fields: [
-      Field.custom('nameAndId', custom: Mapper.convertToNameAndIdNamed),
+      Field.custom('nameAndId', custom: Mappr.convertToNameAndIdNamed),
     ],
   ),
 ])
-class Mapper extends $Mapper {
+class Mappr extends $Mappr {
   static num emptyToNumValue(CustomFunctionFromEmptyDto? _) => 1.2;
 
   static int emptyToIntValue(CustomFunctionFromEmptyDto? _) => 2;

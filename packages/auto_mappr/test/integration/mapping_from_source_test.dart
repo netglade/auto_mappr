@@ -5,11 +5,11 @@ import 'package:test/test.dart';
 import 'fixture/mapping_from_source.dart' as fixture;
 
 void main() {
-  late final fixture.Mapper mapper;
+  late final fixture.Mappr mappr;
   final random = Random();
 
   setUpAll(() {
-    mapper = fixture.Mapper();
+    mappr = fixture.Mappr();
   });
 
   group(
@@ -18,7 +18,7 @@ void main() {
       for (final item in List.generate(5, (index) => random.nextInt(1000))) {
         test('with value of $item can mapped from', () {
           final dto = fixture.InstanceField(item);
-          final converted = mapper.convert<fixture.InstanceField, fixture.ValueHolder>(dto);
+          final converted = mappr.convert<fixture.InstanceField, fixture.ValueHolder>(dto);
 
           expect(
             converted,
@@ -35,7 +35,7 @@ void main() {
       for (final item in List.generate(5, (index) => random.nextInt(1000))) {
         test('with value of $item can mapped from', () {
           final dto = fixture.InstanceGetter()..value = item;
-          final converted = mapper.convert<fixture.InstanceGetter, fixture.ValueHolder>(dto);
+          final converted = mappr.convert<fixture.InstanceGetter, fixture.ValueHolder>(dto);
 
           expect(
             converted,
@@ -53,7 +53,7 @@ void main() {
         test('with value of $item can mapped from', () {
           fixture.StaticField.value = item;
           final dto = fixture.StaticField();
-          final converted = mapper.convert<fixture.StaticField, fixture.ValueHolder>(dto);
+          final converted = mappr.convert<fixture.StaticField, fixture.ValueHolder>(dto);
 
           expect(
             converted,
@@ -71,7 +71,7 @@ void main() {
         test('with value of $item can mapped from', () {
           fixture.StaticGetter.value = item;
           final dto = fixture.StaticGetter();
-          final converted = mapper.convert<fixture.StaticGetter, fixture.ValueHolder>(dto);
+          final converted = mappr.convert<fixture.StaticGetter, fixture.ValueHolder>(dto);
 
           expect(
             converted,

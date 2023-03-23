@@ -3,10 +3,10 @@ import 'package:test/test.dart';
 import 'fixture/primitive_types.dart' as fixture;
 
 void main() {
-  late final fixture.Mapper mapper;
+  late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mapper = fixture.Mapper();
+    mappr = fixture.Mappr();
   });
 
   group(
@@ -17,7 +17,7 @@ void main() {
           "value '$value' converts",
           () {
             final dto = fixture.NumHolderDto(value);
-            final converted = mapper.convert<fixture.NumHolderDto, fixture.NumHolder>(dto);
+            final converted = mappr.convert<fixture.NumHolderDto, fixture.NumHolder>(dto);
 
             expect(converted.value, dto.value);
           },
@@ -34,7 +34,7 @@ void main() {
           "value '$value' converts",
           () {
             final dto = fixture.IntHolderDto(value);
-            final converted = mapper.convert<fixture.IntHolderDto, fixture.IntHolder>(dto);
+            final converted = mappr.convert<fixture.IntHolderDto, fixture.IntHolder>(dto);
 
             expect(converted.value, dto.value);
           },
@@ -51,7 +51,7 @@ void main() {
           "value '$value' converts",
           () {
             final dto = fixture.DoubleHolderDto(value);
-            final converted = mapper.convert<fixture.DoubleHolderDto, fixture.DoubleHolder>(dto);
+            final converted = mappr.convert<fixture.DoubleHolderDto, fixture.DoubleHolder>(dto);
 
             expect(converted.value, dto.value);
           },
@@ -68,7 +68,7 @@ void main() {
           "value '$value' converts",
           () {
             final dto = fixture.StringHolderDto(value);
-            final converted = mapper.convert<fixture.StringHolderDto, fixture.StringHolder>(dto);
+            final converted = mappr.convert<fixture.StringHolderDto, fixture.StringHolder>(dto);
 
             expect(converted.value, dto.value);
           },
@@ -85,7 +85,7 @@ void main() {
           "value '$value' converts",
           () {
             final dto = fixture.BoolHolderDto(value);
-            final converted = mapper.convert<fixture.BoolHolderDto, fixture.BoolHolder>(dto);
+            final converted = mappr.convert<fixture.BoolHolderDto, fixture.BoolHolder>(dto);
 
             expect(converted.value, dto.value);
           },
@@ -102,7 +102,7 @@ void main() {
           "value '$value' converts",
           () {
             final dto = fixture.EnumHolderDto(value);
-            final converted = mapper.convert<fixture.EnumHolderDto, fixture.EnumHolder>(dto);
+            final converted = mappr.convert<fixture.EnumHolderDto, fixture.EnumHolder>(dto);
 
             expect(converted.value, dto.value);
           },

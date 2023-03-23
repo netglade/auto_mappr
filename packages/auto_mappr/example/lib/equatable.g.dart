@@ -6,7 +6,7 @@ part of 'equatable.dart';
 // AutoMapprGenerator
 // **************************************************************************
 
-class $Mapper {
+class $Mappr {
   Type _typeOf<T>() => T;
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     return _convert(model);

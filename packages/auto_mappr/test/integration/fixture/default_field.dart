@@ -1,4 +1,4 @@
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'default_field.g.dart';
@@ -29,26 +29,26 @@ part 'default_field.g.dart';
   // function
   MapType<ComplexPositionalFunctionDto, ComplexPositionalFunction>(
     fields: [
-      Field('name', whenNull: Mapper.defaultNested),
+      Field('name', whenNull: Mappr.defaultNested),
     ],
   ),
   MapType<ComplexNamedFunctionDto, ComplexNamedFunction>(
     fields: [
-      Field('name', whenNull: Mapper.defaultNested),
+      Field('name', whenNull: Mappr.defaultNested),
     ],
   ),
   MapType<PrimitivePositionalFunctionDto, PrimitivePositionalFunction>(
     fields: [
-      Field('name', whenNull: Mapper.defaultString),
+      Field('name', whenNull: Mappr.defaultString),
     ],
   ),
   MapType<PrimitiveNamedFunctionDto, PrimitiveNamedFunction>(
     fields: [
-      Field('name', whenNull: Mapper.defaultString),
+      Field('name', whenNull: Mappr.defaultString),
     ],
   ),
 ])
-class Mapper extends $Mapper {
+class Mappr extends $Mappr {
   static Nested defaultNested() => const Nested(id: 1, name: 'default_TAG');
 
   static String defaultString() => 'Test123';

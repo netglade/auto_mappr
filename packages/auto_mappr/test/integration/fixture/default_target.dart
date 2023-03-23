@@ -1,4 +1,4 @@
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'default_target.g.dart';
@@ -20,19 +20,19 @@ part 'default_target.g.dart';
   ),
   // function
   MapType<ComplexPositionalFunctionDto, ComplexPositionalFunction>(
-    whenSourceIsNull: Mapper.defaultComplexPositionalFunction,
+    whenSourceIsNull: Mappr.defaultComplexPositionalFunction,
   ),
   MapType<ComplexNamedFunctionDto, ComplexNamedFunction>(
-    whenSourceIsNull: Mapper.defaultComplexNamedFunction,
+    whenSourceIsNull: Mappr.defaultComplexNamedFunction,
   ),
   MapType<PrimitivePositionalFunctionDto, PrimitivePositionalFunction>(
-    whenSourceIsNull: Mapper.defaultPrimitivePositionalFunction,
+    whenSourceIsNull: Mappr.defaultPrimitivePositionalFunction,
   ),
   MapType<PrimitiveNamedFunctionDto, PrimitiveNamedFunction>(
-    whenSourceIsNull: Mapper.defaultPrimitiveNamedFunction,
+    whenSourceIsNull: Mappr.defaultPrimitiveNamedFunction,
   ),
 ])
-class Mapper extends $Mapper {
+class Mappr extends $Mappr {
   static ComplexPositionalFunction defaultComplexPositionalFunction() {
     return const ComplexPositionalFunction(99, Nested(id: 123, name: 'test qwerty'));
   }

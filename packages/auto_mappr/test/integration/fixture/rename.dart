@@ -1,4 +1,4 @@
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'rename.g.dart';
@@ -81,16 +81,16 @@ part 'rename.g.dart';
   // custom
   MapType<CustomPositionalDto, CustomPositional>(
     fields: [
-      Field.custom('nameAndId', custom: Mapper.convertToNameAndIdPositional),
+      Field.custom('nameAndId', custom: Mappr.convertToNameAndIdPositional),
     ],
   ),
   MapType<CustomNamedDto, CustomNamed>(
     fields: [
-      Field.custom('nameAndId', custom: Mapper.convertToNameAndIdNamed),
+      Field.custom('nameAndId', custom: Mappr.convertToNameAndIdNamed),
     ],
   ),
 ])
-class Mapper extends $Mapper {
+class Mappr extends $Mappr {
   static String convertToNameAndIdPositional(CustomPositionalDto? dto) => '${dto?.name} #${dto?.id}';
 
   static String convertToNameAndIdNamed(CustomNamedDto? dto) => '${dto?.name} #${dto?.id}';

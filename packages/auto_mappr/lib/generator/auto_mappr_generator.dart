@@ -5,7 +5,7 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/builder/auto_mappr_builder.dart';
 import 'package:auto_mappr/extensions/dart_object_extension.dart';
 import 'package:auto_mappr/models/models.dart';
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';

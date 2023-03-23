@@ -3,10 +3,10 @@ import 'package:test/test.dart';
 import 'fixture/list_like.dart' as fixture;
 
 void main() {
-  late final fixture.Mapper mapper;
+  late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mapper = fixture.Mapper();
+    mappr = fixture.Mappr();
   });
 
   group(
@@ -16,7 +16,7 @@ void main() {
         'to list',
         () {
           const dto = fixture.ListHolder([1, 2, 3, 4, 5]);
-          final converted = mapper.convert<fixture.ListHolder, fixture.ListHolder>(dto);
+          final converted = mappr.convert<fixture.ListHolder, fixture.ListHolder>(dto);
 
           expect(
             converted,
@@ -29,7 +29,7 @@ void main() {
         'to set',
         () {
           const dto = fixture.ListHolder([1, 2, 3, 4, 5]);
-          final converted = mapper.convert<fixture.ListHolder, fixture.SetHolder>(dto);
+          final converted = mappr.convert<fixture.ListHolder, fixture.SetHolder>(dto);
 
           expect(
             converted,
@@ -42,7 +42,7 @@ void main() {
         'to iterable',
         () {
           const dto = fixture.ListHolder([1, 2, 3, 4, 5]);
-          final converted = mapper.convert<fixture.ListHolder, fixture.IterableHolder>(dto);
+          final converted = mappr.convert<fixture.ListHolder, fixture.IterableHolder>(dto);
 
           expect(
             converted,
@@ -60,7 +60,7 @@ void main() {
         'to list',
         () {
           const dto = fixture.SetHolder({1, 2, 3, 4, 5});
-          final converted = mapper.convert<fixture.SetHolder, fixture.ListHolder>(dto);
+          final converted = mappr.convert<fixture.SetHolder, fixture.ListHolder>(dto);
 
           expect(
             converted,
@@ -73,7 +73,7 @@ void main() {
         'to set',
         () {
           const dto = fixture.SetHolder({1, 2, 3, 4, 5});
-          final converted = mapper.convert<fixture.SetHolder, fixture.SetHolder>(dto);
+          final converted = mappr.convert<fixture.SetHolder, fixture.SetHolder>(dto);
 
           expect(
             converted,
@@ -86,7 +86,7 @@ void main() {
         'to iterable',
         () {
           const dto = fixture.SetHolder({1, 2, 3, 4, 5});
-          final converted = mapper.convert<fixture.SetHolder, fixture.IterableHolder>(dto);
+          final converted = mappr.convert<fixture.SetHolder, fixture.IterableHolder>(dto);
 
           expect(
             converted,
@@ -104,7 +104,7 @@ void main() {
         'to list',
         () {
           final dto = fixture.IterableHolder([1, 2, 3, 4, 5].where((_) => true));
-          final converted = mapper.convert<fixture.IterableHolder, fixture.ListHolder>(dto);
+          final converted = mappr.convert<fixture.IterableHolder, fixture.ListHolder>(dto);
 
           expect(
             converted,
@@ -117,7 +117,7 @@ void main() {
         'to set',
         () {
           final dto = fixture.IterableHolder([1, 2, 3, 4, 5].where((_) => true));
-          final converted = mapper.convert<fixture.IterableHolder, fixture.SetHolder>(dto);
+          final converted = mappr.convert<fixture.IterableHolder, fixture.SetHolder>(dto);
 
           expect(
             converted,
@@ -130,7 +130,7 @@ void main() {
         'to iterable',
         () {
           final dto = fixture.IterableHolder([1, 2, 3, 4, 5].where((_) => true));
-          final converted = mapper.convert<fixture.IterableHolder, fixture.IterableHolder>(dto);
+          final converted = mappr.convert<fixture.IterableHolder, fixture.IterableHolder>(dto);
 
           expect(
             converted,

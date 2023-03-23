@@ -1,4 +1,4 @@
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'nullable.g.dart';
@@ -6,12 +6,12 @@ part 'nullable.g.dart';
 @AutoMappr([
   MapType<UserDto, User>(
     fields: [
-      Field('tag', whenNull: Mapper.defaultNested),
+      Field('tag', whenNull: Mappr.defaultNested),
     ],
   ),
   MapType<NestedDto, Nested>(),
 ])
-class Mapper extends $Mapper {
+class Mappr extends $Mappr {
   static Nested defaultNested() => Nested(id: 1, name: 'default_TAG');
 }
 

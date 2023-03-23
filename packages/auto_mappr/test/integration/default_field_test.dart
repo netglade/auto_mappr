@@ -3,10 +3,10 @@ import 'package:test/test.dart';
 import 'fixture/default_field.dart' as fixture;
 
 void main() {
-  late final fixture.Mapper mapper;
+  late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mapper = fixture.Mapper();
+    mappr = fixture.Mappr();
   });
 
   group(
@@ -17,7 +17,7 @@ void main() {
         () {
           test('default value used when null', () {
             final dto = fixture.ComplexPositionalValueDto(18, null);
-            final converted = mapper.convert<fixture.ComplexPositionalValueDto, fixture.ComplexPositionalValue>(dto);
+            final converted = mappr.convert<fixture.ComplexPositionalValueDto, fixture.ComplexPositionalValue>(dto);
 
             expect(
               converted,
@@ -27,7 +27,7 @@ void main() {
 
           test('default value not used when not null', () {
             final dto = fixture.ComplexPositionalValueDto(74, fixture.NestedDto(123, name: 'Test'));
-            final converted = mapper.convert<fixture.ComplexPositionalValueDto, fixture.ComplexPositionalValue>(dto);
+            final converted = mappr.convert<fixture.ComplexPositionalValueDto, fixture.ComplexPositionalValue>(dto);
 
             expect(
               converted,
@@ -42,7 +42,7 @@ void main() {
         () {
           test('default value used when null', () {
             final dto = fixture.ComplexNamedValueDto(age: 47, name: null);
-            final converted = mapper.convert<fixture.ComplexNamedValueDto, fixture.ComplexNamedValue>(dto);
+            final converted = mappr.convert<fixture.ComplexNamedValueDto, fixture.ComplexNamedValue>(dto);
 
             expect(
               converted,
@@ -52,7 +52,7 @@ void main() {
 
           test('default value not used when not null', () {
             final dto = fixture.ComplexNamedValueDto(age: 92, name: fixture.NestedDto(123, name: 'Test'));
-            final converted = mapper.convert<fixture.ComplexNamedValueDto, fixture.ComplexNamedValue>(dto);
+            final converted = mappr.convert<fixture.ComplexNamedValueDto, fixture.ComplexNamedValue>(dto);
 
             expect(
               converted,
@@ -67,8 +67,7 @@ void main() {
         () {
           test('default value used when null', () {
             final dto = fixture.PrimitivePositionalValueDto(116, null);
-            final converted =
-                mapper.convert<fixture.PrimitivePositionalValueDto, fixture.PrimitivePositionalValue>(dto);
+            final converted = mappr.convert<fixture.PrimitivePositionalValueDto, fixture.PrimitivePositionalValue>(dto);
 
             expect(
               converted,
@@ -78,8 +77,7 @@ void main() {
 
           test('default value not used when not null', () {
             final dto = fixture.PrimitivePositionalValueDto(7474, 'Hello there!');
-            final converted =
-                mapper.convert<fixture.PrimitivePositionalValueDto, fixture.PrimitivePositionalValue>(dto);
+            final converted = mappr.convert<fixture.PrimitivePositionalValueDto, fixture.PrimitivePositionalValue>(dto);
 
             expect(
               converted,
@@ -94,7 +92,7 @@ void main() {
         () {
           test('default value used when null', () {
             final dto = fixture.PrimitiveNamedValueDto(age: 333999, name: null);
-            final converted = mapper.convert<fixture.PrimitiveNamedValueDto, fixture.PrimitiveNamedValue>(dto);
+            final converted = mappr.convert<fixture.PrimitiveNamedValueDto, fixture.PrimitiveNamedValue>(dto);
 
             expect(
               converted,
@@ -104,7 +102,7 @@ void main() {
 
           test('default value not used when not null', () {
             final dto = fixture.PrimitiveNamedValueDto(age: 999333, name: 'Abracadabra');
-            final converted = mapper.convert<fixture.PrimitiveNamedValueDto, fixture.PrimitiveNamedValue>(dto);
+            final converted = mappr.convert<fixture.PrimitiveNamedValueDto, fixture.PrimitiveNamedValue>(dto);
 
             expect(
               converted,
@@ -125,18 +123,18 @@ void main() {
           test('default value used when null', () {
             final dto = fixture.ComplexPositionalFunctionDto(12, null);
             final converted =
-                mapper.convert<fixture.ComplexPositionalFunctionDto, fixture.ComplexPositionalFunction>(dto);
+                mappr.convert<fixture.ComplexPositionalFunctionDto, fixture.ComplexPositionalFunction>(dto);
 
             expect(
               converted,
-              fixture.ComplexPositionalFunction(12, fixture.Mapper.defaultNested()),
+              fixture.ComplexPositionalFunction(12, fixture.Mappr.defaultNested()),
             );
           });
 
           test('default value not used when not null', () {
             final dto = fixture.ComplexPositionalFunctionDto(12, fixture.NestedDto(123, name: 'Test'));
             final converted =
-                mapper.convert<fixture.ComplexPositionalFunctionDto, fixture.ComplexPositionalFunction>(dto);
+                mappr.convert<fixture.ComplexPositionalFunctionDto, fixture.ComplexPositionalFunction>(dto);
 
             expect(
               converted,
@@ -151,17 +149,17 @@ void main() {
         () {
           test('default value used when null', () {
             final dto = fixture.ComplexNamedFunctionDto(age: 12, name: null);
-            final converted = mapper.convert<fixture.ComplexNamedFunctionDto, fixture.ComplexNamedFunction>(dto);
+            final converted = mappr.convert<fixture.ComplexNamedFunctionDto, fixture.ComplexNamedFunction>(dto);
 
             expect(
               converted,
-              fixture.ComplexNamedFunction(age: 12, name: fixture.Mapper.defaultNested()),
+              fixture.ComplexNamedFunction(age: 12, name: fixture.Mappr.defaultNested()),
             );
           });
 
           test('default value not used when not null', () {
             final dto = fixture.ComplexNamedFunctionDto(age: 12, name: fixture.NestedDto(123, name: 'Test'));
-            final converted = mapper.convert<fixture.ComplexNamedFunctionDto, fixture.ComplexNamedFunction>(dto);
+            final converted = mappr.convert<fixture.ComplexNamedFunctionDto, fixture.ComplexNamedFunction>(dto);
 
             expect(
               converted,
@@ -177,7 +175,7 @@ void main() {
           test('default value used when null', () {
             final dto = fixture.PrimitivePositionalFunctionDto(89, null);
             final converted =
-                mapper.convert<fixture.PrimitivePositionalFunctionDto, fixture.PrimitivePositionalFunction>(dto);
+                mappr.convert<fixture.PrimitivePositionalFunctionDto, fixture.PrimitivePositionalFunction>(dto);
 
             expect(
               converted,
@@ -188,7 +186,7 @@ void main() {
           test('default value not used when not null', () {
             final dto = fixture.PrimitivePositionalFunctionDto(77, 'Hello there!');
             final converted =
-                mapper.convert<fixture.PrimitivePositionalFunctionDto, fixture.PrimitivePositionalFunction>(dto);
+                mappr.convert<fixture.PrimitivePositionalFunctionDto, fixture.PrimitivePositionalFunction>(dto);
 
             expect(
               converted,
@@ -203,7 +201,7 @@ void main() {
         () {
           test('default value used when null', () {
             final dto = fixture.PrimitiveNamedFunctionDto(age: 11, name: null);
-            final converted = mapper.convert<fixture.PrimitiveNamedFunctionDto, fixture.PrimitiveNamedFunction>(dto);
+            final converted = mappr.convert<fixture.PrimitiveNamedFunctionDto, fixture.PrimitiveNamedFunction>(dto);
 
             expect(
               converted,
@@ -213,7 +211,7 @@ void main() {
 
           test('default value not used when not null', () {
             final dto = fixture.PrimitiveNamedFunctionDto(age: 111, name: 'Abracadabra');
-            final converted = mapper.convert<fixture.PrimitiveNamedFunctionDto, fixture.PrimitiveNamedFunction>(dto);
+            final converted = mappr.convert<fixture.PrimitiveNamedFunctionDto, fixture.PrimitiveNamedFunction>(dto);
 
             expect(
               converted,

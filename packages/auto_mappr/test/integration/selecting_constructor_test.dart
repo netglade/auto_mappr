@@ -3,10 +3,10 @@ import 'package:test/test.dart';
 import 'fixture/selecting_constructor.dart' as fixture;
 
 void main() {
-  late final fixture.Mapper mapper;
+  late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mapper = fixture.Mapper();
+    mappr = fixture.Mappr();
   });
 
   group('when no constructor selected', () {
@@ -14,7 +14,7 @@ void main() {
       'with final target',
       () {
         final dto = fixture.TestEmptyDto(1, 2, 3);
-        final converted = mapper.convert<fixture.TestEmptyDto, fixture.FinalTarget>(dto);
+        final converted = mappr.convert<fixture.TestEmptyDto, fixture.FinalTarget>(dto);
 
         expect(converted.a, 1);
         expect(converted.b, 2);
@@ -26,7 +26,7 @@ void main() {
       'with non final target',
       () {
         final dto = fixture.TestEmptyDto(1, 2, 3);
-        final converted = mapper.convert<fixture.TestEmptyDto, fixture.NonFinalTarget>(dto);
+        final converted = mappr.convert<fixture.TestEmptyDto, fixture.NonFinalTarget>(dto);
 
         expect(converted.a, 1);
         expect(converted.b, 2);
@@ -40,7 +40,7 @@ void main() {
       'with final target',
       () {
         final dto = fixture.TestAlphaDto(1, 2, 3);
-        final converted = mapper.convert<fixture.TestAlphaDto, fixture.FinalTarget>(dto);
+        final converted = mappr.convert<fixture.TestAlphaDto, fixture.FinalTarget>(dto);
 
         expect(converted.a, 1);
         expect(converted.b, null);
@@ -52,7 +52,7 @@ void main() {
       'with non final target',
       () {
         final dto = fixture.TestAlphaDto(1, 2, 3);
-        final converted = mapper.convert<fixture.TestAlphaDto, fixture.NonFinalTarget>(dto);
+        final converted = mappr.convert<fixture.TestAlphaDto, fixture.NonFinalTarget>(dto);
 
         expect(converted.a, 1);
         expect(converted.b, 2);
@@ -66,7 +66,7 @@ void main() {
       'with final target',
       () {
         final dto = fixture.TestBetaDto(1, 2, 3);
-        final converted = mapper.convert<fixture.TestBetaDto, fixture.FinalTarget>(dto);
+        final converted = mappr.convert<fixture.TestBetaDto, fixture.FinalTarget>(dto);
 
         expect(converted.a, null);
         expect(converted.b, 2);
@@ -78,7 +78,7 @@ void main() {
       'with non final target',
       () {
         final dto = fixture.TestBetaDto(1, 2, 3);
-        final converted = mapper.convert<fixture.TestBetaDto, fixture.NonFinalTarget>(dto);
+        final converted = mappr.convert<fixture.TestBetaDto, fixture.NonFinalTarget>(dto);
 
         expect(converted.a, 1);
         expect(converted.b, 2);
@@ -92,7 +92,7 @@ void main() {
       'with final target',
       () {
         final dto = fixture.TestGamaDto(1, 2, 3);
-        final converted = mapper.convert<fixture.TestGamaDto, fixture.FinalTarget>(dto);
+        final converted = mappr.convert<fixture.TestGamaDto, fixture.FinalTarget>(dto);
 
         expect(converted.a, null);
         expect(converted.b, null);
@@ -104,7 +104,7 @@ void main() {
       'with non final target',
       () {
         final dto = fixture.TestGamaDto(1, 2, 3);
-        final converted = mapper.convert<fixture.TestGamaDto, fixture.NonFinalTarget>(dto);
+        final converted = mappr.convert<fixture.TestGamaDto, fixture.NonFinalTarget>(dto);
 
         expect(converted.a, 1);
         expect(converted.b, 2);
@@ -118,7 +118,7 @@ void main() {
       'with final target',
       () {
         final dto = fixture.TestNonsenseDto(1, 2, 3);
-        final converted = mapper.convert<fixture.TestNonsenseDto, fixture.FinalTarget>(dto);
+        final converted = mappr.convert<fixture.TestNonsenseDto, fixture.FinalTarget>(dto);
 
         expect(converted.a, 1);
         expect(converted.b, 2);
@@ -130,7 +130,7 @@ void main() {
       'with non final target',
       () {
         final dto = fixture.TestNonsenseDto(1, 2, 3);
-        final converted = mapper.convert<fixture.TestNonsenseDto, fixture.NonFinalTarget>(dto);
+        final converted = mappr.convert<fixture.TestNonsenseDto, fixture.NonFinalTarget>(dto);
 
         expect(converted.a, 1);
         expect(converted.b, 2);

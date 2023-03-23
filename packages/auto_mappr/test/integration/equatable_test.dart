@@ -3,15 +3,15 @@ import 'package:test/test.dart';
 import 'fixture/equatable.dart' as fixture;
 
 void main() {
-  late final fixture.Mapper mapper;
+  late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mapper = fixture.Mapper();
+    mappr = fixture.Mappr();
   });
 
   test('Equatable.props and only-setter fields are not mapped', () {
     const dto = fixture.Source(123);
-    final converted = mapper.convert<fixture.Source, fixture.Target>(dto);
+    final converted = mappr.convert<fixture.Source, fixture.Target>(dto);
 
     expect(
       converted,

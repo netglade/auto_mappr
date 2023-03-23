@@ -1,4 +1,4 @@
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'list_like.g.dart';
@@ -17,7 +17,7 @@ part 'list_like.g.dart';
   MapType<IterableHolder, SetHolder>(),
   MapType<IterableHolder, IterableHolder>(),
 ])
-class Mapper extends $Mapper {}
+class Mappr extends $Mappr {}
 
 class ListHolder extends Equatable {
   final List<int> value;

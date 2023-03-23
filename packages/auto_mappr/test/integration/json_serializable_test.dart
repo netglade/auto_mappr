@@ -3,15 +3,15 @@ import 'package:test/test.dart';
 import 'fixture/json_serializable.dart' as fixture;
 
 void main() {
-  late final fixture.Mapper mapper;
+  late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mapper = fixture.Mapper();
+    mappr = fixture.Mappr();
   });
 
-  test('Mapper works with json serializable', () {
+  test('Mappr works with json serializable', () {
     const dto = fixture.UserDto(firstName: 'Ada', lastName: 'Lovelace');
-    final converted = mapper.convert<fixture.UserDto, fixture.User>(dto);
+    final converted = mappr.convert<fixture.UserDto, fixture.User>(dto);
 
     expect(converted.firstName, 'Ada');
     expect(converted.lastName, 'Lovelace');
@@ -19,7 +19,7 @@ void main() {
 
   test('Finds correct constructor with one field', () {
     const dto = fixture.ValueHolderDto({'alpha': 'beta'});
-    final converted = mapper.convert<fixture.ValueHolderDto, fixture.ValueHolder>(dto);
+    final converted = mappr.convert<fixture.ValueHolderDto, fixture.ValueHolder>(dto);
 
     expect(converted.json, {'alpha': 'beta'});
   });

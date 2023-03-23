@@ -1,4 +1,4 @@
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
 part 'rename.g.dart';
 
@@ -9,7 +9,7 @@ part 'rename.g.dart';
     ],
   ),
 ])
-class Mapper extends $Mapper {}
+class Mappr extends $Mappr {}
 
 class User {
   final int id;

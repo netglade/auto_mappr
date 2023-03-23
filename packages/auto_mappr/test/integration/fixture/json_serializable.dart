@@ -1,4 +1,4 @@
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'json_serializable.g.dart';
@@ -7,7 +7,7 @@ part 'json_serializable.g.dart';
   MapType<UserDto, User>(),
   MapType<ValueHolderDto, ValueHolder>(),
 ])
-class Mapper extends $Mapper {}
+class Mappr extends $Mappr {}
 
 class User {
   final String firstName;

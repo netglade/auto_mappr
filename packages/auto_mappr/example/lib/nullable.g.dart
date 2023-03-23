@@ -6,7 +6,7 @@ part of 'nullable.dart';
 // AutoMapprGenerator
 // **************************************************************************
 
-class $Mapper {
+class $Mappr {
   Type _typeOf<T>() => T;
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     return _convert(model);
@@ -38,7 +38,7 @@ class $Mapper {
     final result = User(
       id: model.id,
       tag: model.tag == null
-          ? Mapper.defaultNested()
+          ? Mappr.defaultNested()
           : _mapNestedDtoToNested(model.tag),
       name: _mapNestedDtoToNested__Nullable(model.name),
     );
@@ -53,7 +53,7 @@ class $Mapper {
     final result = User(
       id: model.id,
       tag: model.tag == null
-          ? Mapper.defaultNested()
+          ? Mappr.defaultNested()
           : _mapNestedDtoToNested(model.tag),
       name: _mapNestedDtoToNested__Nullable(model.name),
     );

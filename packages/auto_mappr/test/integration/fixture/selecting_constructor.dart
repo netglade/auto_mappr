@@ -1,4 +1,4 @@
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'selecting_constructor.g.dart';
@@ -20,7 +20,7 @@ part 'selecting_constructor.g.dart';
   MapType<TestNonsenseDto, FinalTarget>(constructor: 'testtesttest'),
   MapType<TestNonsenseDto, NonFinalTarget>(constructor: 'testtesttest'),
 ])
-class Mapper extends $Mapper {}
+class Mappr extends $Mappr {}
 
 class FinalTarget extends Equatable {
   final int? a;

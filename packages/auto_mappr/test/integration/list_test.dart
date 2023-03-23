@@ -3,10 +3,10 @@ import 'package:test/test.dart';
 import 'fixture/list.dart' as fixture;
 
 void main() {
-  late final fixture.Mapper mapper;
+  late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mapper = fixture.Mapper();
+    mappr = fixture.Mappr();
   });
 
   group(
@@ -16,7 +16,7 @@ void main() {
         'non nullable to non nullable',
         () {
           const dto = fixture.PrimitiveDto([1, 2, 3, 4, 5]);
-          final converted = mapper.convert<fixture.PrimitiveDto, fixture.Primitive>(dto);
+          final converted = mappr.convert<fixture.PrimitiveDto, fixture.Primitive>(dto);
 
           expect(
             converted,
@@ -29,7 +29,7 @@ void main() {
         'nullable to non nullable',
         () {
           const dto = fixture.PrimitiveNullableDto([1, 2, 3, null, 4, 5, null]);
-          final converted = mapper.convert<fixture.PrimitiveNullableDto, fixture.Primitive>(dto);
+          final converted = mappr.convert<fixture.PrimitiveNullableDto, fixture.Primitive>(dto);
 
           expect(
             converted,
@@ -51,7 +51,7 @@ void main() {
             fixture.NestedDto(111456, name: 'second x', tag: fixture.NestedTagDto(flag: false)),
             fixture.NestedDto(111123, name: 'third x', tag: fixture.NestedTagDto(flag: true)),
           ]);
-          final converted = mapper.convert<fixture.ComplexDto, fixture.Complex>(dto);
+          final converted = mappr.convert<fixture.ComplexDto, fixture.Complex>(dto);
 
           expect(
             converted,
@@ -74,7 +74,7 @@ void main() {
             fixture.NestedDto(111123, name: 'third x', tag: fixture.NestedTagDto(flag: true)),
             null,
           ]);
-          final converted = mapper.convert<fixture.ComplexNullableDto, fixture.Complex>(dto);
+          final converted = mappr.convert<fixture.ComplexNullableDto, fixture.Complex>(dto);
 
           expect(
             converted,

@@ -1,4 +1,4 @@
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'set.g.dart';
@@ -11,7 +11,7 @@ part 'set.g.dart';
   MapType<ComplexDto, Complex>(),
   MapType<ComplexNullableDto, Complex>(),
 ])
-class Mapper extends $Mapper {}
+class Mappr extends $Mappr {}
 
 class NestedTag extends Equatable {
   final bool flag;

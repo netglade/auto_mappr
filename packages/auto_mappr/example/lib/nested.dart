@@ -1,6 +1,6 @@
 // ignore_for_file: always_put_required_named_parameters_first
 
-import 'package:auto_mappr_annotation/auto_mappr.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'nested.g.dart';
@@ -10,7 +10,7 @@ part 'nested.g.dart';
   MapType<NestedDto, Nested>(),
   MapType<NestedTagDto, NestedTag>(),
 ])
-class Mapper extends $Mapper {}
+class Mappr extends $Mappr {}
 
 class User extends Equatable {
   final int id;

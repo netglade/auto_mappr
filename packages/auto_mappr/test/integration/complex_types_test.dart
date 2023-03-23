@@ -3,10 +3,10 @@ import 'package:test/test.dart';
 import 'fixture/complex_types.dart' as fixture;
 
 void main() {
-  late final fixture.Mapper mapper;
+  late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mapper = fixture.Mapper();
+    mappr = fixture.Mappr();
   });
 
   test(
@@ -21,7 +21,7 @@ void main() {
           tag: fixture.NestedTagDto(),
         ),
       );
-      final converted = mapper.convert<fixture.UserDto, fixture.User>(dto);
+      final converted = mappr.convert<fixture.UserDto, fixture.User>(dto);
 
       expect(
         converted,
@@ -50,7 +50,7 @@ void main() {
           tag: fixture.NestedTagDto(),
         ),
       );
-      final converted = mapper.convert<fixture.UserDto, fixture.User>(dto);
+      final converted = mappr.convert<fixture.UserDto, fixture.User>(dto);
 
       expect(
         converted,
