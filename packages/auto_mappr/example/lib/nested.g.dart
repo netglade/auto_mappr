@@ -66,54 +66,11 @@ class $Mappr {
     return result;
   }
 
-  User? _mapUserDtoToUser__Nullable(UserDto? input) {
-    final model = input;
-    if (model == null) {
-      return null;
-    }
-    final result = User(
-      id: model.id,
-      name: _mapNestedDtoToNested(model.name),
-      nestedItems: model.nestedItems
-          .map<Nested>((e) => _mapNestedDtoToNested(e))
-          .toList(),
-      nestedItemsNullable: model.nestedItemsNullable
-              ?.map<Nested>((e) => _mapNestedDtoToNested(e))
-              .toList() ??
-          <Nested>[],
-      nestedItemsNullable2: model.nestedItemsNullable2
-          .map<Nested>((e) => _mapNestedDtoToNested(e))
-          .toList(),
-      itemsWithNullableItem: model.itemsWithNullableItem
-          .whereNotNull()
-          .map<Nested>((e) => _mapNestedDtoToNested(e))
-          .toList(),
-      itemsWithNullableItem2: model.itemsWithNullableItem2
-          .map<Nested?>((e) => _mapNestedDtoToNested__Nullable(e))
-          .toList(),
-      tag: null,
-    );
-    return result;
-  }
-
   Nested _mapNestedDtoToNested(NestedDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
           'Mapping NestedDto -> Nested when null but no default value provided!');
-    }
-    final result = Nested(
-      id: model.id,
-      name: model.name,
-      tag: _mapNestedTagDtoToNestedTag(model.tag),
-    );
-    return result;
-  }
-
-  Nested? _mapNestedDtoToNested__Nullable(NestedDto? input) {
-    final model = input;
-    if (model == null) {
-      return null;
     }
     final result = Nested(
       id: model.id,
@@ -133,12 +90,16 @@ class $Mappr {
     return result;
   }
 
-  NestedTag? _mapNestedTagDtoToNestedTag__Nullable(NestedTagDto? input) {
+  Nested? _mapNestedDtoToNested__Nullable(NestedDto? input) {
     final model = input;
     if (model == null) {
       return null;
     }
-    final result = NestedTag();
+    final result = Nested(
+      id: model.id,
+      name: model.name,
+      tag: _mapNestedTagDtoToNestedTag(model.tag),
+    );
     return result;
   }
 }

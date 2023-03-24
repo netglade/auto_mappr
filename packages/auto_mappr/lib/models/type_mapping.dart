@@ -29,7 +29,7 @@ class TypeMapping extends Equatable {
   const TypeMapping({
     required this.source,
     required this.target,
-    required this.fieldMappings,
+    this.fieldMappings,
     this.whenSourceIsNullExpression,
     this.constructor,
   });

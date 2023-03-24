@@ -13,10 +13,12 @@ class MapModelBodyMethodBuilder {
   final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
   final bool nullable;
+  final void Function(TypeMapping? mapping)? usedNullableMethodCallback;
 
   MapModelBodyMethodBuilder({
     required this.mapperConfig,
     required this.mapping,
+    this.usedNullableMethodCallback,
     this.nullable = false,
   });
 
@@ -219,6 +221,7 @@ class MapModelBodyMethodBuilder {
                 mapperConfig: mapperConfig,
                 mapping: mapping,
                 assignment: assignment,
+                usedNullableMethodCallback: usedNullableMethodCallback,
               ).build(),
             ),
             {
@@ -227,6 +230,7 @@ class MapModelBodyMethodBuilder {
                   mapperConfig: mapperConfig,
                   mapping: mapping,
                   assignment: assignment,
+                  usedNullableMethodCallback: usedNullableMethodCallback,
                 ).build(),
             },
           ),
@@ -265,6 +269,7 @@ class MapModelBodyMethodBuilder {
                 sourceField: sourceField,
                 targetField: targetField,
               ),
+              usedNullableMethodCallback: usedNullableMethodCallback,
             ).build(),
           );
 

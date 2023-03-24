@@ -12,11 +12,13 @@ class ValueAssignmentBuilder {
   final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
   final SourceAssignment assignment;
+  final void Function(TypeMapping? mapping)? usedNullableMethodCallback;
 
   ValueAssignmentBuilder({
     required this.mapperConfig,
     required this.mapping,
     required this.assignment,
+    required this.usedNullableMethodCallback,
   });
 
   Expression build() {
@@ -210,13 +212,19 @@ class ValueAssignmentBuilder {
     // final sourceNullable = source.nullabilitySuffix == NullabilitySuffix.question;
     final targetNullable = target.nullabilitySuffix == NullabilitySuffix.question;
 
+    final useNullableMethod = targetNullable && !mapping.hasWhenNullDefault();
+
     // When target is nullable, use nullable convert method.
     // But use non-nullable when the mapping has default value.
     //
     // Otherwise use non-nullable.
-    final convertMethod = (targetNullable && !mapping.hasWhenNullDefault())
+    final convertMethod = useNullableMethod
         ? refer(ConvertMethodBuilder.concreteNullableConvertMethodName(source, target))
         : refer(ConvertMethodBuilder.concreteConvertMethodName(source, target));
+
+    if (useNullableMethod) {
+      usedNullableMethodCallback?.call(mapperConfig.findMapping(source: source, target: target));
+    }
 
     final convertCallExpr = convertMethod.call(
       [convertMethodArg],

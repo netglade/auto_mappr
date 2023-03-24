@@ -32,19 +32,21 @@ class AutoMapprBuilder {
 
   /// Generates all methods within mapper.
   List<Method> _buildMethods() {
+    final convertMethodBuilder = ConvertMethodBuilder();
+
+    // Generates non nullable mapping method.
     return [
       // Helper method for typeOf.
-      ConvertMethodBuilder.buildTypeOfHelperMethod(),
+      convertMethodBuilder.buildTypeOfHelperMethod(),
 
       // Public convert method
-      ConvertMethodBuilder.buildConvertMethod(),
+      convertMethodBuilder.buildConvertMethod(),
 
       // Internal convert method
-      ConvertMethodBuilder.buildInternalConvertMethod(config),
+      convertMethodBuilder.buildInternalConvertMethod(config),
 
-      // Individual mapper methods of each mappings
-      for (final mapping in config.mappers) ...[
-        // Returns non nullable.
+      // Generate non-nullable mapping method.
+      for (final mapping in config.mappers)
         Method(
           (b) => b
             ..name = mapping.mappingMethodName
@@ -56,10 +58,17 @@ class AutoMapprBuilder {
               )
             ])
             ..returns = refer(mapping.target.getDisplayString(withNullability: false))
-            ..body = MapModelBodyMethodBuilder(mapping: mapping, mapperConfig: config).build(),
+            ..body = MapModelBodyMethodBuilder(
+              mapping: mapping,
+              mapperConfig: config,
+              usedNullableMethodCallback: convertMethodBuilder.usedNullableMappingMethod,
+            ).build(),
         ),
-        // Returns nullable.
-        if (!mapping.hasWhenNullDefault())
+
+      // Generates nullable mapping method.
+      for (final mapping in config.mappers) ...[
+        // Only when nullable method is used.
+        if (convertMethodBuilder.shouldGenerateNullableMappingMethod(mapping))
           Method(
             (b) => b
               ..name = mapping.nullableMappingMethodName
@@ -71,7 +80,11 @@ class AutoMapprBuilder {
                 )
               ])
               ..returns = refer('${mapping.target.getDisplayString(withNullability: true)}?')
-              ..body = MapModelBodyMethodBuilder(mapping: mapping, mapperConfig: config, nullable: true).build(),
+              ..body = MapModelBodyMethodBuilder(
+                mapping: mapping,
+                mapperConfig: config,
+                nullable: true,
+              ).build(),
           ),
       ]
     ];

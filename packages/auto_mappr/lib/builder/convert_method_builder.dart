@@ -2,6 +2,7 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/extensions/expression_extension.dart';
 import 'package:auto_mappr/models/auto_mappr_config.dart';
 import 'package:auto_mappr/models/type_mapping.dart';
+import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 
 /// Builds main `convert` method
@@ -12,13 +13,29 @@ class ConvertMethodBuilder {
   static const targetKey = 'TARGET';
   static const targetTypeReference = Reference(targetKey);
 
+  final Set<TypeMapping> _nullableMappings;
+
+  ConvertMethodBuilder() : _nullableMappings = {};
+
   static String concreteConvertMethodName(DartType source, DartType target) =>
       '_map${source.getDisplayString(withNullability: false)}To${target.getDisplayString(withNullability: false)}';
 
   static String concreteNullableConvertMethodName(DartType source, DartType target) =>
       '${concreteConvertMethodName(source, target)}__Nullable';
 
-  static Method buildCanConvert(AutoMapprConfig config) {
+  bool shouldGenerateNullableMappingMethod(TypeMapping mapping) {
+    return _nullableMappings.contains(mapping);
+  }
+
+  void usedNullableMappingMethod(TypeMapping? mapping) {
+    log.warning('usedNullableMappingMethod $mapping');
+
+    if (mapping == null) return;
+
+    final _ = _nullableMappings.add(mapping);
+  }
+
+  Method buildCanConvert(AutoMapprConfig config) {
     return Method(
       (b) => b
         ..name = 'canConvert'
@@ -28,7 +45,7 @@ class ConvertMethodBuilder {
     );
   }
 
-  static Method buildConvertMethod() {
+  Method buildConvertMethod() {
     return Method(
       (b) => b
         ..name = 'convert'
@@ -46,7 +63,7 @@ class ConvertMethodBuilder {
     );
   }
 
-  static Method buildInternalConvertMethod(AutoMapprConfig config) {
+  Method buildInternalConvertMethod(AutoMapprConfig config) {
     return Method(
       (b) => b
         ..name = '_convert'
@@ -63,7 +80,7 @@ class ConvertMethodBuilder {
     );
   }
 
-  static Method buildTypeOfHelperMethod() {
+  Method buildTypeOfHelperMethod() {
     return Method(
       (b) => b
         ..name = '_typeOf'
@@ -74,7 +91,7 @@ class ConvertMethodBuilder {
     );
   }
 
-  static Code? _buildConvertMethodBody(List<TypeMapping> mappings) {
+  Code? _buildConvertMethodBody(List<TypeMapping> mappings) {
     final block = BlockBuilder();
 
     for (final mapping in mappings) {
@@ -122,7 +139,7 @@ class ConvertMethodBuilder {
     return block.build();
   }
 
-  static Code? _buildCanConvertBody(List<TypeMapping> mappings) {
+  Code? _buildCanConvertBody(List<TypeMapping> mappings) {
     final block = BlockBuilder();
 
     for (final mapping in mappings) {

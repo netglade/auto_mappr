@@ -35,16 +35,4 @@ class $Mappr {
     );
     return result;
   }
-
-  User? _mapUserDtoToUser__Nullable(UserDto? input) {
-    final model = input;
-    if (model == null) {
-      return null;
-    }
-    final result = User(
-      age: model.age,
-      username: model.username,
-    );
-    return result;
-  }
 }

@@ -45,21 +45,6 @@ class $Mappr {
     return result;
   }
 
-  User? _mapUserDtoToUser__Nullable(UserDto? input) {
-    final model = input;
-    if (model == null) {
-      return null;
-    }
-    final result = User(
-      id: model.id,
-      tag: model.tag == null
-          ? Mappr.defaultNested()
-          : _mapNestedDtoToNested(model.tag),
-      name: _mapNestedDtoToNested__Nullable(model.name),
-    );
-    return result;
-  }
-
   Nested _mapNestedDtoToNested(NestedDto? input) {
     final model = input;
     if (model == null) {

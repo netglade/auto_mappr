@@ -281,8 +281,11 @@ Getters can be both explicit ones or implicit ones created by fields.
 ### Nullability handling
 
 For each `MapType<SOURCE, TARGET>()` mapping the generator generates at most two mapping methods.
-One with nullable return type `TARGET?`, second with non-nullable return type `TARGET`.
-If the mapping has `MapType.whenSourceIsNull` set, the nullable method is not generated.
+First method is a method with non-nullable return type `TARGET`.
+Second method is a method with nullable return type `TARGET?`
+that is being generated only when other methods use it.
+If the object mapping has `whenSourceIsNull` parameter set,
+the nullable method is not generated.
 
 ### Works with `equatable`
 
