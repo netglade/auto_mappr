@@ -65,28 +65,25 @@ class AutoMapprBuilder {
             ).build(),
         ),
 
-      // Generates nullable mapping method.
-      for (final mapping in config.mappers) ...[
-        // Only when nullable method is used.
-        if (convertMethodBuilder.shouldGenerateNullableMappingMethod(mapping))
-          Method(
-            (b) => b
-              ..name = mapping.nullableMappingMethodName
-              ..requiredParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = 'input'
-                    ..type = refer('${mapping.source.getDisplayString(withNullability: false)}?'),
-                )
-              ])
-              ..returns = refer('${mapping.target.getDisplayString(withNullability: true)}?')
-              ..body = MapModelBodyMethodBuilder(
-                mapping: mapping,
-                mapperConfig: config,
-                nullable: true,
-              ).build(),
-          ),
-      ]
+      // Generates nullable mapping method only when nullable method is used.
+      for (final mapping in config.mappers.where(convertMethodBuilder.shouldGenerateNullableMappingMethod))
+        Method(
+          (b) => b
+            ..name = mapping.nullableMappingMethodName
+            ..requiredParameters.addAll([
+              Parameter(
+                (p) => p
+                  ..name = 'input'
+                  ..type = refer('${mapping.source.getDisplayString(withNullability: false)}?'),
+              )
+            ])
+            ..returns = refer('${mapping.target.getDisplayString(withNullability: true)}?')
+            ..body = MapModelBodyMethodBuilder(
+              mapping: mapping,
+              mapperConfig: config,
+              nullable: true,
+            ).build(),
+        ),
     ];
   }
 }
