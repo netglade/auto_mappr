@@ -95,7 +95,7 @@ void main() {
             fixture.NestedDto(111456, name: 'second x', tag: fixture.NestedTagDto(flag: false)),
             fixture.NestedDto(111123, name: 'third x', tag: fixture.NestedTagDto(flag: true)),
           ]);
-          final converted = mapper.convert<fixture.ComplexDtoWithNullList, fixture.ComplexWithNullList>(dto);
+          final converted = mappr.convert<fixture.ComplexDtoWithNullList, fixture.ComplexWithNullList>(dto);
 
           expect(
             converted,

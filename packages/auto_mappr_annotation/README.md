@@ -10,8 +10,8 @@
 
 Developed with 💚 by [netglade][netglade_link]
 
-[![build][build_badge]][build_badge_link]
 [![auto_mappr_annotation][auto_mappr_annotation_pub_badge]][auto_mappr_annotation_pub_link]
+[![build][build_badge]][build_badge_link]
 [![license: MIT][license_badge]][license_badge_link]
 [![style: netglade analysis][style_badge]][style_badge_link]
 
@@ -41,7 +41,6 @@ class Mappr extends $Mappr {}
 [style_badge]: https://img.shields.io/badge/style-netglade_analysis-26D07C.svg
 [style_badge_link]: https://pub.dev/packages/netglade_analysis
 
-[auto_mappr_pub_badge]: https://img.shields.io/pub/v/auto_mappr.svg
 [auto_mappr_pub_link]: https://pub.dartlang.org/packages/auto_mappr
 
 [auto_mappr_annotation_pub_badge]: https://img.shields.io/pub/v/auto_mappr_annotation.svg

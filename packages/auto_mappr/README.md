@@ -10,8 +10,8 @@
 
 Developed with 💚 by [netglade][netglade_link]
 
-[![build][build_badge]][build_badge_link]
 [![auto_mappr][auto_mappr_pub_badge]][auto_mappr_pub_link]
+[![build][build_badge]][build_badge_link]
 [![license: MIT][license_badge]][license_badge_link]
 [![style: netglade analysis][style_badge]][style_badge_link]
 
@@ -23,11 +23,6 @@ Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
 Thanks to code generation, you can generate AutoMappr classes,
 which will allow mapping between different objects automatically
 without the need to write these mapping by hand.
-
-| Package                                                 | Pub                                                                                                 |
-|---------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| [auto_mappr](packages/auto_mappr)                       | [![auto_mappr package][auto_mappr_pub_badge]][auto_mappr_pub_link]                                  |
-| [auto_mappr_annotation](packages/auto_mappr_annotation) | [![auto_mappr_annotation package][auto_mappr_annotation_pub_badge]][auto_mappr_annotation_pub_link] |
 
 ## Feature list
 
