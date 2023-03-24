@@ -5,7 +5,7 @@ targets:
         enabled: true
 
 builders:
-  auto_mappr:auto_mappr:
+  auto_mappr:
     import: "package:auto_mappr/builder.dart"
     builder_factories: ["autoMapprBuilder"]
     build_extensions: { ".dart": [".auto_mappr.g.part"] }
