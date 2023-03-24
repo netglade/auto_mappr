@@ -287,6 +287,9 @@ that is being generated only when other methods use it.
 If the object mapping has `whenSourceIsNull` parameter set,
 the nullable method is not generated.
 
+Note that `convert` cannot return `null`.
+The value `null` can only be returned for nested object mappings.
+
 ### Works with `equatable`
 
 Mapping works with the Equatable package.
