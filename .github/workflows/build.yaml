@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
-      - uses: bluefireteam/melos-action@v1
+      - uses: bluefireteam/melos-action@v2
 
       - name: Generate AutoMappr files
         run: melos run gen:build-all
