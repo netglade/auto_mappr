@@ -1,9 +1,0 @@
-builders:
-  mapper:
-    import: "package:automapper_generator/builder.dart"
-    builder_factories: ["automapperBuilder"]
-    build_extensions: { ".dart": [".g.dart"] }
-    auto_apply: dependents
-    build_to: source
-    # applies_builders: ["source_gen|combining_builder"]
-    required_inputs: [".g.dart"]
