@@ -11,7 +11,7 @@ dependencies:
   equatable: ^2.0.5
 
 dev_dependencies:
-  auto_mappr: ^0.0.1
+  auto_mappr: ^1.0.0
   build_runner: ^2.0.0
   lints: ^2.0.0
   netglade_analysis: 1.1.2
