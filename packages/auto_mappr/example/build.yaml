@@ -1,25 +1,5 @@
 targets:
   $default:
-    # disable the default generators, we'll only use the non-shared drift generator here
-    auto_apply_builders: false
     builders:
-      drift_dev|not_shared:
+      auto_mappr:
         enabled: true
-        # If needed, you can configure the builder like this:
-        # options:
-        #   skip_verification_code: true
-        #   use_experimental_inference: true
-      # This builder is necessary for drift-file preprocessing. You can disable it if you're not
-      # using .drift files with type converters.
-      drift_dev|preparing_builder:
-        enabled: true
-
-  run_built_value:
-    dependencies: ['auto_mappr']
-    builders:
-      # Disable drift builders. By default, those would run on each target
-      drift_dev:
-        enabled: false
-      drift_dev|preparing_builder:
-        enabled: false
-      # we don't need to disable drift|not_shared, because it's disabled by default

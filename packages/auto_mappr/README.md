@@ -109,6 +109,74 @@ For a Dart project:
 dart run build_runner build
 ```
 
+### Customizing the build
+
+By default, AutoMappr uses the `auto_mappr:auto_mappr` builder
+that works with `SharedPartBuilder`, which generates combined `.g.dart` files.
+If you need to use `PartBuilder` to generate not-shared `.auto_mappr.dart` part files,
+you can use the `auto_mappr:not_shared` builder.
+
+Modify your `build.yaml` file:
+
+```yaml
+targets:
+  $default:
+    # You can disable all default builders.
+    auto_apply_builders: false
+    builders:
+      # Or disable specific ones.
+      auto_mappr:
+        enabled: false
+      # And enable the not_shared builder.
+      auto_mappr:not_shared:
+        enabled: true
+```
+
+If you are using packages like `Drift`
+which generates classes you need to use as a source or a target,
+use their not-shared builder.
+To add a dependency on their output,
+specify a `required_inputs` dependency on your local AutoMappr builder
+and disable the builders provided by AutoMappr.
+You can also use shared or not-shared versions as shown in `builders:` below.
+
+```yaml
+targets:
+  $default:
+    # Disable the default generators (or disable the default builders you don't want to use).
+    auto_apply_builders: false
+    builders:
+      # Enable their generators according to their documentation.
+      drift_dev:not_shared:
+        enabled: true
+      drift_dev:preparing_builder:
+        enabled: true
+      # Enable one of local AutoMappr builders (or use `:not_shared:`)
+      :auto_mappr:
+        enabled: true
+
+# Local builders.
+builders:
+  # Local shared builder.
+  auto_mappr:
+    required_inputs: [".drift.dart"] # <-- here are your dependencies
+    import: "package:auto_mappr/builder.dart"
+    builder_factories: ["autoMapprBuilder"]
+    build_extensions: { ".dart": [".auto_mappr.g.part"] }
+    auto_apply: none
+    build_to: cache
+    applies_builders: ["source_gen:combining_builder"]
+
+  # Local not-shared builder. 
+  not_shared:
+    required_inputs: [".drift.dart"] # <-- here are your dependencies
+    import: "package:auto_mappr/builder.dart"
+    builder_factories: ["autoMapprBuilderNotShared"]
+    build_extensions: { ".dart": ["auto_mappr.dart"] }
+    auto_apply: none
+    build_to: source
+```
+
 ## Features
 
 ### Primitive objects mapping

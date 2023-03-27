@@ -16,5 +16,3 @@ dev_dependencies:
   lints: ^2.0.0
   netglade_analysis: 1.1.2
   test: ^1.16.0
-  drift:
-  drift_dev:
