@@ -2,9 +2,9 @@
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mappr/builder/auto_mappr_builder.dart';
-import 'package:auto_mappr/extensions/dart_object_extension.dart';
-import 'package:auto_mappr/models/models.dart';
+import 'package:auto_mappr/src/builder/auto_mappr_builder.dart';
+import 'package:auto_mappr/src/extensions/dart_object_extension.dart';
+import 'package:auto_mappr/src/models/models.dart';
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';

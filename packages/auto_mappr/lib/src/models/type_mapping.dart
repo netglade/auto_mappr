@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mappr/builder/convert_method_builder.dart';
-import 'package:auto_mappr/models/field_mapping.dart';
+import 'package:auto_mappr/src/builder/convert_method_builder.dart';
+import 'package:auto_mappr/src/models/field_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';

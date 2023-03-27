@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mappr/extensions/expression_extension.dart';
-import 'package:auto_mappr/models/auto_mappr_config.dart';
-import 'package:auto_mappr/models/type_mapping.dart';
+import 'package:auto_mappr/src/extensions/expression_extension.dart';
+import 'package:auto_mappr/src/models/auto_mappr_config.dart';
+import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 
 /// Builds main `convert` method

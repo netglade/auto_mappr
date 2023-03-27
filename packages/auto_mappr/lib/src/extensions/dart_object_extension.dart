@@ -1,7 +1,7 @@
 //ignore_for_file: no-object-declaration
 
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:auto_mappr/extensions/executable_element_extension.dart';
+import 'package:auto_mappr/src/extensions/executable_element_extension.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
 

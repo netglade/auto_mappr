@@ -1,4 +1,4 @@
-import 'package:auto_mappr/models/source_assignment.dart';
+import 'package:auto_mappr/src/models/source_assignment.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:equatable/equatable.dart';
 import 'package:source_gen/source_gen.dart';
