@@ -308,7 +308,7 @@ AutoMappr uses a `SharedPartBuilder`.
 That means it can share the `.g.dart` file with packages like JSON Serializable
 to generate other code to the generated super class.
 
-## ⚙️ Customizing the build
+## ⚙ Customizing the build
 
 By default, AutoMappr uses the `auto_mappr:auto_mappr` builder
 that works with `SharedPartBuilder`, which generates combined `.g.dart` files.
