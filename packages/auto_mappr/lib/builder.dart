@@ -9,3 +9,8 @@ Builder autoMapprBuilder(BuilderOptions _) => SharedPartBuilder(
       [AutoMapprGenerator()],
       'auto_mappr',
     );
+
+Builder autoMapprBuilderNotShared(BuilderOptions _) => PartBuilder(
+      [AutoMapprGenerator()],
+      '.auto_mappr.dart',
+    );

@@ -7,11 +7,13 @@ environment:
   sdk: ">=2.18.7 <3.0.0"
 
 dependencies:
-  auto_mappr_annotation: ^0.1.0
+  auto_mappr_annotation:
+    path: ../
   equatable: ^2.0.5
 
 dev_dependencies:
-  auto_mappr: ^0.0.1
+  auto_mappr:
+    path: ../../auto_mappr
   build_runner: ^2.0.0
   lints: ^2.0.0
   netglade_analysis: 1.1.2

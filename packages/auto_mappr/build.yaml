@@ -1,14 +1,21 @@
 targets:
   $default:
     builders:
-      auto_mappr:
+      :auto_mappr:
         enabled: true
 
 builders:
-  auto_mappr:auto_mappr:
+  auto_mappr:
     import: "package:auto_mappr/builder.dart"
     builder_factories: ["autoMapprBuilder"]
     build_extensions: { ".dart": [".auto_mappr.g.part"] }
     auto_apply: dependents
     build_to: cache
-    applies_builders: ["source_gen|combining_builder"]
+    applies_builders: ["source_gen:combining_builder"]
+
+  not_shared:
+    import: "package:auto_mappr/builder.dart"
+    builder_factories: [ "autoMapprBuilderNotShared" ]
+    build_extensions: { ".dart": [ ".auto_mappr.dart" ] }
+    auto_apply: none
+    build_to: source

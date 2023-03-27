@@ -24,26 +24,31 @@ Thanks to code generation, you can generate AutoMappr classes,
 which will allow mapping between different objects automatically
 without the need to write these mapping by hand.
 
-## Feature list
+* [🚀 Getting started](#-getting-started)
+  * [How to use](#how-to-use)
+  * [Install](#install)
+  * [Run the generator](#run-the-generator)
+* [✨ Features](#-features)
+  * ✅ [Primitive objects mapping](#primitive-objects-mapping)
+  * ✅ [Complex objects mapping](#complex-objects-mapping)
+  * ✅ [Field mapping](#field-mapping)
+  * ✅ [Custom mapping](#custom-mapping)
+  * ✅ [Ignore mapping](#ignore-mapping)
+  * ✅ [List-like objects mapping](#list-like-objects-mapping)
+  * ✅ [Map objects mapping](#map-objects-mapping)
+  * ✅ [Default field value](#default-field-value)
+  * ✅ [Default object value](#default-object-value)
+  * ✅ [Constructor selection](#constructor-selection)
+  * ✅ [Positional and named constructor parameters](#positional-and-named-constructor-parameters)
+  * ✅ [Mapping to target](#mapping-to-target)
+  * ✅ [Mapping from source](#mapping-from-source)
+  * ✅ [Nullability handling](#nullability-handling)
+  * ✅ [Works with `equatable`](#works-with-equatable)
+  * ✅ [Works with `json_serializable`](#works-with-jsonserializable)
+* [⚙️ Customizing the build](#-customizing-the-build)
+* [👏 Contributing](#-contributing)
 
-- ✅ [primitive objects mapping](#primitive-objects-mapping)
-- ✅ [complex objects mapping](#complex-objects-mapping)
-- ✅ [field mapping](#field-mapping)
-- ✅ [custom mapping](#custom-mapping)
-- ✅ [ignoring mapping](#custom-mapping)
-- ✅ [list-like objects mapping](#list-like-objects-mapping)
-- ✅ [maps objects mapping](#map-objects-mapping)
-- ✅ [default field value](#default-field-value)
-- ✅ [default object value](#default-object-value)
-- ✅ [constructor selection](#constructor-selection)
-- ✅ [positional and named constructor parameters](#positional-and-named-constructor-parameters)
-- ✅ [mapping to target (constructor parameters or public setters)](#mapping-to-target)
-- ✅ [mapping from source (public instance or static getters)](#mapping-from-source)
-- ✅ [nullability handling](#nullability-handling)
-- ✅ [works with `equatable`](#works-with-equatable)
-- ✅ [works with `json_serializable`](#works-with-jsonserializable)
-
-## Getting started
+## 🚀 Getting started
 
 ### How to use
 
@@ -71,7 +76,7 @@ class Mappr extends $Mappr {
 int mapAge(UserDto _) => 55;
 ```
 
-## Install
+### Install
 
 To use AutoMappr, install these three packages:
 
@@ -109,7 +114,7 @@ For a Dart project:
 dart run build_runner build
 ```
 
-## Features
+## ✨ Features
 
 ### Primitive objects mapping
 
@@ -303,7 +308,95 @@ AutoMappr uses a `SharedPartBuilder`.
 That means it can share the `.g.dart` file with packages like JSON Serializable
 to generate other code to the generated super class.
 
-## Contributing
+## ⚙ Customizing the build
+
+By default, AutoMappr uses the `auto_mappr:auto_mappr` builder
+that works with `SharedPartBuilder`, which generates combined `.g.dart` files.
+If you need to use `PartBuilder` to generate not-shared `.auto_mappr.dart` part files,
+you can use the `auto_mappr:not_shared` builder.
+
+Modify your `build.yaml` file:
+
+```yaml
+targets:
+  $default:
+    # You can disable all default builders.
+    auto_apply_builders: false
+    builders:
+      # Or disable specific ones.
+      auto_mappr:
+        enabled: false
+      # And enable the not_shared builder.
+      auto_mappr:not_shared:
+        enabled: true
+```
+
+If you are using packages like `Drift`
+which generates classes you need to use as a source or a target in your mappings,
+use their not-shared builder, if they have any.
+With that, the builder can generate files like `.drift.dart`
+which you can add a input dependency to.
+Specify the `required_inputs` dependency on your local AutoMappr builder
+and disable the builders provided by AutoMappr.
+
+Shared builder:
+
+```yaml
+targets:
+  $default:
+    # Disable the default generators (or disable the default builders you don't want to use).
+    auto_apply_builders: false
+    builders:
+      # Enable their generators according to their documentation.
+      drift_dev:not_shared:
+        enabled: true
+      drift_dev:preparing_builder:
+        enabled: true
+      # Enable local shared AutoMappr builder defined below.
+      :auto_mappr:
+        enabled: true
+
+# Local builders.
+builders:
+  auto_mappr:
+    required_inputs: [".drift.dart"] # <-- here are your dependencies
+    import: "package:auto_mappr/builder.dart"
+    builder_factories: ["autoMapprBuilder"]
+    build_extensions: { ".dart": [".auto_mappr.g.part"] }
+    auto_apply: none
+    build_to: cache
+    applies_builders: ["source_gen:combining_builder"]
+```
+
+Not shared builder:
+
+```yaml
+targets:
+  $default:
+    # Disable the default generators (or disable the default builders you don't want to use).
+    auto_apply_builders: false
+    builders:
+      # Enable their generators according to their documentation.
+      drift_dev:not_shared:
+        enabled: true
+      drift_dev:preparing_builder:
+        enabled: true
+      # Enable local not-shared AutoMappr builder defined below.
+      :auto_mappr:not_shared:
+        enabled: true
+
+# Local builders.
+builders:
+  not_shared:
+    required_inputs: [".drift.dart"] # <-- here are your dependencies
+    import: "package:auto_mappr/builder.dart"
+    builder_factories: ["autoMapprBuilderNotShared"]
+    build_extensions: { ".dart": ["auto_mappr.dart"] }
+    auto_apply: none
+    build_to: source
+```
+
+## 👏 Contributing
 
 Your contributions are always welcome! Feel free to open pull request.
 
