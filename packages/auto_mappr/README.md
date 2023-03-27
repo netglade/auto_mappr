@@ -24,11 +24,11 @@ Thanks to code generation, you can generate AutoMappr classes,
 which will allow mapping between different objects automatically
 without the need to write these mapping by hand.
 
-* [Getting started](#getting-started)
+* [🚀 Getting started](#-getting-started)
   * [How to use](#how-to-use)
   * [Install](#install)
   * [Run the generator](#run-the-generator)
-* [Features](#features)
+* [✨ Features](#-features)
   * ✅ [Primitive objects mapping](#primitive-objects-mapping)
   * ✅ [Complex objects mapping](#complex-objects-mapping)
   * ✅ [Field mapping](#field-mapping)
@@ -45,10 +45,10 @@ without the need to write these mapping by hand.
   * ✅ [Nullability handling](#nullability-handling)
   * ✅ [Works with `equatable`](#works-with-equatable)
   * ✅ [Works with `json_serializable`](#works-with-jsonserializable)
-* [Customizing the build](#customizing-the-build)
-* [Contributing](#contributing)
+* [⚙️ Customizing the build](#-customizing-the-build)
+* [👏 Contributing](#-contributing)
 
-## Getting started
+## 🚀 Getting started
 
 ### How to use
 
@@ -114,7 +114,7 @@ For a Dart project:
 dart run build_runner build
 ```
 
-## Features
+## ✨ Features
 
 ### Primitive objects mapping
 
@@ -308,7 +308,7 @@ AutoMappr uses a `SharedPartBuilder`.
 That means it can share the `.g.dart` file with packages like JSON Serializable
 to generate other code to the generated super class.
 
-## Customizing the build
+## ⚙️ Customizing the build
 
 By default, AutoMappr uses the `auto_mappr:auto_mappr` builder
 that works with `SharedPartBuilder`, which generates combined `.g.dart` files.
@@ -396,7 +396,7 @@ builders:
     build_to: source
 ```
 
-## Contributing
+## 👏 Contributing
 
 Your contributions are always welcome! Feel free to open pull request.
 
