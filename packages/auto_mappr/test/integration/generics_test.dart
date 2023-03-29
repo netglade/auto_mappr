@@ -9,7 +9,6 @@ void main() {
     mappr = fixture.Mappr();
   });
 
-  // simple
   group(
     'simple',
     () {
@@ -107,7 +106,6 @@ void main() {
     },
   );
 
-  // nested
   group(
     'nested',
     () {
@@ -152,7 +150,6 @@ void main() {
     },
   );
 
-  // collections
   group(
     'collections',
     () {

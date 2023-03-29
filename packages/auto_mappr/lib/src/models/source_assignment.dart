@@ -24,14 +24,14 @@ class SourceAssignment {
   final ConstructorAssignment? targetConstructorParam;
   final PropertyAccessorElement? targetField;
 
-  // Field mapping.
-  //
-  // Like filed 'name' from 'userName' etc.
+  /// Field mapping.
+  ///
+  /// Like filed 'name' from 'userName' etc.
   final FieldMapping? fieldMapping;
 
-  // Mapping of type.
-  //
-  // Like UserDto to User.
+  /// Mapping of type.
+  ///
+  /// Like UserDto to User.
   final TypeMapping typeMapping;
 
   bool get shouldBeIgnored => fieldMapping?.ignore ?? false;
@@ -66,14 +66,8 @@ class SourceAssignment {
 
   @override
   String toString() {
-    final sourceTypeName = sourceType?.getDisplayString(
-      withNullability: true,
-      // classType: typeMapping.source,
-    );
-    final targetTypeName = targetType.getDisplayString(
-      withNullability: true,
-      // classType: typeMapping.target,
-    );
+    final sourceTypeName = sourceType?.getDisplayString(withNullability: true);
+    final targetTypeName = targetType.getDisplayString(withNullability: true);
 
     return '$sourceTypeName $sourceName -> $targetTypeName $targetName';
   }
