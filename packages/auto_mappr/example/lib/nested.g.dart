@@ -18,25 +18,25 @@ class $Mappr {
     if ((sourceTypeOf == _typeOf<UserDto>() ||
             sourceTypeOf == _typeOf<UserDto?>()) &&
         (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
-      return (_map_UserDto$_To_User$((model as UserDto?)) as TARGET);
+      return (_map_UserDto_To_User((model as UserDto?)) as TARGET);
     }
     if ((sourceTypeOf == _typeOf<NestedDto>() ||
             sourceTypeOf == _typeOf<NestedDto?>()) &&
         (targetTypeOf == _typeOf<Nested>() ||
             targetTypeOf == _typeOf<Nested?>())) {
-      return (_map_NestedDto$_To_Nested$((model as NestedDto?)) as TARGET);
+      return (_map_NestedDto_To_Nested((model as NestedDto?)) as TARGET);
     }
     if ((sourceTypeOf == _typeOf<NestedTagDto>() ||
             sourceTypeOf == _typeOf<NestedTagDto?>()) &&
         (targetTypeOf == _typeOf<NestedTag>() ||
             targetTypeOf == _typeOf<NestedTag?>())) {
-      return (_map_NestedTagDto$_To_NestedTag$((model as NestedTagDto?))
+      return (_map_NestedTagDto_To_NestedTag((model as NestedTagDto?))
           as TARGET);
     }
     throw Exception('No mapping from ${model.runtimeType} -> $targetTypeOf');
   }
 
-  User _map_UserDto$_To_User$(UserDto? input) {
+  User _map_UserDto_To_User(UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -44,30 +44,30 @@ class $Mappr {
     }
     final result = User(
       id: model.id,
-      name: _map_NestedDto$_To_Nested$(model.name),
+      name: _map_NestedDto_To_Nested(model.name),
       nestedItems: model.nestedItems
-          .map<Nested>((e) => _map_NestedDto$_To_Nested$(e))
+          .map<Nested>((e) => _map_NestedDto_To_Nested(e))
           .toList(),
       nestedItemsNullable: model.nestedItemsNullable
-              ?.map<Nested>((e) => _map_NestedDto$_To_Nested$(e))
+              ?.map<Nested>((e) => _map_NestedDto_To_Nested(e))
               .toList() ??
           <Nested>[],
       nestedItemsNullable2: model.nestedItemsNullable2
-          .map<Nested>((e) => _map_NestedDto$_To_Nested$(e))
+          .map<Nested>((e) => _map_NestedDto_To_Nested(e))
           .toList(),
       itemsWithNullableItem: model.itemsWithNullableItem
           .whereNotNull()
-          .map<Nested>((e) => _map_NestedDto$_To_Nested$(e))
+          .map<Nested>((e) => _map_NestedDto_To_Nested(e))
           .toList(),
       itemsWithNullableItem2: model.itemsWithNullableItem2
-          .map<Nested?>((e) => _map_NestedDto$_To_Nested$_Nullable(e))
+          .map<Nested?>((e) => _map_NestedDto_To_Nested_Nullable(e))
           .toList(),
       tag: null,
     );
     return result;
   }
 
-  Nested _map_NestedDto$_To_Nested$(NestedDto? input) {
+  Nested _map_NestedDto_To_Nested(NestedDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -76,12 +76,12 @@ class $Mappr {
     final result = Nested(
       id: model.id,
       name: model.name,
-      tag: _map_NestedTagDto$_To_NestedTag$(model.tag),
+      tag: _map_NestedTagDto_To_NestedTag(model.tag),
     );
     return result;
   }
 
-  NestedTag _map_NestedTagDto$_To_NestedTag$(NestedTagDto? input) {
+  NestedTag _map_NestedTagDto_To_NestedTag(NestedTagDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -91,7 +91,7 @@ class $Mappr {
     return result;
   }
 
-  Nested? _map_NestedDto$_To_Nested$_Nullable(NestedDto? input) {
+  Nested? _map_NestedDto_To_Nested_Nullable(NestedDto? input) {
     final model = input;
     if (model == null) {
       return null;
@@ -99,7 +99,7 @@ class $Mappr {
     final result = Nested(
       id: model.id,
       name: model.name,
-      tag: _map_NestedTagDto$_To_NestedTag$(model.tag),
+      tag: _map_NestedTagDto_To_NestedTag(model.tag),
     );
     return result;
   }

@@ -69,7 +69,7 @@ extension DartTypeExtension on DartType {
   }) {
     final buffer = StringBuffer()..write(element!.name);
 
-    if (this is ParameterizedType) {
+    if (this is ParameterizedType && (this as ParameterizedType).typeArguments.isNotEmpty) {
       final arguments = (this as ParameterizedType)
           .typeArguments
           .map<String>((argument) => argument.toConvertMethodName(withNullability: withNullability))
