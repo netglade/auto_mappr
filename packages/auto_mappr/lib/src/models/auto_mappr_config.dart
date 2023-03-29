@@ -15,7 +15,7 @@ class AutoMapprConfig {
     required DartType target,
   }) {
     return mappers.firstWhereOrNull(
-      (mapper) => mapper.source.isSameExceptNullability(source) && mapper.target.isSameExceptNullability(target),
+      (mapper) => mapper.source.isSame(source) && mapper.target.isSame(target),
     );
   }
 }

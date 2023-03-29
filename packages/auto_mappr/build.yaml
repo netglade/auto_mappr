@@ -3,6 +3,8 @@ targets:
     builders:
       :auto_mappr:
         enabled: true
+#        generate_for:
+#          - test/integration/fixture/generics.dart
 
 builders:
   auto_mappr:

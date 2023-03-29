@@ -1,8 +1,9 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/value_assignment_builder.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
-import 'package:auto_mappr/src/extensions/field_element_extension.dart';
+import 'package:auto_mappr/src/extensions/interface_type_extension.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
@@ -25,12 +26,9 @@ class MapModelBodyMethodBuilder {
   Code build() {
     final block = BlockBuilder();
 
-    final sourceClass = mapping.source.element! as ClassElement;
-    final targetClass = mapping.target.element! as ClassElement;
+    final sourceFields = _getAllReadableFields(classType: mapping.source);
 
-    final sourceFields = _getAllReadableFields(sourceClass);
     // Name of the source field names which can be mapped into constructor field
-
     final mappedSourceFieldNames = <String>[];
 
     // Input as local model.
@@ -42,7 +40,6 @@ class MapModelBodyMethodBuilder {
     _processConstructorMapping(
       mappedSourceFieldNames: mappedSourceFieldNames,
       sourceFields: sourceFields,
-      targetClass: targetClass,
       block: block,
     );
 
@@ -50,7 +47,6 @@ class MapModelBodyMethodBuilder {
     _mapSetterFields(
       alreadyMapped: mappedSourceFieldNames,
       sourceFields: sourceFields,
-      targetClass: targetClass,
       block: block,
     );
 
@@ -60,7 +56,7 @@ class MapModelBodyMethodBuilder {
     return block.build();
   }
 
-  void _assertParamFieldCanBeIgnored(ParameterElement param, FieldElement sourceField) {
+  void _assertParamFieldCanBeIgnored(ParameterElement param, PropertyAccessorElement sourceField) {
     final sourceFieldName = sourceField.getDisplayString(withNullability: true);
     if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
       throw InvalidGenerationSourceError(
@@ -94,14 +90,15 @@ class MapModelBodyMethodBuilder {
 
   void _processConstructorMapping({
     required List<String> mappedSourceFieldNames,
-    required Map<String, FieldElement> sourceFields,
-    required ClassElement targetClass,
+    required Map<String, PropertyAccessorElement> sourceFields,
     required BlockBuilder block,
   }) {
     final mappedTargetConstructorParams = <SourceAssignment>[];
     final notMappedTargetParameters = <SourceAssignment>[];
 
-    final targetConstructor = _findBestConstructor(targetClass, forcedConstructor: mapping.constructor);
+    final targetConstructor = _findBestConstructor(mapping.target, forcedConstructor: mapping.constructor);
+
+    final targetClassGetters = (mapping.target).getGettersWithTypes();
 
     // Map constructor parameters
     for (var i = 0; i < targetConstructor.parameters.length; i++) {
@@ -118,7 +115,7 @@ class MapModelBodyMethodBuilder {
       // Custom mapping has precedence.
       if (fieldMapping?.hasCustomMapping() ?? false) {
         final targetField =
-            targetClass.fields.firstWhere((targetField) => targetField.displayName == fieldMapping?.field);
+            targetClassGetters.firstWhere((targetField) => targetField.displayName == fieldMapping?.field);
 
         if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
           _assertParamFieldCanBeIgnored(param, targetField);
@@ -129,6 +126,7 @@ class MapModelBodyMethodBuilder {
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
           fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
+          typeMapping: mapping,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -140,9 +138,9 @@ class MapModelBodyMethodBuilder {
 
         final targetField = from != null
             // support custom field rename mapping
-            ? targetClass.fields.firstWhere((targetField) => targetField.displayName == fieldMapping?.field)
+            ? targetClassGetters.firstWhere((field) => field.displayName == fieldMapping?.field)
             // find target field based on matching source field
-            : targetClass.fields.firstWhere((targetField) => targetField.displayName == sourceField.displayName);
+            : targetClassGetters.firstWhere((field) => field.displayName == sourceField.displayName);
 
         if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
           _assertParamFieldCanBeIgnored(param, sourceField);
@@ -153,6 +151,7 @@ class MapModelBodyMethodBuilder {
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
           fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
+          typeMapping: mapping,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -162,7 +161,7 @@ class MapModelBodyMethodBuilder {
         if (param.isOptional) continue;
 
         final targetField =
-            targetClass.fields.firstWhereOrNull((targetField) => targetField.displayName == param.displayName);
+            (mapping.target).getGettersWithTypes().firstWhereOrNull((field) => field.displayName == param.displayName);
 
         final fieldMapping = mapping.tryGetFieldMapping(param.displayName);
 
@@ -178,6 +177,7 @@ class MapModelBodyMethodBuilder {
             targetField: targetField,
             fieldMapping: fieldMapping,
             targetConstructorParam: constructorAssignment,
+            typeMapping: mapping,
           ),
         );
       }
@@ -240,22 +240,21 @@ class MapModelBodyMethodBuilder {
 
   void _mapSetterFields({
     required List<String> alreadyMapped,
-    required Map<String, FieldElement> sourceFields,
-    required ClassElement targetClass,
+    required Map<String, PropertyAccessorElement> sourceFields,
     required BlockBuilder block,
   }) {
+    final targetSetters = mapping.target.getSettersWithTypes();
+
     final potentialSetterFields = sourceFields.keys.where((field) => !alreadyMapped.contains(field)).toList();
     final fields = potentialSetterFields
         .map((key) => sourceFields[key])
         .whereNotNull()
-        .where(
-          (field) =>
-              targetClass.fields.any((element) => element.displayName == field.displayName && element.isWritable),
-        )
+        .where((accessor) => targetSetters.any((targetAccessor) => targetAccessor.displayName == accessor.displayName))
         .toList();
 
+    final targetClassGetters = mapping.target.getGettersWithTypes();
     for (final sourceField in fields) {
-      final targetField = targetClass.fields.firstWhere((field) => field.displayName == sourceField.displayName);
+      final targetField = targetClassGetters.firstWhere((field) => field.displayName == sourceField.displayName);
 
       // Source.X has ignore:true -> skip
       if (mapping.fieldShouldBeIgnored(sourceField.displayName)) continue;
@@ -268,6 +267,7 @@ class MapModelBodyMethodBuilder {
               assignment: SourceAssignment(
                 sourceField: sourceField,
                 targetField: targetField,
+                typeMapping: mapping,
               ),
               usedNullableMethodCallback: usedNullableMethodCallback,
             ).build(),
@@ -278,8 +278,10 @@ class MapModelBodyMethodBuilder {
   }
 
   /// Returns all public fields (instance or static) that have a getter.
-  Map<String, FieldElement> _getAllReadableFields(ClassElement classElement) {
-    final fieldsWithGetter = classElement.fields.where((field) => field.isReadable);
+  Map<String, PropertyAccessorElement> _getAllReadableFields({
+    required InterfaceType classType,
+  }) {
+    final fieldsWithGetter = classType.getGettersWithTypes();
 
     return {
       for (final field in fieldsWithGetter) field.name: field,
@@ -287,9 +289,9 @@ class MapModelBodyMethodBuilder {
   }
 
   /// Tries to find best constructor for mapping -> currently returns constructor with the most parameter count
-  ConstructorElement _findBestConstructor(ClassElement element, {String? forcedConstructor}) {
+  ConstructorElement _findBestConstructor(InterfaceType classType, {String? forcedConstructor}) {
     if (forcedConstructor != null) {
-      final selectedConstructor = element.constructors.firstWhereOrNull((c) => c.name == forcedConstructor);
+      final selectedConstructor = classType.constructors.firstWhereOrNull((c) => c.name == forcedConstructor);
       if (selectedConstructor != null) return selectedConstructor;
 
       log.warning(
@@ -297,7 +299,7 @@ class MapModelBodyMethodBuilder {
       );
     }
 
-    final constructors = element.constructors.where((c) => !c.isFactory).toList()
+    final constructors = classType.constructors.where((c) => !c.isFactory).toList()
       ..sort((a, b) => b.parameters.length - a.parameters.length);
 
     return constructors.first;

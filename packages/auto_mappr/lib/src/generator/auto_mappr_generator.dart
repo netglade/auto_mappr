@@ -31,7 +31,22 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       final mapperType = mapper.type! as ParameterizedType;
 
       final sourceType = mapperType.typeArguments.first;
-      final targetType = mapperType.typeArguments[1];
+      final targetType = mapperType.typeArguments.last;
+
+      if (sourceType is! InterfaceType) {
+        throw InvalidGenerationSourceError(
+          '${sourceType.getDisplayString(withNullability: true)} is not a class and cannot be mapped from',
+          element: element,
+          todo: 'Use a class',
+        );
+      }
+      if (targetType is! InterfaceType) {
+        throw InvalidGenerationSourceError(
+          '${targetType.getDisplayString(withNullability: true)} is not a class and cannot be mapped to',
+          element: element,
+          todo: 'Use a class',
+        );
+      }
 
       final fields = mapper.getField('fields')?.toListValue();
       final whenSourceIsNull = mapper.getField('whenSourceIsNull')?.toCodeExpression();

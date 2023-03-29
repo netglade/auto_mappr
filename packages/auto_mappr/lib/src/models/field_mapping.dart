@@ -42,10 +42,6 @@ class FieldMapping extends Equatable {
   bool canBeApplied(SourceAssignment _) {
     if (ignore || hasCustomMapping()) return true;
 
-    // source is null and whenNullDefault is set -> can be applied
-    // if (assignment.sourceField?.type.nullabilitySuffix == NullabilitySuffix.question && whenNullDefault != null)
-    //   return true;
-
     return false;
   }
 

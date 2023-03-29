@@ -38,6 +38,8 @@ class ValueAssignmentBuilder {
       return fieldMapping.apply(assignment);
     }
 
+    final assignNestedObject = !assignment.targetType.isPrimitiveType;
+
     if (assignment.shouldAssignListLike()) {
       return _assignListLikeValue(assignment);
     }
@@ -46,18 +48,17 @@ class ValueAssignmentBuilder {
       return _assignMapValue(assignment);
     }
 
-    final assignNestedObject = !assignment.targetType.isPrimitiveType;
-    if (assignNestedObject) {
-      return _assignNestedObject(
-        source: sourceField.type,
-        target: assignment.targetType,
-        assignment: assignment,
-        convertMethodArg: refer('model').property(sourceField.name),
-      );
-    }
-
     final rightSide =
         refer(sourceField.isStatic ? '${sourceField.enclosingElement.name}' : 'model').property(sourceField.name);
+
+    if (assignNestedObject) {
+      return _assignNestedObject(
+        source: assignment.sourceType!,
+        target: assignment.targetType,
+        assignment: assignment,
+        convertMethodArg: rightSide,
+      );
+    }
 
     if (fieldMapping?.hasWhenNullDefault() ?? false) {
       return rightSide.ifNullThen(fieldMapping!.whenNullExpression!);
@@ -67,18 +68,19 @@ class ValueAssignmentBuilder {
   }
 
   Expression _assignListLikeValue(SourceAssignment assignment) {
-    final sourceType = assignment.sourceField!.type;
+    final sourceType = assignment.sourceType!;
     final targetType = assignment.targetType;
 
     final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
     final targetNullable = targetType.nullabilitySuffix == NullabilitySuffix.question;
 
-    final targetListLikeType = (targetType as ParameterizedType).typeArguments.first;
     final sourceListLikeType = (sourceType as ParameterizedType).typeArguments.first;
+    final targetListLikeType = (targetType as ParameterizedType).typeArguments.first;
 
     final shouldFilterNullInSource = sourceListLikeType.nullabilitySuffix == NullabilitySuffix.question &&
         targetListLikeType.nullabilitySuffix != NullabilitySuffix.question;
-    final assignNestedObject = !targetListLikeType.isPrimitiveType && (targetListLikeType != sourceListLikeType);
+
+    final assignNestedObject = !targetListLikeType.isPrimitiveType && (!targetListLikeType.isSame(sourceListLikeType));
 
     // When [sourceListLikeType] is nullable and [targetListLikeType] is not, remove null values.
     final sourceListLikeExpression = refer('model').property(assignment.sourceField!.name).maybeWhereListLikeNotNull(
@@ -95,7 +97,14 @@ class ValueAssignmentBuilder {
           .call(
             [_nestedMapCallForListLike(assignment)],
             {},
-            [refer(targetListLikeType.getDisplayString(withNullability: true))],
+            [
+              refer(
+                targetListLikeType.getDisplayString(
+                  withNullability: true,
+                  // classType: assignment.typeMapping.target,
+                ),
+              )
+            ],
           )
           // Call toList, toSet or nothing.
           // isOnNullable is false, because if map() was called, the value is non-null
@@ -123,7 +132,7 @@ class ValueAssignmentBuilder {
   }
 
   Expression _assignMapValue(SourceAssignment assignment) {
-    final sourceType = assignment.sourceField!.type;
+    final sourceType = assignment.sourceType!;
     final targetType = assignment.targetType;
 
     final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
@@ -173,14 +182,25 @@ class ValueAssignmentBuilder {
       [_callMapForMap(assignment)],
       {},
       [
-        refer(targetKeyType.getDisplayString(withNullability: true)),
-        refer(targetValueType.getDisplayString(withNullability: true)),
+        refer(
+          targetKeyType.getDisplayString(
+            withNullability: true,
+            // classType: assignment.typeMapping.target,
+          ),
+        ),
+        refer(
+          targetValueType.getDisplayString(
+            withNullability: true,
+            // classType: assignment.typeMapping.target,
+          ),
+        ),
       ],
     )
         // When [sourceNullable], use default value.
         .maybeIfNullThen(defaultMapValueExpression, isOnNullable: sourceNullable);
   }
 
+  // Assign either a collection or a complex type.
   Expression _assignNestedObject({
     required DartType source,
     required DartType target,
@@ -188,11 +208,15 @@ class ValueAssignmentBuilder {
     required Expression convertMethodArg,
     bool includeGenericTypes = false,
   }) {
-    if (source == target) {
+    if (source.isSame(target)) {
       return refer('model').property(assignment.sourceField!.displayName);
     }
 
-    final nestedMapping = mapperConfig.findMapping(source: source, target: target);
+    final nestedMapping = mapperConfig.findMapping(
+      source: source,
+      target: target,
+    );
+
     if (nestedMapping == null) {
       final targetTypeName = target.getDisplayString(withNullability: true);
       final sourceName = assignment.sourceField?.getDisplayString(withNullability: true);
@@ -219,11 +243,21 @@ class ValueAssignmentBuilder {
     //
     // Otherwise use non-nullable.
     final convertMethod = useNullableMethod
-        ? refer(ConvertMethodBuilder.concreteNullableConvertMethodName(source, target))
-        : refer(ConvertMethodBuilder.concreteConvertMethodName(source, target));
+        ? refer(
+            ConvertMethodBuilder.concreteNullableConvertMethodName(
+              source: source,
+              target: target,
+            ),
+          )
+        : refer(
+            ConvertMethodBuilder.concreteConvertMethodName(
+              source: source,
+              target: target,
+            ),
+          );
 
     if (useNullableMethod) {
-      usedNullableMethodCallback?.call(mapperConfig.findMapping(source: source, target: target));
+      usedNullableMethodCallback?.call(nestedMapping);
     }
 
     final convertCallExpr = convertMethod.call(
@@ -251,7 +285,7 @@ class ValueAssignmentBuilder {
 
   Expression _nestedMapCallForListLike(SourceAssignment assignment) {
     final targetListType = (assignment.targetType as ParameterizedType).typeArguments.first;
-    final sourceListType = (assignment.sourceField!.type as ParameterizedType).typeArguments.first;
+    final sourceListType = (assignment.sourceType! as ParameterizedType).typeArguments.first;
     final convertMethodCall = _assignNestedObject(
       assignment: assignment,
       source: sourceListType,
@@ -265,11 +299,10 @@ class ValueAssignmentBuilder {
   Expression _callMapForMap(
     SourceAssignment assignment,
   ) {
+    final sourceKeyType = (assignment.sourceType! as ParameterizedType).typeArguments.first;
+    final sourceValueType = (assignment.sourceType! as ParameterizedType).typeArguments.last;
     final targetKeyType = (assignment.targetType as ParameterizedType).typeArguments.first;
     final targetValueType = (assignment.targetType as ParameterizedType).typeArguments.last;
-
-    final sourceKeyType = (assignment.sourceField!.type as ParameterizedType).typeArguments.first;
-    final sourceValueType = (assignment.sourceField!.type as ParameterizedType).typeArguments.last;
 
     final assignNestedObjectKey = !targetKeyType.isPrimitiveType && (targetKeyType != sourceKeyType);
     final assignNestedObjectValue = !targetValueType.isPrimitiveType && (targetValueType != sourceValueType);

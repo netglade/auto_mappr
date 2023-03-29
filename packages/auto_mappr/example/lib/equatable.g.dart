@@ -13,17 +13,17 @@ class $Mappr {
   }
 
   TARGET _convert<SOURCE, TARGET>(SOURCE? model) {
-    if ((_typeOf<SOURCE>() == _typeOf<UserDto>() ||
-            _typeOf<SOURCE>() == _typeOf<UserDto?>()) &&
-        (_typeOf<TARGET>() == _typeOf<User>() ||
-            _typeOf<TARGET>() == _typeOf<User?>())) {
-      return (_mapUserDtoToUser((model as UserDto?)) as TARGET);
+    final sourceTypeOf = _typeOf<SOURCE>();
+    final targetTypeOf = _typeOf<TARGET>();
+    if ((sourceTypeOf == _typeOf<UserDto>() ||
+            sourceTypeOf == _typeOf<UserDto?>()) &&
+        (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+      return (_map_UserDto_To_User((model as UserDto?)) as TARGET);
     }
-    throw Exception(
-        'No mapping from ${model.runtimeType} -> ${_typeOf<TARGET>()}');
+    throw Exception('No mapping from ${model.runtimeType} -> $targetTypeOf');
   }
 
-  User _mapUserDtoToUser(UserDto? input) {
+  User _map_UserDto_To_User(UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(

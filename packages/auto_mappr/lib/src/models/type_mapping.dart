@@ -1,3 +1,5 @@
+// ignore_for_file: no-equal-arguments
+
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/convert_method_builder.dart';
 import 'package:auto_mappr/src/models/field_mapping.dart';
@@ -6,14 +8,21 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 class TypeMapping extends Equatable {
-  final DartType source;
-  final DartType target;
+  final InterfaceType source;
+  final InterfaceType target;
   final List<FieldMapping>? fieldMappings;
   final Expression? whenSourceIsNullExpression;
   final String? constructor;
 
-  String get mappingMethodName => ConvertMethodBuilder.concreteConvertMethodName(source, target);
-  String get nullableMappingMethodName => ConvertMethodBuilder.concreteNullableConvertMethodName(source, target);
+  String get mappingMethodName => ConvertMethodBuilder.concreteConvertMethodName(
+        source: source,
+        target: target,
+      );
+
+  String get nullableMappingMethodName => ConvertMethodBuilder.concreteNullableConvertMethodName(
+        source: source,
+        target: target,
+      );
 
   @override
   List<Object?> get props {

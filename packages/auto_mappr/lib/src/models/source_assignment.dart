@@ -3,7 +3,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
-import 'package:auto_mappr/src/models/field_mapping.dart';
+import 'package:auto_mappr/src/models/models.dart';
 import 'package:code_builder/code_builder.dart';
 
 class ConstructorAssignment {
@@ -19,42 +19,57 @@ class ConstructorAssignment {
 }
 
 class SourceAssignment {
-  final FieldElement? sourceField;
+  final PropertyAccessorElement? sourceField;
+
   final ConstructorAssignment? targetConstructorParam;
-  final FieldElement? targetField;
+  final PropertyAccessorElement? targetField;
+
+  /// Field mapping.
+  ///
+  /// Like filed 'name' from 'userName' etc.
   final FieldMapping? fieldMapping;
+
+  /// Mapping of type.
+  ///
+  /// Like UserDto to User.
+  final TypeMapping typeMapping;
 
   bool get shouldBeIgnored => fieldMapping?.ignore ?? false;
 
-  DartType get targetType => targetConstructorParam?.param.type ?? targetField!.type;
+  DartType? get sourceType => sourceField?.returnType;
+
+  String? get sourceName => sourceField?.displayName;
+
+  DartType get targetType => targetConstructorParam?.param.type ?? targetField!.returnType;
 
   String get targetName => targetConstructorParam?.param.displayName ?? targetField!.displayName;
 
   SourceAssignment({
     required this.sourceField,
     required this.targetField,
+    required this.typeMapping,
     this.targetConstructorParam,
     this.fieldMapping,
   });
 
   bool shouldAssignListLike() {
     // The source can be mapped to the target, if the source is mappable object and the target is listLike.
-    return _isCoreListLike(targetType) && _isMappableListLike(sourceField!.type);
+    return _isCoreListLike(targetType) && _isMappableListLike(sourceType!);
   }
 
   bool shouldAssignMap() {
     // The source can be mapped to the target, if the source is mappable object and the target is map.
-    return targetType.isDartCoreMap && _isMappableMap(sourceField!.type);
+    return targetType.isDartCoreMap && _isMappableMap(sourceType!);
   }
 
   bool shouldAssignComplexObject() => !targetType.isPrimitiveType;
 
   @override
   String toString() {
+    final sourceTypeName = sourceType?.getDisplayString(withNullability: true);
     final targetTypeName = targetType.getDisplayString(withNullability: true);
-    final sourceName = sourceField?.getDisplayString(withNullability: true);
 
-    return '$sourceName -> $targetTypeName $targetName';
+    return '$sourceTypeName $sourceName -> $targetTypeName $targetName';
   }
 
   Expression getDefaultValue() {

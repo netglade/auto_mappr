@@ -13,23 +13,23 @@ class $Mappr {
   }
 
   TARGET _convert<SOURCE, TARGET>(SOURCE? model) {
-    if ((_typeOf<SOURCE>() == _typeOf<UserDto>() ||
-            _typeOf<SOURCE>() == _typeOf<UserDto?>()) &&
-        (_typeOf<TARGET>() == _typeOf<User>() ||
-            _typeOf<TARGET>() == _typeOf<User?>())) {
-      return (_mapUserDtoToUser((model as UserDto?)) as TARGET);
+    final sourceTypeOf = _typeOf<SOURCE>();
+    final targetTypeOf = _typeOf<TARGET>();
+    if ((sourceTypeOf == _typeOf<UserDto>() ||
+            sourceTypeOf == _typeOf<UserDto?>()) &&
+        (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+      return (_map_UserDto_To_User((model as UserDto?)) as TARGET);
     }
-    if ((_typeOf<SOURCE>() == _typeOf<NestedDto>() ||
-            _typeOf<SOURCE>() == _typeOf<NestedDto?>()) &&
-        (_typeOf<TARGET>() == _typeOf<Nested>() ||
-            _typeOf<TARGET>() == _typeOf<Nested?>())) {
-      return (_mapNestedDtoToNested((model as NestedDto?)) as TARGET);
+    if ((sourceTypeOf == _typeOf<NestedDto>() ||
+            sourceTypeOf == _typeOf<NestedDto?>()) &&
+        (targetTypeOf == _typeOf<Nested>() ||
+            targetTypeOf == _typeOf<Nested?>())) {
+      return (_map_NestedDto_To_Nested((model as NestedDto?)) as TARGET);
     }
-    throw Exception(
-        'No mapping from ${model.runtimeType} -> ${_typeOf<TARGET>()}');
+    throw Exception('No mapping from ${model.runtimeType} -> $targetTypeOf');
   }
 
-  User _mapUserDtoToUser(UserDto? input) {
+  User _map_UserDto_To_User(UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -39,13 +39,13 @@ class $Mappr {
       id: model.id,
       tag: model.tag == null
           ? Mappr.defaultNested()
-          : _mapNestedDtoToNested(model.tag),
-      name: _mapNestedDtoToNested__Nullable(model.name),
+          : _map_NestedDto_To_Nested(model.tag),
+      name: _map_NestedDto_To_Nested_Nullable(model.name),
     );
     return result;
   }
 
-  Nested _mapNestedDtoToNested(NestedDto? input) {
+  Nested _map_NestedDto_To_Nested(NestedDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -58,7 +58,7 @@ class $Mappr {
     return result;
   }
 
-  Nested? _mapNestedDtoToNested__Nullable(NestedDto? input) {
+  Nested? _map_NestedDto_To_Nested_Nullable(NestedDto? input) {
     final model = input;
     if (model == null) {
       return null;
