@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
@@ -9,18 +10,27 @@ class ConvertMethodBuilder {
   static const sourceKey = 'SOURCE';
   static const sourceTypeReference = Reference(sourceKey);
   static const nullableSourceTypeReference = Reference('$sourceKey?');
+  static const sourceTypeOf = Reference('_typeOf<$sourceKey>()');
+
   static const targetKey = 'TARGET';
   static const targetTypeReference = Reference(targetKey);
+  static const targetTypeOf = Reference('_typeOf<$targetKey>()');
 
   final Set<TypeMapping> _nullableMappings;
 
   ConvertMethodBuilder() : _nullableMappings = {};
 
-  static String concreteConvertMethodName(DartType source, DartType target) =>
-      '_map${source.getDisplayString(withNullability: false)}To${target.getDisplayString(withNullability: false)}';
+  static String concreteConvertMethodName({
+    required DartType source,
+    required DartType target,
+  }) =>
+      '_map_${source.toConvertMethodName(withNullability: false)}_To_${target.toConvertMethodName(withNullability: false)}';
 
-  static String concreteNullableConvertMethodName(DartType source, DartType target) =>
-      '${concreteConvertMethodName(source, target)}__Nullable';
+  static String concreteNullableConvertMethodName({
+    required DartType source,
+    required DartType target,
+  }) =>
+      '${concreteConvertMethodName(source: source, target: target)}_Nullable';
 
   bool shouldGenerateNullableMappingMethod(TypeMapping mapping) {
     return _nullableMappings.contains(mapping);
@@ -91,17 +101,25 @@ class ConvertMethodBuilder {
   Code? _buildConvertMethodBody(List<TypeMapping> mappings) {
     final block = BlockBuilder();
 
+    final sourceTypeOfVariable = declareFinal('sourceTypeOf').assign(sourceTypeOf);
+    final sourceTypeOfReference = refer('sourceTypeOf');
+    block.addExpression(sourceTypeOfVariable);
+
+    final targetTypeOfVariable = declareFinal('targetTypeOf').assign(targetTypeOf);
+    final targetTypeOfReference = refer('targetTypeOf');
+    block.addExpression(targetTypeOfVariable);
+
     for (final mapping in mappings) {
       final sourceName = mapping.source.getDisplayString(withNullability: false);
       final targetName = mapping.target.getDisplayString(withNullability: false);
 
-      final modelIsTypeExpression = refer('_typeOf<$sourceKey>()')
+      final modelIsTypeExpression = sourceTypeOfReference
           .equalTo(refer('_typeOf<$sourceName>()'))
-          .or(refer('_typeOf<$sourceKey>()').equalTo(refer('_typeOf<$sourceName?>()')));
+          .or(sourceTypeOfReference.equalTo(refer('_typeOf<$sourceName?>()')));
 
-      final outputExpression = refer('_typeOf<$targetKey>()')
+      final outputExpression = targetTypeOfReference
           .equalTo(refer('_typeOf<$targetName>()'))
-          .or(refer('_typeOf<$targetKey>()').equalTo(refer('_typeOf<$targetName?>()')));
+          .or(targetTypeOfReference.equalTo(refer('_typeOf<$targetName?>()')));
 
       final ifConditionExpression = modelIsTypeExpression.bracketed().and(outputExpression.bracketed());
 
@@ -119,18 +137,20 @@ class ConvertMethodBuilder {
 
       // Generates code like:
       //
-      // if ((_typeOf<SOURCE>() == _typeOf<UserDto>() ||
-      //     _typeOf<SOURCE>() == _typeOf<UserDto?>()) &&
-      //     (_typeOf<TARGET>() == _typeOf<User>() ||
-      //         _typeOf<TARGET>() == _typeOf<User?>())) {
-      //   return _mapUserDtoToUser(model as UserDto?);
+      // final sourceTypeOf = _typeOf<SOURCE>();
+      // final targetTypeOf = _typeOf<TARGET>();
+      // if ((sourceTypeOf == _typeOf<UserDto>() ||
+      //         sourceTypeOf == _typeOf<UserDto?>()) &&
+      //     (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+      //   return (_map_UserDto$_To_User$((model as UserDto?)) as TARGET);
       // }
       block.statements.add(ifStatementExpression.code);
     }
 
     block.addExpression(
-      refer('Exception')
-          .newInstance([refer("'No mapping from \${model.runtimeType} -> \${_typeOf<$targetKey>()}'")]).thrown,
+      refer('Exception').newInstance(
+        [refer("'No mapping from \${model.runtimeType} -> \$${targetTypeOfReference.accept(DartEmitter())}'")],
+      ).thrown,
     );
 
     return block.build();

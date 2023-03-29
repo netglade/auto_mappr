@@ -2,6 +2,7 @@ include: package:netglade_analysis/lints.yaml
 # TODO include: package:netglade_analysis/lints_package.yaml
 
 analyzer:
+  exclude:
   plugins:
     - dart_code_metrics
 

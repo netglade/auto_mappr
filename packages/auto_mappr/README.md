@@ -43,6 +43,7 @@ without the need to write these mapping by hand.
   * ✅ [Mapping to target](#mapping-to-target)
   * ✅ [Mapping from source](#mapping-from-source)
   * ✅ [Nullability handling](#nullability-handling)
+  * ✅ [Generics](#generics)
   * ✅ [Works with `equatable`](#works-with-equatable)
   * ✅ [Works with `json_serializable`](#works-with-jsonserializable)
 * [⚙️ Customizing the build](#-customizing-the-build)
@@ -294,6 +295,41 @@ the nullable method is not generated.
 
 Note that `convert` cannot return `null`.
 The value `null` can only be returned for nested object mappings.
+
+### Generics
+
+AutoMappr can handle generics, so you can map objects with type arguments with ease.
+
+```dart
+@AutoMappr([
+  MapType<SomeObjectDto<num>, SomeObject<num>>(),
+  MapType<SomeObjectDto<int>, SomeObject<int>>(),
+  MapType<SomeObjectDto<String>, SomeObject<String>>(),
+])
+class Mappr extends $Mappr {}
+```
+
+Type parameters are not limited.
+You can use them as a direct type,
+in a nested object types,
+in collections, ...
+AutoMappr will automatically handles them for you.
+
+```dart
+class Something<A, B, C> {
+  final A first;
+  final Nested<A, B> second;
+  final List<C> third;
+  final List<Nested<A, C>> fourth;
+  // ...
+}
+
+class Nested<X, Y> {
+  final X alpha;
+  final Y beta;
+// ...
+}
+```
 
 ### Works with `equatable`
 
