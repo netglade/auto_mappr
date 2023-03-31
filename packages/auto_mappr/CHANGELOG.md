@@ -1,3 +1,6 @@
+## 1.1.2
+- Update exception messages to include suggestions for troubleshooting.
+
 ## 1.1.1
 - Add about section to README.
 - Add a note about using generated source and target classes.

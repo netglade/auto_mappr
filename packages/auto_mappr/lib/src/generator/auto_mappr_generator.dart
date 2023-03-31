@@ -16,9 +16,9 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
   dynamic generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
-        '${element.displayName} is not a class and cannot be annotated with @AutoMappr',
+        '${element.displayName} is not a class and cannot be annotated with @AutoMappr.',
         element: element,
-        todo: 'Add @AutoMappr annotation to a class',
+        todo: 'Use @AutoMappr annotation on a class',
       );
     }
 

@@ -33,14 +33,15 @@ class $Mappr {
       return (_map_NestedTagDto_To_NestedTag((model as NestedTagDto?))
           as TARGET);
     }
-    throw Exception('No mapping from ${model.runtimeType} -> $targetTypeOf');
+    throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
   User _map_UserDto_To_User(UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping UserDto -> User when null but no default value provided!');
+          'Mapping UserDto -> User failed because UserDto was null, and no default value was provided. '
+          'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
     final result = User(
       id: model.id,
@@ -71,7 +72,8 @@ class $Mappr {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping NestedDto -> Nested when null but no default value provided!');
+          'Mapping NestedDto -> Nested failed because NestedDto was null, and no default value was provided. '
+          'Consider setting the whenSourceIsNull parameter on the MapType<NestedDto, Nested> to handle null values during mapping.');
     }
     final result = Nested(
       id: model.id,
@@ -85,7 +87,8 @@ class $Mappr {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping NestedTagDto -> NestedTag when null but no default value provided!');
+          'Mapping NestedTagDto -> NestedTag failed because NestedTagDto was null, and no default value was provided. '
+          'Consider setting the whenSourceIsNull parameter on the MapType<NestedTagDto, NestedTag> to handle null values during mapping.');
     }
     final result = NestedTag();
     return result;

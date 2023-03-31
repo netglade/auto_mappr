@@ -20,14 +20,15 @@ class $Mappr {
         (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
       return (_map_UserDto_To_User((model as UserDto?)) as TARGET);
     }
-    throw Exception('No mapping from ${model.runtimeType} -> $targetTypeOf');
+    throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
   User _map_UserDto_To_User(UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping UserDto -> User when null but no default value provided!');
+          'Mapping UserDto -> User failed because UserDto was null, and no default value was provided. '
+          'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
     final result = User(
       id: model.id,
