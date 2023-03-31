@@ -20,34 +20,74 @@ Developed with 💚 by [netglade][netglade_link]
 A mapper that maps between different objects with ease.
 Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
 
-Thanks to code generation, you can generate AutoMappr classes,
-which will allow mapping between different objects automatically
-without the need to write these mapping by hand.
-
+* [👀 What is this?](#-what-is-this)
 * [🚀 Getting started](#-getting-started)
-  * [How to use](#how-to-use)
-  * [Install](#install)
-  * [Run the generator](#run-the-generator)
+    * [How to use](#how-to-use)
+    * [Install](#install)
+    * [Run the generator](#run-the-generator)
 * [✨ Features](#-features)
-  * ✅ [Primitive objects mapping](#primitive-objects-mapping)
-  * ✅ [Complex objects mapping](#complex-objects-mapping)
-  * ✅ [Field mapping](#field-mapping)
-  * ✅ [Custom mapping](#custom-mapping)
-  * ✅ [Ignore mapping](#ignore-mapping)
-  * ✅ [List-like objects mapping](#list-like-objects-mapping)
-  * ✅ [Map objects mapping](#map-objects-mapping)
-  * ✅ [Default field value](#default-field-value)
-  * ✅ [Default object value](#default-object-value)
-  * ✅ [Constructor selection](#constructor-selection)
-  * ✅ [Positional and named constructor parameters](#positional-and-named-constructor-parameters)
-  * ✅ [Mapping to target](#mapping-to-target)
-  * ✅ [Mapping from source](#mapping-from-source)
-  * ✅ [Nullability handling](#nullability-handling)
-  * ✅ [Generics](#generics)
-  * ✅ [Works with `equatable`](#works-with-equatable)
-  * ✅ [Works with `json_serializable`](#works-with-jsonserializable)
+    * ✅ [Primitive objects mapping](#primitive-objects-mapping)
+    * ✅ [Complex objects mapping](#complex-objects-mapping)
+    * ✅ [Field mapping](#field-mapping)
+    * ✅ [Custom mapping](#custom-mapping)
+    * ✅ [Ignore mapping](#ignore-mapping)
+    * ✅ [List-like objects mapping](#list-like-objects-mapping)
+    * ✅ [Map objects mapping](#map-objects-mapping)
+    * ✅ [Default field value](#default-field-value)
+    * ✅ [Default object value](#default-object-value)
+    * ✅ [Constructor selection](#constructor-selection)
+    * ✅ [Positional and named constructor parameters](#positional-and-named-constructor-parameters)
+    * ✅ [Mapping to target](#mapping-to-target)
+    * ✅ [Mapping from source](#mapping-from-source)
+    * ✅ [Nullability handling](#nullability-handling)
+    * ✅ [Generics](#generics)
+    * ✅ [Works with `equatable`](#works-with-equatable)
+    * ✅ [Works with `json_serializable`](#works-with-jsonserializable)
+    * ✅ [Works with generated source and target classes](#works-with-generated-source-and-target-classes)
 * [⚙️ Customizing the build](#-customizing-the-build)
 * [👏 Contributing](#-contributing)
+
+## 👀 What is this?
+
+AutoMappr is a code-generation package that helps
+with writing object-to-object mappings,
+so you don't have to write code by hand.
+
+These mappings work by analyzing source and target objects
+and creating mapping to selected constructor and setter fields.
+That is done by code generation,
+which moves mapping overload from runtime to pre-compile time,
+so your code is as fast, predictable, and debuggable
+as if you write it yourself.
+
+The only thing you have to do to make it work is
+create a mappr class and annotate it with a `@AutoMappr` annotation.
+Then for each object mapping,
+set up a mapping between a source and a target type of those objects
+like this: `MapType<Source, Target>()`.
+This set up the automatic mapping of matching fields.
+Check the [getting started](#-getting-started) section to learn more about
+the technical details.
+While AutoMappr has a lot of customizations,
+it should work in most cases automatically for you.
+Despite that, you can still configure
+default values and custom mappings for both objects and fields,
+ignoring unwanted fields, setting a rename,
+forcing a selected constructor etc.
+
+### Why should you use it?
+
+Mapping objects to other objects can be for sure done by hand.
+While it works, it's incredibly boring.
+Most of the time, object mapping can occur in places like mapping
+network DTOs from/to domain layer's models,
+domain layer's models from/to UI models,
+etc.
+In other words: if you care about code segregation and single responsibility,
+you do a lot of mappings.
+Tools like AutoMappr can help you with reducing boilerplate code
+and reduce the time you would spend on mapping objects
+or updating the mappings.
 
 ## 🚀 Getting started
 
@@ -83,7 +123,8 @@ To use AutoMappr, install these three packages:
 
 - [`build_runner`](https://pub.dev/packages/build_runner) -- the tool to run code-generators
 - [`auto_mappr`](https://pub.dev/packages/auto_mappr) -- the AutoMappr code generator
-- [`auto_mappr_annotation`](https://pub.dev/packages/auto_mappr_annotation) -- the AutoMappr annotation
+- [`auto_mappr_annotation`](https://pub.dev/packages/auto_mappr_annotation) -- the AutoMappr
+  annotation
 
 For a Flutter project:
 
@@ -133,7 +174,7 @@ These mapping methods are used in nested objects.
 When target and source fields' name do not match,
 you can change source field by using the `from` argument in a `Field()` mapping.
 Alternatively, you can use the `Field.from()` constructor
-which hides other then-invalid parameters. 
+which hides other then-invalid parameters.
 
 ```dart
 @AutoMappr([
@@ -198,7 +239,7 @@ class Mappr extends $Mappr {}
 Values in list-like collections like `List`, `Set`, or `Iterable`
 are mapped using the `.map()` method when the values are complex types.
 When needed, mostly after mapping, `.toList()` or `.toSet()` methods are called
-to cast an `Iterable` into a `List`/`Set`. 
+to cast an `Iterable` into a `List`/`Set`.
 
 ### Map objects mapping
 
@@ -321,7 +362,7 @@ class Something<A, B, C> {
   final Nested<A, B> second;
   final List<C> third;
   final List<Nested<A, C>> fourth;
-  // ...
+// ...
 }
 
 class Nested<X, Y> {
@@ -343,6 +384,19 @@ Equatable and other packages with similar conditions implicitly works.
 AutoMappr uses a `SharedPartBuilder`.
 That means it can share the `.g.dart` file with packages like JSON Serializable
 to generate other code to the generated super class.
+
+### Works with generated source and target classes
+
+Mapping can be set up for source or target classes
+which are generated by another package,
+like Drift.
+For that, you have to [customize a builder](#-customizing-the-build)
+to set custom dependencies on the other package's outputs.
+
+You can also use this package as an output for another package's builder.
+Disable the default `auto_mappr` builder
+and enable the `auto_mappr:not_shared` builder.
+Check the [customizing the build](#-customizing-the-build) chapter to learn more.
 
 ## ⚙ Customizing the build
 
@@ -395,13 +449,13 @@ targets:
 # Local builders.
 builders:
   auto_mappr:
-    required_inputs: [".drift.dart"] # <-- here are your dependencies
+    required_inputs: [ ".drift.dart" ] # <-- here are your dependencies
     import: "package:auto_mappr/builder.dart"
-    builder_factories: ["autoMapprBuilder"]
-    build_extensions: { ".dart": [".auto_mappr.g.part"] }
+    builder_factories: [ "autoMapprBuilder" ]
+    build_extensions: { ".dart": [ ".auto_mappr.g.part" ] }
     auto_apply: none
     build_to: cache
-    applies_builders: ["source_gen:combining_builder"]
+    applies_builders: [ "source_gen:combining_builder" ]
 ```
 
 Not shared builder:
@@ -424,10 +478,10 @@ targets:
 # Local builders.
 builders:
   not_shared:
-    required_inputs: [".drift.dart"] # <-- here are your dependencies
+    required_inputs: [ ".drift.dart" ] # <-- here are your dependencies
     import: "package:auto_mappr/builder.dart"
-    builder_factories: ["autoMapprBuilderNotShared"]
-    build_extensions: { ".dart": ["auto_mappr.dart"] }
+    builder_factories: [ "autoMapprBuilderNotShared" ]
+    build_extensions: { ".dart": [ "auto_mappr.dart" ] }
     auto_apply: none
     build_to: source
 ```
@@ -439,18 +493,23 @@ Your contributions are always welcome! Feel free to open pull request.
 [netglade_link]: https://netglade.com/en
 
 [build_badge]: https://github.com/netglade/auto_mappr/actions/workflows/build.yaml/badge.svg
+
 [build_badge_link]: https://github.com/netglade/auto_mappr/actions
 
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
+
 [license_badge_link]: https://opensource.org/licenses/MIT
 
 [style_badge]: https://img.shields.io/badge/style-netglade_analysis-26D07C.svg
+
 [style_badge_link]: https://pub.dev/packages/netglade_analysis
 
 [auto_mappr_pub_badge]: https://img.shields.io/pub/v/auto_mappr.svg
+
 [auto_mappr_pub_link]: https://pub.dartlang.org/packages/auto_mappr
 
 [auto_mappr_annotation_pub_badge]: https://img.shields.io/pub/v/auto_mappr_annotation.svg
+
 [auto_mappr_annotation_pub_link]: https://pub.dartlang.org/packages/auto_mappr_annotation
 
 [auto_mapper_net_link]: https://automapper.org
