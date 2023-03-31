@@ -56,22 +56,22 @@ These mappings work by analyzing source and target objects
 and creating mapping to selected constructor and setter fields.
 That is done by code generation,
 which moves mapping overload from runtime to pre-compile time,
-so your code is as fast, predictable and debuggable
+so your code is as fast, predictable, and debuggable
 as if you write it yourself.
 
 The only thing you have to do to make it work is
 create a mappr class and annotate it with a `@AutoMappr` annotation.
 Then for each object mapping,
-set up a mapping between a source and a target types of those objects
+set up a mapping between a source and a target type of those objects
 like this: `MapType<Source, Target>()`.
-This set ups automatic mapping of matching fields.
-Check [getting started](#-getting-started) section to learn more about
+This set up the automatic mapping of matching fields.
+Check the [getting started](#-getting-started) section to learn more about
 the technical details.
 While AutoMappr has a lot of customizations,
 it should work in most cases automatically for you.
-Despite of that, you can still configure
+Despite that, you can still configure
 default values and custom mappings for both objects and fields,
-ignoring unwanted fields, set a rename,
+ignoring unwanted fields, setting a rename,
 forcing a selected constructor etc.
 
 ### Why should you use it?
@@ -82,7 +82,7 @@ Most of the time, object mapping can occur in places like mapping
 network DTOs from/to domain layer's models,
 domain layer's models from/to UI models,
 etc.
-In other words: ifh you care about code segregation and single responsibility,
+In other words: if you care about code segregation and single responsibility,
 you do a lot of mappings.
 Tools like AutoMappr can help you with reducing boilerplate code
 and reduce the time you would spend on mapping objects
