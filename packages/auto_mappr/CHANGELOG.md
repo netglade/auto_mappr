@@ -1,5 +1,6 @@
 ## 1.1.1
 - Add about section to README.
+- Add a note about using generated source and target classes.
 
 ## 1.1.0
 - Add support for generics.
