@@ -1,13 +1,13 @@
-## 1.1.0
+## 1.1.1
+- Add about section to README.
 
+## 1.1.0
 - Add support for generics.
 
 ## 1.0.1
-
 - Fix pub.dev issues.
 
 ## 1.0.0
-
 - Initial version.
 - Add primitive objects mapping
 - Add complex objects mapping
