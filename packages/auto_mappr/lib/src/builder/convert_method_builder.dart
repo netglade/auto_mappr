@@ -149,7 +149,7 @@ class ConvertMethodBuilder {
 
     block.addExpression(
       refer('Exception').newInstance(
-        [refer("'No mapping from \${model.runtimeType} -> \$${targetTypeOfReference.accept(DartEmitter())}'")],
+        [refer("'No \${model.runtimeType} -> \$${targetTypeOfReference.accept(DartEmitter())} mapping.'")],
       ).thrown,
     );
 
