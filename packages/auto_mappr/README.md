@@ -450,7 +450,7 @@ targets:
 builders:
   auto_mappr:
     required_inputs: [ ".drift.dart" ] # <-- here are your dependencies
-    import: "package:auto_mappr/builder.dart"
+    import: "package:auto_mappr/auto_mappr.dart"
     builder_factories: [ "autoMapprBuilder" ]
     build_extensions: { ".dart": [ ".auto_mappr.g.part" ] }
     auto_apply: none
@@ -479,7 +479,7 @@ targets:
 builders:
   not_shared:
     required_inputs: [ ".drift.dart" ] # <-- here are your dependencies
-    import: "package:auto_mappr/builder.dart"
+    import: "package:auto_mappr/auto_mappr.dart"
     builder_factories: [ "autoMapprBuilderNotShared" ]
     build_extensions: { ".dart": [ "auto_mappr.dart" ] }
     auto_apply: none
