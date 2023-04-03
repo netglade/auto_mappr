@@ -1,5 +1,6 @@
 ## 1.1.2
 - Update exception messages to include suggestions for troubleshooting.
+- Add a Discord link to README.
 
 ## 1.1.1
 - Add about section to README.
