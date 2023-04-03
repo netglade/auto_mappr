@@ -501,6 +501,6 @@ Your contributions are always welcome! Feel free to open pull request.
 [auto_mappr_pub_badge]: https://img.shields.io/pub/v/auto_mappr.svg
 [auto_mappr_pub_badge_link]: https://pub.dartlang.org/packages/auto_mappr
 [discord_badge]: https://img.shields.io/discord/1091460081054400532.svg?logo=discord&color=blue
-[discord_badge_link]: https://img.shields.io/discord/1091460081054400532.svg?logo=discord&color=blue
+[discord_badge_link]: https://discord.gg/sJfBBuDZy4
 
 [auto_mapper_net_link]: https://automapper.org
