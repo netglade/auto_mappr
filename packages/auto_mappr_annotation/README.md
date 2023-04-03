@@ -42,4 +42,4 @@ class Mappr extends $Mappr {}
 [auto_mappr_annotation_pub_badge]: https://img.shields.io/pub/v/auto_mappr_annotation.svg
 [auto_mappr_annotation_pub_link]: https://pub.dartlang.org/packages/auto_mappr_annotation
 [discord_badge]: https://img.shields.io/discord/1091460081054400532.svg?logo=discord&color=blue
-[discord_badge_link]: https://img.shields.io/discord/1091460081054400532.svg?logo=discord&color=blue
+[discord_badge_link]: https://discord.gg/sJfBBuDZy4
