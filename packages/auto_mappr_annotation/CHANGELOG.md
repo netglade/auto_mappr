@@ -1,5 +1,6 @@
 ## 1.0.2
 - Remove `auto_mappr` from annotation example.
+- Add a Discord link to README.
 
 ## 1.0.1
 - Fix pub.dev issues.
