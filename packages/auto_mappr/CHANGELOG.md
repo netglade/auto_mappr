@@ -1,3 +1,9 @@
+## Unreleased
+- Adhere lints to `netglade_analysis` 1.2.0.
+- Use tear-offs when possible.
+- Omit map when possible.
+- Omit null check of non-nullable when possible.
+
 ## 1.1.2
 - Update exception messages to include suggestions for troubleshooting.
 - Add a Discord link to README.

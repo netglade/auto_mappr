@@ -56,7 +56,7 @@ class ValueAssignmentBuilder {
         source: assignment.sourceType!,
         target: assignment.targetType,
         assignment: assignment,
-        convertMethodArg: rightSide,
+        convertMethodArgument: rightSide,
       );
     }
 
@@ -151,14 +151,13 @@ class ValueAssignmentBuilder {
     final keyMapping = mapperConfig.findMapping(source: sourceKeyType, target: targetKeyType);
     final valueMapping = mapperConfig.findMapping(source: sourceValueType, target: targetValueType);
 
+    // Keys: source is null, target is not null, and default value does not exist.
     final shouldRemoveNullsKey =
         sourceNullableKey && !targetNullableKey && (!(keyMapping?.hasWhenNullDefault() ?? false));
 
+    // Value: source is null, target is not null, and default value does not exist.
     final shouldRemoveNullsValue =
         sourceNullableValue && !targetNullableValue && (!(valueMapping?.hasWhenNullDefault() ?? false));
-
-    // Source is null, target is not null, and default value does not exist.
-    final shouldRemoveNulls = shouldRemoveNullsKey || shouldRemoveNullsValue;
 
     final sourceMapExpression = refer('model').property(assignment.sourceField!.name);
 
@@ -168,44 +167,47 @@ class ValueAssignmentBuilder {
       refer(targetValueType.getDisplayString(withNullability: true)),
     );
 
+    final assignNestedObjectKey = !targetKeyType.isPrimitiveType && (targetKeyType != sourceKeyType);
+    final assignNestedObjectValue = !targetValueType.isPrimitiveType && (targetValueType != sourceValueType);
+
+    final shouldDoMapCall = assignNestedObjectKey || assignNestedObjectValue;
+
     return sourceMapExpression
         // Filter nulls when source key/value is nullable and target is not.
         .maybeWhereMapNotNull(
-          condition: shouldRemoveNulls,
-          isOnNullable: sourceNullable,
-          keyType: sourceKeyType,
-          valueType: sourceValueType,
-        )
-        // Map map entries.
-        .maybeNullSafeProperty('map', isOnNullable: sourceNullable)
-        .call(
-      [_callMapForMap(assignment)],
-      {},
-      [
-        refer(
-          targetKeyType.getDisplayString(
-            withNullability: true,
-            // classType: assignment.typeMapping.target,
-          ),
-        ),
-        refer(
-          targetValueType.getDisplayString(
-            withNullability: true,
-            // classType: assignment.typeMapping.target,
-          ),
-        ),
+      isOnNullable: sourceNullable,
+      keyIsNullable: shouldRemoveNullsKey,
+      valueIsNullable: shouldRemoveNullsValue,
+      keyType: sourceKeyType,
+      valueType: sourceValueType,
+    )
+        .maybeCall(
+      'map',
+      isOnNullable: sourceNullable,
+      // Call map only when actually some mapping is required.
+      condition: shouldDoMapCall,
+      positionalArguments: [
+        _callMapForMap(assignment),
+      ],
+      typeArguments: [
+        refer(targetKeyType.getDisplayString(withNullability: true)),
+        refer(targetValueType.getDisplayString(withNullability: true)),
       ],
     )
         // When [sourceNullable], use default value.
         .maybeIfNullThen(defaultMapValueExpression, isOnNullable: sourceNullable);
   }
 
-  // Assign either a collection or a complex type.
+  /// Assigns nested object as either:
+  /// - default value
+  /// - call to already generated mapping between two types
+  ///
+  /// If [convertMethodArgument] is null, uses a tear off call instead.
   Expression _assignNestedObject({
     required DartType source,
     required DartType target,
     required SourceAssignment assignment,
-    required Expression convertMethodArg,
+    Expression? convertMethodArgument,
     bool includeGenericTypes = false,
   }) {
     if (source.isSame(target)) {
@@ -233,7 +235,49 @@ class ValueAssignmentBuilder {
       );
     }
 
-    // final sourceNullable = source.nullabilitySuffix == NullabilitySuffix.question;
+    final convertCallExpression = _mappingCall(
+      nestedMapping: nestedMapping,
+      source: source,
+      target: target,
+      convertMethodArgument: convertMethodArgument,
+      includeGenericTypes: includeGenericTypes,
+    );
+
+    // If source == null and target not nullable -> use whenNullDefault if possible
+    final fieldMapping = mapping.tryGetFieldMapping(assignment.targetName);
+    if (source.nullabilitySuffix == NullabilitySuffix.question && (fieldMapping?.hasWhenNullDefault() ?? false)) {
+      // Generates code like:
+      //
+      // model.name == null
+      //     ? const Nested(
+      //         id: 123,
+      //         name: 'test',
+      //       )
+      //     : _map_NestedDto_To_Nested(model.name),
+      return refer('model').property(assignment.sourceField!.displayName).equalTo(refer('null')).conditional(
+            fieldMapping!.whenNullExpression!,
+            convertCallExpression,
+          );
+    }
+
+    // Generates code like:
+    //
+    // `_map_NestedDto_To_Nested(model.name)`
+    return convertCallExpression;
+  }
+
+  /// Generates a mapping call `_mapAlphaDto_to_Alpha(convertMethodArgument)`.
+  /// When [convertMethodArgument] is null, then a tear off `_mapAlphaDto_to_Alpha` is generated.
+  ///
+  /// This function also marks nullable mapping to be generated
+  /// using the [usedNullableMethodCallback] callback.
+  Expression _mappingCall({
+    required DartType source,
+    required DartType target,
+    required TypeMapping nestedMapping,
+    Expression? convertMethodArgument,
+    bool includeGenericTypes = false,
+  }) {
     final targetNullable = target.nullabilitySuffix == NullabilitySuffix.question;
 
     final useNullableMethod = targetNullable && !mapping.hasWhenNullDefault();
@@ -242,58 +286,45 @@ class ValueAssignmentBuilder {
     // But use non-nullable when the mapping has default value.
     //
     // Otherwise use non-nullable.
-    final convertMethod = useNullableMethod
-        ? refer(
-            ConvertMethodBuilder.concreteNullableConvertMethodName(
+    final convertMethod = refer(
+      useNullableMethod
+          ? ConvertMethodBuilder.concreteNullableConvertMethodName(
+              source: source,
+              target: target,
+            )
+          : ConvertMethodBuilder.concreteConvertMethodName(
               source: source,
               target: target,
             ),
-          )
-        : refer(
-            ConvertMethodBuilder.concreteConvertMethodName(
-              source: source,
-              target: target,
-            ),
-          );
+    );
 
     if (useNullableMethod) {
       usedNullableMethodCallback?.call(nestedMapping);
     }
 
-    final convertCallExpr = convertMethod.call(
-      [convertMethodArg],
-      {},
-      includeGenericTypes
-          ? [
-              refer(source.getDisplayString(withNullability: true)),
-              refer(target.getDisplayString(withNullability: true)),
-            ]
-          : [],
-    );
-
-    // If source == null and target not nullable -> use whenNullDefault if possible
-    final fieldMapping = mapping.tryGetFieldMapping(assignment.targetName);
-    if (source.nullabilitySuffix == NullabilitySuffix.question && (fieldMapping?.hasWhenNullDefault() ?? false)) {
-      return refer('model').property(assignment.sourceField!.displayName).equalTo(refer('null')).conditional(
-            fieldMapping!.whenNullExpression!,
-            convertCallExpr,
+    return convertMethodArgument == null
+        ? convertMethod
+        : convertMethod.call(
+            [convertMethodArgument],
+            {},
+            includeGenericTypes
+                ? [
+                    refer(source.getDisplayString(withNullability: true)),
+                    refer(target.getDisplayString(withNullability: true))
+                  ]
+                : [],
           );
-    }
-
-    return convertCallExpr;
   }
 
   Expression _nestedMapCallForListLike(SourceAssignment assignment) {
     final targetListType = (assignment.targetType as ParameterizedType).typeArguments.first;
     final sourceListType = (assignment.sourceType! as ParameterizedType).typeArguments.first;
-    final convertMethodCall = _assignNestedObject(
+
+    return _assignNestedObject(
       assignment: assignment,
       source: sourceListType,
       target: targetListType,
-      convertMethodArg: refer('e'),
-    ).accept(DartEmitter());
-
-    return refer('(e) => $convertMethodCall');
+    );
   }
 
   Expression _callMapForMap(
@@ -307,6 +338,14 @@ class ValueAssignmentBuilder {
     final assignNestedObjectKey = !targetKeyType.isPrimitiveType && (targetKeyType != sourceKeyType);
     final assignNestedObjectValue = !targetValueType.isPrimitiveType && (targetValueType != sourceValueType);
 
+    final keysAreSameType = sourceKeyType == targetKeyType;
+    final valuesAreSameType = sourceValueType == targetValueType;
+
+    // Returns a tear off when no nested call is needed.
+    if (!assignNestedObjectKey && !assignNestedObjectValue) {
+      return refer('MapEntry.new');
+    }
+
     final sourceMapExpression = refer('key');
     final targetMapExpression = refer('value');
 
@@ -315,7 +354,7 @@ class ValueAssignmentBuilder {
             assignment: assignment,
             source: sourceKeyType,
             target: targetKeyType,
-            convertMethodArg: sourceMapExpression,
+            convertMethodArgument: keysAreSameType ? null : sourceMapExpression,
           )
         : sourceMapExpression;
 
@@ -324,7 +363,7 @@ class ValueAssignmentBuilder {
             assignment: assignment,
             source: sourceValueType,
             target: targetValueType,
-            convertMethodArg: targetMapExpression,
+            convertMethodArgument: valuesAreSameType ? null : targetMapExpression,
           )
         : targetMapExpression;
 
