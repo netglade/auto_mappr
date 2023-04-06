@@ -96,6 +96,22 @@ or updating the mappings.
 
 Create a mapping class with `@AutoMappr` annotation.
 You will also need to import the annotation.
+Then use `MapType<Source, Target>()` for each mapping.
+
+```dart
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+
+part 'my_file.g.dart';
+
+@AutoMappr([
+  MapType<UserDto, User>(),
+])
+class Mappr extends $Mappr {}
+```
+
+Depending on your needs, it can also be heavily customized.
+Below you can see just some of its options.
+See [features](#-features) for a complete list.
 
 ```dart
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
@@ -105,17 +121,16 @@ part 'my_file.g.dart';
 @AutoMappr([
   MapType<UserDto, User>(
     fields: [
-      Field('name', target: Mappr.mapName),
-      Field('age', target: mapAge),
+      Field('address', from: 'userAddress'),
+      Field('fullName', custom: Mappr.mapFullName),
+      Field('age', custom: 42),
       Field('tag', ignore: true)
     ],
   ),
 ])
 class Mappr extends $Mappr {
-  static String mapName(UserDto dto) => dto.name.toUpperCase();
+  static String mapFullName(UserDto dto) => '${dto.firstName} ${dto.lastName}';
 }
-
-int mapAge(UserDto _) => 55;
 ```
 
 ### Install
