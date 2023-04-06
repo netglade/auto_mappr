@@ -1,4 +1,4 @@
-## Unreleased
+## 1.2.0
 - Adhere lints to `netglade_analysis` 1.2.0.
 - Use tear-offs when possible.
 - Omit map when possible.
