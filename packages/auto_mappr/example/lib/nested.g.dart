@@ -6,6 +6,11 @@ part of 'nested.dart';
 // AutoMapprGenerator
 // **************************************************************************
 
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: require_trailing_commas, unnecessary_parenthesis
+// ignore_for_file: unnecessary_raw_strings
+
 class $Mappr {
   Type _typeOf<T>() => T;
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
@@ -43,29 +48,27 @@ class $Mappr {
           'Mapping UserDto -> User failed because UserDto was null, and no default value was provided. '
           'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
-    final result = User(
+    return User(
       id: model.id,
       name: _map_NestedDto_To_Nested(model.name),
-      nestedItems: model.nestedItems
-          .map<Nested>((e) => _map_NestedDto_To_Nested(e))
-          .toList(),
+      nestedItems:
+          model.nestedItems.map<Nested>(_map_NestedDto_To_Nested).toList(),
       nestedItemsNullable: model.nestedItemsNullable
-              ?.map<Nested>((e) => _map_NestedDto_To_Nested(e))
+              ?.map<Nested>(_map_NestedDto_To_Nested)
               .toList() ??
           <Nested>[],
       nestedItemsNullable2: model.nestedItemsNullable2
-          .map<Nested>((e) => _map_NestedDto_To_Nested(e))
+          .map<Nested>(_map_NestedDto_To_Nested)
           .toList(),
       itemsWithNullableItem: model.itemsWithNullableItem
           .whereNotNull()
-          .map<Nested>((e) => _map_NestedDto_To_Nested(e))
+          .map<Nested>(_map_NestedDto_To_Nested)
           .toList(),
       itemsWithNullableItem2: model.itemsWithNullableItem2
-          .map<Nested?>((e) => _map_NestedDto_To_Nested_Nullable(e))
+          .map<Nested?>(_map_NestedDto_To_Nested_Nullable)
           .toList(),
       tag: null,
     );
-    return result;
   }
 
   Nested _map_NestedDto_To_Nested(NestedDto? input) {
@@ -75,12 +78,11 @@ class $Mappr {
           'Mapping NestedDto -> Nested failed because NestedDto was null, and no default value was provided. '
           'Consider setting the whenSourceIsNull parameter on the MapType<NestedDto, Nested> to handle null values during mapping.');
     }
-    final result = Nested(
+    return Nested(
       id: model.id,
       name: model.name,
       tag: _map_NestedTagDto_To_NestedTag(model.tag),
     );
-    return result;
   }
 
   NestedTag _map_NestedTagDto_To_NestedTag(NestedTagDto? input) {
@@ -90,8 +92,7 @@ class $Mappr {
           'Mapping NestedTagDto -> NestedTag failed because NestedTagDto was null, and no default value was provided. '
           'Consider setting the whenSourceIsNull parameter on the MapType<NestedTagDto, NestedTag> to handle null values during mapping.');
     }
-    final result = NestedTag();
-    return result;
+    return NestedTag();
   }
 
   Nested? _map_NestedDto_To_Nested_Nullable(NestedDto? input) {
@@ -99,11 +100,10 @@ class $Mappr {
     if (model == null) {
       return null;
     }
-    final result = Nested(
+    return Nested(
       id: model.id,
       name: model.name,
       tag: _map_NestedTagDto_To_NestedTag(model.tag),
     );
-    return result;
   }
 }

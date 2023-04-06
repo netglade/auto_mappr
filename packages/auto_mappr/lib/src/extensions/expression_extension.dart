@@ -36,6 +36,22 @@ extension ExpressionExtension on Expression {
     return isOnNullable ? nullSafeProperty(name) : property(name);
   }
 
+  Expression maybeCall(
+    String name, {
+    required bool isOnNullable,
+    required Iterable<Expression> positionalArguments,
+    bool condition = false,
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  }) {
+    if (!condition) {
+      return this;
+    }
+
+    return maybeNullSafeProperty(name, isOnNullable: isOnNullable)
+        .call(positionalArguments, namedArguments, typeArguments);
+  }
+
   Expression maybeIfNullThen(
     Expression other, {
     required bool isOnNullable,
@@ -55,15 +71,22 @@ extension ExpressionExtension on Expression {
   }
 
   Expression maybeWhereMapNotNull({
-    required bool condition,
     required bool isOnNullable,
+    required bool keyIsNullable,
+    required bool valueIsNullable,
     required DartType keyType,
     required DartType valueType,
   }) {
-    if (!condition) return this;
+    if (!(keyIsNullable || valueIsNullable)) return this;
+
+    final keyCondition = keyIsNullable ? 'key != null' : '';
+    final and = (keyIsNullable && valueIsNullable) ? '&&' : '';
+    final valueCondition = valueIsNullable ? 'value != null' : '';
 
     return maybeNullSafeProperty('where', isOnNullable: isOnNullable).call(
-      [refer('(key, value) => key != null && value != null')],
+      [
+        refer('(key, value) => $keyCondition $and $valueCondition'),
+      ],
       {},
       [
         refer(keyType.getDisplayString(withNullability: false)),

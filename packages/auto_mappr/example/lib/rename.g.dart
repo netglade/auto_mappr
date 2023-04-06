@@ -6,6 +6,11 @@ part of 'rename.dart';
 // AutoMapprGenerator
 // **************************************************************************
 
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: require_trailing_commas, unnecessary_parenthesis
+// ignore_for_file: unnecessary_raw_strings
+
 class $Mappr {
   Type _typeOf<T>() => T;
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
@@ -30,10 +35,9 @@ class $Mappr {
           'Mapping UserDto -> User failed because UserDto was null, and no default value was provided. '
           'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
-    final result = User(
+    return User(
       id: model.id,
       name: model.xname,
     );
-    return result;
   }
 }

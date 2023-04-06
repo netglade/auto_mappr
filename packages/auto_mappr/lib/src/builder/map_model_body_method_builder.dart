@@ -37,21 +37,34 @@ class MapModelBodyMethodBuilder {
     block.statements.add(_whenModelIsNullHandling());
 
     // Map fields using a constructor.
-    _processConstructorMapping(
+    // Returns an constructor call without `;`.
+    //
+    // One(
+    //   usingConstructor1: model.usingConstructor1,
+    //   usingConstructor2: model.usingConstructor2,
+    // )
+    final constructorExpression = _processConstructorMapping(
       mappedSourceFieldNames: mappedSourceFieldNames,
       sourceFields: sourceFields,
-      block: block,
     );
 
     // Map fields not mapped directly in constructor as setters if possible.
-    _mapSetterFields(
+    //
+    // Code like:
+    //
+    // <constructorExpression>
+    // ..withoutConstructor1 = model.withoutConstructor1
+    // ..withoutConstructor2 = model.withoutConstructor2
+    // ..withoutConstructor3 = model.withoutConstructor3
+    final constructorWithSetters = _mapSetterFields(
       alreadyMapped: mappedSourceFieldNames,
       sourceFields: sourceFields,
-      block: block,
+      constructorExpression: constructorExpression,
     );
 
-    // Return target.
-    block.statements.add(refer('result').returned.statement);
+    // Return a constructor call
+    // optionally with cascaded setter assignments.
+    block.statements.add(constructorWithSetters.returned.statement);
 
     return block.build();
   }
@@ -88,10 +101,9 @@ class MapModelBodyMethodBuilder {
     }
   }
 
-  void _processConstructorMapping({
+  Expression _processConstructorMapping({
     required List<String> mappedSourceFieldNames,
     required Map<String, PropertyAccessorElement> sourceFields,
-    required BlockBuilder block,
   }) {
     final mappedTargetConstructorParams = <SourceAssignment>[];
     final notMappedTargetParameters = <SourceAssignment>[];
@@ -200,48 +212,43 @@ class MapModelBodyMethodBuilder {
     ];
 
     // Mapped fields into constructor - positional and named
-    final constructorCode = _mapConstructor(
+    return _mapConstructor(
       targetConstructor,
       positional: positionalParameters,
       named: namedParameters,
     );
-    block.statements.add(constructorCode);
   }
 
-  Code _mapConstructor(
+  Expression _mapConstructor(
     ConstructorElement targetConstructor, {
     required List<SourceAssignment> positional,
     required List<SourceAssignment> named,
   }) {
-    return declareFinal('result')
-        .assign(
-          refer(targetConstructor.displayName).newInstance(
-            positional.map(
-              (assignment) => ValueAssignmentBuilder(
-                mapperConfig: mapperConfig,
-                mapping: mapping,
-                assignment: assignment,
-                usedNullableMethodCallback: usedNullableMethodCallback,
-              ).build(),
-            ),
-            {
-              for (final assignment in named)
-                assignment.targetConstructorParam!.param.name: ValueAssignmentBuilder(
-                  mapperConfig: mapperConfig,
-                  mapping: mapping,
-                  assignment: assignment,
-                  usedNullableMethodCallback: usedNullableMethodCallback,
-                ).build(),
-            },
-          ),
-        )
-        .statement;
+    return refer(targetConstructor.displayName).newInstance(
+      positional.map(
+        (assignment) => ValueAssignmentBuilder(
+          mapperConfig: mapperConfig,
+          mapping: mapping,
+          assignment: assignment,
+          usedNullableMethodCallback: usedNullableMethodCallback,
+        ).build(),
+      ),
+      {
+        for (final assignment in named)
+          assignment.targetConstructorParam!.param.name: ValueAssignmentBuilder(
+            mapperConfig: mapperConfig,
+            mapping: mapping,
+            assignment: assignment,
+            usedNullableMethodCallback: usedNullableMethodCallback,
+          ).build(),
+      },
+    );
   }
 
-  void _mapSetterFields({
+  Expression _mapSetterFields({
     required List<String> alreadyMapped,
     required Map<String, PropertyAccessorElement> sourceFields,
-    required BlockBuilder block,
+    required Expression constructorExpression,
   }) {
     final targetSetters = mapping.target.getSettersWithTypes();
 
@@ -249,18 +256,24 @@ class MapModelBodyMethodBuilder {
     final fields = potentialSetterFields
         .map((key) => sourceFields[key])
         .whereNotNull()
+        // Use only those that match.
         .where((accessor) => targetSetters.any((targetAccessor) => targetAccessor.displayName == accessor.displayName))
+        // Skip ignored fields.
+        .where((accessor) => !mapping.fieldShouldBeIgnored(accessor.displayName))
         .toList();
 
+    if (fields.isEmpty) {
+      return constructorExpression;
+    }
+
     final targetClassGetters = mapping.target.getGettersWithTypes();
+
+    var cascadedAssignments = constructorExpression;
     for (final sourceField in fields) {
       final targetField = targetClassGetters.firstWhere((field) => field.displayName == sourceField.displayName);
 
-      // Source.X has ignore:true -> skip
-      if (mapping.fieldShouldBeIgnored(sourceField.displayName)) continue;
-
-      // assign result.X = model.X
-      final expr = refer('result').property(sourceField.displayName).assign(
+      // Assign result.X = model.X
+      cascadedAssignments = cascadedAssignments.cascade(sourceField.displayName).assign(
             ValueAssignmentBuilder(
               mapperConfig: mapperConfig,
               mapping: mapping,
@@ -272,9 +285,9 @@ class MapModelBodyMethodBuilder {
               usedNullableMethodCallback: usedNullableMethodCallback,
             ).build(),
           );
-
-      block.statements.add(expr.statement);
     }
+
+    return cascadedAssignments;
   }
 
   /// Returns all public fields (instance or static) that have a getter.
