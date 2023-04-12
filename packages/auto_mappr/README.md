@@ -1,17 +1,15 @@
-# AutoMappr
-
-<a href="https://netglade.com/en">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_light.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_dark.png">
-    <img alt="netglade" src="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_dark.png">
+<a href="https://github.com/netglade">
+  <picture >
+    <source media="(prefers-color-scheme: dark)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr/doc/badge_light.png">
+    <source media="(prefers-color-scheme: light)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr/doc/badge_dark.png">
+    <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr/doc/badge_dark.png">
   </picture>
 </a>
 
 Developed with 💚 by [netglade][netglade_link]
 
+[![ci][ci_badge]][ci_badge_link]
 [![auto_mappr][auto_mappr_pub_badge]][auto_mappr_pub_badge_link]
-[![build][build_badge]][build_badge_link]
 [![license: MIT][license_badge]][license_badge_link]
 [![style: netglade analysis][style_badge]][style_badge_link]
 [![Discord][discord_badge]][discord_badge_link]
@@ -131,6 +129,43 @@ part 'my_file.g.dart';
 class Mappr extends $Mappr {
   static String mapFullName(UserDto dto) => '${dto.firstName} ${dto.lastName}';
 }
+```
+
+To actually use the mappr in your code,
+call the `convert` method on it's instance.
+Note that the convert function has two generic parameters — source and target.
+AutoMappr uses type inference to determine which mapping to use,
+therefore you should care about a strict type inference.
+Either assign the result of converting to an explicitly typed variable
+or explicitly state generics.
+The function cannot infer the generic parameters just from the source parameter.
+
+It should look like this:
+
+```dart
+void main() {
+  final mappr = Mappr();
+
+  // convert like this
+  User user = mappr.convert(UserDto(...));
+
+  // or like this
+  final user2 = mappr.convert<UserDto, User>(UserDto(...));
+}
+```
+
+To make the Dart analyzer help you with inference failures,
+you can set up the analyzer in the `analysis_options.yaml` file.
+I would also suggest to use some predefined list of lints and analysis settings such as
+[very_good_analysis](https://pub.dev/packages/very_good_analysis)
+or our [netglade_analysis](https://pub.dev/packages/netglade_analysis).
+
+```yaml
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
 ```
 
 ### Install
@@ -507,8 +542,8 @@ builders:
 Your contributions are always welcome! Feel free to open pull request.
 
 [netglade_link]: https://netglade.com/en
-[build_badge]: https://github.com/netglade/auto_mappr/actions/workflows/build.yaml/badge.svg
-[build_badge_link]: https://github.com/netglade/auto_mappr/actions
+[ci_badge]: https://github.com/netglade/auto_mappr/actions/workflows/ci.yaml/badge.svg
+[ci_badge_link]: https://github.com/netglade/auto_mappr/actions
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_badge_link]: https://opensource.org/licenses/MIT
 [style_badge]: https://img.shields.io/badge/style-netglade_analysis-26D07C.svg
