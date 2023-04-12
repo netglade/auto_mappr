@@ -1,3 +1,6 @@
+## 1.0.3
+- Update logo.
+
 ## 1.0.2
 - Remove `auto_mappr` from annotation example.
 - Add a Discord link to README.

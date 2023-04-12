@@ -5,7 +5,7 @@ repository: https://github.com/netglade/auto_mappr
 issue_tracker: https://github.com/netglade/auto_mappr/issues
 screenshots:
   - description: The auto_mappr package logo.
-    path: doc/logo.png
+    path: doc/icon.png
 
 environment:
   sdk: ">=2.18.7 <3.0.0"

@@ -1,17 +1,15 @@
-# AutoMappr annotation
-
-<a href="https://netglade.com/en">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_light.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_dark.png">
-    <img alt="netglade" src="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_dark.png">
+<a href="https://github.com/netglade">
+  <picture >
+    <source media="(prefers-color-scheme: dark)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/fix/document-convert/packages/auto_mappr_annotation/doc/badge_light.png">
+    <source media="(prefers-color-scheme: light)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/fix/document-convert/packages/auto_mappr_annotation/doc/badge_dark.png">
+    <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/auto_mappr/fix/document-convert/packages/auto_mappr_annotation/doc/badge_dark.png">
   </picture>
 </a>
 
 Developed with 💚 by [netglade][netglade_link]
 
+[![ci][ci_badge]][ci_badge_link]
 [![auto_mappr_annotation][auto_mappr_annotation_pub_badge]][auto_mappr_annotation_pub_link]
-[![build][build_badge]][build_badge_link]
 [![license: MIT][license_badge]][license_badge_link]
 [![style: netglade analysis][style_badge]][style_badge_link]
 [![Discord][discord_badge]][discord_badge_link]
@@ -32,8 +30,8 @@ class Mappr extends $Mappr {}
 ```
 
 [netglade_link]: https://netglade.com/en
-[build_badge]: https://github.com/netglade/auto_mappr/actions/workflows/build.yaml/badge.svg
-[build_badge_link]: https://github.com/netglade/auto_mappr/actions
+[ci_badge]: https://github.com/netglade/auto_mappr/actions/workflows/ci.yaml/badge.svg
+[ci_badge_link]: https://github.com/netglade/auto_mappr/actions
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_badge_link]: https://opensource.org/licenses/MIT
 [style_badge]: https://img.shields.io/badge/style-netglade_analysis-26D07C.svg
