@@ -1,8 +1,8 @@
 <a href="https://github.com/netglade">
   <picture >
-    <source media="(prefers-color-scheme: dark)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/fix/document-convert/packages/auto_mappr_annotation/doc/badge_light.png">
-    <source media="(prefers-color-scheme: light)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/fix/document-convert/packages/auto_mappr_annotation/doc/badge_dark.png">
-    <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/auto_mappr/fix/document-convert/packages/auto_mappr_annotation/doc/badge_dark.png">
+    <source media="(prefers-color-scheme: dark)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr_annotation/doc/badge_light.png">
+    <source media="(prefers-color-scheme: light)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr_annotation/doc/badge_dark.png">
+    <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr_annotation/doc/badge_dark.png">
   </picture>
 </a>
 
