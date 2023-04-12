@@ -1,3 +1,7 @@
+## 1.2.1
+- Document how to use the `convert` method.
+- Update package's icon.
+
 ## 1.2.0
 - Adhere lints to `netglade_analysis` 1.2.0.
 - Use tear-offs when possible.

@@ -1,10 +1,8 @@
-# AutoMappr
-
-<a href="https://netglade.com/en">
+<a href="https://github.com/netglade">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_light.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_dark.png">
-    <img alt="netglade" src="https://raw.githubusercontent.com/netglade/.github/main/assets/netglade_logo_dark.png">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/netglade/auto_mappr/main/doc/ogo_light.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/netglade/auto_mappr/main/doc/logo_dark.png">
+    <img alt="netglade" src="https://raw.githubusercontent.com/netglade/auto_mappr/main/doc/logo_dark.png">
   </picture>
 </a>
 
@@ -131,6 +129,43 @@ part 'my_file.g.dart';
 class Mappr extends $Mappr {
   static String mapFullName(UserDto dto) => '${dto.firstName} ${dto.lastName}';
 }
+```
+
+To actually use the mappr in your code,
+call the `convert` method on it's instance.
+Note that the convert function has two generic parameters — source and target.
+AutoMappr uses type inference to determine which mapping to use,
+therefore you should care about a strict type inference.
+Either assign the result of converting to an explicitly typed variable
+or explicitly state generics.
+The function cannot infer the generic parameters just from the source parameter.
+
+It should look like this:
+
+```dart
+void main() {
+  final mappr = Mappr();
+
+  // convert like this
+  User user = mappr.convert(UserDto(...));
+
+  // or like this
+  final user2 = mappr.convert<UserDto, User>(UserDto(...));
+}
+```
+
+To make the Dart analyzer help you with inference failures,
+you can set up the analyzer in the `analysis_options.yaml` file.
+I would also suggest to use some predefined list of lints and analysis settings such as
+[very_good_analysis](https://pub.dev/packages/very_good_analysis)
+or our [netglade_analysis](https://pub.dev/packages/netglade_analysis).
+
+```yaml
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
 ```
 
 ### Install
