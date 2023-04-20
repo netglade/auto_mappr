@@ -1,3 +1,6 @@
+## Unreleased
+- Fix mapping from/to subclasses.
+
 ## 1.2.1
 - Document how to use the `convert` method.
 - Update package's icon.
