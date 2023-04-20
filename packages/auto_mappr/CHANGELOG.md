@@ -1,5 +1,6 @@
 ## Unreleased
 - Fix mapping from/to subclasses.
+- Add `tryConvert` method
 
 ## 1.2.1
 - Document how to use the `convert` method.
