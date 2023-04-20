@@ -110,7 +110,7 @@ class MapModelBodyMethodBuilder {
 
     final targetConstructor = _findBestConstructor(mapping.target, forcedConstructor: mapping.constructor);
 
-    final targetClassGetters = (mapping.target).getGettersWithTypes();
+    final targetClassGetters = (mapping.target).getAllGetters();
 
     // Map constructor parameters
     for (var i = 0; i < targetConstructor.parameters.length; i++) {
@@ -173,7 +173,7 @@ class MapModelBodyMethodBuilder {
         if (param.isOptional) continue;
 
         final targetField =
-            (mapping.target).getGettersWithTypes().firstWhereOrNull((field) => field.displayName == param.displayName);
+            (mapping.target).getAllGetters().firstWhereOrNull((field) => field.displayName == param.displayName);
 
         final fieldMapping = mapping.tryGetFieldMapping(param.displayName);
 
@@ -250,7 +250,7 @@ class MapModelBodyMethodBuilder {
     required Map<String, PropertyAccessorElement> sourceFields,
     required Expression constructorExpression,
   }) {
-    final targetSetters = mapping.target.getSettersWithTypes();
+    final targetSetters = mapping.target.getAllSetters();
 
     final potentialSetterFields = sourceFields.keys.where((field) => !alreadyMapped.contains(field)).toList();
     final fields = potentialSetterFields
@@ -266,7 +266,7 @@ class MapModelBodyMethodBuilder {
       return constructorExpression;
     }
 
-    final targetClassGetters = mapping.target.getGettersWithTypes();
+    final targetClassGetters = mapping.target.getAllGetters();
 
     var cascadedAssignments = constructorExpression;
     for (final sourceField in fields) {
@@ -294,7 +294,7 @@ class MapModelBodyMethodBuilder {
   Map<String, PropertyAccessorElement> _getAllReadableFields({
     required InterfaceType classType,
   }) {
-    final fieldsWithGetter = classType.getGettersWithTypes();
+    final fieldsWithGetter = classType.getAllGetters();
 
     return {
       for (final field in fieldsWithGetter) field.name: field,
