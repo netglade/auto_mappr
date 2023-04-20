@@ -120,4 +120,6 @@ extension ExpressionExtension on Expression {
   Expression nullabled() {
     return refer('${accept(DartEmitter())}?');
   }
+
+  Expression equalToNull() => equalTo(refer('null'));
 }

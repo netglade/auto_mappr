@@ -8,7 +8,7 @@ void main() {
   test(
     'buildConvertMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder().buildConvertMethod();
+      final result = ConvertMethodBuilder(const AutoMapprConfig(mappers: [])).buildConvertMethod();
 
       expect(result, isA<Method>());
       expect(result.name, 'convert');
@@ -28,13 +28,13 @@ void main() {
   test(
     'buildInternalConvertMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder().buildInternalConvertMethod(const AutoMapprConfig(mappers: []));
+      final result = ConvertMethodBuilder(const AutoMapprConfig(mappers: [])).buildInternalConvertMethod();
 
       expect(result, isA<Method>());
       expect(result.name, '_convert');
       expect(result.types.length, 2);
-      expect(result.returns, result.types[1]);
-      expect(result.optionalParameters.isEmpty, true);
+      expect(result.returns, result.types[1].nullabled);
+      expect(result.optionalParameters.isEmpty, false);
       expect(result.requiredParameters, [
         Parameter(
           (p) => p
@@ -48,7 +48,7 @@ void main() {
   test(
     'buildTypeOfHelperMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder().buildTypeOfHelperMethod();
+      final result = ConvertMethodBuilder(const AutoMapprConfig(mappers: [])).buildTypeOfHelperMethod();
 
       expect(result, isA<Method>());
       expect(result.name, '_typeOf');
