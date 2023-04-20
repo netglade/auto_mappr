@@ -7,24 +7,12 @@ part 'freezed_example.g.dart';
 @freezed
 class UserInfoUnion with _$UserInfoUnion {
   factory UserInfoUnion({
-    int? id,
     required String email,
     required String loginIdentifier,
     required DateTime updatedAt,
     @Default(0) int primarySectionId,
+    int? id,
   }) = UserInfo;
-}
-
-abstract class UserAbstract {
-  final String email;
-  final String loginIdentifier;
-  final DateTime updatedAt;
-
-  UserAbstract({
-    required this.email,
-    required this.loginIdentifier,
-    required this.updatedAt,
-  });
 }
 
 class UserInfoCompanion {
