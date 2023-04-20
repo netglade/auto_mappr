@@ -251,14 +251,4 @@ class ConvertMethodBuilder {
 
     return ifConditionExpression.ifStatement(ifBody: inIfExpression);
   }
-
-  Block _buildTryConvertMethodBody(AutoMapprConfig config) {
-    final builder = BlockBuilder();
-
-    // builder.addExpression(
-    //   refer('model').equalTo(refer('null')).conditional(refer('null'), refer('_convert(model)')).returned,
-    // );
-
-    return builder.build();
-  }
 }
