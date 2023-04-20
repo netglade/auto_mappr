@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$UserInfoUnion {
-  int? get id => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get loginIdentifier => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
@@ -34,8 +33,7 @@ abstract class $UserInfoUnionCopyWith<$Res> {
       _$UserInfoUnionCopyWithImpl<$Res, UserInfoUnion>;
   @useResult
   $Res call(
-      {int? id,
-      String email,
+      {String email,
       String loginIdentifier,
       DateTime updatedAt,
       int primarySectionId});
@@ -54,17 +52,12 @@ class _$UserInfoUnionCopyWithImpl<$Res, $Val extends UserInfoUnion>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
     Object? email = null,
     Object? loginIdentifier = null,
     Object? updatedAt = null,
     Object? primarySectionId = null,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -94,8 +87,7 @@ abstract class _$$UserInfoCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? id,
-      String email,
+      {String email,
       String loginIdentifier,
       DateTime updatedAt,
       int primarySectionId});
@@ -111,17 +103,12 @@ class __$$UserInfoCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
     Object? email = null,
     Object? loginIdentifier = null,
     Object? updatedAt = null,
     Object? primarySectionId = null,
   }) {
     return _then(_$UserInfo(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -146,14 +133,11 @@ class __$$UserInfoCopyWithImpl<$Res>
 
 class _$UserInfo implements UserInfo {
   _$UserInfo(
-      {this.id,
-      required this.email,
+      {required this.email,
       required this.loginIdentifier,
       required this.updatedAt,
       this.primarySectionId = 0});
 
-  @override
-  final int? id;
   @override
   final String email;
   @override
@@ -166,7 +150,7 @@ class _$UserInfo implements UserInfo {
 
   @override
   String toString() {
-    return 'UserInfoUnion(id: $id, email: $email, loginIdentifier: $loginIdentifier, updatedAt: $updatedAt, primarySectionId: $primarySectionId)';
+    return 'UserInfoUnion(email: $email, loginIdentifier: $loginIdentifier, updatedAt: $updatedAt, primarySectionId: $primarySectionId)';
   }
 
   @override
@@ -174,7 +158,6 @@ class _$UserInfo implements UserInfo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserInfo &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.loginIdentifier, loginIdentifier) ||
                 other.loginIdentifier == loginIdentifier) &&
@@ -186,7 +169,7 @@ class _$UserInfo implements UserInfo {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, email, loginIdentifier, updatedAt, primarySectionId);
+      runtimeType, email, loginIdentifier, updatedAt, primarySectionId);
 
   @JsonKey(ignore: true)
   @override
@@ -197,14 +180,11 @@ class _$UserInfo implements UserInfo {
 
 abstract class UserInfo implements UserInfoUnion {
   factory UserInfo(
-      {final int? id,
-      required final String email,
+      {required final String email,
       required final String loginIdentifier,
       required final DateTime updatedAt,
       final int primarySectionId}) = _$UserInfo;
 
-  @override
-  int? get id;
   @override
   String get email;
   @override

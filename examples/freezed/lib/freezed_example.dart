@@ -11,7 +11,6 @@ class UserInfoUnion with _$UserInfoUnion {
     required String loginIdentifier,
     required DateTime updatedAt,
     @Default(0) int primarySectionId,
-    int? id,
   }) = UserInfo;
 }
 

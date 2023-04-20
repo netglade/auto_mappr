@@ -2,7 +2,7 @@ name: auto_mappr_workspace
 
 packages:
   - packages/**
-  - packages/**/example
+  - examples/**
 
 command:
   bootstrap:
@@ -22,7 +22,7 @@ scripts:
   lint:dcm:
     run: melos exec -c 10 -- dart run dart_code_metrics:metrics analyze . --fatal-style --fatal-performance --fatal-warnings
     packageFilters:
-      ignore: '*example*'
+      ignore: "*example*"
     description: Run DCM static analysis checks.
 
   # GENERATION
@@ -34,13 +34,14 @@ scripts:
   gen:example:
     run: melos exec -- dart run build_runner watch --delete-conflicting-outputs
     packageFilters:
-      scope: '*example*'
+      scope: "*example*"
     description: Generate example mappers.
 
   gen:example:build:
     run: melos exec -- dart run build_runner build --delete-conflicting-outputs --verbose
     packageFilters:
-      scope: '*example*'
+      scope: "*example*"
+
     description: Generate example mappers once.
 
   gen:test:
