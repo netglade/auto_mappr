@@ -46,7 +46,7 @@ class AutoMapprBuilder {
 
   /// Generates all methods within mapper.
   List<Method> _buildMethods() {
-    final convertMethodBuilder = ConvertMethodBuilder();
+    final convertMethodBuilder = ConvertMethodBuilder(config);
 
     // Generates non nullable mapping method.
     return [
@@ -56,8 +56,11 @@ class AutoMapprBuilder {
       // Public convert method
       convertMethodBuilder.buildConvertMethod(),
 
+      // Public tryConvert method
+      convertMethodBuilder.buildTryConvertMethod(),
+
       // Internal convert method
-      convertMethodBuilder.buildInternalConvertMethod(config),
+      convertMethodBuilder.buildInternalConvertMethod(),
 
       // Generate non-nullable mapping method.
       for (final mapping in config.mappers)

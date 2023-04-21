@@ -18,4 +18,13 @@ class AutoMapprConfig {
       (mapper) => mapper.source.isSame(source) && mapper.target.isSame(target),
     );
   }
+
+  Iterable<String> getMappingsDocComments() {
+    return mappers.map((e) {
+      const sourceNullMapping = ' -- With default value.';
+
+      // ignore: avoid-non-ascii-symbols, it is ok
+      return '/// - `${e.source}` → `${e.target}`${e.hasWhenNullDefault() ? sourceNullMapping : '.'}';
+    }).toList();
+  }
 }

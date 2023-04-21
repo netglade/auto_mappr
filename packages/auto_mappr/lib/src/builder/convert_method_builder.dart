@@ -3,6 +3,7 @@ import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
 /// Builds main `convert` method
@@ -14,11 +15,13 @@ class ConvertMethodBuilder {
 
   static const targetKey = 'TARGET';
   static const targetTypeReference = Reference(targetKey);
+  static const nullableTargetTypeReference = Reference('$targetKey?');
   static const targetTypeOf = Reference('_typeOf<$targetKey>()');
 
+  final AutoMapprConfig config;
   final Set<TypeMapping> _nullableMappings;
 
-  ConvertMethodBuilder() : _nullableMappings = {};
+  ConvertMethodBuilder(this.config) : _nullableMappings = {};
 
   static String concreteConvertMethodName({
     required DartType source,
@@ -42,7 +45,7 @@ class ConvertMethodBuilder {
     final _ = _nullableMappings.add(mapping);
   }
 
-  Method buildCanConvert(AutoMapprConfig config) {
+  Method buildCanConvert() {
     return Method(
       (b) => b
         ..name = 'canConvert'
@@ -56,6 +59,14 @@ class ConvertMethodBuilder {
     return Method(
       (b) => b
         ..name = 'convert'
+        ..docs = ListBuilder([
+          '/// Converts from SOURCE to TARGET if such mapping is configured.',
+          '///',
+          '/// If source model is null and `whenSourceIsNull` is not defined, convert methods throws exception.',
+          '///',
+          '/// Available mappings: ',
+          ...config.getMappingsDocComments(),
+        ])
         ..types.addAll([sourceTypeReference, targetTypeReference])
         ..requiredParameters.add(
           Parameter(
@@ -65,12 +76,45 @@ class ConvertMethodBuilder {
           ),
         )
         ..returns = targetTypeReference
-        ..lambda = false
-        ..body = refer('_convert(model)').returned.statement,
+        ..lambda = true
+        ..body = refer('_convert(model)').nullChecked.code,
     );
   }
 
-  Method buildInternalConvertMethod(AutoMapprConfig config) {
+  Method buildTryConvertMethod() {
+    return Method(
+      (b) => b
+        ..name = 'tryConvert'
+        ..docs = ListBuilder([
+          '/// Converts from SOURCE to TARGET if such mapping is configured.',
+          '///',
+          '/// If source model is null returns value from `whenSourceIsNull` if defined or null.',
+          '///',
+          '/// Available mappings: ',
+          ...config.getMappingsDocComments(),
+        ])
+        ..types.addAll([sourceTypeReference, targetTypeReference])
+        ..requiredParameters.add(
+          Parameter(
+            (p) => p
+              ..name = 'model'
+              ..type = nullableSourceTypeReference,
+          ),
+        )
+        ..returns = nullableTargetTypeReference
+        ..lambda = false
+        ..body = refer('_convert')
+            .call(
+              [refer('model')],
+              {'checkForNull': refer('true')},
+              [sourceTypeReference, targetTypeReference],
+            )
+            .returned
+            .statement,
+    );
+  }
+
+  Method buildInternalConvertMethod() {
     return Method(
       (b) => b
         ..name = '_convert'
@@ -82,7 +126,16 @@ class ConvertMethodBuilder {
               ..type = nullableSourceTypeReference,
           ),
         )
-        ..returns = targetTypeReference
+        ..optionalParameters.add(
+          Parameter(
+            (p) => p
+              ..name = 'checkForNull'
+              ..type = refer('bool')
+              ..named = true
+              ..defaultTo = const Code('false'),
+          ),
+        )
+        ..returns = nullableTargetTypeReference
         ..body = _buildConvertMethodBody(config.mappers),
     );
   }
@@ -110,41 +163,46 @@ class ConvertMethodBuilder {
     block.addExpression(targetTypeOfVariable);
 
     for (final mapping in mappings) {
-      final sourceName = mapping.source.getDisplayString(withNullability: false);
-      final targetName = mapping.target.getDisplayString(withNullability: false);
-
-      final modelIsTypeExpression = sourceTypeOfReference
-          .equalTo(refer('_typeOf<$sourceName>()'))
-          .or(sourceTypeOfReference.equalTo(refer('_typeOf<$sourceName?>()')));
-
-      final outputExpression = targetTypeOfReference
-          .equalTo(refer('_typeOf<$targetName>()'))
-          .or(targetTypeOfReference.equalTo(refer('_typeOf<$targetName?>()')));
-
-      final ifConditionExpression = modelIsTypeExpression.bracketed().and(outputExpression.bracketed());
-
-      final inIfExpression = refer(mapping.mappingMethodName)
-          .call(
-            [
-              refer('model').asA(refer('${mapping.source.getDisplayString(withNullability: false)}?')),
-            ],
-          )
-          .asA(targetTypeReference)
-          .returned
-          .statement;
-
-      final ifStatementExpression = ifConditionExpression.ifStatement(ifBody: inIfExpression);
+      final ifCheckForNull = refer('checkForNull').and(refer('model').equalToNull()).ifStatement(
+            ifBody: mapping.hasWhenNullDefault()
+                ? mapping.whenSourceIsNullExpression!.asA(targetTypeReference).returned.statement
+                : literalNull.returned.statement,
+          );
 
       // Generates code like:
-      //
-      // final sourceTypeOf = _typeOf<SOURCE>();
-      // final targetTypeOf = _typeOf<TARGET>();
-      // if ((sourceTypeOf == _typeOf<UserDto>() ||
-      //         sourceTypeOf == _typeOf<UserDto?>()) &&
-      //     (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
-      //   return (_map_UserDto$_To_User$((model as UserDto?)) as TARGET);
-      // }
-      block.statements.add(ifStatementExpression.code);
+      /*
+       final sourceTypeOf = _typeOf<SOURCE>();
+       final targetTypeOf = _typeOf<TARGET>();
+       if ((sourceTypeOf == _typeOf<UserDto>() ||
+               sourceTypeOf == _typeOf<UserDto?>()) &&
+           (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+            if(checkForNull && model == null) return (defaultValue() or null);
+         
+         return (_map_UserDto$_To_User$((model as UserDto?)) as TARGET);
+      
+        }
+
+      */
+      final ifCheckTypeMatchExpression = _buildMatchingIfCondition(
+        mapping: mapping,
+        sourceTypeOfReference: sourceTypeOfReference,
+        targetTypeOfReference: targetTypeOfReference,
+        inIfExpression: (BlockBuilder()
+              ..statements.add(ifCheckForNull.code)
+              ..addExpression(
+                refer(mapping.mappingMethodName)
+                    .call(
+                      [
+                        refer('model').asA(refer('${mapping.source.getDisplayString(withNullability: false)}?')),
+                      ],
+                    )
+                    .asA(targetTypeReference)
+                    .returned,
+              ))
+            .build(),
+      );
+
+      block.statements.add(ifCheckTypeMatchExpression.code);
     }
 
     block.addExpression(
@@ -175,5 +233,27 @@ class ConvertMethodBuilder {
     block.statements.add(literalFalse.returned.statement);
 
     return block.build();
+  }
+
+  Expression _buildMatchingIfCondition({
+    required TypeMapping mapping,
+    required Reference sourceTypeOfReference,
+    required Reference targetTypeOfReference,
+    required Spec inIfExpression,
+  }) {
+    final sourceName = mapping.source.getDisplayString(withNullability: false);
+    final targetName = mapping.target.getDisplayString(withNullability: false);
+
+    final modelIsTypeExpression = sourceTypeOfReference
+        .equalTo(refer('_typeOf<$sourceName>()'))
+        .or(sourceTypeOfReference.equalTo(refer('_typeOf<$sourceName?>()')));
+
+    final outputExpression = targetTypeOfReference
+        .equalTo(refer('_typeOf<$targetName>()'))
+        .or(targetTypeOfReference.equalTo(refer('_typeOf<$targetName?>()')));
+
+    final ifConditionExpression = modelIsTypeExpression.bracketed().and(outputExpression.bracketed());
+
+    return ifConditionExpression.ifStatement(ifBody: inIfExpression);
   }
 }

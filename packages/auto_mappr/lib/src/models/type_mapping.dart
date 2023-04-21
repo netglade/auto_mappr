@@ -61,6 +61,7 @@ class TypeMapping extends Equatable {
 
   @override
   String toString() {
-    return '$source -> $target';
+    // ignore: avoid-non-ascii-symbols, it is ok
+    return '$source → $target';
   }
 }

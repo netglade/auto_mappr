@@ -319,7 +319,7 @@ class MapModelBodyMethodBuilder {
   }
 
   Code _whenModelIsNullHandling() {
-    final ifConditionExpression = refer('model').equalTo(refer('null'));
+    final ifConditionExpression = refer('model').equalTo(literalNull);
 
     if (nullable) {
       final ifBodyExpression = mapping.hasWhenNullDefault() ? mapping.whenSourceIsNullExpression! : literalNull;

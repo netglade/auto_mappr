@@ -168,6 +168,10 @@ analyzer:
     strict-raw-types: true
 ```
 
+#### `convert` vs `tryConvert`
+
+The `convert` and `tryConvert` works the same. The only difference is that if a `null` value is passed inside as the argument, and `whenSourceIsNull` is not set for the mapping, `convert` will throw an exception while `tryConvert` will return `null`. Therefore, `convert` has a return type `TARGET` and `tryConvert` has a return type `TARGET?`. It is an analogy with `parse` and `tryParse` methods on `int`.
+
 ### Install
 
 To use AutoMappr, install these three packages:
