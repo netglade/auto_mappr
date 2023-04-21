@@ -35,7 +35,6 @@ class NestedDto {
 
 // Complex
 
-//todo
 class ComplexValue extends Equatable {
   final int age;
   final Nested name;
@@ -46,7 +45,6 @@ class ComplexValue extends Equatable {
   const ComplexValue(this.age, this.name);
 }
 
-//todo
 class ComplexValueDto {
   final int age;
   final NestedDto? name;
