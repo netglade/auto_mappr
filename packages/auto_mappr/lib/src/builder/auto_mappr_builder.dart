@@ -55,9 +55,20 @@ class AutoMapprBuilder {
 
       // Public convert method
       convertMethodBuilder.buildConvertMethod(),
-
       // Public tryConvert method
       convertMethodBuilder.buildTryConvertMethod(),
+
+      // Public convertIterable and tryConvertIterable methods.
+      convertMethodBuilder.buildConvertIterableMethod(wrapper: 'Iterable'),
+      convertMethodBuilder.buildTryConvertIterableMethod(wrapper: 'Iterable'),
+
+      // Public convertList and tryConvertList methods.
+      convertMethodBuilder.buildConvertIterableMethod(wrapper: 'List', iterableTransformer: 'toList'),
+      convertMethodBuilder.buildTryConvertIterableMethod(wrapper: 'List', iterableTransformer: 'toList'),
+
+      // Public convertSet and tryConvertSet methods.
+      convertMethodBuilder.buildConvertIterableMethod(wrapper: 'Set', iterableTransformer: 'toSet'),
+      convertMethodBuilder.buildTryConvertIterableMethod(wrapper: 'Set', iterableTransformer: 'toSet'),
 
       // Internal convert method
       convertMethodBuilder.buildInternalConvertMethod(),

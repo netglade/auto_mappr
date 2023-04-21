@@ -16,7 +16,7 @@ class $Mappr {
 
   /// Converts from SOURCE to TARGET if such mapping is configured.
   ///
-  /// If source model is null and `whenSourceIsNull` is not defined, convert methods throws exception.
+  /// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.
   ///
   /// Available mappings:
   /// - `UserDto` → `User`.
@@ -26,29 +26,94 @@ class $Mappr {
 
   /// Converts from SOURCE to TARGET if such mapping is configured.
   ///
-  /// If source model is null returns value from `whenSourceIsNull` if defined or null.
+  /// When source model is null, returns `whenSourceIsNull` if defined or null.
   ///
   /// Available mappings:
   /// - `UserDto` → `User`.
   /// - `NestedDto` → `Nested`.
   /// - `NestedTagDto` → `NestedTag`.
-  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
-    return _convert<SOURCE, TARGET>(
-      model,
-      checkForNull: true,
-    );
-  }
+  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) => _convert(
+        model,
+        canReturnNull: true,
+      );
 
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
+  ///
+  /// Available items mappings:
+  /// - `UserDto` → `User`.
+  /// - `NestedDto` → `Nested`.
+  /// - `NestedTagDto` → `NestedTag`.
+  Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
+      model.map<TARGET>((item) => _convert(item)!);
+
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
+  /// Available items mappings:
+  /// - `UserDto` → `User`.
+  /// - `NestedDto` → `Nested`.
+  /// - `NestedTagDto` → `NestedTag`.
+  Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
+          Iterable<SOURCE?> model) =>
+      model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
+
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
+  ///
+  /// Available items mappings:
+  /// - `UserDto` → `User`.
+  /// - `NestedDto` → `Nested`.
+  /// - `NestedTagDto` → `NestedTag`.
+  List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
+      model.map<TARGET>((item) => _convert(item)!).toList();
+
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
+  /// Available items mappings:
+  /// - `UserDto` → `User`.
+  /// - `NestedDto` → `Nested`.
+  /// - `NestedTagDto` → `NestedTag`.
+  List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) => model
+      .map<TARGET?>((item) => _convert(item, canReturnNull: true))
+      .toList();
+
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
+  ///
+  /// Available items mappings:
+  /// - `UserDto` → `User`.
+  /// - `NestedDto` → `Nested`.
+  /// - `NestedTagDto` → `NestedTag`.
+  Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
+      model.map<TARGET>((item) => _convert(item)!).toSet();
+
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
+  /// Available items mappings:
+  /// - `UserDto` → `User`.
+  /// - `NestedDto` → `Nested`.
+  /// - `NestedTagDto` → `NestedTag`.
+  Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
+      model.map<TARGET?>((item) => _convert(item, canReturnNull: true)).toSet();
   TARGET? _convert<SOURCE, TARGET>(
     SOURCE? model, {
-    bool checkForNull = false,
+    bool canReturnNull = false,
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
     if ((sourceTypeOf == _typeOf<UserDto>() ||
             sourceTypeOf == _typeOf<UserDto?>()) &&
         (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
-      if (checkForNull && model == null) {
+      if (canReturnNull && model == null) {
         return null;
       }
       return (_map_UserDto_To_User((model as UserDto?)) as TARGET);
@@ -57,7 +122,7 @@ class $Mappr {
             sourceTypeOf == _typeOf<NestedDto?>()) &&
         (targetTypeOf == _typeOf<Nested>() ||
             targetTypeOf == _typeOf<Nested?>())) {
-      if (checkForNull && model == null) {
+      if (canReturnNull && model == null) {
         return null;
       }
       return (_map_NestedDto_To_Nested((model as NestedDto?)) as TARGET);
@@ -66,7 +131,7 @@ class $Mappr {
             sourceTypeOf == _typeOf<NestedTagDto?>()) &&
         (targetTypeOf == _typeOf<NestedTag>() ||
             targetTypeOf == _typeOf<NestedTag?>())) {
-      if (checkForNull && model == null) {
+      if (canReturnNull && model == null) {
         return null;
       }
       return (_map_NestedTagDto_To_NestedTag((model as NestedTagDto?))

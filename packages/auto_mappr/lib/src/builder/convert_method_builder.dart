@@ -8,20 +8,20 @@ import 'package:code_builder/code_builder.dart';
 
 /// Builds main `convert` method
 class ConvertMethodBuilder {
-  static const sourceKey = 'SOURCE';
-  static const sourceTypeReference = Reference(sourceKey);
-  static const nullableSourceTypeReference = Reference('$sourceKey?');
-  static const sourceTypeOf = Reference('_typeOf<$sourceKey>()');
+  static const _sourceKey = 'SOURCE';
+  static const _sourceTypeReference = Reference(_sourceKey);
+  static const _nullableSourceTypeReference = Reference('$_sourceKey?');
+  static const _sourceTypeOf = Reference('_typeOf<$_sourceKey>()');
 
-  static const targetKey = 'TARGET';
-  static const targetTypeReference = Reference(targetKey);
-  static const nullableTargetTypeReference = Reference('$targetKey?');
-  static const targetTypeOf = Reference('_typeOf<$targetKey>()');
+  static const _targetKey = 'TARGET';
+  static const _targetTypeReference = Reference(_targetKey);
+  static const _nullableTargetTypeReference = Reference('$_targetKey?');
+  static const _targetTypeOf = Reference('_typeOf<$_targetKey>()');
 
-  final AutoMapprConfig config;
+  final AutoMapprConfig _config;
   final Set<TypeMapping> _nullableMappings;
 
-  ConvertMethodBuilder(this.config) : _nullableMappings = {};
+  ConvertMethodBuilder(this._config) : _nullableMappings = {};
 
   static String concreteConvertMethodName({
     required DartType source,
@@ -49,9 +49,9 @@ class ConvertMethodBuilder {
     return Method(
       (b) => b
         ..name = 'canConvert'
-        ..types.addAll([sourceTypeReference, targetTypeReference])
+        ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..returns = refer('bool')
-        ..body = _buildCanConvertBody(config.mappers),
+        ..body = _buildCanConvertBody(_config.mappers),
     );
   }
 
@@ -62,22 +62,22 @@ class ConvertMethodBuilder {
         ..docs = ListBuilder([
           '/// Converts from SOURCE to TARGET if such mapping is configured.',
           '///',
-          '/// If source model is null and `whenSourceIsNull` is not defined, convert methods throws exception.',
+          '/// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.',
           '///',
-          '/// Available mappings: ',
-          ...config.getMappingsDocComments(),
+          '/// Available mappings:',
+          ..._config.getMappingsDocComments(),
         ])
-        ..types.addAll([sourceTypeReference, targetTypeReference])
+        ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
           Parameter(
             (p) => p
               ..name = 'model'
-              ..type = nullableSourceTypeReference,
+              ..type = _nullableSourceTypeReference,
           ),
         )
-        ..returns = targetTypeReference
+        ..returns = _targetTypeReference
         ..lambda = true
-        ..body = refer('_convert(model)').nullChecked.code,
+        ..body = refer('_convert').call([refer('model')], {}, []).nullChecked.code,
     );
   }
 
@@ -88,29 +88,108 @@ class ConvertMethodBuilder {
         ..docs = ListBuilder([
           '/// Converts from SOURCE to TARGET if such mapping is configured.',
           '///',
-          '/// If source model is null returns value from `whenSourceIsNull` if defined or null.',
+          '/// When source model is null, returns `whenSourceIsNull` if defined or null.',
           '///',
-          '/// Available mappings: ',
-          ...config.getMappingsDocComments(),
+          '/// Available mappings:',
+          ..._config.getMappingsDocComments(),
         ])
-        ..types.addAll([sourceTypeReference, targetTypeReference])
+        ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
           Parameter(
             (p) => p
               ..name = 'model'
-              ..type = nullableSourceTypeReference,
+              ..type = _nullableSourceTypeReference,
           ),
         )
-        ..returns = nullableTargetTypeReference
-        ..lambda = false
-        ..body = refer('_convert')
+        ..returns = _nullableTargetTypeReference
+        ..lambda = true
+        ..body = refer('_convert').call([refer('model')], {'canReturnNull': refer('true')}, []).code,
+    );
+  }
+
+  /// [wrapper] must be capitalized iterable, like `List`, `Iterable`, `Set`.
+  /// [iterableTransformer] is a method used after `.map` call like `toList` or `toSet`.
+  Method buildConvertIterableMethod({
+    required String wrapper,
+    String? iterableTransformer,
+  }) {
+    return Method(
+      (b) => b
+        ..name = 'convert$wrapper'
+        ..docs = ListBuilder([
+          '/// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into $wrapper.',
+          '///',
+          '/// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.',
+          '///',
+          '/// Available items mappings:',
+          ..._config.getMappingsDocComments(),
+        ])
+        ..types.addAll([_sourceTypeReference, _targetTypeReference])
+        ..requiredParameters.add(
+          Parameter(
+            (p) => p
+              ..name = 'model'
+              ..type = Reference('Iterable<${_nullableSourceTypeReference.accept(DartEmitter())}>'),
+          ),
+        )
+        ..returns = Reference('$wrapper<${_targetTypeReference.accept(DartEmitter())}>')
+        ..lambda = true
+        ..body = refer('model')
+            .property('map')
             .call(
-              [refer('model')],
-              {'checkForNull': refer('true')},
-              [sourceTypeReference, targetTypeReference],
+              [refer('(item) => _convert(item)').nullChecked],
+              {},
+              [_targetTypeReference],
             )
-            .returned
-            .statement,
+            .maybeCall(
+              iterableTransformer ?? '',
+              condition: iterableTransformer != null,
+              isOnNullable: false,
+            )
+            .code,
+    );
+  }
+
+  /// [wrapper] must be capitalized iterable, like `List`, `Iterable`, `Set`.
+  /// [iterableTransformer] is a method used after `.map` call like `toList` or `toSet`.
+  Method buildTryConvertIterableMethod({
+    required String wrapper,
+    String? iterableTransformer,
+  }) {
+    return Method(
+      (b) => b
+        ..name = 'tryConvert$wrapper'
+        ..docs = ListBuilder([
+          '/// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into $wrapper.',
+          '///',
+          '/// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null',
+          '///',
+          '/// Available items mappings:',
+          ..._config.getMappingsDocComments(),
+        ])
+        ..types.addAll([_sourceTypeReference, _targetTypeReference])
+        ..requiredParameters.add(
+          Parameter(
+            (p) => p
+              ..name = 'model'
+              ..type = Reference('Iterable<${_nullableSourceTypeReference.accept(DartEmitter())}>'),
+          ),
+        )
+        ..returns = Reference('$wrapper<${_nullableTargetTypeReference.accept(DartEmitter())}>')
+        ..lambda = true
+        ..body = refer('model')
+            .property('map')
+            .call(
+              [refer('(item) => _convert(item, canReturnNull: true)')],
+              {},
+              [_nullableTargetTypeReference],
+            )
+            .maybeCall(
+              iterableTransformer ?? '',
+              condition: iterableTransformer != null,
+              isOnNullable: false,
+            )
+            .code,
     );
   }
 
@@ -118,25 +197,25 @@ class ConvertMethodBuilder {
     return Method(
       (b) => b
         ..name = '_convert'
-        ..types.addAll([sourceTypeReference, targetTypeReference])
+        ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
           Parameter(
             (p) => p
               ..name = 'model'
-              ..type = nullableSourceTypeReference,
+              ..type = _nullableSourceTypeReference,
           ),
         )
         ..optionalParameters.add(
           Parameter(
             (p) => p
-              ..name = 'checkForNull'
+              ..name = 'canReturnNull'
               ..type = refer('bool')
               ..named = true
               ..defaultTo = const Code('false'),
           ),
         )
-        ..returns = nullableTargetTypeReference
-        ..body = _buildConvertMethodBody(config.mappers),
+        ..returns = _nullableTargetTypeReference
+        ..body = _buildConvertMethodBody(_config.mappers),
     );
   }
 
@@ -154,18 +233,18 @@ class ConvertMethodBuilder {
   Code? _buildConvertMethodBody(List<TypeMapping> mappings) {
     final block = BlockBuilder();
 
-    final sourceTypeOfVariable = declareFinal('sourceTypeOf').assign(sourceTypeOf);
+    final sourceTypeOfVariable = declareFinal('sourceTypeOf').assign(_sourceTypeOf);
     final sourceTypeOfReference = refer('sourceTypeOf');
     block.addExpression(sourceTypeOfVariable);
 
-    final targetTypeOfVariable = declareFinal('targetTypeOf').assign(targetTypeOf);
+    final targetTypeOfVariable = declareFinal('targetTypeOf').assign(_targetTypeOf);
     final targetTypeOfReference = refer('targetTypeOf');
     block.addExpression(targetTypeOfVariable);
 
     for (final mapping in mappings) {
-      final ifCheckForNull = refer('checkForNull').and(refer('model').equalToNull()).ifStatement(
+      final ifCheckForNull = refer('canReturnNull').and(refer('model').equalToNull()).ifStatement(
             ifBody: mapping.hasWhenNullDefault()
-                ? mapping.whenSourceIsNullExpression!.asA(targetTypeReference).returned.statement
+                ? mapping.whenSourceIsNullExpression!.asA(_targetTypeReference).returned.statement
                 : literalNull.returned.statement,
           );
 
@@ -176,12 +255,10 @@ class ConvertMethodBuilder {
        if ((sourceTypeOf == _typeOf<UserDto>() ||
                sourceTypeOf == _typeOf<UserDto?>()) &&
            (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
-            if(checkForNull && model == null) return (defaultValue() or null);
-         
-         return (_map_UserDto$_To_User$((model as UserDto?)) as TARGET);
-      
-        }
+            if(canReturnNull && model == null) return (defaultValue() or null);
 
+         return (_map_UserDto$_To_User$((model as UserDto?)) as TARGET);
+        }
       */
       final ifCheckTypeMatchExpression = _buildMatchingIfCondition(
         mapping: mapping,
@@ -196,7 +273,7 @@ class ConvertMethodBuilder {
                         refer('model').asA(refer('${mapping.source.getDisplayString(withNullability: false)}?')),
                       ],
                     )
-                    .asA(targetTypeReference)
+                    .asA(_targetTypeReference)
                     .returned,
               ))
             .build(),
@@ -219,9 +296,9 @@ class ConvertMethodBuilder {
 
     for (final mapping in mappings) {
       final outputExpression =
-          refer('_typeOf<$targetKey>()').equalTo(refer(mapping.target.getDisplayString(withNullability: false)));
+          refer('_typeOf<$_targetKey>()').equalTo(refer(mapping.target.getDisplayString(withNullability: false)));
 
-      final ifConditionExpression = refer('_typeOf<$sourceKey>()')
+      final ifConditionExpression = refer('_typeOf<$_sourceKey>()')
           .equalTo(refer(mapping.source.getDisplayString(withNullability: false)))
           .and(outputExpression);
 
