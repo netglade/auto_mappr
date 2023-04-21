@@ -121,5 +121,5 @@ extension ExpressionExtension on Expression {
     return refer('${accept(DartEmitter())}?');
   }
 
-  Expression equalToNull() => equalTo(refer('null'));
+  Expression equalToNull() => equalTo(literalNull);
 }

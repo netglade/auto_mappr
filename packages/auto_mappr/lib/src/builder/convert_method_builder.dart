@@ -166,18 +166,23 @@ class ConvertMethodBuilder {
       final ifCheckForNull = refer('checkForNull').and(refer('model').equalToNull()).ifStatement(
             ifBody: mapping.hasWhenNullDefault()
                 ? mapping.whenSourceIsNullExpression!.asA(targetTypeReference).returned.statement
-                : refer('null').returned.statement,
+                : literalNull.returned.statement,
           );
 
       // Generates code like:
-      //
-      // final sourceTypeOf = _typeOf<SOURCE>();
-      // final targetTypeOf = _typeOf<TARGET>();
-      // if ((sourceTypeOf == _typeOf<UserDto>() ||
-      //         sourceTypeOf == _typeOf<UserDto?>()) &&
-      //     (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
-      //   return (_map_UserDto$_To_User$((model as UserDto?)) as TARGET);
-      // }
+      /*
+       final sourceTypeOf = _typeOf<SOURCE>();
+       final targetTypeOf = _typeOf<TARGET>();
+       if ((sourceTypeOf == _typeOf<UserDto>() ||
+               sourceTypeOf == _typeOf<UserDto?>()) &&
+           (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+            if(checkForNull && model == null) return (defaultValue() or null);
+         
+         return (_map_UserDto$_To_User$((model as UserDto?)) as TARGET);
+      
+        }
+
+      */
       final ifCheckTypeMatchExpression = _buildMatchingIfCondition(
         mapping: mapping,
         sourceTypeOfReference: sourceTypeOfReference,
