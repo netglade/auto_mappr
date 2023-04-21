@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'fixture/default_target.dart' as fixture;
+import 'fixture/try_convert.dart' as fixture;
 
 void main() {
   late final fixture.Mappr mappr;
@@ -16,8 +16,8 @@ void main() {
 
     test('Returns default when configured', () {
       expect(
-        mappr.convert<fixture.ComplexPositionalValueDto, fixture.ComplexPositionalValue>(null),
-        const fixture.ComplexPositionalValue(99, fixture.Nested(id: 123, name: 'test qwerty')),
+        mappr.convert<fixture.ComplexValueDto, fixture.ComplexValue>(null),
+        const fixture.ComplexValue(99, fixture.Nested(id: 123, name: 'test qwerty')),
       );
     });
   });
@@ -29,8 +29,8 @@ void main() {
 
     test('Returns default when configured', () {
       expect(
-        mappr.tryConvert<fixture.ComplexPositionalValueDto, fixture.ComplexPositionalValue>(null),
-        const fixture.ComplexPositionalValue(99, fixture.Nested(id: 123, name: 'test qwerty')),
+        mappr.tryConvert<fixture.ComplexValueDto, fixture.ComplexValue>(null),
+        const fixture.ComplexValue(99, fixture.Nested(id: 123, name: 'test qwerty')),
       );
     });
   });

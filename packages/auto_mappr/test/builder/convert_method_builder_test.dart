@@ -26,6 +26,26 @@ void main() {
   );
 
   test(
+    'buildTryConvertMethod has the correct interface',
+    () {
+      final result = ConvertMethodBuilder(const AutoMapprConfig(mappers: [])).buildTryConvertMethod();
+
+      expect(result, isA<Method>());
+      expect(result.name, 'tryConvert');
+      expect(result.types.length, 2);
+      expect(result.returns, result.types[1].nullabled);
+      expect(result.optionalParameters, isEmpty);
+      expect(result.requiredParameters, [
+        Parameter(
+          (p) => p
+            ..name = 'model'
+            ..type = result.types.first.nullabled,
+        ),
+      ]);
+    },
+  );
+
+  test(
     'buildInternalConvertMethod has the correct interface',
     () {
       final result = ConvertMethodBuilder(const AutoMapprConfig(mappers: [])).buildInternalConvertMethod();
