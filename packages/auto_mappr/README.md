@@ -168,6 +168,9 @@ analyzer:
     strict-raw-types: true
 ```
 
+#### `convert` vs `tryConvert`
+Normally, if passed object into `convert` method is null and mapping does not have defined `whenSourceIsNull`, method will throw `Exception`. If you want return `null` instead, use `tryConvert` method. This method will return value from `whenSourceIsNull` (if defined) or `null` instead of throwing an exception. It is same analogy with `parse` and `tryParse` methods on `int`. 
+
 ### Install
 
 To use AutoMappr, install these three packages:
