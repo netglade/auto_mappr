@@ -28,8 +28,6 @@ class MapModelBodyMethodBuilder {
 
     final sourceFields = _getAllReadableFields(classType: mapping.source);
 
-    print(sourceFields);
-
     // Name of the source field names which can be mapped into constructor field
     final mappedSourceFieldNames = <String>[];
 
@@ -38,12 +36,22 @@ class MapModelBodyMethodBuilder {
     // Add handling of whenSourceIsNull.
     block.statements.add(_whenModelIsNullHandling());
 
+    // Is there an enum involved in the mapping?
     if (mapping.isEnumMapping) {
+      final isSourceEnum = mapping.source.element is EnumElement;
+      final isTargetEnum = mapping.target.element is EnumElement;
+      // Check that both source and target enums are enums.
+      if (!isSourceEnum || !isTargetEnum) {
+        throw InvalidGenerationSourceError(
+          'Failed to map $mapping because ${isSourceEnum ? 'target ${mapping.targetName()}' : 'source ${mapping.sourceName()}'} is not an enum.',
+        );
+      }
+
       final sourceEnum = mapping.source.element as EnumElement;
       final targetEnum = mapping.target.element as EnumElement;
 
-      final sourceValues = sourceEnum.fields.whereNot((e) => e.name == 'values').map((e) => e.name).toSet();
-      final targetValues = targetEnum.fields.whereNot((e) => e.name == 'values').map((e) => e.name).toSet();
+      final sourceValues = sourceEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
+      final targetValues = targetEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
 
       final sourceIsSubset = targetValues.containsAll(sourceValues);
 
