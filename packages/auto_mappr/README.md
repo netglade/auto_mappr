@@ -345,6 +345,8 @@ class Mappr extends $Mappr {}
 ### Constructor selection
 
 The mapping automatically selects a constructor with the most parameters.
+It prioritizes non factory constructors over factory ones
+and never selects `fromJson` factory constructor.
 When you want to specifically select a certain constructor,
 set the `constructor` property on `MapType`.
 

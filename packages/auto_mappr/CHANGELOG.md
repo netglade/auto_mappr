@@ -1,6 +1,8 @@
 ## Unreleased
 - Fix mapping from/to subclasses.
 - Add `tryConvert` method
+- Fix selecting private constructors.
+- Add non factory over factory constructor selection preference.
 
 ## 1.2.1
 - Document how to use the `convert` method.
