@@ -301,7 +301,10 @@ class MapModelBodyMethodBuilder {
     };
   }
 
-  /// Tries to find best constructor for mapping -> currently returns constructor with the most parameter count
+  /// Tries to find best constructor for mapping.
+  ///
+  /// Returns a constructor with the most parameter count.
+  /// Prefer non factory constructors over factory ones.
   ConstructorElement _findBestConstructor(InterfaceType classType, {String? forcedConstructor}) {
     if (forcedConstructor != null) {
       final selectedConstructor = classType.constructors.firstWhereOrNull((c) => c.name == forcedConstructor);
@@ -312,10 +315,18 @@ class MapModelBodyMethodBuilder {
       );
     }
 
-    final constructors = classType.constructors.where((c) => !c.isFactory).toList()
-      ..sort((a, b) => b.parameters.length - a.parameters.length);
+    final allConstructors = classType.constructors.where((c) => !c.isPrivate);
 
-    return constructors.first;
+    // Sort constructors by number of parameters, descending.
+    int sortConstructors(ConstructorElement a, ConstructorElement b) =>
+        -a.parameters.length.compareTo(b.parameters.length);
+
+    final nonFactoryConstructors = allConstructors.where((c) => !c.isFactory).sorted(sortConstructors);
+    final factoryConstructors =
+        allConstructors.where((c) => c.isFactory && c.name != 'fromJson').sorted(sortConstructors);
+
+    // Prefers non factory constructors over factory ones.
+    return [...nonFactoryConstructors, ...factoryConstructors].first;
   }
 
   Code _whenModelIsNullHandling() {
