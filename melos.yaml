@@ -2,6 +2,7 @@ name: auto_mappr_workspace
 
 packages:
   - packages/**
+  - packages/**/example
   - examples/**
 
 command:
