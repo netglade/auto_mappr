@@ -28,6 +28,8 @@ class MapModelBodyMethodBuilder {
 
     final sourceFields = _getAllReadableFields(classType: mapping.source);
 
+    print(sourceFields);
+
     // Name of the source field names which can be mapped into constructor field
     final mappedSourceFieldNames = <String>[];
 
@@ -35,6 +37,35 @@ class MapModelBodyMethodBuilder {
     block.statements.add(declareFinal('model').assign(refer('input')).statement);
     // Add handling of whenSourceIsNull.
     block.statements.add(_whenModelIsNullHandling());
+
+    if (mapping.isEnumMapping) {
+      final sourceEnum = mapping.source.element as EnumElement;
+      final targetEnum = mapping.target.element as EnumElement;
+
+      final sourceValues = sourceEnum.fields.whereNot((e) => e.name == 'values').map((e) => e.name).toSet();
+      final targetValues = targetEnum.fields.whereNot((e) => e.name == 'values').map((e) => e.name).toSet();
+
+      final sourceIsSubset = targetValues.containsAll(sourceValues);
+
+      if (!sourceIsSubset) {
+        throw InvalidGenerationSourceError(
+          "Can't map enum ${mapping.sourceName()} into ${mapping.targetName()}. Target enum is not superset of source enum.",
+        );
+      }
+
+      final targetReference = refer(mapping.targetName());
+
+      block.statements.add(
+        targetReference
+            .property('values')
+            .property('firstWhere')
+            .call([refer('(x) => x.name == model.name')])
+            .returned
+            .statement,
+      );
+
+      return block.build();
+    }
 
     // Map fields using a constructor.
     // Returns an constructor call without `;`.
