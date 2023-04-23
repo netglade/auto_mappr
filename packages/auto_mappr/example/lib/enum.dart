@@ -8,7 +8,7 @@ enum PersonType { student, admin, parent, employee }
 
 enum Vehicle implements Comparable<Vehicle> {
   car(tires: 4, passengers: 5, carbonPerKilometer: 400),
-  bus(tires: 6, passengers: 50, carbonPerKilometer: 800),
+  bus(tires: 6, passengers: 50, carbonPerKilometer: 800, impostor: true),
   bicycle(tires: 2, passengers: 1, carbonPerKilometer: 0);
 
   const Vehicle({
