@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mappr/src/builder/enum_assignment_builder.dart';
 import 'package:auto_mappr/src/builder/value_assignment_builder.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:auto_mappr/src/extensions/interface_type_extension.dart';
@@ -38,39 +39,11 @@ class MapModelBodyMethodBuilder {
 
     // Is there an enum involved in the mapping?
     if (mapping.isEnumMapping) {
-      final isSourceEnum = mapping.source.element is EnumElement;
-      final isTargetEnum = mapping.target.element is EnumElement;
-      // Check that both source and target enums are enums.
-      if (!isSourceEnum || !isTargetEnum) {
-        throw InvalidGenerationSourceError(
-          'Failed to map $mapping because ${isSourceEnum ? 'target ${mapping.targetName()}' : 'source ${mapping.sourceName()}'} is not an enum.',
-        );
-      }
+      final enumBuilder = EnumAssignmentBuilder(mapperConfig: mapperConfig, mapping: mapping);
 
-      final sourceEnum = mapping.source.element as EnumElement;
-      final targetEnum = mapping.target.element as EnumElement;
+      final expression = enumBuilder.build();
 
-      final sourceValues = sourceEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
-      final targetValues = targetEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
-
-      final sourceIsSubset = targetValues.containsAll(sourceValues);
-
-      if (!sourceIsSubset) {
-        throw InvalidGenerationSourceError(
-          "Can't map enum ${mapping.sourceName()} into ${mapping.targetName()}. Target enum is not superset of source enum.",
-        );
-      }
-
-      final targetReference = refer(mapping.targetName());
-
-      block.statements.add(
-        targetReference
-            .property('values')
-            .property('firstWhere')
-            .call([refer('(x) => x.name == model.name')])
-            .returned
-            .statement,
-      );
+      block.statements.add(expression.statement);
 
       return block.build();
     }

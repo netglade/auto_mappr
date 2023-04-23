@@ -5,6 +5,9 @@ analyzer:
   plugins:
     - dart_code_metrics
 
+  exclude:
+    - test/integration/fixture/error/**
+
 dart_code_metrics:
   extends:
     - package:netglade_analysis/dcm.yaml
