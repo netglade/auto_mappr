@@ -68,7 +68,7 @@ class $Mappr {
   ///
   /// {@macro auto_mappr:auto_mappr/example/lib/enum.dart}
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      convertIterable<SOURCE, TARGET>(model).toList();
+      tryConvertIterable<SOURCE, TARGET>(model).toList();
 
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
   ///
@@ -84,7 +84,7 @@ class $Mappr {
   ///
   /// {@macro auto_mappr:auto_mappr/example/lib/enum.dart}
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      convertIterable<SOURCE, TARGET>(model).toSet();
+      tryConvertIterable<SOURCE, TARGET>(model).toSet();
   TARGET? _convert<SOURCE, TARGET>(
     SOURCE? model, {
     bool canReturnNull = false,

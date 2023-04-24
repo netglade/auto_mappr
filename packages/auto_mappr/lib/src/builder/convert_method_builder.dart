@@ -176,7 +176,7 @@ class ConvertMethodBuilder {
         ..returns = Reference('$wrapper<${_nullableTargetTypeReference.accept(DartEmitter())}>')
         ..lambda = true
         ..body = iterableTransformer != null
-            ? refer('convertIterable')
+            ? refer('tryConvertIterable')
                 .call(
                   [refer('model')],
                   {},
