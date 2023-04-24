@@ -11,42 +11,89 @@ part of 'json_serializable.dart';
 // ignore_for_file: require_trailing_commas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
+/// {@template auto_mappr:auto_mappr_json_example/test/fixture/json_serializable.dart}
+/// Available mappings:
+/// - `UserDto` → `User`.
+/// - `ValueHolderDto` → `ValueHolder`.
+/// {@endtemplate}
 class $Mappr {
   Type _typeOf<T>() => T;
 
   /// Converts from SOURCE to TARGET if such mapping is configured.
   ///
-  /// If source model is null and `whenSourceIsNull` is not defined, convert methods throws exception.
+  /// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// Available mappings:
-  /// - `UserDto` → `User`.
-  /// - `ValueHolderDto` → `ValueHolder`.
+  /// {@macro auto_mappr:auto_mappr_json_example/test/fixture/json_serializable.dart}
   TARGET convert<SOURCE, TARGET>(SOURCE? model) => _convert(model)!;
 
   /// Converts from SOURCE to TARGET if such mapping is configured.
   ///
-  /// If source model is null returns value from `whenSourceIsNull` if defined or null.
+  /// When source model is null, returns `whenSourceIsNull` if defined or null.
   ///
-  /// Available mappings:
-  /// - `UserDto` → `User`.
-  /// - `ValueHolderDto` → `ValueHolder`.
-  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
-    return _convert<SOURCE, TARGET>(
-      model,
-      checkForNull: true,
-    );
-  }
+  /// {@macro auto_mappr:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) => _convert(
+        model,
+        canReturnNull: true,
+      );
 
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
+  ///
+  /// {@macro auto_mappr:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
+      model.map<TARGET>((item) => _convert(item)!);
+
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
+  /// {@macro auto_mappr:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
+          Iterable<SOURCE?> model) =>
+      model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
+
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
+  ///
+  /// {@macro auto_mappr:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
+      convertIterable<SOURCE, TARGET>(model).toList();
+
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
+  /// {@macro auto_mappr:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
+      tryConvertIterable<SOURCE, TARGET>(model).toList();
+
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
+  ///
+  /// {@macro auto_mappr:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
+      convertIterable<SOURCE, TARGET>(model).toSet();
+
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
+  /// {@macro auto_mappr:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
+      tryConvertIterable<SOURCE, TARGET>(model).toSet();
   TARGET? _convert<SOURCE, TARGET>(
     SOURCE? model, {
-    bool checkForNull = false,
+    bool canReturnNull = false,
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
     if ((sourceTypeOf == _typeOf<UserDto>() ||
             sourceTypeOf == _typeOf<UserDto?>()) &&
         (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
-      if (checkForNull && model == null) {
+      if (canReturnNull && model == null) {
         return null;
       }
       return (_map_UserDto_To_User((model as UserDto?)) as TARGET);
@@ -55,7 +102,7 @@ class $Mappr {
             sourceTypeOf == _typeOf<ValueHolderDto?>()) &&
         (targetTypeOf == _typeOf<ValueHolder>() ||
             targetTypeOf == _typeOf<ValueHolder?>())) {
-      if (checkForNull && model == null) {
+      if (canReturnNull && model == null) {
         return null;
       }
       return (_map_ValueHolderDto_To_ValueHolder((model as ValueHolderDto?))
