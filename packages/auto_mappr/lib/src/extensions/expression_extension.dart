@@ -23,7 +23,12 @@ extension ExpressionExtension on Expression {
   Expression maybeProperty(
     String name, {
     required bool isOnNullable,
+    bool condition = true,
   }) {
+    if (!condition) {
+      return this;
+    }
+
     if (!isOnNullable) return property(name);
 
     return nullSafeProperty(name);
@@ -39,7 +44,7 @@ extension ExpressionExtension on Expression {
   Expression maybeCall(
     String name, {
     required bool isOnNullable,
-    required Iterable<Expression> positionalArguments,
+    Iterable<Expression> positionalArguments = const [],
     bool condition = false,
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
