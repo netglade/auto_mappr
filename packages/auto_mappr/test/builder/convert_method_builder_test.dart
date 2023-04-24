@@ -8,7 +8,12 @@ void main() {
   test(
     'buildConvertMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder(const AutoMapprConfig(mappers: [])).buildConvertMethod();
+      final result = ConvertMethodBuilder(
+        const AutoMapprConfig(
+          mappers: [],
+          availableMappingsMacroId: 'test',
+        ),
+      ).buildConvertMethod();
 
       expect(result, isA<Method>());
       expect(result.name, 'convert');
@@ -28,7 +33,12 @@ void main() {
   test(
     'buildTryConvertMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder(const AutoMapprConfig(mappers: [])).buildTryConvertMethod();
+      final result = ConvertMethodBuilder(
+        const AutoMapprConfig(
+          mappers: [],
+          availableMappingsMacroId: 'test',
+        ),
+      ).buildTryConvertMethod();
 
       expect(result, isA<Method>());
       expect(result.name, 'tryConvert');
@@ -48,7 +58,12 @@ void main() {
   test(
     'buildInternalConvertMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder(const AutoMapprConfig(mappers: [])).buildInternalConvertMethod();
+      final result = ConvertMethodBuilder(
+        const AutoMapprConfig(
+          mappers: [],
+          availableMappingsMacroId: 'test',
+        ),
+      ).buildInternalConvertMethod();
 
       expect(result, isA<Method>());
       expect(result.name, '_convert');
@@ -68,7 +83,12 @@ void main() {
   test(
     'buildTypeOfHelperMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder(const AutoMapprConfig(mappers: [])).buildTypeOfHelperMethod();
+      final result = ConvertMethodBuilder(
+        const AutoMapprConfig(
+          mappers: [],
+          availableMappingsMacroId: 'test',
+        ),
+      ).buildTypeOfHelperMethod();
 
       expect(result, isA<Method>());
       expect(result.name, '_typeOf');
