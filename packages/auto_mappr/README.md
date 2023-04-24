@@ -479,6 +479,7 @@ targets:
 ```
 
 ### Default dependencies
+
 By default both `auto_mappr` builders has defined required inputs for freezed 
 and drift classes. 
 
@@ -487,7 +488,6 @@ and drift classes.
 ```
 
 This allows to depend on generated classes from these packages without need to modify project's build.yaml.
-
 
 #### Drift integration
 

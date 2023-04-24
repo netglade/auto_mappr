@@ -1,4 +1,4 @@
-## Unreleased
+## 1.3.0
 - Fix mapping from/to subclasses. [#37](https://github.com/netglade/auto_mappr/pull/37/)
 - Add `tryConvert` method. [#34](https://github.com/netglade/auto_mappr/pull/34)
 - Fix selecting private constructors. [#37](https://github.com/netglade/auto_mappr/pull/37)
