@@ -5,9 +5,13 @@ import 'package:collection/collection.dart';
 
 class AutoMapprConfig {
   final List<TypeMapping> mappers;
+  final String availableMappingsMacroId;
+
+  String get availableMappingsMacroDocComment => '/// {@macro $availableMappingsMacroId}';
 
   const AutoMapprConfig({
     required this.mappers,
+    required this.availableMappingsMacroId,
   });
 
   TypeMapping? findMapping({
@@ -19,12 +23,19 @@ class AutoMapprConfig {
     );
   }
 
-  Iterable<String> getMappingsDocComments() {
-    return mappers.map((e) {
-      const sourceNullMapping = ' -- With default value.';
+  Iterable<String> getAvailableMappingsDocComment() {
+    return [
+      '/// {@template $availableMappingsMacroId}',
+      '/// Available mappings:',
+      for (final mapper in mappers) _getTypeMappingDocs(mapper),
+      '/// {@endtemplate}'
+    ];
+  }
 
-      // ignore: avoid-non-ascii-symbols, it is ok
-      return '/// - `${e.source}` → `${e.target}`${e.hasWhenNullDefault() ? sourceNullMapping : '.'}';
-    }).toList();
+  String _getTypeMappingDocs(TypeMapping typeMapping) {
+    final trailingPart = typeMapping.hasWhenNullDefault() ? ' -- With default value.' : '.';
+
+    // ignore: avoid-non-ascii-symbols, it is ok
+    return '/// - `${typeMapping.source}` → `${typeMapping.target}`$trailingPart';
   }
 }
