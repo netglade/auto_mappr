@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mappr/src/builder/enum_assignment_builder.dart';
 import 'package:auto_mappr/src/builder/value_assignment_builder.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:auto_mappr/src/extensions/interface_type_extension.dart';
@@ -35,6 +36,17 @@ class MapModelBodyMethodBuilder {
     block.statements.add(declareFinal('model').assign(refer('input')).statement);
     // Add handling of whenSourceIsNull.
     block.statements.add(_whenModelIsNullHandling());
+
+    // Is there an enum involved in the mapping?
+    if (mapping.isEnumMapping) {
+      final enumBuilder = EnumAssignmentBuilder(mapperConfig: mapperConfig, mapping: mapping);
+
+      final assignment = enumBuilder.build();
+
+      block.statements.add(assignment);
+
+      return block.build();
+    }
 
     // Map fields using a constructor.
     // Returns an constructor call without `;`.
