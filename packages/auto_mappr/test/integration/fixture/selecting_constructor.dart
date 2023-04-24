@@ -19,10 +19,13 @@ part 'selecting_constructor.g.dart';
   // nonsense
   MapType<TestNonsenseDto, FinalTarget>(constructor: 'testtesttest'),
   MapType<TestNonsenseDto, NonFinalTarget>(constructor: 'testtesttest'),
+  // factory
+  MapType<TestFactoryDto, TestFactoryNotSelected>(),
+  MapType<TestFactoryDto, TestFactorySelected>(),
 ])
 class Mappr extends $Mappr {}
 
-class FinalTarget extends Equatable {
+class FinalTarget with EquatableMixin {
   final int? a;
   final int? b;
   final int? c;
@@ -45,10 +48,13 @@ class FinalTarget extends Equatable {
         b = null;
 }
 
-class NonFinalTarget {
+class NonFinalTarget with EquatableMixin {
   int? a;
   int? b;
   int? c;
+
+  @override
+  List<Object?> get props => [a, b, c];
 
   NonFinalTarget(this.a, this.b, this.c);
 
@@ -103,4 +109,116 @@ class TestNonsenseDto {
   final int c;
 
   TestNonsenseDto(this.a, this.b, this.c);
+}
+
+// Factory selection
+
+class TestFactoryNotSelected with EquatableMixin {
+  final int a;
+  final int b;
+  final int c;
+
+  @override
+  List<Object?> get props => [a, b, c];
+
+  TestFactoryNotSelected()
+      : a = 1,
+        b = 2,
+        c = 3;
+
+  TestFactoryNotSelected.one({
+    required this.a,
+  })  : b = 4,
+        c = 5;
+
+  TestFactoryNotSelected.two({
+    required this.a,
+    required this.b,
+  }) : c = 5;
+
+  TestFactoryNotSelected.three({
+    required this.a,
+    required this.b,
+    required this.c,
+  });
+
+  factory TestFactoryNotSelected.factory({
+    required int a,
+    required int b,
+    required int c,
+    // ignore: avoid_unused_constructor_parameters, for test
+    required int d,
+    // ignore: avoid_unused_constructor_parameters, for test
+    required int e,
+  }) =>
+      TestFactoryNotSelected.three(a: a, b: b, c: c);
+}
+
+class TestFactorySelected with EquatableMixin {
+  final int a;
+  final int b;
+  final int c;
+  final int d;
+
+  @override
+  List<Object?> get props => [a, b, c, d];
+
+  TestFactorySelected._one({
+    required this.a,
+    required this.b,
+    required this.c,
+  }) : d = 1;
+
+  TestFactorySelected._two({
+    required this.a,
+    required this.b,
+    required this.c,
+  }) : d = 2;
+
+  TestFactorySelected._three({
+    required this.a,
+    required this.b,
+    required this.c,
+  }) : d = 3;
+
+  factory TestFactorySelected.alpha({
+    required int a,
+    required int b,
+    required int c,
+    // ignore: avoid_unused_constructor_parameters, for test
+    required int d,
+  }) =>
+      TestFactorySelected._one(a: a, b: b, c: c);
+
+  factory TestFactorySelected.fromJson({
+    required int a,
+    required int b,
+    required int c,
+    // ignore: avoid_unused_constructor_parameters, for test
+    required int d,
+    // ignore: avoid_unused_constructor_parameters, for test
+    required int e,
+  }) =>
+      TestFactorySelected._three(a: a, b: b, c: c);
+
+  factory TestFactorySelected.beta({
+    required int a,
+    required int b,
+    required int c,
+  }) =>
+      TestFactorySelected._two(a: a, b: b, c: c);
+}
+
+class TestFactoryDto {
+  final int a;
+  final int b;
+  final int c;
+  final int d;
+
+  TestFactoryDto({
+    required this.a,
+    required this.b,
+    required this.c,
+    required this.d,
+  });
 }

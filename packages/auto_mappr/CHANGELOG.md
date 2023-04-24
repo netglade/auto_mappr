@@ -1,14 +1,18 @@
 ## Unreleased
-- Fix mapping from/to subclasses.
-- Add `tryConvert` method
+- Fix mapping from/to subclasses. [#37](https://github.com/netglade/auto_mappr/pull/37/)
+- Add `tryConvert` method. [#34](https://github.com/netglade/auto_mappr/pull/34)
+- Fix selecting private constructors. [#37](https://github.com/netglade/auto_mappr/pull/37)
+- Add non factory over factory constructor selection preference. [#37](https://github.com/netglade/auto_mappr/pull/37)
+- Add `required_inputs` with `.freezed.dart` and `.drift.dart` by default. [#31](https://github.com/netglade/auto_mappr/pull/31)
+- Add enum mapping support. [#36](https://github.com/netglade/auto_mappr/pull/36)
 - Add `try/convert{Iterable,List,Set}` methods. [#35](https://github.com/netglade/auto_mappr/pull/35)
 
 ## 1.2.1
-- Document how to use the `convert` method.
-- Update package's icon.
+- Document how to use the `convert` method. [#23](https://github.com/netglade/auto_mappr/pull/23)
+- Update package's icon. [#24](https://github.com/netglade/auto_mappr/pull/24)
 
 ## 1.2.0
-- Adhere lints to `netglade_analysis` 1.2.0.
+- Adhere lints to `netglade_analysis` 1.2.0. [#20](https://github.com/netglade/auto_mappr/pull/20)
 - Use tear-offs when possible.
 - Omit map when possible.
 - Omit null check of non-nullable when possible.
