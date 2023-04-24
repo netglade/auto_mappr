@@ -1,0 +1,11 @@
+targets:
+  $default:
+    auto_apply_builders: true
+    builders:
+      # Customize Drift to use "not-shared" builder -> Mappr depends on its output      
+      drift_dev:not_shared:
+        enabled: true
+      drift_dev:preparing_builder:
+        enabled: true
+      drift_dev:drift_dev:
+        enabled: false

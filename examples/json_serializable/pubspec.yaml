@@ -1,5 +1,5 @@
-name: auto_mappr_example
-description: Example project how to use AutoMappr
+name: auto_mappr_json_example
+description: Example project with AutoMappr and JsonSerializable
 version: 1.0.0
 publish_to: none
 
@@ -8,10 +8,11 @@ environment:
 
 dependencies:
   auto_mappr_annotation: 1.0.3
-  equatable: ^2.0.5
+  json_annotation: ^4.8.0
 
 dev_dependencies:
   auto_mappr: 1.2.1
   build_runner: ^2.0.0
+  json_serializable: ^6.6.1
   netglade_analysis: 1.2.0
   test: ^1.16.0

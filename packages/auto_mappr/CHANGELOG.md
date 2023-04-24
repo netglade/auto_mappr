@@ -1,8 +1,9 @@
 ## Unreleased
-- Fix mapping from/to subclasses.
-- Add `tryConvert` method
-- Fix selecting private constructors.
-- Add non factory over factory constructor selection preference.
+- Fix mapping from/to subclasses. [#32](https://github.com/netglade/auto_mappr/issues/32)
+- Add `tryConvert` method. [#21](https://github.com/netglade/auto_mappr/issues/21)
+- Fix selecting private constructors. [#4](https://github.com/netglade/auto_mappr/issues/4)
+- Add non factory over factory constructor selection preference. [#4](https://github.com/netglade/auto_mappr/issues/4)
+- Add `required_inputs` with `.freezed.dart` and `.drift.dart` by default. [#30](https://github.com/netglade/auto_mappr/issues/30)
 
 ## 1.2.1
 - Document how to use the `convert` method.

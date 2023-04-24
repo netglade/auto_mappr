@@ -1,4 +1,4 @@
-import 'package:auto_mappr_example/equatable.dart';
+import 'package:auto_mappr_example_another/equatable.dart';
 
 void main() {
   final dto = UserDto(id: 123, name: 'Peter', age: 42);

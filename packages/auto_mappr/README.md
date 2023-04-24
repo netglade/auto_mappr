@@ -478,8 +478,20 @@ targets:
         enabled: true
 ```
 
-If you are using packages like `Drift`
-which generates classes you need to use as a source or a target in your mappings,
+### Default dependencies
+By default both `auto_mappr` builders has defined required inputs for freezed 
+and drift classes. 
+
+```yaml
+ required_inputs: [".freezed.dart", ".drift.dart"]
+```
+
+This allows to depend on generated classes from these packages without need to modify project's build.yaml.
+
+
+#### Drift integration
+
+If you are using packages like `Drift` which generates classes you need to use as a source or a target in your mappings,
 use their not-shared builder, if they have any.
 With that, the builder can generate files like `.drift.dart`
 which you can add a input dependency to.
@@ -490,57 +502,40 @@ Shared builder:
 
 ```yaml
 targets:
-  $default:
-    # Disable the default generators (or disable the default builders you don't want to use).
-    auto_apply_builders: false
+  $default:    
+    auto_apply_builders: true
     builders:
       # Enable their generators according to their documentation.
       drift_dev:not_shared:
         enabled: true
       drift_dev:preparing_builder:
         enabled: true
-      # Enable local shared AutoMappr builder defined below.
-      :auto_mappr:
-        enabled: true
-
-# Local builders.
-builders:
-  auto_mappr:
-    required_inputs: [ ".drift.dart" ] # <-- here are your dependencies
-    import: "package:auto_mappr/auto_mappr.dart"
-    builder_factories: [ "autoMapprBuilder" ]
-    build_extensions: { ".dart": [ ".auto_mappr.g.part" ] }
-    auto_apply: none
-    build_to: cache
-    applies_builders: [ "source_gen:combining_builder" ]
+      # Disable Drift's shared builder
+      drift_dev:drift_dev:
+        enabled: false
 ```
 
 Not shared builder:
 
 ```yaml
 targets:
-  $default:
-    # Disable the default generators (or disable the default builders you don't want to use).
-    auto_apply_builders: false
+  $default:    
+    auto_apply_builders: true
     builders:
       # Enable their generators according to their documentation.
       drift_dev:not_shared:
         enabled: true
       drift_dev:preparing_builder:
         enabled: true
-      # Enable local not-shared AutoMappr builder defined below.
-      :auto_mappr:not_shared:
-        enabled: true
+      # Disable Drift's shared builder
+      drift_dev:drift_dev:
+        enabled: false
 
-# Local builders.
-builders:
-  not_shared:
-    required_inputs: [ ".drift.dart" ] # <-- here are your dependencies
-    import: "package:auto_mappr/auto_mappr.dart"
-    builder_factories: [ "autoMapprBuilderNotShared" ]
-    build_extensions: { ".dart": [ "auto_mappr.dart" ] }
-    auto_apply: none
-    build_to: source
+      auto_mappr:
+        enabled: false
+      # Enable the not_shared builder.
+      auto_mappr:not_shared:
+        enabled: true
 ```
 
 ## 👏 Contributing
