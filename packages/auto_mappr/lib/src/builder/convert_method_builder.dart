@@ -64,8 +64,7 @@ class ConvertMethodBuilder {
           '///',
           '/// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.',
           '///',
-          '/// Available mappings:',
-          ..._config.getMappingsDocComments(),
+          _config.availableMappingsMacroDocComment,
         ])
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
@@ -90,8 +89,7 @@ class ConvertMethodBuilder {
           '///',
           '/// When source model is null, returns `whenSourceIsNull` if defined or null.',
           '///',
-          '/// Available mappings:',
-          ..._config.getMappingsDocComments(),
+          _config.availableMappingsMacroDocComment,
         ])
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
@@ -121,8 +119,7 @@ class ConvertMethodBuilder {
           '///',
           '/// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.',
           '///',
-          '/// Available items mappings:',
-          ..._config.getMappingsDocComments(),
+          _config.availableMappingsMacroDocComment,
         ])
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
@@ -134,19 +131,21 @@ class ConvertMethodBuilder {
         )
         ..returns = Reference('$wrapper<${_targetTypeReference.accept(DartEmitter())}>')
         ..lambda = true
-        ..body = refer('model')
-            .property('map')
-            .call(
-              [refer('(item) => _convert(item)').nullChecked],
-              {},
-              [_targetTypeReference],
-            )
-            .maybeCall(
-              iterableTransformer ?? '',
-              condition: iterableTransformer != null,
-              isOnNullable: false,
-            )
-            .code,
+        ..body = iterableTransformer != null
+            ? refer('convertIterable')
+                .call(
+                  [refer('model')],
+                  {},
+                  [_sourceTypeReference, _targetTypeReference],
+                )
+                .property(iterableTransformer)
+                .call([])
+                .code
+            : refer('model').property('map').call(
+                [refer('(item) => _convert(item)').nullChecked],
+                {},
+                [_targetTypeReference],
+              ).code,
     );
   }
 
@@ -164,8 +163,7 @@ class ConvertMethodBuilder {
           '///',
           '/// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null',
           '///',
-          '/// Available items mappings:',
-          ..._config.getMappingsDocComments(),
+          _config.availableMappingsMacroDocComment,
         ])
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
@@ -177,19 +175,21 @@ class ConvertMethodBuilder {
         )
         ..returns = Reference('$wrapper<${_nullableTargetTypeReference.accept(DartEmitter())}>')
         ..lambda = true
-        ..body = refer('model')
-            .property('map')
-            .call(
-              [refer('(item) => _convert(item, canReturnNull: true)')],
-              {},
-              [_nullableTargetTypeReference],
-            )
-            .maybeCall(
-              iterableTransformer ?? '',
-              condition: iterableTransformer != null,
-              isOnNullable: false,
-            )
-            .code,
+        ..body = iterableTransformer != null
+            ? refer('convertIterable')
+                .call(
+                  [refer('model')],
+                  {},
+                  [_sourceTypeReference, _targetTypeReference],
+                )
+                .property(iterableTransformer)
+                .call([])
+                .code
+            : refer('model').property('map').call(
+                [refer('(item) => _convert(item, canReturnNull: true)')],
+                {},
+                [_nullableTargetTypeReference],
+              ).code,
     );
   }
 

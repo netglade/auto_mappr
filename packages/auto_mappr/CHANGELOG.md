@@ -1,6 +1,7 @@
 ## Unreleased
 - Fix mapping from/to subclasses.
 - Add `tryConvert` method
+- Add `try/convert{Iterable,List,Set}` methods. [#35](https://github.com/netglade/auto_mappr/pull/35)
 
 ## 1.2.1
 - Document how to use the `convert` method.

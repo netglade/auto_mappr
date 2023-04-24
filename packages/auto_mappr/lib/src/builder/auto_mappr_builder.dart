@@ -37,7 +37,8 @@ class AutoMapprBuilder {
             Class(
               (b) => b
                 ..name = '\$${mapperClassElement.displayName}'
-                ..methods.addAll(_buildMethods()),
+                ..methods.addAll(_buildMethods())
+                ..docs = ListBuilder(config.getAvailableMappingsDocComment()),
             ),
           ],
         ),

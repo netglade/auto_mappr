@@ -11,6 +11,12 @@ part of 'nested.dart';
 // ignore_for_file: require_trailing_commas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
+/// {@template auto_mappr:auto_mappr/example/lib/nested.dart}
+/// Available mappings:
+/// - `UserDto` → `User`.
+/// - `NestedDto` → `Nested`.
+/// - `NestedTagDto` → `NestedTag`.
+/// {@endtemplate}
 class $Mappr {
   Type _typeOf<T>() => T;
 
@@ -18,20 +24,14 @@ class $Mappr {
   ///
   /// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// Available mappings:
-  /// - `UserDto` → `User`.
-  /// - `NestedDto` → `Nested`.
-  /// - `NestedTagDto` → `NestedTag`.
+  /// {@macro auto_mappr:auto_mappr/example/lib/nested.dart}
   TARGET convert<SOURCE, TARGET>(SOURCE? model) => _convert(model)!;
 
   /// Converts from SOURCE to TARGET if such mapping is configured.
   ///
   /// When source model is null, returns `whenSourceIsNull` if defined or null.
   ///
-  /// Available mappings:
-  /// - `UserDto` → `User`.
-  /// - `NestedDto` → `Nested`.
-  /// - `NestedTagDto` → `NestedTag`.
+  /// {@macro auto_mappr:auto_mappr/example/lib/nested.dart}
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) => _convert(
         model,
         canReturnNull: true,
@@ -41,10 +41,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// Available items mappings:
-  /// - `UserDto` → `User`.
-  /// - `NestedDto` → `Nested`.
-  /// - `NestedTagDto` → `NestedTag`.
+  /// {@macro auto_mappr:auto_mappr/example/lib/nested.dart}
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       model.map<TARGET>((item) => _convert(item)!);
 
@@ -52,10 +49,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// Available items mappings:
-  /// - `UserDto` → `User`.
-  /// - `NestedDto` → `Nested`.
-  /// - `NestedTagDto` → `NestedTag`.
+  /// {@macro auto_mappr:auto_mappr/example/lib/nested.dart}
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
           Iterable<SOURCE?> model) =>
       model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
@@ -64,46 +58,33 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// Available items mappings:
-  /// - `UserDto` → `User`.
-  /// - `NestedDto` → `Nested`.
-  /// - `NestedTagDto` → `NestedTag`.
+  /// {@macro auto_mappr:auto_mappr/example/lib/nested.dart}
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      model.map<TARGET>((item) => _convert(item)!).toList();
+      convertIterable<SOURCE, TARGET>(model).toList();
 
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// Available items mappings:
-  /// - `UserDto` → `User`.
-  /// - `NestedDto` → `Nested`.
-  /// - `NestedTagDto` → `NestedTag`.
-  List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) => model
-      .map<TARGET?>((item) => _convert(item, canReturnNull: true))
-      .toList();
+  /// {@macro auto_mappr:auto_mappr/example/lib/nested.dart}
+  List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
+      convertIterable<SOURCE, TARGET>(model).toList();
 
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// Available items mappings:
-  /// - `UserDto` → `User`.
-  /// - `NestedDto` → `Nested`.
-  /// - `NestedTagDto` → `NestedTag`.
+  /// {@macro auto_mappr:auto_mappr/example/lib/nested.dart}
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      model.map<TARGET>((item) => _convert(item)!).toSet();
+      convertIterable<SOURCE, TARGET>(model).toSet();
 
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// Available items mappings:
-  /// - `UserDto` → `User`.
-  /// - `NestedDto` → `Nested`.
-  /// - `NestedTagDto` → `NestedTag`.
+  /// {@macro auto_mappr:auto_mappr/example/lib/nested.dart}
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      model.map<TARGET?>((item) => _convert(item, canReturnNull: true)).toSet();
+      convertIterable<SOURCE, TARGET>(model).toSet();
   TARGET? _convert<SOURCE, TARGET>(
     SOURCE? model, {
     bool canReturnNull = false,
