@@ -1,0 +1,5 @@
+targets:
+  $default:
+    builders:
+      auto_mappr:
+        enabled: true

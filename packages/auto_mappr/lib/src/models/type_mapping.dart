@@ -1,5 +1,6 @@
 // ignore_for_file: no-equal-arguments
 
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/convert_method_builder.dart';
 import 'package:auto_mappr/src/models/field_mapping.dart';
@@ -23,6 +24,8 @@ class TypeMapping extends Equatable {
         source: source,
         target: target,
       );
+
+  bool get isEnumMapping => source.element is EnumElement || target.element is EnumElement;
 
   @override
   List<Object?> get props {
@@ -61,6 +64,7 @@ class TypeMapping extends Equatable {
 
   @override
   String toString() {
-    return '$source -> $target';
+    // ignore: avoid-non-ascii-symbols, it is ok
+    return '$source → $target';
   }
 }

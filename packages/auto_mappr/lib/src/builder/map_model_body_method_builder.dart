@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mappr/src/builder/enum_assignment_builder.dart';
 import 'package:auto_mappr/src/builder/value_assignment_builder.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:auto_mappr/src/extensions/interface_type_extension.dart';
@@ -35,6 +36,17 @@ class MapModelBodyMethodBuilder {
     block.statements.add(declareFinal('model').assign(refer('input')).statement);
     // Add handling of whenSourceIsNull.
     block.statements.add(_whenModelIsNullHandling());
+
+    // Is there an enum involved in the mapping?
+    if (mapping.isEnumMapping) {
+      final enumBuilder = EnumAssignmentBuilder(mapperConfig: mapperConfig, mapping: mapping);
+
+      final assignment = enumBuilder.build();
+
+      block.statements.add(assignment);
+
+      return block.build();
+    }
 
     // Map fields using a constructor.
     // Returns an constructor call without `;`.
@@ -110,7 +122,7 @@ class MapModelBodyMethodBuilder {
 
     final targetConstructor = _findBestConstructor(mapping.target, forcedConstructor: mapping.constructor);
 
-    final targetClassGetters = (mapping.target).getGettersWithTypes();
+    final targetClassGetters = (mapping.target).getAllGetters();
 
     // Map constructor parameters
     for (var i = 0; i < targetConstructor.parameters.length; i++) {
@@ -173,7 +185,7 @@ class MapModelBodyMethodBuilder {
         if (param.isOptional) continue;
 
         final targetField =
-            (mapping.target).getGettersWithTypes().firstWhereOrNull((field) => field.displayName == param.displayName);
+            (mapping.target).getAllGetters().firstWhereOrNull((field) => field.displayName == param.displayName);
 
         final fieldMapping = mapping.tryGetFieldMapping(param.displayName);
 
@@ -250,7 +262,7 @@ class MapModelBodyMethodBuilder {
     required Map<String, PropertyAccessorElement> sourceFields,
     required Expression constructorExpression,
   }) {
-    final targetSetters = mapping.target.getSettersWithTypes();
+    final targetSetters = mapping.target.getAllSetters();
 
     final potentialSetterFields = sourceFields.keys.where((field) => !alreadyMapped.contains(field)).toList();
     final fields = potentialSetterFields
@@ -266,7 +278,7 @@ class MapModelBodyMethodBuilder {
       return constructorExpression;
     }
 
-    final targetClassGetters = mapping.target.getGettersWithTypes();
+    final targetClassGetters = mapping.target.getAllGetters();
 
     var cascadedAssignments = constructorExpression;
     for (final sourceField in fields) {
@@ -294,14 +306,17 @@ class MapModelBodyMethodBuilder {
   Map<String, PropertyAccessorElement> _getAllReadableFields({
     required InterfaceType classType,
   }) {
-    final fieldsWithGetter = classType.getGettersWithTypes();
+    final fieldsWithGetter = classType.getAllGetters();
 
     return {
       for (final field in fieldsWithGetter) field.name: field,
     };
   }
 
-  /// Tries to find best constructor for mapping -> currently returns constructor with the most parameter count
+  /// Tries to find best constructor for mapping.
+  ///
+  /// Returns a constructor with the most parameter count.
+  /// Prefer non factory constructors over factory ones.
   ConstructorElement _findBestConstructor(InterfaceType classType, {String? forcedConstructor}) {
     if (forcedConstructor != null) {
       final selectedConstructor = classType.constructors.firstWhereOrNull((c) => c.name == forcedConstructor);
@@ -312,14 +327,22 @@ class MapModelBodyMethodBuilder {
       );
     }
 
-    final constructors = classType.constructors.where((c) => !c.isFactory).toList()
-      ..sort((a, b) => b.parameters.length - a.parameters.length);
+    final allConstructors = classType.constructors.where((c) => !c.isPrivate);
 
-    return constructors.first;
+    // Sort constructors by number of parameters, descending.
+    int sortConstructors(ConstructorElement a, ConstructorElement b) =>
+        -a.parameters.length.compareTo(b.parameters.length);
+
+    final nonFactoryConstructors = allConstructors.where((c) => !c.isFactory).sorted(sortConstructors);
+    final factoryConstructors =
+        allConstructors.where((c) => c.isFactory && c.name != 'fromJson').sorted(sortConstructors);
+
+    // Prefers non factory constructors over factory ones.
+    return [...nonFactoryConstructors, ...factoryConstructors].first;
   }
 
   Code _whenModelIsNullHandling() {
-    final ifConditionExpression = refer('model').equalTo(refer('null'));
+    final ifConditionExpression = refer('model').equalTo(literalNull);
 
     if (nullable) {
       final ifBodyExpression = mapping.hasWhenNullDefault() ? mapping.whenSourceIsNullExpression! : literalNull;

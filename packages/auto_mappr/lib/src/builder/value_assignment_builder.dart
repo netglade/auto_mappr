@@ -226,7 +226,7 @@ class ValueAssignmentBuilder {
       if (target.nullabilitySuffix == NullabilitySuffix.question) {
         log.warning("Can't find nested mapping '$assignment' but target is nullable. Setting null");
 
-        return refer('null');
+        return literalNull;
       }
 
       throw InvalidGenerationSourceError(
@@ -254,7 +254,7 @@ class ValueAssignmentBuilder {
       //         name: 'test',
       //       )
       //     : _map_NestedDto_To_Nested(model.name),
-      return refer('model').property(assignment.sourceField!.displayName).equalTo(refer('null')).conditional(
+      return refer('model').property(assignment.sourceField!.displayName).equalTo(literalNull).conditional(
             fieldMapping!.whenNullExpression!,
             convertCallExpression,
           );
