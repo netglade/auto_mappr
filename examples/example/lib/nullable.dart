@@ -5,6 +5,7 @@ part 'nullable.g.dart';
 
 @AutoMappr([
   MapType<UserDto, User>(
+    whenSourceIsNull: User(id: 1, tag: Nested(id: 1, name: 'default')),
     fields: [
       Field('tag', whenNull: Mappr.defaultNested),
     ],
@@ -12,7 +13,7 @@ part 'nullable.g.dart';
   MapType<NestedDto, Nested>(),
 ])
 class Mappr extends $Mappr {
-  static Nested defaultNested() => Nested(id: 1, name: 'default_TAG');
+  static Nested defaultNested() => const Nested(id: 1, name: 'default_TAG');
 }
 
 class User extends Equatable {
@@ -34,7 +35,7 @@ class Nested {
   final int id;
   final String name;
 
-  Nested({
+  const Nested({
     required this.id,
     required this.name,
   });

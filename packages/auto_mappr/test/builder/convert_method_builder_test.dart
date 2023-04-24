@@ -8,7 +8,12 @@ void main() {
   test(
     'buildConvertMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder().buildConvertMethod();
+      final result = ConvertMethodBuilder(
+        const AutoMapprConfig(
+          mappers: [],
+          availableMappingsMacroId: 'test',
+        ),
+      ).buildConvertMethod();
 
       expect(result, isA<Method>());
       expect(result.name, 'convert');
@@ -26,15 +31,45 @@ void main() {
   );
 
   test(
+    'buildTryConvertMethod has the correct interface',
+    () {
+      final result = ConvertMethodBuilder(
+        const AutoMapprConfig(
+          mappers: [],
+          availableMappingsMacroId: 'test',
+        ),
+      ).buildTryConvertMethod();
+
+      expect(result, isA<Method>());
+      expect(result.name, 'tryConvert');
+      expect(result.types.length, 2);
+      expect(result.returns, result.types[1].nullabled);
+      expect(result.optionalParameters, isEmpty);
+      expect(result.requiredParameters, [
+        Parameter(
+          (p) => p
+            ..name = 'model'
+            ..type = result.types.first.nullabled,
+        ),
+      ]);
+    },
+  );
+
+  test(
     'buildInternalConvertMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder().buildInternalConvertMethod(const AutoMapprConfig(mappers: []));
+      final result = ConvertMethodBuilder(
+        const AutoMapprConfig(
+          mappers: [],
+          availableMappingsMacroId: 'test',
+        ),
+      ).buildInternalConvertMethod();
 
       expect(result, isA<Method>());
       expect(result.name, '_convert');
       expect(result.types.length, 2);
-      expect(result.returns, result.types[1]);
-      expect(result.optionalParameters.isEmpty, true);
+      expect(result.returns, result.types[1].nullabled);
+      expect(result.optionalParameters.isEmpty, false);
       expect(result.requiredParameters, [
         Parameter(
           (p) => p
@@ -48,7 +83,12 @@ void main() {
   test(
     'buildTypeOfHelperMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder().buildTypeOfHelperMethod();
+      final result = ConvertMethodBuilder(
+        const AutoMapprConfig(
+          mappers: [],
+          availableMappingsMacroId: 'test',
+        ),
+      ).buildTypeOfHelperMethod();
 
       expect(result, isA<Method>());
       expect(result.name, '_typeOf');

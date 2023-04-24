@@ -1,0 +1,17 @@
+name: auto_mappr_example_another
+description: Example project how to use AutoMappr
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=2.18.7 <3.0.0"
+
+dependencies:
+  auto_mappr_annotation: 1.0.3
+  equatable: ^2.0.5
+
+dev_dependencies:
+  auto_mappr: 1.2.1
+  build_runner: ^2.0.0
+  netglade_analysis: 1.2.0
+  test: ^1.16.0

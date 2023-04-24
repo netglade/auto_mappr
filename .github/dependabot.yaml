@@ -10,12 +10,44 @@ updates:
     schedule:
       interval: "weekly"
 
+  # PACKAGES
+
   - package-ecosystem: "pub"
     directory: "/packages/auto_mappr"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pub"
+    directory: "/packages/auto_mappr/example"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "pub"
     directory: "/packages/auto_mappr_annotation"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pub"
+    directory: "/packages/auto_mappr_annotation/example"
+    schedule:
+      interval: "weekly"
+
+  # EXAMPLES
+
+  - package-ecosystem: "pub"
+    directory: "/examples/drift"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "pub"
+    directory: "/examples/example"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "pub"
+    directory: "/examples/freezed"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "pub"
+    directory: "/examples/json_serializable"
     schedule:
       interval: "weekly"
