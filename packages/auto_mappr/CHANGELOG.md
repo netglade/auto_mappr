@@ -2,6 +2,7 @@
 - Fix mapping from/to subclasses.
 - Add `tryConvert` method
 - Add `required_inputs` with `.freezed.dart` and `.drift.dart` by default.
+- Add enum mapping support.
 
 ## 1.2.1
 - Document how to use the `convert` method.
