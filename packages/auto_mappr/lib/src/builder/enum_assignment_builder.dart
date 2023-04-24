@@ -12,7 +12,7 @@ class EnumAssignmentBuilder {
     required this.mapping,
   });
 
-  Expression build() {
+  Code build() {
     final isSourceEnum = mapping.source.element is EnumElement;
     final isTargetEnum = mapping.target.element is EnumElement;
     // Check that both source and target enums are enums.
@@ -41,6 +41,8 @@ class EnumAssignmentBuilder {
     return targetReference
         .property('values')
         .property('firstWhere')
-        .call([refer('(x) => x.name == model.name')]).returned;
+        .call([refer('(x) => x.name == model.name')])
+        .returned
+        .statement;
   }
 }

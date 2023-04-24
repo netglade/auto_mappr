@@ -33,8 +33,8 @@ void main() {
       final generator = SuccessGenerator.fromBuilder(
         'enum_mapping_not_enum',
         autoMapprBuilder,
-        inputDir: 'test/integration/fixture/error',
-        compareWithFixture: false, // use `false` to validate dart code
+        inputDir: 'test/integration/error_fixture',
+        compareWithFixture: false,
       );
 
       expect(
@@ -54,8 +54,8 @@ void main() {
       final generator = SuccessGenerator.fromBuilder(
         'enum_mapping_subset',
         autoMapprBuilder,
-        inputDir: 'test/integration/fixture/error',
-        compareWithFixture: false, // use `false` to validate dart code
+        inputDir: 'test/integration/error_fixture',
+        compareWithFixture: false,
       );
 
       expect(

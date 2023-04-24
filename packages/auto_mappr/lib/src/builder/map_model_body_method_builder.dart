@@ -41,9 +41,9 @@ class MapModelBodyMethodBuilder {
     if (mapping.isEnumMapping) {
       final enumBuilder = EnumAssignmentBuilder(mapperConfig: mapperConfig, mapping: mapping);
 
-      final expression = enumBuilder.build();
+      final assignment = enumBuilder.build();
 
-      block.statements.add(expression.statement);
+      block.statements.add(assignment);
 
       return block.build();
     }

@@ -6,7 +6,7 @@ analyzer:
     - dart_code_metrics
 
   exclude:
-    - test/integration/fixture/error/**
+    - test/integration/error_fixture/**
 
 dart_code_metrics:
   extends:

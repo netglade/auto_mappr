@@ -1,6 +1,6 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'enum_mapping_subset.g.dart';
+part 'enum_mapping_not_enum.g.dart';
 
 enum Source { a, b }
 
