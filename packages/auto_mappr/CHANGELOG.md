@@ -1,8 +1,10 @@
 ## Unreleased
-- Fix mapping from/to subclasses.
-- Add `tryConvert` method
-- Add `required_inputs` with `.freezed.dart` and `.drift.dart` by default.
-- Add enum mapping support.
+- Fix mapping from/to subclasses. [#37](https://github.com/netglade/auto_mappr/pull/37/)
+- Add `tryConvert` method. [#34](https://github.com/netglade/auto_mappr/pull/34)
+- Fix selecting private constructors. [#37](https://github.com/netglade/auto_mappr/pull/37)
+- Add non factory over factory constructor selection preference. [#37](https://github.com/netglade/auto_mappr/pull/37)
+- Add `required_inputs` with `.freezed.dart` and `.drift.dart` by default. [#31](https://github.com/netglade/auto_mappr/pull/31)
+- Add enum mapping support. [#36](https://github.com/netglade/auto_mappr/pull/36)
 
 ## 1.2.1
 - Document how to use the `convert` method.

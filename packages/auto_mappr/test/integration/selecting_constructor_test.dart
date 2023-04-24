@@ -138,4 +138,26 @@ void main() {
       },
     );
   });
+
+  group('factory constructors', () {
+    test(
+      'factory constructors are not selected when non-factory exists',
+      () {
+        final dto = fixture.TestFactoryDto(a: 1, b: 2, c: 3, d: 4);
+        final converted = mappr.convert<fixture.TestFactoryDto, fixture.TestFactoryNotSelected>(dto);
+
+        expect(converted, fixture.TestFactoryNotSelected.three(a: 1, b: 2, c: 3));
+      },
+    );
+
+    test(
+      'when class has only factory constructors, fromJson is not selected',
+      () {
+        final dto = fixture.TestFactoryDto(a: 1, b: 2, c: 3, d: 4);
+        final converted = mappr.convert<fixture.TestFactoryDto, fixture.TestFactorySelected>(dto);
+
+        expect(converted, fixture.TestFactorySelected.alpha(a: 1, b: 2, c: 3, d: 666));
+      },
+    );
+  });
 }

@@ -344,9 +344,11 @@ class Mappr extends $Mappr {}
 
 ### Constructor selection
 
-The mapping automatically selects a constructor with the most parameters.
 When you want to specifically select a certain constructor,
 set the `constructor` property on `MapType`.
+Otherwise the mapping automatically selects a constructor with the most parameters.
+It prioritizes non factory constructors over factory ones
+and never selects `fromJson` factory constructor.
 
 Imagine that you have a `User(String name, int age, String note)`
 and `User.fromDto(String name, int age)` constructors.
