@@ -22,8 +22,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       );
     }
 
-    final annotation = element.metadata.single; // AutoMap annotation
-    final constant = annotation.computeConstantValue()!; // its instance
+    final constant = annotation.objectValue;
     final mappersField = constant.getField('mappers')!;
     final mappersList = mappersField.toListValue()!;
 
@@ -82,7 +81,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
 
     final config = AutoMapprConfig(
       mappers: mappers,
-      availableMappingsMacroId: element.library.identifier.replaceFirst('asset', 'auto_mappr'),
+      availableMappingsMacroId: element.library.identifier,
     );
 
     final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
