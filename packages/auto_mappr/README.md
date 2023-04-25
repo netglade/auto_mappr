@@ -30,11 +30,12 @@ Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
     * ✅ [Field mapping](#field-mapping)
     * ✅ [Custom mapping](#custom-mapping)
     * ✅ [Ignore mapping](#ignore-mapping)
-    * ✅ [List-like objects mapping](#list-like-objects-mapping)
+    * ✅ [Iterable objects mapping](#iterable-objects-mapping)
     * ✅ [Map objects mapping](#map-objects-mapping)
     * ✅ [Default field value](#default-field-value)
     * ✅ [Default object value](#default-object-value)
     * ✅ [Constructor selection](#constructor-selection)
+    * ✅ [Enum mapping](#enum-mapping)
     * ✅ [Positional and named constructor parameters](#positional-and-named-constructor-parameters)
     * ✅ [Mapping to target](#mapping-to-target)
     * ✅ [Mapping from source](#mapping-from-source)
@@ -170,7 +171,29 @@ analyzer:
 
 #### `convert` vs `tryConvert`
 
-The `convert` and `tryConvert` works the same. The only difference is that if a `null` value is passed inside as the argument, and `whenSourceIsNull` is not set for the mapping, `convert` will throw an exception while `tryConvert` will return `null`. Therefore, `convert` has a return type `TARGET` and `tryConvert` has a return type `TARGET?`. It is an analogy with `parse` and `tryParse` methods on `int`.
+The `convert` and `tryConvert` works the same.
+The only difference is that if a `null` value is passed inside as the argument,
+and `whenSourceIsNull` is not set for the mapping,
+`convert` will throw an exception while `tryConvert` will return `null`.
+Therefore, `convert` has a return type `TARGET` and `tryConvert` has a return type `TARGET?`.
+It is an analogy with `parse` and `tryParse` methods on `int`.
+
+#### `try/convert{Iterable, List, Set}`
+
+If you have an iterable of source objects
+and need to transfer them into an iterable of target objects,
+use either `convertIterable`, `convertList`, or `convertSet`.
+What to choose depends on what iterable type you need as an output:
+
+- If you need the output as `Iterable<Target>`, use `convertIterable`.
+- If you need the output as `List<Target>`, use `convertList`.
+- If you need the output as `Set<Target>`, use `convertSet`.
+
+All of these function also have generics as `<SOURCE, TARGET>`, 
+where the source and the target are the types of those inner objects.
+
+If you need output of nullable objects in an iterable,
+use `tryConvert{Iterable, List, Set}` versions.
 
 ### Install
 
@@ -289,9 +312,9 @@ which hides other then-invalid parameters.
 class Mappr extends $Mappr {}
 ```
 
-### List-like objects mapping
+### Iterable objects mapping
 
-Values in list-like collections like `List`, `Set`, or `Iterable`
+Values in iterables like `List`, `Set`, or `Iterable`
 are mapped using the `.map()` method when the values are complex types.
 When needed, mostly after mapping, `.toList()` or `.toSet()` methods are called
 to cast an `Iterable` into a `List`/`Set`.
@@ -363,6 +386,16 @@ To change the selected constructor, do:
 ])
 class Mappr extends $Mappr {}
 ```
+
+### Enum mapping
+
+AutoMappr also supports mapping of enums.
+You register them as usual with `MapType<SourceEnum, TargetEnum`>
+and AutoMappr will convert enum options based on name.
+Note that a target enum must be superset of a source enum
+-- otherwise this will output a generation error.
+
+Mapping works for both simple and enhanced enums.
 
 ### Positional and named constructor parameters
 
