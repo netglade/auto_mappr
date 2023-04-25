@@ -81,7 +81,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
 
     final config = AutoMapprConfig(
       mappers: mappers,
-      availableMappingsMacroId: element.library.identifier.replaceFirst('asset', 'auto_mappr'),
+      availableMappingsMacroId: element.library.identifier,
     );
 
     final builder = AutoMapprBuilder(mapperClassElement: element, config: config);

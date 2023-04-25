@@ -1,3 +1,7 @@
+## Unreleased
+- Fix generator when multiple annotations are used
+- Add Injectable example
+
 ## 1.3.0
 - Fix mapping from/to subclasses. [#37](https://github.com/netglade/auto_mappr/pull/37/)
 - Add `tryConvert` method. [#34](https://github.com/netglade/auto_mappr/pull/34)
