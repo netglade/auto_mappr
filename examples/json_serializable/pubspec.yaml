@@ -11,7 +11,7 @@ dependencies:
   json_annotation: ^4.8.0
 
 dev_dependencies:
-  auto_mappr: 1.2.1
+  auto_mappr: ^1.3.0
   build_runner: ^2.0.0
   json_serializable: ^6.6.1
   netglade_analysis: ^1.2.3
