@@ -22,8 +22,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       );
     }
 
-    final annotation = element.metadata.single; // AutoMap annotation
-    final constant = annotation.computeConstantValue()!; // its instance
+    final constant = annotation.objectValue;
     final mappersField = constant.getField('mappers')!;
     final mappersList = mappersField.toListValue()!;
 

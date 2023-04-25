@@ -1,0 +1,5 @@
+include: package:netglade_analysis/lints.yaml
+
+linter:
+  rules:
+    cascade_invocations: false
