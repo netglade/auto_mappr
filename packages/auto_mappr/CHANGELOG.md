@@ -1,6 +1,7 @@
 ## Unreleased
-- Fix generator when multiple annotations are used
-- Add Injectable example
+- Add documentation for enums and converting iterables. [#52](https://github.com/netglade/auto_mappr/pull/52)
+- Fix generator when multiple annotations are used. [#51](https://github.com/netglade/auto_mappr/pull/51)
+- Add Injectable example. [#51](https://github.com/netglade/auto_mappr/pull/51)
 
 ## 1.3.0
 - Fix mapping from/to subclasses. [#37](https://github.com/netglade/auto_mappr/pull/37/)
@@ -42,7 +43,7 @@
 - Add field mapping
 - Add custom mapping
 - Add ignoring mapping
-- Add list-like objects mapping
+- Add iterable objects mapping
 - Add maps objects mapping
 - Add default field value
 - Add default object value
