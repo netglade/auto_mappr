@@ -40,8 +40,8 @@ class ValueAssignmentBuilder {
 
     final assignNestedObject = !assignment.targetType.isPrimitiveType;
 
-    if (assignment.shouldAssignListLike()) {
-      return _assignListLikeValue(assignment);
+    if (assignment.shouldAssignIterable()) {
+      return _assignIterableValue(assignment);
     }
 
     if (assignment.shouldAssignMap()) {
@@ -67,39 +67,39 @@ class ValueAssignmentBuilder {
     return rightSide;
   }
 
-  Expression _assignListLikeValue(SourceAssignment assignment) {
+  Expression _assignIterableValue(SourceAssignment assignment) {
     final sourceType = assignment.sourceType!;
     final targetType = assignment.targetType;
 
     final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
     final targetNullable = targetType.nullabilitySuffix == NullabilitySuffix.question;
 
-    final sourceListLikeType = (sourceType as ParameterizedType).typeArguments.first;
-    final targetListLikeType = (targetType as ParameterizedType).typeArguments.first;
+    final sourceIterableType = (sourceType as ParameterizedType).typeArguments.first;
+    final targetIterableType = (targetType as ParameterizedType).typeArguments.first;
 
-    final shouldFilterNullInSource = sourceListLikeType.nullabilitySuffix == NullabilitySuffix.question &&
-        targetListLikeType.nullabilitySuffix != NullabilitySuffix.question;
+    final shouldFilterNullInSource = sourceIterableType.nullabilitySuffix == NullabilitySuffix.question &&
+        targetIterableType.nullabilitySuffix != NullabilitySuffix.question;
 
-    final assignNestedObject = !targetListLikeType.isPrimitiveType && (!targetListLikeType.isSame(sourceListLikeType));
+    final assignNestedObject = !targetIterableType.isPrimitiveType && (!targetIterableType.isSame(sourceIterableType));
 
-    // When [sourceListLikeType] is nullable and [targetListLikeType] is not, remove null values.
-    final sourceListLikeExpression = refer('model').property(assignment.sourceField!.name).maybeWhereListLikeNotNull(
+    // When [sourceIterableType] is nullable and [targetIterableType] is not, remove null values.
+    final sourceIterableExpression = refer('model').property(assignment.sourceField!.name).maybeWhereIterableNotNull(
           condition: shouldFilterNullInSource,
           isOnNullable: sourceNullable,
         );
 
-    final defaultListLikeValueExpression = targetType.defaultListLikeExpression();
+    final defaultIterableValueExpression = targetType.defaultIterableExpression();
 
     if (assignNestedObject) {
-      return sourceListLikeExpression
+      return sourceIterableExpression
           // Map complex nested types.
           .maybeNullSafeProperty('map', isOnNullable: sourceNullable)
           .call(
-            [_nestedMapCallForListLike(assignment)],
+            [_nestedMapCallForIterable(assignment)],
             {},
             [
               refer(
-                targetListLikeType.getDisplayString(
+                targetIterableType.getDisplayString(
                   withNullability: true,
                   // classType: assignment.typeMapping.target,
                 ),
@@ -115,10 +115,10 @@ class ValueAssignmentBuilder {
             isOnNullable: false,
           )
           // When [sourceNullable], use default value.
-          .maybeIfNullThen(defaultListLikeValueExpression, isOnNullable: sourceNullable && !targetNullable);
+          .maybeIfNullThen(defaultIterableValueExpression, isOnNullable: sourceNullable && !targetNullable);
     }
 
-    return sourceListLikeExpression
+    return sourceIterableExpression
         .maybeToIterableCall(
           source: sourceType,
           target: targetType,
@@ -126,7 +126,7 @@ class ValueAssignmentBuilder {
           isOnNullable: !targetNullable && sourceNullable,
         )
         .maybeIfNullThen(
-          defaultListLikeValueExpression,
+          defaultIterableValueExpression,
           isOnNullable: !targetNullable && sourceNullable,
         );
   }
@@ -316,7 +316,7 @@ class ValueAssignmentBuilder {
           );
   }
 
-  Expression _nestedMapCallForListLike(SourceAssignment assignment) {
+  Expression _nestedMapCallForIterable(SourceAssignment assignment) {
     final targetListType = (assignment.targetType as ParameterizedType).typeArguments.first;
     final sourceListType = (assignment.sourceType! as ParameterizedType).typeArguments.first;
 

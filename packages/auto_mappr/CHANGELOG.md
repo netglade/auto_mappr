@@ -41,7 +41,7 @@
 - Add field mapping
 - Add custom mapping
 - Add ignoring mapping
-- Add list-like objects mapping
+- Add iterable objects mapping
 - Add maps objects mapping
 - Add default field value
 - Add default object value

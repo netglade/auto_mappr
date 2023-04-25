@@ -52,9 +52,9 @@ class SourceAssignment {
     this.fieldMapping,
   });
 
-  bool shouldAssignListLike() {
-    // The source can be mapped to the target, if the source is mappable object and the target is listLike.
-    return _isCoreListLike(targetType) && _isMappableListLike(sourceType!);
+  bool shouldAssignIterable() {
+    // The source can be mapped to the target, if the source is mappable object and the target is an iterable.
+    return _isCoreIterable(targetType) && _isMappableIterable(sourceType!);
   }
 
   bool shouldAssignMap() {
@@ -80,12 +80,12 @@ class SourceAssignment {
     return literalNull;
   }
 
-  bool _isCoreListLike(DartType type) {
+  bool _isCoreIterable(DartType type) {
     return type.isDartCoreList || type.isDartCoreSet || type.isDartCoreIterable;
   }
 
-  bool _isMappableListLike(DartType type) {
-    if (_isCoreListLike(type)) {
+  bool _isMappableIterable(DartType type) {
+    if (_isCoreIterable(type)) {
       return true;
     }
 
@@ -93,7 +93,7 @@ class SourceAssignment {
       return false;
     }
 
-    return type.allSupertypes.any(_isCoreListLike);
+    return type.allSupertypes.any(_isCoreIterable);
   }
 
   bool _isMappableMap(DartType type) {

@@ -66,7 +66,7 @@ extension ExpressionExtension on Expression {
     return ifNullThen(other);
   }
 
-  Expression maybeWhereListLikeNotNull({
+  Expression maybeWhereIterableNotNull({
     required bool condition,
     required bool isOnNullable,
   }) {

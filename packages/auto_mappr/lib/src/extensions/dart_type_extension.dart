@@ -53,7 +53,7 @@ extension DartTypeExtension on DartType {
     return isSameExceptNullability && isSameNullability;
   }
 
-  Expression defaultListLikeExpression() {
+  Expression defaultIterableExpression() {
     final itemType = (this as ParameterizedType).typeArguments.first;
 
     if (isDartCoreList) {
