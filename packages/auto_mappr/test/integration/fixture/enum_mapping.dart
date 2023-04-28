@@ -23,11 +23,26 @@ enum EnhancedSource {
   String get row => '$id+$name';
 }
 
+enum EnhancedSourceWithUnknown {
+  student(1, 'student'),
+  parent(2, 'parent'),
+  employee(3, 'employee'),
+  alien(4, 'alien');
+
+  const EnhancedSourceWithUnknown(this.id, this.name);
+
+  final int id;
+  final String name;
+
+  String get row => '$id+$name';
+}
+
 enum EnhancedTarget {
   student(1, 'student', isAdmin: false),
   parent(2, 'parent', isAdmin: false),
   employee(3, 'employee', isAdmin: false),
-  admin(4, 'admin', isAdmin: true);
+  admin(4, 'admin', isAdmin: true),
+  unknown(5, 'unknown', isAdmin: false);
 
   const EnhancedTarget(this.id, this.name, {required this.isAdmin});
 
@@ -45,8 +60,9 @@ LocalPerson _localRemoteUnknownDefault() => LocalPerson.unknown;
   MapType<RemotePerson, LocalPerson>(
     whenSourceIsNull: _localRemoteUnknownDefault,
   ),
-  MapType<EnhancedSource, EnhancedTarget>(
-    whenSourceIsNull: EnhancedTarget.employee,
+  MapType<EnhancedSource, EnhancedTarget>(),
+  MapType<EnhancedSourceWithUnknown, EnhancedTarget>(
+    whenSourceIsNull: EnhancedTarget.unknown,
   ),
 ])
 class Mappr extends $Mappr {}

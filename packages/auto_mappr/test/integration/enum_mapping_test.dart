@@ -36,6 +36,14 @@ void main() {
     expect(target, fixture.EnhancedTarget.parent);
   });
 
+  test('Enhanced enum with unknown case', () {
+    const source = fixture.EnhancedSourceWithUnknown.alien;
+
+    final target = mappr.convert<fixture.EnhancedSourceWithUnknown, fixture.EnhancedTarget>(source);
+
+    expect(target, fixture.EnhancedTarget.unknown);
+  });
+
   group('Error handling', () {
     test("Can't map source enum to target when target is not enum", () {
       final generator = SuccessGenerator.fromBuilder(
