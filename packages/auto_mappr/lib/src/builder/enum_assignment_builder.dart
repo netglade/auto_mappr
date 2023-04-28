@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:code_builder/code_builder.dart';
