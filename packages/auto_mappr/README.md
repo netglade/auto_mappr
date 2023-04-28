@@ -393,10 +393,9 @@ AutoMappr also supports mapping of enums.
 You register them as usual with `MapType<SourceEnum, TargetEnum`>
 and AutoMappr will convert enum options based on name.
 
-The target enum can either be a superset of the source enum or you can also
-define `whenSourceIsNull` which will be used for unknown enum values. If the
-target enum is not a superset of the source enum the generator will throw an
-error.
+The target enum can either be a superset of the source
+or has to define `whenSourceIsNull` which will be used for unknown enum values.
+If the target is not a superset of the source enum the generator will throw.
 
 E.g. in the example below, `RemotePerson.alien` will be mapped
 to `LocalPerson.unknown`.
