@@ -6,6 +6,10 @@ enum Person { student, parent, employee }
 
 enum User { student, parent, employee, admin }
 
+enum LocalPerson { student, parent, employee, unknown }
+
+enum RemotePerson { student, parent, employee, vp, director }
+
 enum EnhancedSource {
   student(1, 'student'),
   parent(2, 'parent'),
@@ -34,8 +38,15 @@ enum EnhancedTarget {
   String get row => '$id+$name';
 }
 
+LocalPerson _localRemoteUnknownDefault() => LocalPerson.unknown;
+
 @AutoMappr([
   MapType<Person, User>(),
-  MapType<EnhancedSource, EnhancedTarget>(),
+  MapType<RemotePerson, LocalPerson>(
+    whenSourceIsNull: _localRemoteUnknownDefault,
+  ),
+  MapType<EnhancedSource, EnhancedTarget>(
+    whenSourceIsNull: EnhancedTarget.employee,
+  ),
 ])
 class Mappr extends $Mappr {}

@@ -7,6 +7,9 @@ class MapType<SOURCE, TARGET> {
 
   /// Provides default value if SOURCE is null.
   ///
+  /// Additionally if mapping an enum "unknown" values in SOURCE will be mapped
+  /// to this value.
+  ///
   /// Accepts `Target Function()` function or `const Target` value.
   // ignore: no-object-declaration, is correct
   final Object? whenSourceIsNull;
