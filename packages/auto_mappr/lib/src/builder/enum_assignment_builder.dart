@@ -25,12 +25,18 @@ class EnumAssignmentBuilder {
     final sourceEnum = mapping.source.element as EnumElement;
     final targetEnum = mapping.target.element as EnumElement;
 
-    final sourceValues = sourceEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
-    final targetValues = targetEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
+    final sourceValues = sourceEnum.fields
+        .where((e) => e.isEnumConstant && e.isPublic)
+        .map((e) => e.name)
+        .toSet();
+    final targetValues = targetEnum.fields
+        .where((e) => e.isEnumConstant && e.isPublic)
+        .map((e) => e.name)
+        .toSet();
 
     final sourceIsSubset = targetValues.containsAll(sourceValues);
 
-    if (!sourceIsSubset) {
+    if (!sourceIsSubset && !mapping.hasWhenNullDefault()) {
       throw InvalidGenerationSourceError(
         "Can't map enum ${mapping.sourceName()} into ${mapping.targetName()}. Target enum is not superset of source enum.",
       );
@@ -41,7 +47,15 @@ class EnumAssignmentBuilder {
     return targetReference
         .property('values')
         .property('firstWhere')
-        .call([refer('(x) => x.name == model.name')])
+        .call(
+          [refer('(x) => x.name == model.name')],
+          {
+            if (mapping.hasWhenNullDefault())
+              'orElse': refer(
+                '() => ${mapping.whenSourceIsNullExpression!.accept(DartEmitter())}',
+              ),
+          },
+        )
         .returned
         .statement;
   }

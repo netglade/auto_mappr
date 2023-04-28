@@ -20,12 +20,28 @@ void main() {
     expect(target, fixture.User.parent);
   });
 
+  test('Simple enum with unknown case', () {
+    const source = fixture.RemotePerson.vp;
+    final target =
+        mappr.convert<fixture.RemotePerson, fixture.LocalPerson>(source);
+
+    expect(target, fixture.LocalPerson.unknown);
+  });
+
   test('Enhanced enum', () {
     const source = fixture.EnhancedSource.parent;
 
     final target = mappr.convert<fixture.EnhancedSource, fixture.EnhancedTarget>(source);
 
     expect(target, fixture.EnhancedTarget.parent);
+  });
+
+  test('Enhanced enum with unknown case', () {
+    const source = fixture.EnhancedSourceWithUnknown.alien;
+
+    final target = mappr.convert<fixture.EnhancedSourceWithUnknown, fixture.EnhancedTarget>(source);
+
+    expect(target, fixture.EnhancedTarget.unknown);
   });
 
   group('Error handling', () {

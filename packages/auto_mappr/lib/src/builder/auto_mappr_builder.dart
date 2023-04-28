@@ -17,6 +17,7 @@ class AutoMapprBuilder {
     'non_constant_identifier_names',
     'require_trailing_commas',
     'unnecessary_raw_strings',
+    'unnecessary_lambdas',
 
     // Can we fix this somehow? (const defaults, const customs)
     'prefer_const_constructors',

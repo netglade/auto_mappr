@@ -189,7 +189,7 @@ What to choose depends on what iterable type you need as an output:
 - If you need the output as `List<Target>`, use `convertList`.
 - If you need the output as `Set<Target>`, use `convertSet`.
 
-All of these function also have generics as `<SOURCE, TARGET>`, 
+All of these function also have generics as `<SOURCE, TARGET>`,
 where the source and the target are the types of those inner objects.
 
 If you need output of nullable objects in an iterable,
@@ -392,8 +392,25 @@ class Mappr extends $Mappr {}
 AutoMappr also supports mapping of enums.
 You register them as usual with `MapType<SourceEnum, TargetEnum`>
 and AutoMappr will convert enum options based on name.
-Note that a target enum must be superset of a source enum
--- otherwise this will output a generation error.
+
+The target enum can either be a superset of the source
+or has to define `whenSourceIsNull` which will be used for unknown enum values.
+If the target is not a superset of the source enum the generator will throw.
+
+E.g. in the example below, `RemotePerson.alien` will be mapped
+to `LocalPerson.unknown`.
+
+```dart
+enum RemotePerson { student, employee, alien }
+enum LocalPerson { student, employee, unknown }
+
+@AutoMappr([
+  MapType<RemotePerson, LocalPerson>(
+    whenSourceIsNull: LocalPerson.unknown,
+  ),
+])
+class Mappr extends $Mappr {}
+```
 
 Mapping works for both simple and enhanced enums.
 
@@ -513,8 +530,8 @@ targets:
 
 ### Default dependencies
 
-By default both `auto_mappr` builders has defined required inputs for freezed 
-and drift classes. 
+By default both `auto_mappr` builders has defined required inputs for freezed
+and drift classes.
 
 ```yaml
  required_inputs: [".freezed.dart", ".drift.dart"]
@@ -535,7 +552,7 @@ Shared builder:
 
 ```yaml
 targets:
-  $default:    
+  $default:
     auto_apply_builders: true
     builders:
       # Enable their generators according to their documentation.
@@ -552,7 +569,7 @@ Not shared builder:
 
 ```yaml
 targets:
-  $default:    
+  $default:
     auto_apply_builders: true
     builders:
       # Enable their generators according to their documentation.
