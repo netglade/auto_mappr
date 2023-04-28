@@ -392,8 +392,24 @@ class Mappr extends $Mappr {}
 AutoMappr also supports mapping of enums.
 You register them as usual with `MapType<SourceEnum, TargetEnum`>
 and AutoMappr will convert enum options based on name.
-Note that a target enum must be superset of a source enum
--- otherwise this will output a generation error.
+
+The target enum can either be a superset of the source enum or you can also
+define `whenSourceIsNull` which will be used for unknown enum values.
+
+E.g. in the example below, `RemotePerson.alien` will be mapped
+to `LocalPerson.unknown`.
+
+```dart
+enum RemotePerson { student, employee, alien }
+enum LocalPerson { student, employee, unknown }
+
+@AutoMappr([
+  MapType<RemotePerson, LocalPerson>(
+    whenSourceIsNull: LocalPerson.unknown,
+  ),
+])
+class Mappr extends $Mappr {}
+```
 
 Mapping works for both simple and enhanced enums.
 
