@@ -1,6 +1,8 @@
 ## Unreleased
-- Add support for library aliases,
-so mapping now supports types from different libraries with the same name.
+- Add support for library aliases, so mapping now supports types from different libraries with the same name. [#62](https://github.com/netglade/auto_mappr/pull/62)
+- Add when `whenSourceIsNull` support to enum mapping. (By @DevNico) [#59](https://github.com/netglade/auto_mappr/pull/59)
+- Add enum mapping fallback support for missing fields in the Target using `whenSourceIsNull`. (By @DevNico) [#59](https://github.com/netglade/auto_mappr/pull/59)
+- Fix top-level functions now work with `whenSourceIsNull`. (By @DevNico) [#59](https://github.com/netglade/auto_mappr/pull/59)
 
 ## 1.3.1
 - Add documentation for enums and converting iterables. [#52](https://github.com/netglade/auto_mappr/pull/52)
