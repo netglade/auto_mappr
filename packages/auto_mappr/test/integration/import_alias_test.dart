@@ -147,7 +147,6 @@ void main() {
         );
       });
 
-      //   MapType<MapHolder<UserDto>, MapHolder<a2.User>>(),
       test('map works', () {
         const dto = fixture.MapHolder<fixture.UserDto>({
           'alpha': fixture.UserDto(name: 'John Wick', age: 42),
