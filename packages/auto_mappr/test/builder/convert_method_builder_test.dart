@@ -12,6 +12,7 @@ void main() {
         const AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
+          libraryUriToAlias: {},
         ),
       ).buildConvertMethod();
 
@@ -37,6 +38,7 @@ void main() {
         const AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
+          libraryUriToAlias: {},
         ),
       ).buildTryConvertMethod();
 
@@ -62,6 +64,7 @@ void main() {
         const AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
+          libraryUriToAlias: {},
         ),
       ).buildInternalConvertMethod();
 
@@ -87,6 +90,7 @@ void main() {
         const AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
+          libraryUriToAlias: {},
         ),
       ).buildTypeOfHelperMethod();
 

@@ -1,9 +1,12 @@
 //ignore_for_file: avoid-dynamic
 
+import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/auto_mappr_builder.dart';
 import 'package:auto_mappr/src/extensions/dart_object_extension.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/extensions/list_extension.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:build/build.dart';
@@ -26,7 +29,51 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     final mappersField = constant.getField('mappers')!;
     final mappersList = mappersField.toListValue()!;
 
-    final mappers = mappersList.map((mapper) {
+    final libraryUriToAlias = _getLibraryAliases(element: element);
+
+    final tmpConfig = AutoMapprConfig(
+      mappers: [],
+      availableMappingsMacroId: 'tmp',
+      libraryUriToAlias: libraryUriToAlias,
+    );
+
+    final mappers = _processMappers(
+      mappers: mappersList,
+      element: element,
+      config: tmpConfig,
+    );
+
+    final duplicates = mappers.duplicates;
+    if (duplicates.isNotEmpty) {
+      throw InvalidGenerationSourceError(
+        '@AutoMappr has configured duplicated mappings:\n\t${duplicates.map(
+              (e) => e.toStringWithLibraryAlias(
+                config: tmpConfig,
+              ),
+            ).join('\n\t')}',
+      );
+    }
+
+    final config = AutoMapprConfig(
+      mappers: mappers,
+      availableMappingsMacroId: element.library.identifier,
+      libraryUriToAlias: libraryUriToAlias,
+    );
+
+    final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
+
+    final output = builder.build();
+    final emitter = DartEmitter(orderDirectives: true, useNullSafetySyntax: true);
+
+    return '${output.accept(emitter)}';
+  }
+
+  List<TypeMapping> _processMappers({
+    required List<DartObject> mappers,
+    required ClassElement element,
+    required AutoMapprConfig config,
+  }) {
+    return mappers.map((mapper) {
       final mapperType = mapper.type! as ParameterizedType;
 
       final sourceType = mapperType.typeArguments.first;
@@ -34,14 +81,14 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
 
       if (sourceType is! InterfaceType) {
         throw InvalidGenerationSourceError(
-          '${sourceType.getDisplayString(withNullability: true)} is not a class and cannot be mapped from',
+          '${sourceType.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped from',
           element: element,
           todo: 'Use a class',
         );
       }
       if (targetType is! InterfaceType) {
         throw InvalidGenerationSourceError(
-          '${targetType.getDisplayString(withNullability: true)} is not a class and cannot be mapped to',
+          '${targetType.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped to',
           element: element,
           todo: 'Use a class',
         );
@@ -71,41 +118,25 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
         constructor: constructor,
       );
     }).toList();
-
-    final duplicates = mappers.duplicates;
-    if (duplicates.isNotEmpty) {
-      throw InvalidGenerationSourceError(
-        '@AutoMappr has configured duplicated mappings:\n\t${duplicates.join('\n\t')}',
-      );
-    }
-
-    final config = AutoMapprConfig(
-      mappers: mappers,
-      availableMappingsMacroId: element.library.identifier,
-    );
-
-    final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
-
-    final output = builder.build();
-    final emitter = DartEmitter(orderDirectives: true, useNullSafetySyntax: true);
-
-    return '${output.accept(emitter)}';
   }
-}
 
-extension ListEx<T> on List<T> {
-  List<T> get duplicates {
-    final dup = <T>[];
-    final buffer = <T>[];
+  Map<String, String> _getLibraryAliases({
+    required ClassElement element,
+  }) {
+    final libraryUriToAlias = <String, String>{};
 
-    for (final x in this) {
-      if (buffer.contains(x)) {
-        dup.add(x);
-      } else {
-        buffer.add(x);
-      }
+    final imports = element.library.libraryImports;
+    final aliases = imports.map((e) => e.prefix?.element.name).toList();
+    final uris = imports.map((e) => e.importedLibrary!.identifier).toList();
+
+    for (var i = 0; i < imports.length; i++) {
+      if (aliases[i] == null) continue;
+
+      libraryUriToAlias.addAll({
+        uris[i]: aliases[i]!,
+      });
     }
 
-    return dup;
+    return libraryUriToAlias;
   }
 }

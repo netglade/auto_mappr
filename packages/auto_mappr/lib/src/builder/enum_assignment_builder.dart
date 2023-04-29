@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/element/element.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
@@ -18,7 +19,11 @@ class EnumAssignmentBuilder {
     // Check that both source and target enums are enums.
     if (!isSourceEnum || !isTargetEnum) {
       throw InvalidGenerationSourceError(
-        'Failed to map $mapping because ${isSourceEnum ? 'target ${mapping.targetName()}' : 'source ${mapping.sourceName()}'} is not an enum.',
+        'Failed to map $mapping because ${isSourceEnum ? 'target ${mapping.target.getDisplayStringWithLibraryAlias(
+            config: mapperConfig,
+          )}' : 'source ${mapping.source.getDisplayStringWithLibraryAlias(
+            config: mapperConfig,
+          )}'} is not an enum.',
       );
     }
 
@@ -32,11 +37,15 @@ class EnumAssignmentBuilder {
 
     if (!sourceIsSubset) {
       throw InvalidGenerationSourceError(
-        "Can't map enum ${mapping.sourceName()} into ${mapping.targetName()}. Target enum is not superset of source enum.",
+        "Can't map enum ${mapping.source.getDisplayStringWithLibraryAlias(
+          config: mapperConfig,
+        )} into ${mapping.target.getDisplayStringWithLibraryAlias(
+          config: mapperConfig,
+        )}. Target enum is not superset of source enum.",
       );
     }
 
-    final targetReference = refer(mapping.targetName());
+    final targetReference = refer(mapping.target.getDisplayStringWithLibraryAlias(config: mapperConfig));
 
     return targetReference
         .property('values')

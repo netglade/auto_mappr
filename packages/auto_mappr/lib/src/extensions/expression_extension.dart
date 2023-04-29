@@ -1,4 +1,6 @@
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:code_builder/code_builder.dart';
 
 extension ExpressionExtension on Expression {
@@ -81,6 +83,7 @@ extension ExpressionExtension on Expression {
     required bool valueIsNullable,
     required DartType keyType,
     required DartType valueType,
+    required AutoMapprConfig config,
   }) {
     if (!(keyIsNullable || valueIsNullable)) return this;
 
@@ -94,8 +97,8 @@ extension ExpressionExtension on Expression {
       ],
       {},
       [
-        refer(keyType.getDisplayString(withNullability: false)),
-        refer(valueType.getDisplayString(withNullability: false)),
+        refer(keyType.getDisplayStringWithLibraryAlias(config: config)),
+        refer(valueType.getDisplayStringWithLibraryAlias(config: config)),
       ],
     );
   }

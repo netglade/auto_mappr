@@ -11,7 +11,7 @@ part of 'mappr.dart';
 // ignore_for_file: require_trailing_commas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-/// {@template package:auto_mappr_injectable_example/mappr.dart}
+/// {@template package:examples_injectable/mappr.dart}
 /// Available mappings:
 /// - `UserDto` → `User`.
 /// {@endtemplate}
@@ -22,14 +22,14 @@ class $Mappr {
   ///
   /// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro package:auto_mappr_injectable_example/mappr.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   TARGET convert<SOURCE, TARGET>(SOURCE? model) => _convert(model)!;
 
   /// Converts from SOURCE to TARGET if such mapping is configured.
   ///
   /// When source model is null, returns `whenSourceIsNull` if defined or null.
   ///
-  /// {@macro package:auto_mappr_injectable_example/mappr.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) => _convert(
         model,
         canReturnNull: true,
@@ -39,7 +39,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro package:auto_mappr_injectable_example/mappr.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       model.map<TARGET>((item) => _convert(item)!);
 
@@ -47,7 +47,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_injectable_example/mappr.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
           Iterable<SOURCE?> model) =>
       model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
@@ -56,7 +56,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro package:auto_mappr_injectable_example/mappr.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toList();
 
@@ -64,7 +64,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_injectable_example/mappr.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toList();
 
@@ -72,7 +72,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro package:auto_mappr_injectable_example/mappr.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toSet();
 
@@ -80,7 +80,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_injectable_example/mappr.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toSet();
   TARGET? _convert<SOURCE, TARGET>(
@@ -95,12 +95,12 @@ class $Mappr {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_UserDto_To_User((model as UserDto?)) as TARGET);
+      return (_map__UserDto__To__User((model as UserDto?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  User _map_UserDto_To_User(UserDto? input) {
+  User _map__UserDto__To__User(UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(

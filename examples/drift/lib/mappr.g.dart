@@ -11,7 +11,7 @@ part of 'mappr.dart';
 // ignore_for_file: require_trailing_commas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-/// {@template package:auto_mappr_drift_example/mappr.dart}
+/// {@template package:examples_drift/mappr.dart}
 /// Available mappings:
 /// - `Todo` → `TodoItem`.
 /// {@endtemplate}
@@ -22,14 +22,14 @@ class $Mappr {
   ///
   /// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   TARGET convert<SOURCE, TARGET>(SOURCE? model) => _convert(model)!;
 
   /// Converts from SOURCE to TARGET if such mapping is configured.
   ///
   /// When source model is null, returns `whenSourceIsNull` if defined or null.
   ///
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) => _convert(
         model,
         canReturnNull: true,
@@ -39,7 +39,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       model.map<TARGET>((item) => _convert(item)!);
 
@@ -47,7 +47,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
           Iterable<SOURCE?> model) =>
       model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
@@ -56,7 +56,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toList();
 
@@ -64,7 +64,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toList();
 
@@ -72,7 +72,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toSet();
 
@@ -80,7 +80,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toSet();
   TARGET? _convert<SOURCE, TARGET>(
@@ -95,12 +95,12 @@ class $Mappr {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_Todo_To_TodoItem((model as Todo?)) as TARGET);
+      return (_map__Todo__To__TodoItem((model as Todo?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  TodoItem _map_Todo_To_TodoItem(Todo? input) {
+  TodoItem _map__Todo__To__TodoItem(Todo? input) {
     final model = input;
     if (model == null) {
       throw Exception(

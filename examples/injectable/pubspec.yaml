@@ -1,4 +1,4 @@
-name: auto_mappr_injectable_example
+name: examples_injectable
 description: Example project how to use AutoMappr with Injectable
 version: 1.0.0
 publish_to: none

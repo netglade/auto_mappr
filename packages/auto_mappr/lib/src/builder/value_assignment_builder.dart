@@ -88,7 +88,7 @@ class ValueAssignmentBuilder {
           isOnNullable: sourceNullable,
         );
 
-    final defaultIterableValueExpression = targetType.defaultIterableExpression();
+    final defaultIterableValueExpression = targetType.defaultIterableExpression(config: mapperConfig);
 
     if (assignNestedObject) {
       return sourceIterableExpression
@@ -99,9 +99,9 @@ class ValueAssignmentBuilder {
             {},
             [
               refer(
-                targetIterableType.getDisplayString(
+                targetIterableType.getDisplayStringWithLibraryAlias(
                   withNullability: true,
-                  // classType: assignment.typeMapping.target,
+                  config: mapperConfig,
                 ),
               )
             ],
@@ -163,8 +163,8 @@ class ValueAssignmentBuilder {
 
     final defaultMapValueExpression = literalMap(
       {},
-      refer(targetKeyType.getDisplayString(withNullability: true)),
-      refer(targetValueType.getDisplayString(withNullability: true)),
+      refer(targetKeyType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
+      refer(targetValueType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
     );
 
     final assignNestedObjectKey = !targetKeyType.isPrimitiveType && (targetKeyType != sourceKeyType);
@@ -180,6 +180,7 @@ class ValueAssignmentBuilder {
       valueIsNullable: shouldRemoveNullsValue,
       keyType: sourceKeyType,
       valueType: sourceValueType,
+      config: mapperConfig,
     )
         .maybeCall(
       'map',
@@ -190,8 +191,8 @@ class ValueAssignmentBuilder {
         _callMapForMap(assignment),
       ],
       typeArguments: [
-        refer(targetKeyType.getDisplayString(withNullability: true)),
-        refer(targetValueType.getDisplayString(withNullability: true)),
+        refer(targetKeyType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
+        refer(targetValueType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
       ],
     )
         // When [sourceNullable], use default value.
@@ -220,7 +221,10 @@ class ValueAssignmentBuilder {
     );
 
     if (nestedMapping == null) {
-      final targetTypeName = target.getDisplayString(withNullability: true);
+      final targetTypeName = target.getDisplayStringWithLibraryAlias(
+        withNullability: true,
+        config: mapperConfig,
+      );
       final sourceName = assignment.sourceField?.getDisplayString(withNullability: true);
 
       if (target.nullabilitySuffix == NullabilitySuffix.question) {
@@ -291,10 +295,12 @@ class ValueAssignmentBuilder {
           ? ConvertMethodBuilder.concreteNullableConvertMethodName(
               source: source,
               target: target,
+              config: mapperConfig,
             )
           : ConvertMethodBuilder.concreteConvertMethodName(
               source: source,
               target: target,
+              config: mapperConfig,
             ),
     );
 
@@ -309,8 +315,8 @@ class ValueAssignmentBuilder {
             {},
             includeGenericTypes
                 ? [
-                    refer(source.getDisplayString(withNullability: true)),
-                    refer(target.getDisplayString(withNullability: true))
+                    refer(source.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
+                    refer(target.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig))
                   ]
                 : [],
           );

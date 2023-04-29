@@ -1,3 +1,7 @@
+## Unreleased
+- Add support for library aliases,
+so mapping now supports types from different libraries with the same name.
+
 ## 1.3.1
 - Add documentation for enums and converting iterables. [#52](https://github.com/netglade/auto_mappr/pull/52)
 - Fix generator when multiple annotations are used. [#51](https://github.com/netglade/auto_mappr/pull/51)

@@ -11,7 +11,7 @@ part of 'json_serializable.dart';
 // ignore_for_file: require_trailing_commas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-/// {@template asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+/// {@template asset:examples_json_serializable/test/fixture/json_serializable.dart}
 /// Available mappings:
 /// - `UserDto` → `User`.
 /// - `ValueHolderDto` → `ValueHolder`.
@@ -23,14 +23,14 @@ class $Mappr {
   ///
   /// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   TARGET convert<SOURCE, TARGET>(SOURCE? model) => _convert(model)!;
 
   /// Converts from SOURCE to TARGET if such mapping is configured.
   ///
   /// When source model is null, returns `whenSourceIsNull` if defined or null.
   ///
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) => _convert(
         model,
         canReturnNull: true,
@@ -40,7 +40,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       model.map<TARGET>((item) => _convert(item)!);
 
@@ -48,7 +48,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
           Iterable<SOURCE?> model) =>
       model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
@@ -57,7 +57,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toList();
 
@@ -65,7 +65,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toList();
 
@@ -73,7 +73,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toSet();
 
@@ -81,7 +81,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toSet();
   TARGET? _convert<SOURCE, TARGET>(
@@ -96,7 +96,7 @@ class $Mappr {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_UserDto_To_User((model as UserDto?)) as TARGET);
+      return (_map__UserDto__To__User((model as UserDto?)) as TARGET);
     }
     if ((sourceTypeOf == _typeOf<ValueHolderDto>() ||
             sourceTypeOf == _typeOf<ValueHolderDto?>()) &&
@@ -105,13 +105,13 @@ class $Mappr {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_ValueHolderDto_To_ValueHolder((model as ValueHolderDto?))
+      return (_map__ValueHolderDto__To__ValueHolder((model as ValueHolderDto?))
           as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  User _map_UserDto_To_User(UserDto? input) {
+  User _map__UserDto__To__User(UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -124,7 +124,7 @@ class $Mappr {
     );
   }
 
-  ValueHolder _map_ValueHolderDto_To_ValueHolder(ValueHolderDto? input) {
+  ValueHolder _map__ValueHolderDto__To__ValueHolder(ValueHolderDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(

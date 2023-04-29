@@ -1,4 +1,4 @@
-import 'package:auto_mappr_json_example/serializable.dart';
+import 'package:examples_json_serializable/serializable.dart';
 
 void main() {
   final mappr = Mappr();

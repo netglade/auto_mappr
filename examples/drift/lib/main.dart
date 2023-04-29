@@ -1,5 +1,5 @@
-import 'package:auto_mappr_drift_example/db.dart';
-import 'package:auto_mappr_drift_example/mappr.dart';
+import 'package:examples_drift/db.dart';
+import 'package:examples_drift/mappr.dart';
 
 void main() {
   final mappr = Mappr();

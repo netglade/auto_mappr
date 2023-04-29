@@ -6,12 +6,14 @@ import 'package:collection/collection.dart';
 class AutoMapprConfig {
   final List<TypeMapping> mappers;
   final String availableMappingsMacroId;
+  final Map<String, String> libraryUriToAlias;
 
   String get availableMappingsMacroDocComment => '/// {@macro $availableMappingsMacroId}';
 
   const AutoMapprConfig({
     required this.mappers,
     required this.availableMappingsMacroId,
+    required this.libraryUriToAlias,
   });
 
   TypeMapping? findMapping({
@@ -36,6 +38,10 @@ class AutoMapprConfig {
     final trailingPart = typeMapping.hasWhenNullDefault() ? ' -- With default value.' : '.';
 
     // ignore: avoid-non-ascii-symbols, it is ok
-    return '/// - `${typeMapping.source}` → `${typeMapping.target}`$trailingPart';
+    return '/// - `${typeMapping.source.getDisplayStringWithLibraryAlias(
+      config: this,
+    )}` → `${typeMapping.target.getDisplayStringWithLibraryAlias(
+      config: this,
+    )}`$trailingPart';
   }
 }

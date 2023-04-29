@@ -3,6 +3,7 @@ import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/enum_assignment_builder.dart';
 import 'package:auto_mappr/src/builder/value_assignment_builder.dart';
+import 'package:auto_mappr/src/extensions/element_extension.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:auto_mappr/src/extensions/interface_type_extension.dart';
 import 'package:auto_mappr/src/models/models.dart';
@@ -151,6 +152,7 @@ class MapModelBodyMethodBuilder {
           targetConstructorParam: constructorAssignment,
           fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
           typeMapping: mapping,
+          config: mapperConfig,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -176,6 +178,7 @@ class MapModelBodyMethodBuilder {
           targetConstructorParam: constructorAssignment,
           fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
           typeMapping: mapping,
+          config: mapperConfig,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -202,6 +205,7 @@ class MapModelBodyMethodBuilder {
             fieldMapping: fieldMapping,
             targetConstructorParam: constructorAssignment,
             typeMapping: mapping,
+            config: mapperConfig,
           ),
         );
       }
@@ -236,7 +240,11 @@ class MapModelBodyMethodBuilder {
     required List<SourceAssignment> positional,
     required List<SourceAssignment> named,
   }) {
-    return refer(targetConstructor.displayName).newInstance(
+    final alias = targetConstructor.enclosingElement.getLibraryAlias(config: mapperConfig);
+    final connectionString = alias.trim().isEmpty ? '' : '.';
+    final constructorName = targetConstructor.displayName;
+
+    return refer('$alias$connectionString$constructorName').newInstance(
       positional.map(
         (assignment) => ValueAssignmentBuilder(
           mapperConfig: mapperConfig,
@@ -293,6 +301,7 @@ class MapModelBodyMethodBuilder {
                 sourceField: sourceField,
                 targetField: targetField,
                 typeMapping: mapping,
+                config: mapperConfig,
               ),
               usedNullableMethodCallback: usedNullableMethodCallback,
             ).build(),

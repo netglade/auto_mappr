@@ -26,14 +26,22 @@ class ConvertMethodBuilder {
   static String concreteConvertMethodName({
     required DartType source,
     required DartType target,
+    required AutoMapprConfig config,
   }) =>
-      '_map_${source.toConvertMethodName(withNullability: false)}_To_${target.toConvertMethodName(withNullability: false)}';
+      '_map__${source.toConvertMethodName(
+        withNullability: false,
+        config: config,
+      )}__To__${target.toConvertMethodName(
+        withNullability: false,
+        config: config,
+      )}';
 
   static String concreteNullableConvertMethodName({
     required DartType source,
     required DartType target,
+    required AutoMapprConfig config,
   }) =>
-      '${concreteConvertMethodName(source: source, target: target)}_Nullable';
+      '${concreteConvertMethodName(source: source, target: target, config: config)}_Nullable';
 
   bool shouldGenerateNullableMappingMethod(TypeMapping mapping) {
     return _nullableMappings.contains(mapping);
@@ -267,10 +275,12 @@ class ConvertMethodBuilder {
         inIfExpression: (BlockBuilder()
               ..statements.add(ifCheckForNull.code)
               ..addExpression(
-                refer(mapping.mappingMethodName)
+                refer(mapping.mappingMethodName(config: _config))
                     .call(
                       [
-                        refer('model').asA(refer('${mapping.source.getDisplayString(withNullability: false)}?')),
+                        refer('model').asA(
+                          refer('${mapping.source.getDisplayStringWithLibraryAlias(config: _config)}?'),
+                        ),
                       ],
                     )
                     .asA(_targetTypeReference)
@@ -295,11 +305,14 @@ class ConvertMethodBuilder {
     final block = BlockBuilder();
 
     for (final mapping in mappings) {
-      final outputExpression =
-          refer('_typeOf<$_targetKey>()').equalTo(refer(mapping.target.getDisplayString(withNullability: false)));
+      final outputExpression = refer('_typeOf<$_targetKey>()').equalTo(
+        refer(
+          mapping.target.getDisplayStringWithLibraryAlias(config: _config),
+        ),
+      );
 
       final ifConditionExpression = refer('_typeOf<$_sourceKey>()')
-          .equalTo(refer(mapping.source.getDisplayString(withNullability: false)))
+          .equalTo(refer(mapping.source.getDisplayStringWithLibraryAlias(config: _config)))
           .and(outputExpression);
 
       final ifStatement = ifConditionExpression.ifStatement(ifBody: literalTrue.returned.statement);
@@ -318,8 +331,8 @@ class ConvertMethodBuilder {
     required Reference targetTypeOfReference,
     required Spec inIfExpression,
   }) {
-    final sourceName = mapping.source.getDisplayString(withNullability: false);
-    final targetName = mapping.target.getDisplayString(withNullability: false);
+    final sourceName = mapping.source.getDisplayStringWithLibraryAlias(config: _config);
+    final targetName = mapping.target.getDisplayStringWithLibraryAlias(config: _config);
 
     final modelIsTypeExpression = sourceTypeOfReference
         .equalTo(refer('_typeOf<$sourceName>()'))
