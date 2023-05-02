@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/element_extension.dart';
@@ -15,13 +14,8 @@ extension DartTypeExtension on DartType {
       isDartCoreEnum ||
       isDartCoreSymbol;
 
-  /// Checks name, generics, library
-  /// and nullability if [withNullability] is not set.
-  bool isSame(
-    DartType other, {
-    bool withNullability = false,
-    bool allowSubtypes = false,
-  }) {
+  /// Checks if this type is assignable to the given [other] type.
+  bool isAssignableTo(DartType other) {
     // Not the same type of type.
     if ((this is InterfaceType) ^ (other is InterfaceType)) {
       return false;
@@ -32,37 +26,12 @@ extension DartTypeExtension on DartType {
     //   // Same types, not considering the type arguments.
     //   return element!.thisOrAncestorMatching((p0) => p0 == other.element) != null;
     // }
+    final typeSystem = element!.library!.typeSystem;
 
-    // Type matches.
-    final thisName = getDisplayString(withNullability: withNullability);
-    final otherName = other.getDisplayString(withNullability: withNullability);
-    var isTypeMatch = thisName == otherName;
-
-    if(!isTypeMatch && allowSubtypes) {
-      if(other.element != null && other.element is InterfaceElement) {
-        final instanceOf = asInstanceOf(other.element! as InterfaceElement);
-
-        isTypeMatch = instanceOf != null && (element?.library?.typeSystem.isAssignableTo(instanceOf, other) ?? false);
-      }
-    }
-
-    // Library matches.
-    final thisLibrary = element?.library?.identifier;
-    final otherLibrary = other.element?.library?.identifier;
-    final isSameLibrary = thisLibrary == otherLibrary;
-
-    final isSameExceptNullability = isTypeMatch && isSameLibrary;
-
-    if (!withNullability) {
-      return isSameExceptNullability;
-    }
-
-    // Nullability matches.
-    final thisNullability = nullabilitySuffix == NullabilitySuffix.question;
-    final otherNullability = other.nullabilitySuffix == NullabilitySuffix.question;
-    final isSameNullability = thisNullability == otherNullability;
-
-    return isSameExceptNullability && isSameNullability;
+    return typeSystem.isAssignableTo(
+      typeSystem.promoteToNonNull(this),
+      typeSystem.promoteToNonNull(other),
+    );
   }
 
   Expression defaultIterableExpression({

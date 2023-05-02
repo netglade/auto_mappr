@@ -24,7 +24,7 @@ class AutoMapprConfig {
     required DartType target,
   }) {
     return mappers.firstWhereOrNull(
-      (mapper) => mapper.source.isSame(source) && mapper.target.isSame(target),
+      (mapper) => mapper.source.isAssignableTo(source) && mapper.target.isAssignableTo(target),
     );
   }
 

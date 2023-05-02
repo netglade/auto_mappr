@@ -25,8 +25,8 @@ class TypeConversion extends Equatable {
   /// Wether this type conversion applies to the the given [SourceAssignment].
   bool matchesAssignment(SourceAssignment assignment) {
     final typeMatches = assignment.sourceType != null &&
-        assignment.sourceType!.isSame(sourceType, allowSubtypes: true) &&
-        assignment.targetType.isSame(targetType);
+        assignment.sourceType!.isAssignableTo(sourceType) &&
+        assignment.targetType.isAssignableTo(targetType);
     final nameMatches = field == null || assignment.sourceName == field;
 
     return typeMatches && nameMatches;

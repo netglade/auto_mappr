@@ -70,7 +70,7 @@ class ValueAssignmentBuilder {
     final shouldFilterNullInSource = sourceIterableType.nullabilitySuffix == NullabilitySuffix.question &&
         targetIterableType.nullabilitySuffix != NullabilitySuffix.question;
 
-    final assignNestedObject = !targetIterableType.isPrimitiveType && (!targetIterableType.isSame(sourceIterableType));
+    final assignNestedObject = !targetIterableType.isPrimitiveType && (!targetIterableType.isAssignableTo(sourceIterableType));
 
     // When [sourceIterableType] is nullable and [targetIterableType] is not, remove null values.
     final sourceIterableExpression = refer('model').property(assignment.sourceField!.name).maybeWhereIterableNotNull(
@@ -201,7 +201,7 @@ class ValueAssignmentBuilder {
     Expression? convertMethodArgument,
     bool includeGenericTypes = false,
   }) {
-    if (source.isSame(target)) {
+    if (source.isAssignableTo(target)) {
       final expression = convertMethodArgument ?? refer('model').property(assignment.sourceField!.displayName);
 
       if(assignment.fieldMapping?.hasWhenNullDefault() ?? false) {

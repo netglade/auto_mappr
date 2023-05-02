@@ -46,8 +46,6 @@ abstract class ValueId<T> extends Equatable {
   const ValueId(this.value);
 
   static T toValue<T>(ValueId<T> id) => id.value;
-
-  static String toValueString(ValueId<String> id) => id.value;
 }
 
 class UserId extends ValueId<String> {
@@ -104,8 +102,8 @@ class UserDto {
     UserId.new,
     AccountId.new,
     // This doesn't work currently, maybe analyzer bug?
-    ValueId.toValue<String>,
-    ValueId.toValueString,
+    // ValueId.toValue<String>,
+    Mappr.valueIdToString,
   ],
 )
 class Mappr extends $Mappr {
@@ -129,4 +127,6 @@ class Mappr extends $Mappr {
   static DateTime parseISO8601(String input) {
     return DateTime.tryParse(input) ?? DateTime(1970);
   }
+
+  static String valueIdToString(ValueId<String> id) => id.value;
 }
