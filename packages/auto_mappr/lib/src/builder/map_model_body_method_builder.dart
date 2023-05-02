@@ -212,16 +212,30 @@ class MapModelBodyMethodBuilder {
           );
         }
 
-        notMappedTargetParameters.add(
-          SourceAssignment(
+        if(fieldMapping?.hasWhenNullDefault() ?? false) {
+          final sourceAssignment = SourceAssignment(
             sourceField: null,
             targetField: targetField,
-            fieldMapping: fieldMapping,
             targetConstructorParam: constructorAssignment,
+            fieldMapping: fieldMapping,
             typeMapping: mapping,
             config: mapperConfig,
-          ),
-        );
+          );
+
+          mappedTargetConstructorParams.add(sourceAssignment);
+          mappedSourceFieldNames.add(param.name);
+        } else {
+          notMappedTargetParameters.add(
+            SourceAssignment(
+              sourceField: null,
+              targetField: targetField,
+              fieldMapping: fieldMapping,
+              targetConstructorParam: constructorAssignment,
+              typeMapping: mapping,
+              config: mapperConfig,
+            ),
+          );
+        }
       }
     }
 

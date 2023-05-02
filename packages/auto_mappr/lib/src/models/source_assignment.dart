@@ -112,7 +112,7 @@ class SourceAssignment {
     if (targetType.isDartCoreSet) return literalSet({});
     if (targetType.isDartCoreMap) return literalMap({});
 
-    return literalNull;
+    return fieldMapping?.whenNullExpression ?? literalNull;
   }
 
   bool _isCoreIterable(DartType type) {
