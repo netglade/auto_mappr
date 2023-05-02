@@ -59,6 +59,7 @@ class MapModelBodyMethodBuilder {
     final constructorExpression = _processConstructorMapping(
       mappedSourceFieldNames: mappedSourceFieldNames,
       sourceFields: sourceFields,
+      source: mapping.source,
     );
 
     // Map fields not mapped directly in constructor as setters if possible.
@@ -82,7 +83,7 @@ class MapModelBodyMethodBuilder {
     return block.build();
   }
 
-  void _assertParamFieldCanBeIgnored(ParameterElement param, PropertyAccessorElement sourceField) {
+  void _assertParamFieldCanBeIgnored(ParameterElement param, Element sourceField) {
     final sourceFieldName = sourceField.getDisplayString(withNullability: true);
     if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
       throw InvalidGenerationSourceError(
@@ -117,6 +118,7 @@ class MapModelBodyMethodBuilder {
   Expression _processConstructorMapping({
     required List<String> mappedSourceFieldNames,
     required Map<String, PropertyAccessorElement> sourceFields,
+    required InterfaceType source,
   }) {
     final mappedTargetConstructorParams = <SourceAssignment>[];
     final notMappedTargetParameters = <SourceAssignment>[];
@@ -159,8 +161,8 @@ class MapModelBodyMethodBuilder {
         mappedSourceFieldNames.add(param.name);
       }
       // Source field has the same name as target parameter or is renamed using [from].
-      else if (sourceFields.containsKey(sourceFieldName)) {
-        final sourceField = sourceFields[sourceFieldName]!;
+      else if (sourceFields.containsKey(sourceFieldName) || from == 'this') {
+        final sourceField = sourceFields[sourceFieldName] ?? source.element;
 
         final targetField = from != null
             // support custom field rename mapping
@@ -172,14 +174,26 @@ class MapModelBodyMethodBuilder {
           _assertParamFieldCanBeIgnored(param, sourceField);
         }
 
-        final sourceAssignment = SourceAssignment(
-          sourceField: sourceFields[sourceFieldName],
-          targetField: targetField,
-          targetConstructorParam: constructorAssignment,
-          fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
-          typeMapping: mapping,
-          config: mapperConfig,
-        );
+        final sourceAssignment = from == 'this'
+            ? SourceAssignment.from(
+                sourceField: source.element,
+                sourceType: source,
+                targetField: targetField,
+                targetConstructorParam: constructorAssignment,
+                fieldMapping:
+                    mapping.tryGetFieldMapping(targetField.displayName),
+                typeMapping: mapping,
+                config: mapperConfig,
+              )
+            : SourceAssignment(
+                sourceField: sourceFields[sourceFieldName],
+                targetField: targetField,
+                targetConstructorParam: constructorAssignment,
+                fieldMapping:
+                    mapping.tryGetFieldMapping(targetField.displayName),
+                typeMapping: mapping,
+                config: mapperConfig,
+              );
 
         mappedTargetConstructorParams.add(sourceAssignment);
         mappedSourceFieldNames.add(param.name);

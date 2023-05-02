@@ -20,7 +20,8 @@ class ConstructorAssignment {
 }
 
 class SourceAssignment {
-  final PropertyAccessorElement? sourceField;
+  final Element? sourceField;
+  final DartType? sourceType;
 
   final ConstructorAssignment? targetConstructorParam;
   final PropertyAccessorElement? targetField;
@@ -39,16 +40,38 @@ class SourceAssignment {
 
   bool get shouldBeIgnored => fieldMapping?.ignore ?? false;
 
-  DartType? get sourceType => sourceField?.returnType;
-
   String? get sourceName => sourceField?.displayName;
+
+  PropertyAccessorElement? get sourceFieldAccessor => sourceField is PropertyAccessorElement? sourceField as PropertyAccessorElement? : null;
+
+  bool get sourceIsStatic => sourceFieldAccessor?.isStatic ?? false;
+
+  Expression get sourceExpression {
+    final expression = refer(sourceIsStatic ? '${sourceField?.enclosingElement?.name}' : 'model');
+
+    if (sourceFieldAccessor != null) {
+      return expression.property(sourceName!);
+    }
+
+    return expression;
+  }
 
   DartType get targetType => targetConstructorParam?.param.type ?? targetField!.returnType;
 
   String get targetName => targetConstructorParam?.param.displayName ?? targetField!.displayName;
 
   SourceAssignment({
+    required PropertyAccessorElement? this.sourceField,
+    required this.targetField,
+    required this.typeMapping,
+    required this.config,
+    this.targetConstructorParam,
+    this.fieldMapping,
+  }) : sourceType = sourceField?.returnType;
+
+  SourceAssignment.from({
     required this.sourceField,
+    required this.sourceType,
     required this.targetField,
     required this.typeMapping,
     required this.config,

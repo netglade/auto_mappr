@@ -40,7 +40,7 @@ class TypeConversion extends Equatable {
     final targetNullable = targetType.nullabilitySuffix != NullabilitySuffix.none;
     final whenNullExpression = assignment.fieldMapping?.whenNullExpression;
 
-    var sourceExpression = refer('model').property(assignment.sourceName!);
+    var sourceExpression = assignment.sourceExpression;
     if(assignmentSourceNullChecked) {
       sourceExpression = sourceExpression.nullChecked;
     }

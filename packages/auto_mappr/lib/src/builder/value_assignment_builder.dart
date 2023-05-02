@@ -46,14 +46,11 @@ class ValueAssignmentBuilder {
       return _assignMapValue(assignment);
     }
 
-    final rightSide =
-        refer(sourceField.isStatic ? '${sourceField.enclosingElement.name}' : 'model').property(sourceField.name);
-
       return _assignNestedObject(
         source: assignment.sourceType!,
         target: assignment.targetType,
         assignment: assignment,
-        convertMethodArgument: rightSide,
+        convertMethodArgument: assignment.sourceExpression,
       );
   }
 
@@ -73,7 +70,7 @@ class ValueAssignmentBuilder {
     final assignNestedObject = !targetIterableType.isPrimitiveType && (!targetIterableType.isAssignableTo(sourceIterableType));
 
     // When [sourceIterableType] is nullable and [targetIterableType] is not, remove null values.
-    final sourceIterableExpression = refer('model').property(assignment.sourceField!.name).maybeWhereIterableNotNull(
+    final sourceIterableExpression = refer('model').property(assignment.sourceField!.name!).maybeWhereIterableNotNull(
           condition: shouldFilterNullInSource,
           isOnNullable: sourceNullable,
         );
@@ -149,7 +146,7 @@ class ValueAssignmentBuilder {
     final shouldRemoveNullsValue =
         sourceNullableValue && !targetNullableValue && (!(valueMapping?.hasWhenNullDefault() ?? false));
 
-    final sourceMapExpression = refer('model').property(assignment.sourceField!.name);
+    final sourceMapExpression = refer('model').property(assignment.sourceField!.name!);
 
     final defaultMapValueExpression = literalMap(
       {},
@@ -202,7 +199,7 @@ class ValueAssignmentBuilder {
     bool includeGenericTypes = false,
   }) {
     if (source.isAssignableTo(target)) {
-      final expression = convertMethodArgument ?? refer('model').property(assignment.sourceField!.displayName);
+      final expression = convertMethodArgument ?? assignment.sourceExpression;
 
       if(assignment.fieldMapping?.hasWhenNullDefault() ?? false) {
         return expression.ifNullThen(assignment.fieldMapping!.whenNullExpression!);
