@@ -33,17 +33,21 @@ class TypeConversion extends Equatable {
   }
 
   Expression apply(SourceAssignment assignment) {
-    final assignmentSourceNullable = assignment.sourceType?.nullabilitySuffix != NullabilitySuffix.none;
+    final assignmentSourceNullChecked = assignment.fieldMapping?.nullChecked ?? false;
+    final assignmentSourceNullable = assignment.sourceType?.nullabilitySuffix != NullabilitySuffix.none && !assignmentSourceNullChecked;
     final assignmentTargetNullable = assignment.targetType.nullabilitySuffix != NullabilitySuffix.none;
     final sourceNullable = sourceType.nullabilitySuffix != NullabilitySuffix.none;
     final targetNullable = targetType.nullabilitySuffix != NullabilitySuffix.none;
     final whenNullExpression = assignment.fieldMapping?.whenNullExpression;
 
-    final sourceExpression = refer('model').property(assignment.sourceName!);
+    var sourceExpression = refer('model').property(assignment.sourceName!);
+    if(assignmentSourceNullChecked) {
+      sourceExpression = sourceExpression.nullChecked;
+    }
 
-    if((assignmentSourceNullable || targetNullable) && !assignmentTargetNullable && whenNullExpression == null) {
+    if((assignmentSourceNullable || targetNullable) && !assignmentTargetNullable && whenNullExpression == null && !assignmentSourceNullChecked) {
       throw InvalidGenerationSourceError(
-        'Cannot convert nullable source type to non-nullable target type requirement without a default value.',
+        'Cannot convert nullable source type to non-nullable target type without a default value.',
         element: assignment.sourceField,
       );
     }

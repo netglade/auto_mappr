@@ -114,6 +114,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
             (fieldMapping) => FieldMapping(
               field: fieldMapping.getField('field')!.toStringValue()!,
               ignore: fieldMapping.getField('ignore')!.toBoolValue()!,
+              nullChecked: fieldMapping.getField('nullChecked')!.toBoolValue()!,
               from: fieldMapping.getField('from')!.toStringValue(),
               customExpression: fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true),
               whenNullExpression: fieldMapping.getField('whenNull')!.toCodeExpression(),

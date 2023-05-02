@@ -32,6 +32,9 @@ class Field {
   // ignore: no-object-declaration, correct usage
   final Object? type;
 
+  /// Force null check on source [field].
+  final bool nullChecked;
+
   /// Universal constructor.
   const Field(
     this.field, {
@@ -40,6 +43,7 @@ class Field {
     this.ignore = false,
     this.whenNull,
     this.type,
+    this.nullChecked = false,
   });
 
   /// Field renaming using [from] or assigning default value with [whenNull].
@@ -48,6 +52,7 @@ class Field {
     required this.from,
     this.whenNull,
     this.type,
+    this.nullChecked = false,
   })  : custom = null,
         ignore = false;
 
@@ -56,14 +61,26 @@ class Field {
     this.field, {
     required this.custom,
     this.whenNull,
+    this.type,
+    this.nullChecked = false,
   })  : from = null,
-        ignore = false,
-        type = null;
+        ignore = false;
 
   /// Field ignoring.
   const Field.ignore(
     this.field,
   )   : ignore = true,
+        from = null,
+        custom = null,
+        whenNull = null,
+        type = null,
+        nullChecked = false;
+
+  /// Field nullChecked.
+  const Field.nullChecked(
+    this.field,
+  )   : nullChecked = true,
+        ignore = false,
         from = null,
         custom = null,
         whenNull = null,

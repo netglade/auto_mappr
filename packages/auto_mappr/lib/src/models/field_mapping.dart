@@ -7,6 +7,7 @@ import 'package:source_gen/source_gen.dart';
 class FieldMapping extends Equatable {
   final String field;
   final bool ignore;
+  final bool nullChecked;
   final String? from;
   final Expression? customExpression;
   final Expression? whenNullExpression;
@@ -16,6 +17,7 @@ class FieldMapping extends Equatable {
   List<Object?> get props => [
         field,
         ignore,
+        nullChecked,
         from,
         customExpression,
         whenNullExpression,
@@ -25,6 +27,7 @@ class FieldMapping extends Equatable {
   const FieldMapping({
     required this.field,
     required this.ignore,
+    required this.nullChecked,
     required this.from,
     required this.customExpression,
     required this.whenNullExpression,
