@@ -44,7 +44,7 @@ class FieldMapping extends Equatable {
   }
 
   bool hasTypeConversion(SourceAssignment assignment) {
-    return typeConversion != null && typeConversion!.matches(assignment.sourceType, assignment.targetType);
+    return typeConversion != null && typeConversion!.matchesAssignment(assignment);
   }
 
   bool canBeApplied(SourceAssignment assignment) {

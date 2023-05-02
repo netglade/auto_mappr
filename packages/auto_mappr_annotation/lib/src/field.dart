@@ -1,5 +1,4 @@
 import 'package:auto_mappr_annotation/src/type_converter.dart';
-
 /// Mapping configuration of target object's field.
 class Field {
   /// Which field is mapped.
@@ -27,8 +26,11 @@ class Field {
   /// Note that [custom] has priority.
   final String? from;
 
-  /// Source type should be converted to target type using [type].
-  final TypeConverter<Object?, Object?>? type;
+  /// Configure type mapping.
+  ///
+  /// Accepts `Target Function(Source)` function or a [TypeConverter] instance.
+  // ignore: no-object-declaration, correct usage
+  final Object? type;
 
   /// Universal constructor.
   const Field(

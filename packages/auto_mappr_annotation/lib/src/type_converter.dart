@@ -1,10 +1,14 @@
-/// {@template type_converter}
-/// Configure Type Mapping from [SOURCE] to [TARGET].
-/// {@endtemplate}
-class TypeConverter<SOURCE, TARGET> {
-  /// Mapping function to convert [SOURCE] to [TARGET].
-  final TARGET Function(SOURCE source) convert;
+/// Configure Type Mapping.
+class TypeConverter {
+  /// Function that converts from SOURCE to TARGET.
+  ///
+  /// Acceps `TARGET Function(SOURCE)` function.
+  // ignore: no-object-declaration, correct usage
+  final Object? convert;
 
-  /// {@macro type_converter}
-  const TypeConverter(this.convert);
+  /// Name of the field to which this converter is constrained.
+  final String? field;
+
+  /// Construct a [TypeConverter] instance.
+  const TypeConverter(this.convert, {this.field});
 }

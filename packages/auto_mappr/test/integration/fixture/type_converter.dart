@@ -69,30 +69,29 @@ class UserDto {
   UserDto(this.id, this.accountId);
 }
 
-
 @AutoMappr(
   [
     MapType<DateDto, DateDomain>(
       fields: [
         Field(
           'dateTimeA',
-          type: TypeConverter<String, DateTime>(Mappr.tryParseFirstOfDecemberInYear),
+          type: Mappr.tryParseFirstOfDecemberInYear,
         ),
       ],
       types: [
-        TypeConverter<String, DateTime>(Mappr.parseSecondOfDecemberInYear),
+        Mappr.parseSecondOfDecemberInYear,
       ],
     ),
     MapType<DateDto2, DateDomain>(),
     MapType<UserDto, User>(
       fields: [
-        Field('id', type: TypeConverter<String, UserId>(UserId.new)),
-        Field('accountId', type: TypeConverter<String, AccountId>(AccountId.new)),
+        Field('id', type: UserId.new),
       ],
     ),
   ],
   types: [
-    TypeConverter<String, DateTime>(Mappr.parseISO8601),
+    Mappr.parseISO8601,
+    TypeConverter(AccountId.new, field: 'accountId'),
   ],
 )
 class Mappr extends $Mappr {
@@ -100,14 +99,16 @@ class Mappr extends $Mappr {
   ///
   /// Falls back to first of december in 1970 if parsing fails.
   static DateTime tryParseFirstOfDecemberInYear(String input) {
-    return int.tryParse(input)?.let((v) => DateTime(v, 12)) ?? DateTime(1970, 12);
+    return int.tryParse(input)?.let((v) => DateTime(v, 12)) ??
+        DateTime(1970, 12);
   }
 
   /// Expects a year as input and returns the second of december in that year.
   ///
   /// Falls back to second of december in 1970 if parsing fails.
   static DateTime parseSecondOfDecemberInYear(String input) {
-    return int.tryParse(input)?.let((v) => DateTime(v, 12, 2)) ?? DateTime(1970, 12, 2);
+    return int.tryParse(input)?.let((v) => DateTime(v, 12, 2)) ??
+        DateTime(1970, 12, 2);
   }
 
   /// Expects a ISO8601 formatted string as input and returns a DateTime.
@@ -118,7 +119,7 @@ class Mappr extends $Mappr {
   }
 }
 
-extension <T> on T {
+extension<T> on T {
   @pragma('vm:prefer-inline')
   R let<R>(R Function(T v) block) => block(this);
 }

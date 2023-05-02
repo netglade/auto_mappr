@@ -5,8 +5,11 @@ class MapType<SOURCE, TARGET> {
   /// Configuration for [TARGET]'s fields.
   final List<Field> fields;
 
-  /// Configuration for mapping types between [SOURCE] and [TARGET].
-  final List<TypeConverter<Object?, Object?>> types;
+  /// Configure type mappings.
+  ///
+  /// Accepts a list of `Target Function(Source)` functions
+  /// and or a [TypeConverter] instances.
+  final List<Object> types;
 
   /// Provides default value if SOURCE is null.
   ///

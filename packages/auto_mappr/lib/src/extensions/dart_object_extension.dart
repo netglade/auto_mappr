@@ -1,7 +1,6 @@
 //ignore_for_file: no-object-declaration
 
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/executable_element_extension.dart';
 import 'package:auto_mappr/src/models/type_conversion.dart';
 import 'package:code_builder/code_builder.dart';
@@ -33,20 +32,27 @@ extension DartObjectExtension on DartObject {
   }
 
   TypeConversion? toTypeConversion() {
-    final asParametrizedType = type as ParameterizedType?;
+    final function = toFunctionValue() ?? getField('convert')?.toFunctionValue();
 
-    if (asParametrizedType?.typeArguments.length != 2) {
+    if (function == null) {
       return null;
     }
 
-    final source = asParametrizedType!.typeArguments.first;
-    final target = asParametrizedType.typeArguments.last;
-    final convert = getField('convert')!.toFunctionValue();
+    if(function.parameters.length != 1) {
+      throw InvalidGenerationSourceError(
+        'TypeConverter function must have exactly one parameter.',
+        element: function,
+      );
+    }
+
+    final source = function.parameters.first.type;
+    final target = function.returnType;
 
     return TypeConversion(
       source: source,
       target: target,
-      convertExpression: refer(convert!.referCallString),
+      convertExpression: refer(function.referCallString),
+      field: getField('field')?.toStringValue(),
     );
   }
 
