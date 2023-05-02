@@ -29,10 +29,19 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     final mappersField = constant.getField('mappers')!;
     final mappersList = mappersField.toListValue()!;
 
+    final typesField = constant.getField('types')!;
+    final typesList = typesField.toListValue()!;
+    final typeConversions = typesList
+        .map((e) => e.toTypeConversion())
+        .whereNotNull()
+        .toList();
+
+
     final libraryUriToAlias = _getLibraryAliases(element: element);
 
     final tmpConfig = AutoMapprConfig(
       mappers: [],
+      typeConversions: typeConversions,
       availableMappingsMacroId: 'tmp',
       libraryUriToAlias: libraryUriToAlias,
     );
@@ -56,6 +65,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
 
     final config = AutoMapprConfig(
       mappers: mappers,
+      typeConversions: typeConversions,
       availableMappingsMacroId: element.library.identifier,
       libraryUriToAlias: libraryUriToAlias,
     );
@@ -97,6 +107,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       final fields = mapper.getField('fields')?.toListValue();
       final whenSourceIsNull = mapper.getField('whenSourceIsNull')?.toCodeExpression();
       final constructor = mapper.getField('constructor')?.toStringValue();
+      final typeConverters = mapper.getField('types')?.toListValue();
 
       final fieldMappings = fields
           ?.map(
@@ -106,14 +117,17 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
               from: fieldMapping.getField('from')!.toStringValue(),
               customExpression: fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true),
               whenNullExpression: fieldMapping.getField('whenNull')!.toCodeExpression(),
+              typeConversion: fieldMapping.getField('type')!.toTypeConversion(),
             ),
           )
           .toList();
+      final typeConversions = typeConverters?.map((e) => e.toTypeConversion()).whereNotNull().toList();
 
       return TypeMapping(
         source: sourceType,
         target: targetType,
         fieldMappings: fieldMappings,
+        typeConversions: typeConversions,
         whenSourceIsNullExpression: whenSourceIsNull,
         constructor: constructor,
       );

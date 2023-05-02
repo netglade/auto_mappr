@@ -6,6 +6,7 @@ import 'package:auto_mappr/src/builder/convert_method_builder.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/field_mapping.dart';
+import 'package:auto_mappr/src/models/type_conversion.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
@@ -14,6 +15,7 @@ class TypeMapping extends Equatable {
   final InterfaceType source;
   final InterfaceType target;
   final List<FieldMapping>? fieldMappings;
+  final List<TypeConversion>? typeConversions;
   final Expression? whenSourceIsNullExpression;
   final String? constructor;
 
@@ -25,6 +27,7 @@ class TypeMapping extends Equatable {
       source,
       target,
       fieldMappings,
+      typeConversions,
       whenSourceIsNullExpression,
       constructor,
     ];
@@ -33,9 +36,10 @@ class TypeMapping extends Equatable {
   const TypeMapping({
     required this.source,
     required this.target,
-    this.fieldMappings,
-    this.whenSourceIsNullExpression,
-    this.constructor,
+    required this.fieldMappings,
+    required this.typeConversions,
+    required this.whenSourceIsNullExpression,
+    required this.constructor,
   });
 
   String mappingMethodName({

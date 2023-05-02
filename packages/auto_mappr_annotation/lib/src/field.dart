@@ -1,3 +1,5 @@
+import 'package:auto_mappr_annotation/src/type_converter.dart';
+
 /// Mapping configuration of target object's field.
 class Field {
   /// Which field is mapped.
@@ -25,6 +27,9 @@ class Field {
   /// Note that [custom] has priority.
   final String? from;
 
+  /// Source type should be converted to target type using [type].
+  final TypeConverter<Object?, Object?>? type;
+
   /// Universal constructor.
   const Field(
     this.field, {
@@ -32,6 +37,7 @@ class Field {
     this.custom,
     this.ignore = false,
     this.whenNull,
+    this.type,
   });
 
   /// Field renaming using [from] or assigning default value with [whenNull].
@@ -39,6 +45,7 @@ class Field {
     this.field, {
     required this.from,
     this.whenNull,
+    this.type,
   })  : custom = null,
         ignore = false;
 
@@ -48,7 +55,8 @@ class Field {
     required this.custom,
     this.whenNull,
   })  : from = null,
-        ignore = false;
+        ignore = false,
+        type = null;
 
   /// Field ignoring.
   const Field.ignore(
@@ -56,5 +64,6 @@ class Field {
   )   : ignore = true,
         from = null,
         custom = null,
-        whenNull = null;
+        whenNull = null,
+        type = null;
 }

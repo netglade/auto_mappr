@@ -29,3 +29,4 @@ build/
 .settings
 .last_build_id
 *.iml
+.vscode/

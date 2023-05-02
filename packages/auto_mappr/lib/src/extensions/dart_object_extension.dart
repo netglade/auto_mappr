@@ -1,7 +1,9 @@
 //ignore_for_file: no-object-declaration
 
 import 'package:analyzer/dart/constant/value.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/executable_element_extension.dart';
+import 'package:auto_mappr/src/models/type_conversion.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -28,6 +30,24 @@ extension DartObjectExtension on DartObject {
     final output = _toSpec().accept(emitter);
 
     return CodeExpression(Code('$output'));
+  }
+
+  TypeConversion? toTypeConversion() {
+    final asParametrizedType = type as ParameterizedType?;
+
+    if (asParametrizedType?.typeArguments.length != 2) {
+      return null;
+    }
+
+    final source = asParametrizedType!.typeArguments.first;
+    final target = asParametrizedType.typeArguments.last;
+    final convert = getField('convert')!.toFunctionValue();
+
+    return TypeConversion(
+      source: source,
+      target: target,
+      convertExpression: refer(convert!.referCallString),
+    );
   }
 
   Spec _toSpec() {

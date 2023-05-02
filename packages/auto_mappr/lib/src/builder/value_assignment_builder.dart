@@ -225,7 +225,14 @@ class ValueAssignmentBuilder {
         withNullability: true,
         config: mapperConfig,
       );
-      final sourceName = assignment.sourceField?.getDisplayString(withNullability: true);
+
+      if (assignment.hasTypeConversion()) {
+        return assignment.getTypeConversion().apply(assignment);
+      }
+
+      if(mapperConfig.hasTypeConversion(assignment)) {
+        return mapperConfig.getTypeConversion(assignment).apply(assignment);
+      }
 
       if (target.nullabilitySuffix == NullabilitySuffix.question) {
         log.warning("Can't find nested mapping '$assignment' but target is nullable. Setting null");
@@ -233,6 +240,7 @@ class ValueAssignmentBuilder {
         return literalNull;
       }
 
+      final sourceName = assignment.sourceField?.getDisplayString(withNullability: true);
       throw InvalidGenerationSourceError(
         'Trying to map nested object from "$assignment" but no mapping is configured.',
         todo: 'Configure mapping from $sourceName to $targetTypeName',

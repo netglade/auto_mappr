@@ -4,6 +4,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/models.dart';
+import 'package:auto_mappr/src/models/type_conversion.dart';
 import 'package:code_builder/code_builder.dart';
 
 class ConstructorAssignment {
@@ -54,6 +55,14 @@ class SourceAssignment {
     this.targetConstructorParam,
     this.fieldMapping,
   });
+
+  bool hasTypeConversion() {
+    return typeMapping.typeConversions?.any((element) => element.matchesAssignment(this)) ?? false;
+  }
+
+  TypeConversion getTypeConversion() {
+    return typeMapping.typeConversions!.firstWhere((element) => element.matchesAssignment(this));
+  }
 
   bool shouldAssignIterable() {
     // The source can be mapped to the target, if the source is mappable object and the target is an iterable.

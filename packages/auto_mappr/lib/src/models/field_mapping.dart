@@ -1,4 +1,5 @@
 import 'package:auto_mappr/src/models/source_assignment.dart';
+import 'package:auto_mappr/src/models/type_conversion.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:equatable/equatable.dart';
 import 'package:source_gen/source_gen.dart';
@@ -9,6 +10,7 @@ class FieldMapping extends Equatable {
   final String? from;
   final Expression? customExpression;
   final Expression? whenNullExpression;
+  final TypeConversion? typeConversion;
 
   @override
   List<Object?> get props => [
@@ -17,14 +19,16 @@ class FieldMapping extends Equatable {
         from,
         customExpression,
         whenNullExpression,
+        typeConversion,
       ];
 
   const FieldMapping({
     required this.field,
     required this.ignore,
-    this.from,
-    this.customExpression,
-    this.whenNullExpression,
+    required this.from,
+    required this.customExpression,
+    required this.whenNullExpression,
+    required this.typeConversion,
   });
 
   bool isRenamed() {
@@ -39,8 +43,12 @@ class FieldMapping extends Equatable {
     return customExpression != null;
   }
 
-  bool canBeApplied(SourceAssignment _) {
-    if (ignore || hasCustomMapping()) return true;
+  bool hasTypeConversion(SourceAssignment assignment) {
+    return typeConversion != null && typeConversion!.matches(assignment.sourceType, assignment.targetType);
+  }
+
+  bool canBeApplied(SourceAssignment assignment) {
+    if (ignore || hasCustomMapping() || hasTypeConversion(assignment) || assignment.hasTypeConversion()) return true;
 
     return false;
   }
@@ -52,6 +60,14 @@ class FieldMapping extends Equatable {
 
     if (hasCustomMapping()) {
       return customExpression!;
+    }
+
+    if (hasTypeConversion(assignment)) {
+      return typeConversion!.apply(assignment);
+    }
+
+    if (assignment.hasTypeConversion()) {
+      return assignment.getTypeConversion().apply(assignment);
     }
 
     throw InvalidGenerationSourceError(

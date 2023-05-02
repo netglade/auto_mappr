@@ -1,10 +1,12 @@
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
-import 'package:auto_mappr/src/models/type_mapping.dart';
+import 'package:auto_mappr/src/models/models.dart';
+import 'package:auto_mappr/src/models/type_conversion.dart';
 import 'package:collection/collection.dart';
 
 class AutoMapprConfig {
   final List<TypeMapping> mappers;
+  final List<TypeConversion> typeConversions;
   final String availableMappingsMacroId;
   final Map<String, String> libraryUriToAlias;
 
@@ -12,6 +14,7 @@ class AutoMapprConfig {
 
   const AutoMapprConfig({
     required this.mappers,
+    required this.typeConversions,
     required this.availableMappingsMacroId,
     required this.libraryUriToAlias,
   });
@@ -32,6 +35,14 @@ class AutoMapprConfig {
       for (final mapper in mappers) _getTypeMappingDocs(mapper),
       '/// {@endtemplate}'
     ];
+  }
+
+  bool hasTypeConversion(SourceAssignment assignment) {
+    return typeConversions.any((element) => element.matchesAssignment(assignment));
+  }
+
+  TypeConversion getTypeConversion(SourceAssignment assignment) {
+    return typeConversions.firstWhere((element) => element.matchesAssignment(assignment));
   }
 
   String _getTypeMappingDocs(TypeMapping typeMapping) {

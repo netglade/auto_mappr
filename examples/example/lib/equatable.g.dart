@@ -8,8 +8,8 @@ part of 'equatable.dart';
 
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors
 // ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_parenthesis
-// ignore_for_file: unnecessary_raw_strings
+// ignore_for_file: require_trailing_commas, unnecessary_lambdas
+// ignore_for_file: unnecessary_parenthesis, unnecessary_raw_strings
 
 /// {@template package:examples_example/equatable.dart}
 /// Available mappings:
