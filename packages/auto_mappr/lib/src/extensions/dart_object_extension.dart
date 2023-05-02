@@ -38,14 +38,14 @@ extension DartObjectExtension on DartObject {
       return null;
     }
 
-    if(function.parameters.length != 1) {
+    if(function.parameters.where((element) => element.isPositional).length != 1) {
       throw InvalidGenerationSourceError(
-        'TypeConverter function must have exactly one parameter.',
+        'TypeConverter function must have exactly one required parameter positional parameter.',
         element: function,
       );
     }
 
-    final sourceType = function.parameters.first.type;
+    final sourceType = function.parameters.firstWhere((element) => element.isPositional).type;
     final targetType = function.returnType;
 
     return TypeConversion(
