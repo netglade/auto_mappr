@@ -45,12 +45,12 @@ extension DartObjectExtension on DartObject {
       );
     }
 
-    final source = function.parameters.first.type;
-    final target = function.returnType;
+    final sourceType = function.parameters.first.type;
+    final targetType = function.returnType;
 
     return TypeConversion(
-      source: source,
-      target: target,
+      sourceType: sourceType,
+      targetType: targetType,
       convertExpression: refer(function.referCallString),
       field: getField('field')?.toStringValue(),
     );

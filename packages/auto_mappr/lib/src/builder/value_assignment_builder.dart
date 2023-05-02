@@ -38,8 +38,6 @@ class ValueAssignmentBuilder {
       return fieldMapping.apply(assignment);
     }
 
-    final assignNestedObject = !assignment.targetType.isPrimitiveType;
-
     if (assignment.shouldAssignIterable()) {
       return _assignIterableValue(assignment);
     }
@@ -51,20 +49,12 @@ class ValueAssignmentBuilder {
     final rightSide =
         refer(sourceField.isStatic ? '${sourceField.enclosingElement.name}' : 'model').property(sourceField.name);
 
-    if (assignNestedObject) {
       return _assignNestedObject(
         source: assignment.sourceType!,
         target: assignment.targetType,
         assignment: assignment,
         convertMethodArgument: rightSide,
       );
-    }
-
-    if (fieldMapping?.hasWhenNullDefault() ?? false) {
-      return rightSide.ifNullThen(fieldMapping!.whenNullExpression!);
-    }
-
-    return rightSide;
   }
 
   Expression _assignIterableValue(SourceAssignment assignment) {
@@ -212,7 +202,13 @@ class ValueAssignmentBuilder {
     bool includeGenericTypes = false,
   }) {
     if (source.isSame(target)) {
-      return refer('model').property(assignment.sourceField!.displayName);
+      final expression = convertMethodArgument ?? refer('model').property(assignment.sourceField!.displayName);
+
+      if(assignment.fieldMapping?.hasWhenNullDefault() ?? false) {
+        return expression.ifNullThen(assignment.fieldMapping!.whenNullExpression!);
+      }
+
+      return expression;
     }
 
     final nestedMapping = mapperConfig.findMapping(

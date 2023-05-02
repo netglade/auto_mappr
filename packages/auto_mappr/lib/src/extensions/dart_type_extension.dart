@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/element_extension.dart';
@@ -19,6 +20,7 @@ extension DartTypeExtension on DartType {
   bool isSame(
     DartType other, {
     bool withNullability = false,
+    bool allowSubtypes = false,
   }) {
     // Not the same type of type.
     if ((this is InterfaceType) ^ (other is InterfaceType)) {
@@ -31,17 +33,25 @@ extension DartTypeExtension on DartType {
     //   return element!.thisOrAncestorMatching((p0) => p0 == other.element) != null;
     // }
 
-    // Name matches.
+    // Type matches.
     final thisName = getDisplayString(withNullability: withNullability);
     final otherName = other.getDisplayString(withNullability: withNullability);
-    final isSameName = thisName == otherName;
+    var isTypeMatch = thisName == otherName;
+
+    if(!isTypeMatch && allowSubtypes) {
+      if(other.element != null && other.element is InterfaceElement) {
+        final instanceOf = asInstanceOf(other.element! as InterfaceElement);
+
+        isTypeMatch = instanceOf != null && (element?.library?.typeSystem.isAssignableTo(instanceOf, other) ?? false);
+      }
+    }
 
     // Library matches.
     final thisLibrary = element?.library?.identifier;
     final otherLibrary = other.element?.library?.identifier;
     final isSameLibrary = thisLibrary == otherLibrary;
 
-    final isSameExceptNullability = isSameName && isSameLibrary;
+    final isSameExceptNullability = isTypeMatch && isSameLibrary;
 
     if (!withNullability) {
       return isSameExceptNullability;

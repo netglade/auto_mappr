@@ -37,36 +37,45 @@ class DateDto2 {
   });
 }
 
-class UserId extends Equatable {
-  final String value;
+abstract class ValueId<T> extends Equatable {
+  final T value;
 
   @override
   List<Object?> get props => [value];
 
-  const UserId(this.value);
+  const ValueId(this.value);
+
+  static T toValue<T>(ValueId<T> id) => id.value;
+
+  static String toValueString(ValueId<String> id) => id.value;
 }
 
-class AccountId extends Equatable {
-  final String value;
+class UserId extends ValueId<String> {
+  static const defaultUserId = UserId('defaultUserId');
 
-  @override
-  List<Object?> get props => [value];
+  const UserId(super.value);
 
-  const AccountId(this.value);
+  static UserId? newNullable(String? value) => value == null ? null : UserId(value);
+}
+
+class AccountId extends ValueId<String> {
+  const AccountId(super.value);
+
+  static AccountId? newNullable(String? value) => value == null ? null : AccountId(value);
 }
 
 class User {
-  final UserId? id;
+  final UserId id;
   final AccountId? accountId;
 
-  User(this.id, this.accountId);
+  const User(this.id, this.accountId);
 }
 
 class UserDto {
   final String? id;
   final String? accountId;
 
-  UserDto(this.id, this.accountId);
+  const UserDto(this.id, this.accountId);
 }
 
 @AutoMappr(
@@ -85,13 +94,18 @@ class UserDto {
     MapType<DateDto2, DateDomain>(),
     MapType<UserDto, User>(
       fields: [
-        Field('id', type: UserId.new),
+        Field('id', type: UserId.newNullable, whenNull: UserId.defaultUserId),
       ],
     ),
+    MapType<User, UserDto>(),
   ],
   types: [
     Mappr.parseISO8601,
-    TypeConverter(AccountId.new, field: 'accountId'),
+    UserId.new,
+    AccountId.new,
+    // This doesn't work currently, maybe analyzer bug?
+    ValueId.toValue<String>,
+    ValueId.toValueString,
   ],
 )
 class Mappr extends $Mappr {
@@ -99,16 +113,14 @@ class Mappr extends $Mappr {
   ///
   /// Falls back to first of december in 1970 if parsing fails.
   static DateTime tryParseFirstOfDecemberInYear(String input) {
-    return int.tryParse(input)?.let((v) => DateTime(v, 12)) ??
-        DateTime(1970, 12);
+    return DateTime(int.tryParse(input) ?? 1970, 12);
   }
 
   /// Expects a year as input and returns the second of december in that year.
   ///
   /// Falls back to second of december in 1970 if parsing fails.
   static DateTime parseSecondOfDecemberInYear(String input) {
-    return int.tryParse(input)?.let((v) => DateTime(v, 12, 2)) ??
-        DateTime(1970, 12, 2);
+    return DateTime(int.tryParse(input) ?? 1970, 12, 2);
   }
 
   /// Expects a ISO8601 formatted string as input and returns a DateTime.
@@ -117,9 +129,4 @@ class Mappr extends $Mappr {
   static DateTime parseISO8601(String input) {
     return DateTime.tryParse(input) ?? DateTime(1970);
   }
-}
-
-extension<T> on T {
-  @pragma('vm:prefer-inline')
-  R let<R>(R Function(T v) block) => block(this);
 }

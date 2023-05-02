@@ -35,10 +35,26 @@ void main() {
   });
 
   test('nullable input type with non-nullable type converter input', () {
-    final userDto = fixture.UserDto('userId', 'accountId');
+    const userDto = fixture.UserDto('userId', 'accountId');
     final user = mappr.convert<fixture.UserDto, fixture.User>(userDto);
 
     expect(user.id, const fixture.UserId('userId'));
     expect(user.accountId, const fixture.AccountId('accountId'));
+  });
+
+  test('converter allows subtypes as input', () {
+    const user = fixture.User(fixture.UserId('userId'), fixture.AccountId('accountId'));
+    final userDto = mappr.convert<fixture.User, fixture.UserDto>(user);
+
+    expect(userDto.id, 'userId');
+    expect(userDto.accountId, 'accountId');
+  });
+
+  test('whenNull takes precedence', () {
+    const userDto = fixture.UserDto(null, null);
+    final user = mappr.convert<fixture.UserDto, fixture.User>(userDto);
+
+    expect(user.id, fixture.UserId.defaultUserId);
+    expect(user.accountId, null);
   });
 }
