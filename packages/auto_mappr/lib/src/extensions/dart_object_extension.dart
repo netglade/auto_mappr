@@ -11,6 +11,7 @@ extension DartObjectExtension on DartObject {
   /// Otherwise return code expression of literals or objects.
   Expression? toCodeExpression({
     bool passModelArgument = false,
+    bool removeConst = false,
   }) {
     if (isNull) {
       return null;
