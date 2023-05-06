@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-import 'constructor_parameters.dart' as x;
+import 'constructor_parameters.dart';
 
 part 'complex_types.g.dart';
 
@@ -12,7 +12,7 @@ part 'complex_types.g.dart';
     MapType<NestedTagDto, NestedTag>(),
   ],
   modules: [
-    x.Mappr(),
+    MapprX(),
   ],
 )
 class Mappr extends $Mappr {}

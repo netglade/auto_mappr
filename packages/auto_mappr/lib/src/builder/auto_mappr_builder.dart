@@ -15,6 +15,7 @@ class AutoMapprBuilder {
   static const List<String> fileIgnores = [
     'unnecessary_parenthesis',
     'non_constant_identifier_names',
+    'unnecessary_const',
     'require_trailing_commas',
     'unnecessary_raw_strings',
     'unnecessary_lambdas',

@@ -57,13 +57,22 @@ class ConvertMethodBuilder {
         ])
         ..annotations = _overrideAnnotation
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
-        ..requiredParameters.add(
+        ..requiredParameters.addAll([
           Parameter(
             (p) => p
               ..name = 'model'
               ..type = _nullableSourceTypeReference,
           ),
-        )
+        ])
+        ..optionalParameters.addAll([
+          Parameter(
+            (p) => p
+              ..name = 'recursive'
+              ..named = true
+              ..defaultTo = literalTrue.code
+              ..type = refer('bool'),
+          ),
+        ])
         ..returns = refer('bool')
         ..body = _buildCanConvertBody(_config.mappers),
     );
@@ -216,7 +225,7 @@ class ConvertMethodBuilder {
               ..name = 'canReturnNull'
               ..type = refer('bool')
               ..named = true
-              ..defaultTo = const Code('false'),
+              ..defaultTo = literalFalse.code,
           ),
         )
         ..returns = _nullableTargetTypeReference
@@ -256,7 +265,11 @@ class ConvertMethodBuilder {
     // }
     block.statements.add(
       ExpressionExtension.ifStatement(
-        condition: refer('canConvert').call([refer('model')], {}, [_sourceTypeReference, _targetTypeReference]),
+        condition: refer('canConvert').call(
+          [refer('model')],
+          {'recursive': literalFalse},
+          [_sourceTypeReference, _targetTypeReference],
+        ),
         ifBody: refer('_convert').call([refer('model')], {}, []).nullChecked.returned.statement,
       ).code,
     );
@@ -364,6 +377,7 @@ class ConvertMethodBuilder {
     final targetTypeOfReference = refer('targetTypeOf');
     block.addExpression(targetTypeOfVariable);
 
+    // Check this mappr.
     for (final mapping in mappings) {
       // Generates code like:
       /*
@@ -384,6 +398,25 @@ class ConvertMethodBuilder {
 
       block.statements.add(ifCheckTypeMatchExpression.code);
     }
+
+    // And then also check modules.
+    block.statements.add(
+      ExpressionExtension.ifStatement(
+        condition: refer('recursive'),
+        ifBody: ExpressionExtension.forStatement(
+          item: refer('mappr'),
+          iterable: refer('_modules'),
+          body: ExpressionExtension.ifStatement(
+            condition: refer('mappr').property('canConvert').call(
+              [refer('model')],
+              {},
+              [_sourceTypeReference, _targetTypeReference],
+            ),
+            ifBody: literalTrue.returned.statement,
+          ),
+        ),
+      ).code,
+    );
 
     block.statements.add(literalFalse.returned.statement);
 

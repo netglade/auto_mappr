@@ -25,7 +25,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     final constant = annotation.objectValue;
     final mappersField = constant.getField('mappers')!;
     final mappersList = mappersField.toListValue()!;
-    final modulesExpression = constant.getField('modules')!.toCodeExpression(removeConst: true);
+    final modulesExpression = constant.getField('modules')!.toCodeExpression();
 
     final mappers = mappersList.map((mapper) {
       final mapperType = mapper.type! as ParameterizedType;

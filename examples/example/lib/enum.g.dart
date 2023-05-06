@@ -8,8 +8,9 @@ part of 'enum.dart';
 
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors
 // ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_lambdas
-// ignore_for_file: unnecessary_parenthesis, unnecessary_raw_strings
+// ignore_for_file: require_trailing_commas, unnecessary_const
+// ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
+// ignore_for_file: unnecessary_raw_strings
 
 /// {@template package:auto_mappr_example_another/enum.dart}
 /// Available mappings:
@@ -26,7 +27,10 @@ class $Mappr implements AutoMapprInterface {
   /// {@macro AutoMapprInterface:canConvert}
   /// {@macro package:auto_mappr_example_another/enum.dart}
   @override
-  bool canConvert<SOURCE, TARGET>(SOURCE? model) {
+  bool canConvert<SOURCE, TARGET>(
+    SOURCE? model, {
+    bool recursive = true,
+  }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
     if ((sourceTypeOf == _typeOf<UserType>() ||
@@ -47,6 +51,13 @@ class $Mappr implements AutoMapprInterface {
             targetTypeOf == _typeOf<VehicleX?>())) {
       return true;
     }
+    if (recursive) {
+      for (final mappr in _modules) {
+        if (mappr.canConvert<SOURCE, TARGET>(model)) {
+          return true;
+        }
+      }
+    }
     return false;
   }
 
@@ -54,7 +65,10 @@ class $Mappr implements AutoMapprInterface {
   /// {@macro package:auto_mappr_example_another/enum.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
-    if (canConvert<SOURCE, TARGET>(model)) {
+    if (canConvert<SOURCE, TARGET>(
+      model,
+      recursive: false,
+    )) {
       return _convert(model)!;
     }
     for (final mappr in _modules) {
