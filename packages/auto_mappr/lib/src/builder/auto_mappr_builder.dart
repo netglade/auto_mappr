@@ -38,12 +38,24 @@ class AutoMapprBuilder {
             Class(
               (b) => b
                 ..name = '\$${mapperClassElement.displayName}'
+                ..implements = ListBuilder([refer('AutoMapprInterface')])
                 ..methods.addAll(_buildMethods())
+                ..constructors.addAll(_buildConstructors())
                 ..docs = ListBuilder(config.getAvailableMappingsDocComment()),
             ),
           ],
         ),
     );
+  }
+
+  /// Generates all constructors within mapper.
+  List<Constructor> _buildConstructors() {
+    return [
+      // Constant constructor to allow usage of modules.
+      Constructor(
+        (builder) => builder..constant = true,
+      ),
+    ];
   }
 
   /// Generates all methods within mapper.
@@ -55,9 +67,14 @@ class AutoMapprBuilder {
       // Helper method for typeOf.
       convertMethodBuilder.buildTypeOfHelperMethod(),
 
-      // Public convert method
+      // Getter method for modules from the annotation.
+      convertMethodBuilder.buildModulesGetter(config.modules),
+
+      // Public canConvert method.
+      convertMethodBuilder.buildCanConvertMethod(),
+      // Public convert method.
       convertMethodBuilder.buildConvertMethod(),
-      // Public tryConvert method
+      // Public tryConvert method.
       convertMethodBuilder.buildTryConvertMethod(),
 
       // Public convertIterable and tryConvertIterable methods.

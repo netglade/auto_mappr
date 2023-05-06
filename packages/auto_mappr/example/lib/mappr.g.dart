@@ -11,76 +11,88 @@ part of 'mappr.dart';
 // ignore_for_file: require_trailing_commas, unnecessary_lambdas
 // ignore_for_file: unnecessary_parenthesis, unnecessary_raw_strings
 
-/// {@template asset:auto_mappr/example/lib/mappr.dart}
+/// {@template package:auto_mappr_example/mappr.dart}
 /// Available mappings:
 /// - `UserDto` → `User`.
 /// {@endtemplate}
-class $Mappr {
+class $Mappr implements AutoMapprInterface {
+  const $Mappr();
+
   Type _typeOf<T>() => T;
+  List<AutoMapprInterface> get _modules => const [];
 
-  /// Converts from SOURCE to TARGET if such mapping is configured.
-  ///
-  /// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.
-  ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
-  TARGET convert<SOURCE, TARGET>(SOURCE? model) => _convert(model)!;
+  /// {@macro AutoMapprInterface:canConvert}
+  /// {@macro package:auto_mappr_example/mappr.dart}
+  @override
+  bool canConvert<SOURCE, TARGET>(SOURCE? model) {
+    final sourceTypeOf = _typeOf<SOURCE>();
+    final targetTypeOf = _typeOf<TARGET>();
+    if ((sourceTypeOf == _typeOf<UserDto>() ||
+            sourceTypeOf == _typeOf<UserDto?>()) &&
+        (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+      return true;
+    }
+    return false;
+  }
 
-  /// Converts from SOURCE to TARGET if such mapping is configured.
-  ///
-  /// When source model is null, returns `whenSourceIsNull` if defined or null.
-  ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro AutoMapprInterface:convert}
+  /// {@macro package:auto_mappr_example/mappr.dart}
+  @override
+  TARGET convert<SOURCE, TARGET>(SOURCE? model) {
+    if (canConvert<SOURCE, TARGET>(model)) {
+      return _convert(model)!;
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>(model)) {
+        return mappr.convert(model)!;
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
+
+  /// {@macro AutoMapprInterface:tryConvert}
+  /// {@macro package:auto_mappr_example/mappr.dart}
+  @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) => _convert(
         model,
         canReturnNull: true,
       );
 
-  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
-  ///
-  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
-  ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro AutoMapprInterface:convertIterable}
+  /// {@macro package:auto_mappr_example/mappr.dart}
+  @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       model.map<TARGET>((item) => _convert(item)!);
 
-  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
-  ///
-  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
-  ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro AutoMapprInterface:tryConvertIterable}
+  /// {@macro package:auto_mappr_example/mappr.dart}
+  @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
           Iterable<SOURCE?> model) =>
       model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
 
-  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
-  ///
-  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
-  ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro AutoMapprInterface:convertList}
+  /// {@macro package:auto_mappr_example/mappr.dart}
+  @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toList();
 
-  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
-  ///
-  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
-  ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro AutoMapprInterface:tryConvertList}
+  /// {@macro package:auto_mappr_example/mappr.dart}
+  @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toList();
 
-  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
-  ///
-  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
-  ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro AutoMapprInterface:convertSet}
+  /// {@macro package:auto_mappr_example/mappr.dart}
+  @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toSet();
 
-  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
-  ///
-  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
-  ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro AutoMapprInterface:tryConvertSet}
+  /// {@macro package:auto_mappr_example/mappr.dart}
+  @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toSet();
   TARGET? _convert<SOURCE, TARGET>(

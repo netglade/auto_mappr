@@ -25,6 +25,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     final constant = annotation.objectValue;
     final mappersField = constant.getField('mappers')!;
     final mappersList = mappersField.toListValue()!;
+    final modulesExpression = constant.getField('modules')!.toCodeExpression(passModelArgument: true);
 
     final mappers = mappersList.map((mapper) {
       final mapperType = mapper.type! as ParameterizedType;
@@ -82,6 +83,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     final config = AutoMapprConfig(
       mappers: mappers,
       availableMappingsMacroId: element.library.identifier,
+      modules: modulesExpression,
     );
 
     final builder = AutoMapprBuilder(mapperClassElement: element, config: config);

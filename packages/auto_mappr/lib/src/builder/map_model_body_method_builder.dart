@@ -353,7 +353,7 @@ class MapModelBodyMethodBuilder {
       //   return whenSourceIsNullExpression; // When whenSourceIsNullExpression is set.
       //   return null; // Otherwise.
       // }
-      return ifConditionExpression.ifStatement(ifBody: ifBodyExpression.returned.statement).code;
+      return ifConditionExpression.ifStatement2(ifBody: ifBodyExpression.returned.statement).code;
     }
 
     final ifBodyExpression = mapping.hasWhenNullDefault()
@@ -371,6 +371,6 @@ class MapModelBodyMethodBuilder {
     //   return whenSourceIsNullExpression; // When whenSourceIsNullExpression is set.
     //   throw Exception('Mapping UserDto -> User when null but no default value provided!'); // Otherwise.
     // }
-    return ifConditionExpression.ifStatement(ifBody: ifBodyExpression.statement).code;
+    return ifConditionExpression.ifStatement2(ifBody: ifBodyExpression.statement).code;
   }
 }

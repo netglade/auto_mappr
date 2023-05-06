@@ -18,22 +18,24 @@ class ConvertMethodBuilder {
   static const _nullableTargetTypeReference = Reference('$_targetKey?');
   static const _targetTypeOf = Reference('_typeOf<$_targetKey>()');
 
+  static final ListBuilder<Reference> _overrideAnnotation = ListBuilder([const Reference('override')]);
+
   final AutoMapprConfig _config;
   final Set<TypeMapping> _nullableMappings;
 
   ConvertMethodBuilder(this._config) : _nullableMappings = {};
 
-  static String concreteConvertMethodName({
+  static String constructConvertMethodName({
     required DartType source,
     required DartType target,
   }) =>
       '_map_${source.toConvertMethodName(withNullability: false)}_To_${target.toConvertMethodName(withNullability: false)}';
 
-  static String concreteNullableConvertMethodName({
+  static String constructNullableConvertMethodName({
     required DartType source,
     required DartType target,
   }) =>
-      '${concreteConvertMethodName(source: source, target: target)}_Nullable';
+      '${constructConvertMethodName(source: source, target: target)}_Nullable';
 
   bool shouldGenerateNullableMappingMethod(TypeMapping mapping) {
     return _nullableMappings.contains(mapping);
@@ -45,11 +47,23 @@ class ConvertMethodBuilder {
     final _ = _nullableMappings.add(mapping);
   }
 
-  Method buildCanConvert() {
+  Method buildCanConvertMethod() {
     return Method(
       (b) => b
         ..name = 'canConvert'
+        ..docs = ListBuilder([
+          '/// {@macro AutoMapprInterface:canConvert}',
+          _config.availableMappingsMacroDocComment,
+        ])
+        ..annotations = _overrideAnnotation
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
+        ..requiredParameters.add(
+          Parameter(
+            (p) => p
+              ..name = 'model'
+              ..type = _nullableSourceTypeReference,
+          ),
+        )
         ..returns = refer('bool')
         ..body = _buildCanConvertBody(_config.mappers),
     );
@@ -60,12 +74,10 @@ class ConvertMethodBuilder {
       (b) => b
         ..name = 'convert'
         ..docs = ListBuilder([
-          '/// Converts from SOURCE to TARGET if such mapping is configured.',
-          '///',
-          '/// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.',
-          '///',
+          '/// {@macro AutoMapprInterface:convert}',
           _config.availableMappingsMacroDocComment,
         ])
+        ..annotations = _overrideAnnotation
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
           Parameter(
@@ -75,8 +87,7 @@ class ConvertMethodBuilder {
           ),
         )
         ..returns = _targetTypeReference
-        ..lambda = true
-        ..body = refer('_convert').call([refer('model')], {}, []).nullChecked.code,
+        ..body = _buildConvertMethodBody(),
     );
   }
 
@@ -85,12 +96,10 @@ class ConvertMethodBuilder {
       (b) => b
         ..name = 'tryConvert'
         ..docs = ListBuilder([
-          '/// Converts from SOURCE to TARGET if such mapping is configured.',
-          '///',
-          '/// When source model is null, returns `whenSourceIsNull` if defined or null.',
-          '///',
+          '/// {@macro AutoMapprInterface:tryConvert}',
           _config.availableMappingsMacroDocComment,
         ])
+        ..annotations = _overrideAnnotation
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
           Parameter(
@@ -115,12 +124,10 @@ class ConvertMethodBuilder {
       (b) => b
         ..name = 'convert$wrapper'
         ..docs = ListBuilder([
-          '/// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into $wrapper.',
-          '///',
-          '/// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.',
-          '///',
+          '/// {@macro AutoMapprInterface:convert$wrapper}',
           _config.availableMappingsMacroDocComment,
         ])
+        ..annotations = _overrideAnnotation
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
           Parameter(
@@ -159,12 +166,10 @@ class ConvertMethodBuilder {
       (b) => b
         ..name = 'tryConvert$wrapper'
         ..docs = ListBuilder([
-          '/// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into $wrapper.',
-          '///',
-          '/// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null',
-          '///',
+          '/// {@macro AutoMapprInterface:tryConvert$wrapper}',
           _config.availableMappingsMacroDocComment,
         ])
+        ..annotations = _overrideAnnotation
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
           Parameter(
@@ -215,13 +220,24 @@ class ConvertMethodBuilder {
           ),
         )
         ..returns = _nullableTargetTypeReference
-        ..body = _buildConvertMethodBody(_config.mappers),
+        ..body = _buildPrivateConvertMethodBody(_config.mappers),
+    );
+  }
+
+  Method buildModulesGetter(Expression? modules) {
+    return Method(
+      (builder) => builder
+        ..name = '_modules'
+        ..returns = refer('List<AutoMapprInterface>')
+        ..lambda = true
+        ..type = MethodType.getter
+        ..body = refer('const ${(modules ?? literalList([])).accept(DartEmitter())}').code,
     );
   }
 
   Method buildTypeOfHelperMethod() {
     return Method(
-      (b) => b
+      (builder) => builder
         ..name = '_typeOf'
         ..types.add(refer('T'))
         ..returns = refer('Type')
@@ -230,7 +246,53 @@ class ConvertMethodBuilder {
     );
   }
 
-  Code? _buildConvertMethodBody(List<TypeMapping> mappings) {
+  Code? _buildConvertMethodBody() {
+    final block = BlockBuilder();
+
+    // Generates code like:
+    //
+    // if (canConvert(model)) {
+    //   return _convert(model)!;
+    // }
+    block.statements.add(
+      ExpressionExtension.ifStatement(
+        condition: refer('canConvert').call([refer('model')], {}, [_sourceTypeReference, _targetTypeReference]),
+        ifBody: refer('_convert').call([refer('model')], {}, []).nullChecked.returned.statement,
+      ).code,
+    );
+
+    // Generates code like:
+    //
+    // for (final mappr in mappers) {
+    //   if (mappr.canConvert(model)) {
+    //     return mappr.convert(model)!;
+    //   }
+    // }
+    block.statements.add(
+      ExpressionExtension.forStatement(
+        item: refer('mappr'),
+        iterable: refer('_modules'),
+        body: ExpressionExtension.ifStatement(
+          condition: refer('mappr').property('canConvert').call(
+            [refer('model')],
+            {},
+            [_sourceTypeReference, _targetTypeReference],
+          ),
+          ifBody: refer('mappr').property('convert').call([refer('model')], {}, []).nullChecked.returned.statement,
+        ),
+      ).code,
+    );
+
+    block.addExpression(
+      refer('Exception').newInstance(
+        [refer(r"'No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.'")],
+      ).thrown,
+    );
+
+    return block.build();
+  }
+
+  Code? _buildPrivateConvertMethodBody(List<TypeMapping> mappings) {
     final block = BlockBuilder();
 
     final sourceTypeOfVariable = declareFinal('sourceTypeOf').assign(_sourceTypeOf);
@@ -242,7 +304,7 @@ class ConvertMethodBuilder {
     block.addExpression(targetTypeOfVariable);
 
     for (final mapping in mappings) {
-      final ifCheckForNull = refer('canReturnNull').and(refer('model').equalToNull()).ifStatement(
+      final ifCheckForNull = refer('canReturnNull').and(refer('model').equalToNull()).ifStatement2(
             ifBody: mapping.hasWhenNullDefault()
                 ? mapping.whenSourceIsNullExpression!.asA(_targetTypeReference).returned.statement
                 : literalNull.returned.statement,
@@ -294,17 +356,33 @@ class ConvertMethodBuilder {
   Code? _buildCanConvertBody(List<TypeMapping> mappings) {
     final block = BlockBuilder();
 
+    final sourceTypeOfVariable = declareFinal('sourceTypeOf').assign(_sourceTypeOf);
+    final sourceTypeOfReference = refer('sourceTypeOf');
+    block.addExpression(sourceTypeOfVariable);
+
+    final targetTypeOfVariable = declareFinal('targetTypeOf').assign(_targetTypeOf);
+    final targetTypeOfReference = refer('targetTypeOf');
+    block.addExpression(targetTypeOfVariable);
+
     for (final mapping in mappings) {
-      final outputExpression =
-          refer('_typeOf<$_targetKey>()').equalTo(refer(mapping.target.getDisplayString(withNullability: false)));
+      // Generates code like:
+      /*
+       final sourceTypeOf = _typeOf<SOURCE>();
+       final targetTypeOf = _typeOf<TARGET>();
+       if ((sourceTypeOf == _typeOf<UserDto>() ||
+               sourceTypeOf == _typeOf<UserDto?>()) &&
+           (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+         return true
+        }
+      */
+      final ifCheckTypeMatchExpression = _buildMatchingIfCondition(
+        mapping: mapping,
+        sourceTypeOfReference: sourceTypeOfReference,
+        targetTypeOfReference: targetTypeOfReference,
+        inIfExpression: (BlockBuilder()..addExpression(literalTrue.returned)).build(),
+      );
 
-      final ifConditionExpression = refer('_typeOf<$_sourceKey>()')
-          .equalTo(refer(mapping.source.getDisplayString(withNullability: false)))
-          .and(outputExpression);
-
-      final ifStatement = ifConditionExpression.ifStatement(ifBody: literalTrue.returned.statement);
-
-      block.statements.add(ifStatement.code);
+      block.statements.add(ifCheckTypeMatchExpression.code);
     }
 
     block.statements.add(literalFalse.returned.statement);
@@ -331,6 +409,6 @@ class ConvertMethodBuilder {
 
     final ifConditionExpression = modelIsTypeExpression.bracketed().and(outputExpression.bracketed());
 
-    return ifConditionExpression.ifStatement(ifBody: inIfExpression);
+    return ifConditionExpression.ifStatement2(ifBody: inIfExpression);
   }
 }

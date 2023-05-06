@@ -11,6 +11,14 @@ void main() {
 
   test(
     'converting nested objects',
+        () {
+      final converted = mappr.convert<int, String>(2);
+
+    },
+  );
+
+  test(
+    'converting nested objects',
     () {
       final dto = fixture.UserDto(
         id: 123,

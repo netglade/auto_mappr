@@ -15,12 +15,12 @@ class TypeMapping extends Equatable {
   final Expression? whenSourceIsNullExpression;
   final String? constructor;
 
-  String get mappingMethodName => ConvertMethodBuilder.concreteConvertMethodName(
+  String get mappingMethodName => ConvertMethodBuilder.constructConvertMethodName(
         source: source,
         target: target,
       );
 
-  String get nullableMappingMethodName => ConvertMethodBuilder.concreteNullableConvertMethodName(
+  String get nullableMappingMethodName => ConvertMethodBuilder.constructNullableConvertMethodName(
         source: source,
         target: target,
       );
