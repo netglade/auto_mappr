@@ -8,8 +8,8 @@ part of 'freezed_example.dart';
 
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors
 // ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_parenthesis
-// ignore_for_file: unnecessary_raw_strings
+// ignore_for_file: require_trailing_commas, unnecessary_lambdas
+// ignore_for_file: unnecessary_parenthesis, unnecessary_raw_strings
 
 /// {@template package:auto_mappr_freezed_example/freezed_example.dart}
 /// Available mappings:
@@ -106,8 +106,8 @@ class $Mappr {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping UserInfo → UserInfoCompanion failed because UserInfo was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<UserInfo, UserInfoCompanion> to handle null values during mapping.');
+          r'Mapping UserInfo → UserInfoCompanion failed because UserInfo was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<UserInfo, UserInfoCompanion> to handle null values during mapping.');
     }
     return UserInfoCompanion(
       email: model.email,

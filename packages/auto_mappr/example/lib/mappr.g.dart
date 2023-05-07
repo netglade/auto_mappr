@@ -11,7 +11,7 @@ part of 'mappr.dart';
 // ignore_for_file: require_trailing_commas, unnecessary_lambdas
 // ignore_for_file: unnecessary_parenthesis, unnecessary_raw_strings
 
-/// {@template asset:auto_mappr/example/lib/mappr.dart}
+/// {@template package:auto_mappr_example/mappr.dart}
 /// Available mappings:
 /// - `UserDto` → `User`.
 /// {@endtemplate}
@@ -22,14 +22,14 @@ class $Mappr {
   ///
   /// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro package:auto_mappr_example/mappr.dart}
   TARGET convert<SOURCE, TARGET>(SOURCE? model) => _convert(model)!;
 
   /// Converts from SOURCE to TARGET if such mapping is configured.
   ///
   /// When source model is null, returns `whenSourceIsNull` if defined or null.
   ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro package:auto_mappr_example/mappr.dart}
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) => _convert(
         model,
         canReturnNull: true,
@@ -39,7 +39,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro package:auto_mappr_example/mappr.dart}
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       model.map<TARGET>((item) => _convert(item)!);
 
@@ -47,7 +47,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro package:auto_mappr_example/mappr.dart}
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
           Iterable<SOURCE?> model) =>
       model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
@@ -56,7 +56,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro package:auto_mappr_example/mappr.dart}
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toList();
 
@@ -64,7 +64,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro package:auto_mappr_example/mappr.dart}
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toList();
 
@@ -72,7 +72,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
   ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro package:auto_mappr_example/mappr.dart}
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toSet();
 
@@ -80,7 +80,7 @@ class $Mappr {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
+  /// {@macro package:auto_mappr_example/mappr.dart}
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toSet();
   TARGET? _convert<SOURCE, TARGET>(
@@ -104,8 +104,8 @@ class $Mappr {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
+          r'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
     return User(
       id: model.id,
