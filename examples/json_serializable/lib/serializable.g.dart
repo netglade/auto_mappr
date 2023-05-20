@@ -75,10 +75,24 @@ class $Mappr implements AutoMapprInterface {
   /// {@macro AutoMapprInterface:tryConvert}
   /// {@macro package:auto_mappr_json_example/serializable.dart}
   @override
-  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) => _convert(
+  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
+    if (canConvert<SOURCE, TARGET>(
+      model,
+      recursive: false,
+    )) {
+      return _convert(
         model,
         canReturnNull: true,
       );
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>(model)) {
+        return mappr.tryConvert(model);
+      }
+    }
+
+    return null;
+  }
 
   /// {@macro AutoMapprInterface:convertIterable}
   /// {@macro package:auto_mappr_json_example/serializable.dart}
@@ -86,9 +100,11 @@ class $Mappr implements AutoMapprInterface {
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       model.map<TARGET>((item) => _convert(item)!);
 
-  /// {@macro AutoMapprInterface:tryConvertIterable}
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
   /// {@macro package:auto_mappr_json_example/serializable.dart}
-  @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
           Iterable<SOURCE?> model) =>
       model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
@@ -99,9 +115,11 @@ class $Mappr implements AutoMapprInterface {
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toList();
 
-  /// {@macro AutoMapprInterface:tryConvertList}
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
   /// {@macro package:auto_mappr_json_example/serializable.dart}
-  @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toList();
 
@@ -111,9 +129,11 @@ class $Mappr implements AutoMapprInterface {
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toSet();
 
-  /// {@macro AutoMapprInterface:tryConvertSet}
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
   /// {@macro package:auto_mappr_json_example/serializable.dart}
-  @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toSet();
   TARGET? _convert<SOURCE, TARGET>(

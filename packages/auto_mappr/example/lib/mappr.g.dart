@@ -12,7 +12,7 @@ part of 'mappr.dart';
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-/// {@template package:auto_mappr_example/mappr.dart}
+/// {@template asset:auto_mappr/example/lib/mappr.dart}
 /// Available mappings:
 /// - `UserDto` → `User`.
 /// {@endtemplate}
@@ -23,7 +23,7 @@ class $Mappr implements AutoMapprInterface {
   List<AutoMapprInterface> get _modules => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   bool canConvert<SOURCE, TARGET>(
     SOURCE? model, {
@@ -47,7 +47,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(
@@ -66,47 +66,67 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
-  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) => _convert(
+  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
+    if (canConvert<SOURCE, TARGET>(
+      model,
+      recursive: false,
+    )) {
+      return _convert(
         model,
         canReturnNull: true,
       );
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>(model)) {
+        return mappr.tryConvert(model);
+      }
+    }
+
+    return null;
+  }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       model.map<TARGET>((item) => _convert(item)!);
 
-  /// {@macro AutoMapprInterface:tryConvertIterable}
-  /// {@macro package:auto_mappr_example/mappr.dart}
-  @override
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
           Iterable<SOURCE?> model) =>
       model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toList();
 
-  /// {@macro AutoMapprInterface:tryConvertList}
-  /// {@macro package:auto_mappr_example/mappr.dart}
-  @override
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toList();
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       convertIterable<SOURCE, TARGET>(model).toSet();
 
-  /// {@macro AutoMapprInterface:tryConvertSet}
-  /// {@macro package:auto_mappr_example/mappr.dart}
-  @override
+  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
+  ///
+  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
+  ///
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
       tryConvertIterable<SOURCE, TARGET>(model).toSet();
   TARGET? _convert<SOURCE, TARGET>(

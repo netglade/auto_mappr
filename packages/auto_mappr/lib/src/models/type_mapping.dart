@@ -2,7 +2,7 @@
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mappr/src/builder/convert_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/auto_mappr_method_builder.dart';
 import 'package:auto_mappr/src/models/field_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
@@ -15,12 +15,12 @@ class TypeMapping extends Equatable {
   final Expression? whenSourceIsNullExpression;
   final String? constructor;
 
-  String get mappingMethodName => ConvertMethodBuilder.constructConvertMethodName(
+  String get mappingMethodName => AutoMapprMethodBuilder.constructConvertMethodName(
         source: source,
         target: target,
       );
 
-  String get nullableMappingMethodName => ConvertMethodBuilder.constructNullableConvertMethodName(
+  String get nullableMappingMethodName => AutoMapprMethodBuilder.constructNullableConvertMethodName(
         source: source,
         target: target,
       );
