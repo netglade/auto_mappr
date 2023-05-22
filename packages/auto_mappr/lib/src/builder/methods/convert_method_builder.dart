@@ -16,7 +16,7 @@ class ConvertMethodBuilder extends MethodBuilderBase {
         ..name = 'convert'
         ..docs = ListBuilder([
           '/// {@macro AutoMapprInterface:convert}',
-          config.availableMappingsMacroDocComment,
+          config.availableMappingsDocComment,
         ])
         ..annotations = MethodBuilderBase.overrideAnnotation
         ..types.addAll([MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])

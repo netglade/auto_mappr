@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
@@ -7,14 +8,23 @@ import 'package:collection/collection.dart';
 class AutoMapprConfig {
   final List<TypeMapping> mappers;
   final String availableMappingsMacroId;
-  final Expression? modules;
+  final Expression? modulesCode;
+  final List<DartObject> modulesList;
 
-  String get availableMappingsMacroDocComment => '/// {@macro $availableMappingsMacroId}';
+  String get availableMappingsDocComment {
+    return [
+      '/// {@macro $availableMappingsMacroId}',
+      if (modulesList.isNotEmpty) '///',
+      if (modulesList.isNotEmpty)
+        "/// Available modules: ${modulesList.map((e) => '[\$${e.type?.getDisplayString(withNullability: false)}]').join(', ')}",
+    ].join('\n');
+  }
 
   const AutoMapprConfig({
     required this.mappers,
     required this.availableMappingsMacroId,
-    this.modules,
+    this.modulesCode,
+    this.modulesList = const [],
   });
 
   TypeMapping? findMapping({

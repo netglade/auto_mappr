@@ -18,6 +18,6 @@ class PrivateModulesMethodBuilder extends MethodBuilderBase {
 
   @override
   Code buildBody() {
-    return refer('const ${(config.modules ?? literalList([])).accept(DartEmitter())}').code;
+    return refer('const ${(config.modulesCode ?? literalList([])).accept(DartEmitter())}').code;
   }
 }

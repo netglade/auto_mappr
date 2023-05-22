@@ -15,7 +15,7 @@ class CanConvertMethodBuilder extends MethodBuilderBase implements CallableMetho
         ..name = 'canConvert'
         ..docs = ListBuilder([
           '/// {@macro AutoMapprInterface:canConvert}',
-          config.availableMappingsMacroDocComment,
+          config.availableMappingsDocComment,
         ])
         ..annotations = MethodBuilderBase.overrideAnnotation
         ..types.addAll([MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])

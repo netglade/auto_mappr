@@ -16,7 +16,7 @@ class TryConvertMethodBuilder extends MethodBuilderBase {
         ..name = 'tryConvert'
         ..docs = ListBuilder([
           '/// {@macro AutoMapprInterface:tryConvert}',
-          config.availableMappingsMacroDocComment,
+          config.availableMappingsDocComment,
         ])
         ..annotations = MethodBuilderBase.overrideAnnotation
         ..types.addAll([MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])

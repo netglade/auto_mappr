@@ -23,7 +23,7 @@ class ConvertIterableMethodBuilder extends MethodBuilderBase {
         ..name = 'convert$wrapper'
         ..docs = ListBuilder([
           '/// {@macro AutoMapprInterface:convert$wrapper}',
-          config.availableMappingsMacroDocComment,
+          config.availableMappingsDocComment,
         ])
         ..annotations = MethodBuilderBase.overrideAnnotation
         ..types.addAll([MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])

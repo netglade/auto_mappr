@@ -26,7 +26,7 @@ class TryConvertIterableMethodBuilder extends MethodBuilderBase {
           '///',
           '/// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null',
           '///',
-          config.availableMappingsMacroDocComment,
+          config.availableMappingsDocComment,
         ])
         ..annotations = MethodBuilderBase.overrideAnnotation
         ..types.addAll([MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])
