@@ -482,9 +482,16 @@ class Nested<X, Y> {
 
 ### Modules
 
-Each AutoMappr class can contain a list of modules.
-That makes possible to "register" modules
-from different independent parts (we will call them features) of the application.
+Each AutoMappr class can be used as a **module**.
+That means a mappr used inside of another mappr.
+Each AutoMappr class can include a list of modules
+that can be used to nest modules
+and use all of its underlying mappings.
+
+Applications are often split into independent parts (we will call them **features**).
+Each feature should probably have its own independent mappr,
+that is used as a module.
+
 Imagine that in a feature you have a local mappr `UserMappr`.
 
 ```dart
@@ -497,7 +504,11 @@ class UserMappr extends $UserMappr {
 }
 ```
 
-And in some global place, you can have a main mappr that unifies all smaller mapprs.
+And in some global place,
+you can have a main mappr that unifies all smaller mapprs
+(`UserMappr` in this case).
+As usual, it can also set it's own mappings
+(`MapType<GroupDto, Group>()`).
 
 ```dart
 // file: main_mappr.dart
@@ -512,13 +523,13 @@ And in some global place, you can have a main mappr that unifies all smaller map
 class MainMappr extends $MainMappr {}
 ```
 
-Then you can use this main mappr to map between objects specified from each mappr.
+Then you can use this main mappr to map between objects specified from every included mappr.
 
 ```dart
 final mappr = MainMappr();
 
-final User user = mappr.convert(UserDto(...));
-final Group user = mappr.convert(GroupDto(...));
+final Group user = mappr.convert(GroupDto(...)); // from this mappr
+final User user = mappr.convert(UserDto(...)); // from included mappr
 ```
 
 That can be handy for example with dependency injection,
