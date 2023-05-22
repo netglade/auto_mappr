@@ -2,6 +2,7 @@
 
 ## 1.4.0
 - Add modules. [#67](https://github.com/netglade/auto_mappr/pull/67)
+- Split method builder into separate files. [#67](https://github.com/netglade/auto_mappr/pull/67)
 - Add when `whenSourceIsNull` support to enum mapping. [#59](https://github.com/netglade/auto_mappr/pull/59)
 - Add enum mapping fallback support for missing fields in the Target using `whenSourceIsNull`. [#59](https://github.com/netglade/auto_mappr/pull/59)
 - Fix top-level functions now work with `whenSourceIsNull`. [#59](https://github.com/netglade/auto_mappr/pull/59)

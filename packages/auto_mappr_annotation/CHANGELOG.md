@@ -1,5 +1,11 @@
-## 2.0.0
-- Remove `model` argument from `canConvert`.
+## 1.1.0
+- Add `AutoMapprInterface` with methods:
+  - `canConvert`
+  - `convert`, `tryConvert`
+  - `convertIterable`, `tryConvertIterable`
+  - `convertList`, `tryConvertList`
+  - `convertSet`, `tryConvertSet`
+- Add `modules` to `AutoMappr` annotation.
 
 ## 1.0.3
 - Update logo.
