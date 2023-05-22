@@ -14,9 +14,7 @@ class AutoMapprConfig {
   String get availableMappingsDocComment {
     return [
       '/// {@macro $availableMappingsMacroId}',
-      if (modulesList.isNotEmpty) '///',
-      if (modulesList.isNotEmpty)
-        "/// Available modules: ${modulesList.map((e) => '[\$${e.type?.getDisplayString(withNullability: false)}]').join(', ')}",
+      ..._modulesDocComment(),
     ].join('\n');
   }
 
@@ -41,7 +39,17 @@ class AutoMapprConfig {
       '/// {@template $availableMappingsMacroId}',
       '/// Available mappings:',
       for (final mapper in mappers) _getTypeMappingDocs(mapper),
-      '/// {@endtemplate}'
+      '/// {@endtemplate}',
+      ..._modulesDocComment(),
+    ];
+  }
+
+  List<String> _modulesDocComment() {
+    return [
+      if (modulesList.isNotEmpty) ...[
+        '///',
+        "/// Available modules: ${modulesList.map((e) => '[\$${e.type!.getDisplayString(withNullability: false)}]').join(', ')}",
+      ],
     ];
   }
 

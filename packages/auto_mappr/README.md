@@ -41,6 +41,7 @@ Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
     * ✅ [Mapping from source](#mapping-from-source)
     * ✅ [Nullability handling](#nullability-handling)
     * ✅ [Generics](#generics)
+    * ✅ [Modules](#modules)
     * ✅ [Works with `equatable`](#works-with-equatable)
     * ✅ [Works with `json_serializable`](#works-with-jsonserializable)
     * ✅ [Works with generated source and target classes](#works-with-generated-source-and-target-classes)
@@ -478,6 +479,52 @@ class Nested<X, Y> {
 // ...
 }
 ```
+
+### Modules
+
+Each AutoMappr class can contain a list of modules.
+That makes possible to "register" modules
+from different independent parts (we will call them features) of the application.
+Imagine that in a feature you have a local mappr `UserMappr`.
+
+```dart
+// file: user_mappr.dart
+@AutoMappr([
+  MapType<UserDto, User>(),
+])
+class UserMappr extends $UserMappr {
+  const UserMappr(); // must implement const constructor
+}
+```
+
+And in some global place, you can have a main mappr that unifies all smaller mapprs.
+
+```dart
+// file: main_mappr.dart
+@AutoMappr(
+  [
+    MapType<GroupDto, Group>(),
+  ],
+  modules: [
+    UserMappr(), // use module
+  ],
+)
+class MainMappr extends $MainMappr {}
+```
+
+Then you can use this main mappr to map between objects specified from each mappr.
+
+```dart
+final mappr = MainMappr();
+
+final User user = mappr.convert(UserDto(...));
+final Group user = mappr.convert(GroupDto(...));
+```
+
+That can be handy for example with dependency injection,
+so you can only provide one grouping/main mappr that can handle everything.
+Each feature in your app can return an instance of const `AutoMapprInterface`,
+that each mappr internally implements.
 
 ### Works with `equatable`
 
