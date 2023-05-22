@@ -208,8 +208,8 @@ class $Mappr implements AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping UserInfo → UserInfoCompanion failed because UserInfo was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<UserInfo, UserInfoCompanion> to handle null values during mapping.');
+          r'Mapping UserInfo → UserInfoCompanion failed because UserInfo was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<UserInfo, UserInfoCompanion> to handle null values during mapping.');
     }
     return UserInfoCompanion(
       email: model.email,

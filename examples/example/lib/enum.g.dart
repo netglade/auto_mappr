@@ -239,8 +239,8 @@ class $Mappr implements AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping UserType → PersonType failed because UserType was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<UserType, PersonType> to handle null values during mapping.');
+          r'Mapping UserType → PersonType failed because UserType was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<UserType, PersonType> to handle null values during mapping.');
     }
     return PersonType.values.firstWhere((x) => x.name == model.name);
   }
@@ -249,8 +249,8 @@ class $Mappr implements AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping Vehicle → Vehicle failed because Vehicle was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<Vehicle, Vehicle> to handle null values during mapping.');
+          r'Mapping Vehicle → Vehicle failed because Vehicle was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<Vehicle, Vehicle> to handle null values during mapping.');
     }
     return Vehicle.values.firstWhere((x) => x.name == model.name);
   }
@@ -259,8 +259,8 @@ class $Mappr implements AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping Vehicle → VehicleX failed because Vehicle was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<Vehicle, VehicleX> to handle null values during mapping.');
+          r'Mapping Vehicle → VehicleX failed because Vehicle was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<Vehicle, VehicleX> to handle null values during mapping.');
     }
     return VehicleX.values.firstWhere((x) => x.name == model.name);
   }

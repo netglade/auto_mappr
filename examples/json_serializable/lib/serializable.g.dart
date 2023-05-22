@@ -222,8 +222,8 @@ class $Mappr implements AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
+          r'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
     return User(
       firstName: model.firstName,
@@ -235,8 +235,8 @@ class $Mappr implements AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping ValueHolderDto → ValueHolder failed because ValueHolderDto was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<ValueHolderDto, ValueHolder> to handle null values during mapping.');
+          r'Mapping ValueHolderDto → ValueHolder failed because ValueHolderDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<ValueHolderDto, ValueHolder> to handle null values during mapping.');
     }
     return ValueHolder(model.json);
   }

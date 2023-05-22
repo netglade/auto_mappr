@@ -238,8 +238,8 @@ class $Mappr implements AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
+          r'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
     return User(
       id: model.id,
@@ -268,8 +268,8 @@ class $Mappr implements AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping NestedDto → Nested failed because NestedDto was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<NestedDto, Nested> to handle null values during mapping.');
+          r'Mapping NestedDto → Nested failed because NestedDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<NestedDto, Nested> to handle null values during mapping.');
     }
     return Nested(
       id: model.id,
@@ -282,8 +282,8 @@ class $Mappr implements AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping NestedTagDto → NestedTag failed because NestedTagDto was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<NestedTagDto, NestedTag> to handle null values during mapping.');
+          r'Mapping NestedTagDto → NestedTag failed because NestedTagDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<NestedTagDto, NestedTag> to handle null values during mapping.');
     }
     return NestedTag();
   }

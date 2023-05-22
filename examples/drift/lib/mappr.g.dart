@@ -205,8 +205,8 @@ class $Mappr implements AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          'Mapping Todo → TodoItem failed because Todo was null, and no default value was provided. '
-          'Consider setting the whenSourceIsNull parameter on the MapType<Todo, TodoItem> to handle null values during mapping.');
+          r'Mapping Todo → TodoItem failed because Todo was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<Todo, TodoItem> to handle null values during mapping.');
     }
     return TodoItem(
       id: model.id,
