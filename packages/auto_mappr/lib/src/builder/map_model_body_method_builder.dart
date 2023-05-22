@@ -360,8 +360,8 @@ class MapModelBodyMethodBuilder {
         ? mapping.whenSourceIsNullExpression!.returned
         : refer('Exception').newInstance([
             refer(
-              "'Mapping $mapping failed because ${mapping.source} was null, and no default value was provided. '\n"
-              "'Consider setting the whenSourceIsNull parameter on the MapType<${mapping.source}, ${mapping.target}> to handle null values during mapping.'",
+              "r'Mapping $mapping failed because ${mapping.source} was null, and no default value was provided. '\n"
+              "r'Consider setting the whenSourceIsNull parameter on the MapType<${mapping.source}, ${mapping.target}> to handle null values during mapping.'",
             ),
           ]).thrown;
 
