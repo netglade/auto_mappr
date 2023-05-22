@@ -1,3 +1,6 @@
+## 2.0.0
+- Remove `model` argument from `canConvert`.
+
 ## 1.0.3
 - Update logo.
 
