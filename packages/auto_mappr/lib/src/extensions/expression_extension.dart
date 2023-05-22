@@ -109,13 +109,40 @@ extension ExpressionExtension on Expression {
     return asA(expression);
   }
 
-  Expression ifStatement({required Spec ifBody, Spec? elseBody}) {
+  static Expression ifStatement({
+    required Spec condition,
+    required Spec ifBody,
+    Spec? elseBody,
+  }) {
+    final dartEmitter = DartEmitter();
+
+    final ifBlock = '{ ${ifBody.accept(dartEmitter)} }';
+    final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(dartEmitter)} }' : '';
+
+    return refer('''if ( ${condition.accept(dartEmitter)} ) $ifBlock $elseBlock''');
+  }
+
+  Expression ifStatement2({required Spec ifBody, Spec? elseBody}) {
     final dartEmitter = DartEmitter();
 
     final ifBlock = '{ ${ifBody.accept(dartEmitter)} }';
     final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(dartEmitter)} }' : '';
 
     return refer('''if ( ${accept(dartEmitter)} ) $ifBlock $elseBlock''');
+  }
+
+  static Expression forStatement({
+    required Reference item,
+    required Reference iterable,
+    required Spec body,
+  }) {
+    final dartEmitter = DartEmitter();
+
+    return refer('''
+for (final ${item.accept(dartEmitter)} in ${iterable.accept(dartEmitter)}) {
+  ${body.accept(dartEmitter)}
+} 
+''');
   }
 
   Expression bracketed() {

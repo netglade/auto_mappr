@@ -3,11 +3,13 @@ import 'package:equatable/equatable.dart';
 
 part 'complex_types.g.dart';
 
-@AutoMappr([
-  MapType<UserDto, User>(),
-  MapType<NestedDto, Nested>(),
-  MapType<NestedTagDto, NestedTag>(),
-])
+@AutoMappr(
+  [
+    MapType<UserDto, User>(),
+    MapType<NestedDto, Nested>(),
+    MapType<NestedTagDto, NestedTag>(),
+  ],
+)
 class Mappr extends $Mappr {}
 
 class NestedTag extends Equatable {

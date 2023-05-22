@@ -8,81 +8,182 @@ part of 'mappr.dart';
 
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors
 // ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_lambdas
-// ignore_for_file: unnecessary_parenthesis, unnecessary_raw_strings
+// ignore_for_file: require_trailing_commas, unnecessary_const
+// ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
+// ignore_for_file: unnecessary_raw_strings
 
 /// {@template package:auto_mappr_drift_example/mappr.dart}
 /// Available mappings:
 /// - `Todo` → `TodoItem`.
 /// {@endtemplate}
-class $Mappr {
+class $Mappr implements AutoMapprInterface {
+  const $Mappr();
+
   Type _typeOf<T>() => T;
+  List<AutoMapprInterface> get _modules => const [];
 
-  /// Converts from SOURCE to TARGET if such mapping is configured.
-  ///
-  /// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.
-  ///
+  /// {@macro AutoMapprInterface:canConvert}
   /// {@macro package:auto_mappr_drift_example/mappr.dart}
-  TARGET convert<SOURCE, TARGET>(SOURCE? model) => _convert(model)!;
+  @override
+  bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
+    final sourceTypeOf = _typeOf<SOURCE>();
+    final targetTypeOf = _typeOf<TARGET>();
+    if ((sourceTypeOf == _typeOf<Todo>() || sourceTypeOf == _typeOf<Todo?>()) &&
+        (targetTypeOf == _typeOf<TodoItem>() ||
+            targetTypeOf == _typeOf<TodoItem?>())) {
+      return true;
+    }
+    if (recursive) {
+      for (final mappr in _modules) {
+        if (mappr.canConvert<SOURCE, TARGET>()) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
-  /// Converts from SOURCE to TARGET if such mapping is configured.
-  ///
-  /// When source model is null, returns `whenSourceIsNull` if defined or null.
-  ///
+  /// {@macro AutoMapprInterface:convert}
   /// {@macro package:auto_mappr_drift_example/mappr.dart}
-  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) => _convert(
+  @override
+  TARGET convert<SOURCE, TARGET>(SOURCE? model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return _convert(model)!;
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.convert(model)!;
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
+
+  /// {@macro AutoMapprInterface:tryConvert}
+  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  @override
+  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return _convert(
         model,
         canReturnNull: true,
       );
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.tryConvert(model);
+      }
+    }
 
-  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
-  ///
-  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
-  ///
+    return null;
+  }
+
+  /// {@macro AutoMapprInterface:convertIterable}
   /// {@macro package:auto_mappr_drift_example/mappr.dart}
-  Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      model.map<TARGET>((item) => _convert(item)!);
+  @override
+  Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return model.map<TARGET>((item) => _convert(item)!);
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.convertIterable(model);
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
 
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
   /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
-          Iterable<SOURCE?> model) =>
-      model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
+      Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.tryConvertIterable(model);
+      }
+    }
 
-  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
-  ///
-  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
-  ///
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
+
+  /// {@macro AutoMapprInterface:convertList}
   /// {@macro package:auto_mappr_drift_example/mappr.dart}
-  List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      convertIterable<SOURCE, TARGET>(model).toList();
+  @override
+  List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return convertIterable<SOURCE, TARGET>(model).toList();
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.convertList(model);
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
 
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
   /// {@macro package:auto_mappr_drift_example/mappr.dart}
-  List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      tryConvertIterable<SOURCE, TARGET>(model).toList();
+  @override
+  List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return tryConvertIterable<SOURCE, TARGET>(model).toList();
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.tryConvertList(model);
+      }
+    }
 
-  /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
-  ///
-  /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.
-  ///
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
+
+  /// {@macro AutoMapprInterface:convertSet}
   /// {@macro package:auto_mappr_drift_example/mappr.dart}
-  Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      convertIterable<SOURCE, TARGET>(model).toSet();
+  @override
+  Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return convertIterable<SOURCE, TARGET>(model).toSet();
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.convertSet(model);
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
 
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
   /// {@macro package:auto_mappr_drift_example/mappr.dart}
-  Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      tryConvertIterable<SOURCE, TARGET>(model).toSet();
+  @override
+  Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return tryConvertIterable<SOURCE, TARGET>(model).toSet();
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.tryConvertSet(model);
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
+
   TARGET? _convert<SOURCE, TARGET>(
     SOURCE? model, {
     bool canReturnNull = false,

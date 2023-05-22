@@ -2,9 +2,10 @@
 // ignore_for_file: format-comment
 
 import 'package:analyzer/dart/element/element.dart';
-import 'package:auto_mappr/src/builder/convert_method_builder.dart';
 import 'package:auto_mappr/src/builder/map_model_body_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/methods.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
+import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
@@ -15,6 +16,7 @@ class AutoMapprBuilder {
   static const List<String> fileIgnores = [
     'unnecessary_parenthesis',
     'non_constant_identifier_names',
+    'unnecessary_const',
     'require_trailing_commas',
     'unnecessary_raw_strings',
     'unnecessary_lambdas',
@@ -38,7 +40,9 @@ class AutoMapprBuilder {
             Class(
               (b) => b
                 ..name = '\$${mapperClassElement.displayName}'
+                ..implements = ListBuilder([refer('AutoMapprInterface')])
                 ..methods.addAll(_buildMethods())
+                ..constructors.addAll(_buildConstructors())
                 ..docs = ListBuilder(config.getAvailableMappingsDocComment()),
             ),
           ],
@@ -46,36 +50,74 @@ class AutoMapprBuilder {
     );
   }
 
+  /// Generates all constructors within mapper.
+  List<Constructor> _buildConstructors() {
+    return [
+      // Constant constructor to allow usage of modules.
+      Constructor(
+        (builder) => builder..constant = true,
+      ),
+    ];
+  }
+
   /// Generates all methods within mapper.
   List<Method> _buildMethods() {
-    final convertMethodBuilder = ConvertMethodBuilder(config);
+    final nullableMappings = <TypeMapping>{};
+
+    void usedNullableMappingMethod(TypeMapping? mapping) {
+      if (mapping == null) return;
+
+      final _ = nullableMappings.add(mapping);
+    }
 
     // Generates non nullable mapping method.
     return [
       // Helper method for typeOf.
-      convertMethodBuilder.buildTypeOfHelperMethod(),
+      TypeOfMethodBuilder(config).buildMethod(),
 
-      // Public convert method
-      convertMethodBuilder.buildConvertMethod(),
-      // Public tryConvert method
-      convertMethodBuilder.buildTryConvertMethod(),
+      // Getter method for modules from the annotation.
+      PrivateModulesMethodBuilder(config).buildMethod(),
+
+      // Public canConvert method.
+      CanConvertMethodBuilder(config).buildMethod(),
+      // Public convert method.
+      ConvertMethodBuilder(config).buildMethod(),
+      // Public tryConvert method.
+      TryConvertMethodBuilder(config).buildMethod(),
 
       // Public convertIterable and tryConvertIterable methods.
-      convertMethodBuilder.buildConvertIterableMethod(wrapper: 'Iterable'),
-      convertMethodBuilder.buildTryConvertIterableMethod(wrapper: 'Iterable'),
+      ConvertIterableMethodBuilder(config, wrapper: 'Iterable').buildMethod(),
+      TryConvertIterableMethodBuilder(config, wrapper: 'Iterable').buildMethod(),
 
       // Public convertList and tryConvertList methods.
-      convertMethodBuilder.buildConvertIterableMethod(wrapper: 'List', iterableTransformer: 'toList'),
-      convertMethodBuilder.buildTryConvertIterableMethod(wrapper: 'List', iterableTransformer: 'toList'),
+      ConvertIterableMethodBuilder(
+        config,
+        wrapper: 'List',
+        iterableTransformer: 'toList',
+      ).buildMethod(),
+      TryConvertIterableMethodBuilder(
+        config,
+        wrapper: 'List',
+        iterableTransformer: 'toList',
+      ).buildMethod(),
 
       // Public convertSet and tryConvertSet methods.
-      convertMethodBuilder.buildConvertIterableMethod(wrapper: 'Set', iterableTransformer: 'toSet'),
-      convertMethodBuilder.buildTryConvertIterableMethod(wrapper: 'Set', iterableTransformer: 'toSet'),
+      ConvertIterableMethodBuilder(
+        config,
+        wrapper: 'Set',
+        iterableTransformer: 'toSet',
+      ).buildMethod(),
+      TryConvertIterableMethodBuilder(
+        config,
+        wrapper: 'Set',
+        iterableTransformer: 'toSet',
+      ).buildMethod(),
 
       // Internal convert method
-      convertMethodBuilder.buildInternalConvertMethod(),
+      PrivateConvertMethodBuilder(config).buildMethod(),
 
       // Generate non-nullable mapping method.
+      // TODO(later): switch to MappingMethodBuilder
       for (final mapping in config.mappers)
         Method(
           (b) => b
@@ -91,12 +133,13 @@ class AutoMapprBuilder {
             ..body = MapModelBodyMethodBuilder(
               mapping: mapping,
               mapperConfig: config,
-              usedNullableMethodCallback: convertMethodBuilder.usedNullableMappingMethod,
+              usedNullableMethodCallback: usedNullableMappingMethod,
             ).build(),
         ),
 
       // Generates nullable mapping method only when nullable method is used.
-      for (final mapping in config.mappers.where(convertMethodBuilder.shouldGenerateNullableMappingMethod))
+      // TODO(later): switch to MappingMethodBuilder
+      for (final mapping in config.mappers.where(nullableMappings.contains))
         Method(
           (b) => b
             ..name = mapping.nullableMappingMethodName

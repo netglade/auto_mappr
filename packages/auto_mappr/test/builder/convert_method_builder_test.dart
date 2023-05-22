@@ -1,4 +1,7 @@
-import 'package:auto_mappr/src/builder/convert_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/convert_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/private_convert_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/try_convert_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/type_of_method_builder.dart';
 import 'package:auto_mappr/src/extensions/reference_extension.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:code_builder/code_builder.dart';
@@ -13,7 +16,7 @@ void main() {
           mappers: [],
           availableMappingsMacroId: 'test',
         ),
-      ).buildConvertMethod();
+      ).buildMethod();
 
       expect(result, isA<Method>());
       expect(result.name, 'convert');
@@ -33,12 +36,12 @@ void main() {
   test(
     'buildTryConvertMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder(
+      final result = TryConvertMethodBuilder(
         const AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
         ),
-      ).buildTryConvertMethod();
+      ).buildMethod();
 
       expect(result, isA<Method>());
       expect(result.name, 'tryConvert');
@@ -58,12 +61,12 @@ void main() {
   test(
     'buildInternalConvertMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder(
+      final result = PrivateConvertMethodBuilder(
         const AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
         ),
-      ).buildInternalConvertMethod();
+      ).buildMethod();
 
       expect(result, isA<Method>());
       expect(result.name, '_convert');
@@ -83,12 +86,12 @@ void main() {
   test(
     'buildTypeOfHelperMethod has the correct interface',
     () {
-      final result = ConvertMethodBuilder(
+      final result = TypeOfMethodBuilder(
         const AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
         ),
-      ).buildTypeOfHelperMethod();
+      ).buildMethod();
 
       expect(result, isA<Method>());
       expect(result.name, '_typeOf');
