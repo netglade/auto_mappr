@@ -38,28 +38,28 @@ class MappingMethodBuilder extends MethodBuilderBase {
     );
 
     // nullable
-    return Method(
-      (b) => b
-        ..name = mapping.nullableMappingMethodName
-        ..requiredParameters.addAll([
-          Parameter(
-            (p) => p
-              ..name = 'input'
-              ..type = refer('${mapping.source.getDisplayString(withNullability: false)}?'),
-          )
-        ])
-        ..returns = refer('${mapping.target.getDisplayString(withNullability: true)}?')
-        ..body = MapModelBodyMethodBuilder(
-          mapping: mapping,
-          mapperConfig: config,
-          nullable: true,
-        ).build(),
-    );
+    // return Method(
+    //   (b) => b
+    //     ..name = mapping.nullableMappingMethodName
+    //     ..requiredParameters.addAll([
+    //       Parameter(
+    //         (p) => p
+    //           ..name = 'input'
+    //           ..type = refer('${mapping.source.getDisplayString(withNullability: false)}?'),
+    //       )
+    //     ])
+    //     ..returns = refer('${mapping.target.getDisplayString(withNullability: true)}?')
+    //     ..body = MapModelBodyMethodBuilder(
+    //       mapping: mapping,
+    //       mapperConfig: config,
+    //       nullable: true,
+    //     ).build(),
+    // );
   }
 
   @override
   Code buildBody() {
-    // TODO
+    // TODO(later): rework
     return const Code('T');
   }
 }
