@@ -7,8 +7,8 @@ import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:meta/meta.dart';
 
-/// Builds main `convert` method
-abstract class AutoMapprMethodBuilder {
+/// Base class for method builders.
+abstract class MethodBuilderBase {
   static const sourceKey = 'SOURCE';
   static const sourceTypeReference = Reference(sourceKey);
   static const nullableSourceTypeReference = Reference('$sourceKey?');
@@ -24,7 +24,7 @@ abstract class AutoMapprMethodBuilder {
   final AutoMapprConfig config;
   final Set<TypeMapping> nullableMappings;
 
-  AutoMapprMethodBuilder(this.config) : nullableMappings = {};
+  MethodBuilderBase(this.config) : nullableMappings = {};
 
   static String constructConvertMethodName({
     required DartType source,
@@ -53,6 +53,16 @@ abstract class AutoMapprMethodBuilder {
   @protected
   Code buildBody();
 
+  // Generates code like:
+  /*
+     final sourceTypeOf = _typeOf<SOURCE>();
+     final targetTypeOf = _typeOf<TARGET>();
+     if ((sourceTypeOf == _typeOf<UserDto>() ||
+             sourceTypeOf == _typeOf<UserDto?>()) &&
+         (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+       return true
+      }
+  */
   Expression buildMatchingIfCondition({
     required TypeMapping mapping,
     required Reference sourceTypeOfReference,

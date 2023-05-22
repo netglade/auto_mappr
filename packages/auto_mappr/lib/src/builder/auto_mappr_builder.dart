@@ -3,14 +3,7 @@
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:auto_mappr/src/builder/map_model_body_method_builder.dart';
-import 'package:auto_mappr/src/builder/methods/can_convert_method_builder.dart';
-import 'package:auto_mappr/src/builder/methods/convert_iterable_method_builder.dart';
-import 'package:auto_mappr/src/builder/methods/convert_method_builder.dart';
-import 'package:auto_mappr/src/builder/methods/private_convert_method_builder.dart';
-import 'package:auto_mappr/src/builder/methods/private_modules_method_builder.dart';
-import 'package:auto_mappr/src/builder/methods/try_convert_iterable_method_builder.dart';
-import 'package:auto_mappr/src/builder/methods/try_convert_method_builder.dart';
-import 'package:auto_mappr/src/builder/methods/type_of_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/methods.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:built_collection/built_collection.dart';

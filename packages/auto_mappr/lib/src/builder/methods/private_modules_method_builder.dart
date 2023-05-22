@@ -1,7 +1,7 @@
-import 'package:auto_mappr/src/builder/methods/auto_mappr_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:code_builder/code_builder.dart';
 
-class PrivateModulesMethodBuilder extends AutoMapprMethodBuilder {
+class PrivateModulesMethodBuilder extends MethodBuilderBase {
   PrivateModulesMethodBuilder(super.config);
 
   @override

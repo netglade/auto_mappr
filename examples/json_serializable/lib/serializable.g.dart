@@ -26,10 +26,7 @@ class $Mappr implements AutoMapprInterface {
   /// {@macro AutoMapprInterface:canConvert}
   /// {@macro package:auto_mappr_json_example/serializable.dart}
   @override
-  bool canConvert<SOURCE, TARGET>(
-    SOURCE? model, {
-    bool recursive = true,
-  }) {
+  bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
     if ((sourceTypeOf == _typeOf<UserDto>() ||
@@ -45,7 +42,7 @@ class $Mappr implements AutoMapprInterface {
     }
     if (recursive) {
       for (final mappr in _modules) {
-        if (mappr.canConvert<SOURCE, TARGET>(model)) {
+        if (mappr.canConvert<SOURCE, TARGET>()) {
           return true;
         }
       }
@@ -57,14 +54,11 @@ class $Mappr implements AutoMapprInterface {
   /// {@macro package:auto_mappr_json_example/serializable.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
-    if (canConvert<SOURCE, TARGET>(
-      model,
-      recursive: false,
-    )) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return _convert(model)!;
     }
     for (final mappr in _modules) {
-      if (mappr.canConvert<SOURCE, TARGET>(model)) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convert(model)!;
       }
     }
@@ -76,17 +70,14 @@ class $Mappr implements AutoMapprInterface {
   /// {@macro package:auto_mappr_json_example/serializable.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
-    if (canConvert<SOURCE, TARGET>(
-      model,
-      recursive: false,
-    )) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return _convert(
         model,
         canReturnNull: true,
       );
     }
     for (final mappr in _modules) {
-      if (mappr.canConvert<SOURCE, TARGET>(model)) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvert(model);
       }
     }
@@ -97,45 +88,109 @@ class $Mappr implements AutoMapprInterface {
   /// {@macro AutoMapprInterface:convertIterable}
   /// {@macro package:auto_mappr_json_example/serializable.dart}
   @override
-  Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      model.map<TARGET>((item) => _convert(item)!);
+  Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return model.map<TARGET>((item) => _convert(item)!);
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.convertIterable(model);
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
 
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
   /// {@macro package:auto_mappr_json_example/serializable.dart}
+  @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
-          Iterable<SOURCE?> model) =>
-      model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
+      Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.tryConvertIterable(model);
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
 
   /// {@macro AutoMapprInterface:convertList}
   /// {@macro package:auto_mappr_json_example/serializable.dart}
   @override
-  List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      convertIterable<SOURCE, TARGET>(model).toList();
+  List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return convertIterable<SOURCE, TARGET>(model).toList();
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.convertList(model);
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
 
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
   /// {@macro package:auto_mappr_json_example/serializable.dart}
-  List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      tryConvertIterable<SOURCE, TARGET>(model).toList();
+  @override
+  List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return tryConvertIterable<SOURCE, TARGET>(model).toList();
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.tryConvertList(model);
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
 
   /// {@macro AutoMapprInterface:convertSet}
   /// {@macro package:auto_mappr_json_example/serializable.dart}
   @override
-  Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      convertIterable<SOURCE, TARGET>(model).toSet();
+  Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return convertIterable<SOURCE, TARGET>(model).toSet();
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.convertSet(model);
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
 
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
   /// {@macro package:auto_mappr_json_example/serializable.dart}
-  Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) =>
-      tryConvertIterable<SOURCE, TARGET>(model).toSet();
+  @override
+  Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+    if (canConvert<SOURCE, TARGET>(recursive: false)) {
+      return tryConvertIterable<SOURCE, TARGET>(model).toSet();
+    }
+    for (final mappr in _modules) {
+      if (mappr.canConvert<SOURCE, TARGET>()) {
+        return mappr.tryConvertSet(model);
+      }
+    }
+
+    throw Exception('No ${_typeOf<SOURCE>()} -> ${_typeOf<TARGET>()} mapping.');
+  }
+
   TARGET? _convert<SOURCE, TARGET>(
     SOURCE? model, {
     bool canReturnNull = false,

@@ -1,9 +1,11 @@
-import 'package:auto_mappr/src/builder/methods/auto_mappr_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/callable_method.dart';
+import 'package:auto_mappr/src/builder/methods/callable_property.dart';
+import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
-class CanConvertMethodBuilder extends AutoMapprMethodBuilder {
+class CanConvertMethodBuilder extends MethodBuilderBase implements CallableMethod, CallableProperty {
   CanConvertMethodBuilder(super.config);
 
   @override
@@ -15,15 +17,8 @@ class CanConvertMethodBuilder extends AutoMapprMethodBuilder {
           '/// {@macro AutoMapprInterface:canConvert}',
           config.availableMappingsMacroDocComment,
         ])
-        ..annotations = AutoMapprMethodBuilder.overrideAnnotation
-        ..types.addAll([AutoMapprMethodBuilder.sourceTypeReference, AutoMapprMethodBuilder.targetTypeReference])
-        ..requiredParameters.addAll([
-          Parameter(
-            (p) => p
-              ..name = 'model'
-              ..type = AutoMapprMethodBuilder.nullableSourceTypeReference,
-          ),
-        ])
+        ..annotations = MethodBuilderBase.overrideAnnotation
+        ..types.addAll([MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])
         ..optionalParameters.addAll([
           Parameter(
             (p) => p
@@ -42,26 +37,16 @@ class CanConvertMethodBuilder extends AutoMapprMethodBuilder {
   Code buildBody() {
     final block = BlockBuilder();
 
-    final sourceTypeOfVariable = declareFinal('sourceTypeOf').assign(AutoMapprMethodBuilder.sourceTypeOf);
+    final sourceTypeOfVariable = declareFinal('sourceTypeOf').assign(MethodBuilderBase.sourceTypeOf);
     final sourceTypeOfReference = refer('sourceTypeOf');
     block.addExpression(sourceTypeOfVariable);
 
-    final targetTypeOfVariable = declareFinal('targetTypeOf').assign(AutoMapprMethodBuilder.targetTypeOf);
+    final targetTypeOfVariable = declareFinal('targetTypeOf').assign(MethodBuilderBase.targetTypeOf);
     final targetTypeOfReference = refer('targetTypeOf');
     block.addExpression(targetTypeOfVariable);
 
     // Check this mappr.
     for (final mapping in config.mappers) {
-      // Generates code like:
-      /*
-       final sourceTypeOf = _typeOf<SOURCE>();
-       final targetTypeOf = _typeOf<TARGET>();
-       if ((sourceTypeOf == _typeOf<UserDto>() ||
-               sourceTypeOf == _typeOf<UserDto?>()) &&
-           (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
-         return true
-        }
-      */
       final ifCheckTypeMatchExpression = buildMatchingIfCondition(
         mapping: mapping,
         sourceTypeOfReference: sourceTypeOfReference,
@@ -80,11 +65,7 @@ class CanConvertMethodBuilder extends AutoMapprMethodBuilder {
           item: refer('mappr'),
           iterable: refer('_modules'),
           body: ExpressionExtension.ifStatement(
-            condition: refer('mappr').property('canConvert').call(
-              [refer('model')],
-              {},
-              [AutoMapprMethodBuilder.sourceTypeReference, AutoMapprMethodBuilder.targetTypeReference],
-            ),
+            condition: CanConvertMethodBuilder(config).propertyCall(on: refer('mappr')),
             ifBody: literalTrue.returned.statement,
           ),
         ),
@@ -94,5 +75,28 @@ class CanConvertMethodBuilder extends AutoMapprMethodBuilder {
     block.statements.add(literalFalse.returned.statement);
 
     return block.build();
+  }
+
+  @override
+  Expression methodCall({
+    Map<String, Expression> namedArguments = const {},
+  }) {
+    return refer('canConvert').call(
+      const [],
+      namedArguments,
+      [MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference],
+    );
+  }
+
+  @override
+  Expression propertyCall({
+    required Reference on,
+    Map<String, Expression> namedArguments = const {},
+  }) {
+    return on.property('canConvert').call(
+          const [],
+          namedArguments,
+          [MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference],
+        );
   }
 }

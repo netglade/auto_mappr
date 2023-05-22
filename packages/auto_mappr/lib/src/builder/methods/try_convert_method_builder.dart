@@ -1,9 +1,12 @@
-import 'package:auto_mappr/src/builder/methods/auto_mappr_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/can_convert_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
-class TryConvertMethodBuilder extends AutoMapprMethodBuilder {
+// modules OK
+// modules tests OK
+class TryConvertMethodBuilder extends MethodBuilderBase {
   TryConvertMethodBuilder(super.config);
 
   @override
@@ -15,16 +18,16 @@ class TryConvertMethodBuilder extends AutoMapprMethodBuilder {
           '/// {@macro AutoMapprInterface:tryConvert}',
           config.availableMappingsMacroDocComment,
         ])
-        ..annotations = AutoMapprMethodBuilder.overrideAnnotation
-        ..types.addAll([AutoMapprMethodBuilder.sourceTypeReference, AutoMapprMethodBuilder.targetTypeReference])
+        ..annotations = MethodBuilderBase.overrideAnnotation
+        ..types.addAll([MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])
         ..requiredParameters.add(
           Parameter(
             (p) => p
               ..name = 'model'
-              ..type = AutoMapprMethodBuilder.nullableSourceTypeReference,
+              ..type = MethodBuilderBase.nullableSourceTypeReference,
           ),
         )
-        ..returns = AutoMapprMethodBuilder.nullableTargetTypeReference
+        ..returns = MethodBuilderBase.nullableTargetTypeReference
         ..body = buildBody(),
     );
   }
@@ -40,11 +43,7 @@ class TryConvertMethodBuilder extends AutoMapprMethodBuilder {
     // }
     block.statements.add(
       ExpressionExtension.ifStatement(
-        condition: refer('canConvert').call(
-          [refer('model')],
-          {'recursive': literalFalse},
-          [AutoMapprMethodBuilder.sourceTypeReference, AutoMapprMethodBuilder.targetTypeReference],
-        ),
+        condition: CanConvertMethodBuilder(config).methodCall(namedArguments: {'recursive': literalFalse}),
         ifBody: refer('_convert').call([refer('model')], {'canReturnNull': refer('true')}, []).returned.statement,
       ).code,
     );
@@ -61,11 +60,7 @@ class TryConvertMethodBuilder extends AutoMapprMethodBuilder {
         item: refer('mappr'),
         iterable: refer('_modules'),
         body: ExpressionExtension.ifStatement(
-          condition: refer('mappr').property('canConvert').call(
-            [refer('model')],
-            {},
-            [AutoMapprMethodBuilder.sourceTypeReference, AutoMapprMethodBuilder.targetTypeReference],
-          ),
+          condition: CanConvertMethodBuilder(config).propertyCall(on: refer('mappr')),
           ifBody: refer('mappr').property('tryConvert').call([refer('model')], {}, []).returned.statement,
         ),
       ).code,

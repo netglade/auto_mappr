@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mappr/src/builder/methods/auto_mappr_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:auto_mappr/src/models/models.dart';
@@ -288,11 +288,11 @@ class ValueAssignmentBuilder {
     // Otherwise use non-nullable.
     final convertMethod = refer(
       useNullableMethod
-          ? AutoMapprMethodBuilder.constructNullableConvertMethodName(
+          ? MethodBuilderBase.constructNullableConvertMethodName(
               source: source,
               target: target,
             )
-          : AutoMapprMethodBuilder.constructConvertMethodName(
+          : MethodBuilderBase.constructConvertMethodName(
               source: source,
               target: target,
             ),

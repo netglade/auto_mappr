@@ -1,9 +1,9 @@
 import 'package:auto_mappr/src/builder/map_model_body_method_builder.dart';
-import 'package:auto_mappr/src/builder/methods/auto_mappr_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 
-class MappingMethodBuilder extends AutoMapprMethodBuilder {
+class MappingMethodBuilder extends MethodBuilderBase {
   final TypeMapping mapping;
   final bool nullable;
   final void Function(TypeMapping? mapping)? usedNullableMethodCallback;

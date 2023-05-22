@@ -1,8 +1,8 @@
-import 'package:auto_mappr/src/builder/methods/auto_mappr_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:code_builder/code_builder.dart';
 
-class PrivateConvertMethodBuilder extends AutoMapprMethodBuilder {
+class PrivateConvertMethodBuilder extends MethodBuilderBase {
   PrivateConvertMethodBuilder(super.config);
 
   @override
@@ -10,12 +10,12 @@ class PrivateConvertMethodBuilder extends AutoMapprMethodBuilder {
     return Method(
       (b) => b
         ..name = '_convert'
-        ..types.addAll([AutoMapprMethodBuilder.sourceTypeReference, AutoMapprMethodBuilder.targetTypeReference])
+        ..types.addAll([MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])
         ..requiredParameters.add(
           Parameter(
             (p) => p
               ..name = 'model'
-              ..type = AutoMapprMethodBuilder.nullableSourceTypeReference,
+              ..type = MethodBuilderBase.nullableSourceTypeReference,
           ),
         )
         ..optionalParameters.add(
@@ -27,7 +27,7 @@ class PrivateConvertMethodBuilder extends AutoMapprMethodBuilder {
               ..defaultTo = literalFalse.code,
           ),
         )
-        ..returns = AutoMapprMethodBuilder.nullableTargetTypeReference
+        ..returns = MethodBuilderBase.nullableTargetTypeReference
         ..body = buildBody(),
     );
   }
@@ -36,18 +36,18 @@ class PrivateConvertMethodBuilder extends AutoMapprMethodBuilder {
   Code buildBody() {
     final block = BlockBuilder();
 
-    final sourceTypeOfVariable = declareFinal('sourceTypeOf').assign(AutoMapprMethodBuilder.sourceTypeOf);
+    final sourceTypeOfVariable = declareFinal('sourceTypeOf').assign(MethodBuilderBase.sourceTypeOf);
     final sourceTypeOfReference = refer('sourceTypeOf');
     block.addExpression(sourceTypeOfVariable);
 
-    final targetTypeOfVariable = declareFinal('targetTypeOf').assign(AutoMapprMethodBuilder.targetTypeOf);
+    final targetTypeOfVariable = declareFinal('targetTypeOf').assign(MethodBuilderBase.targetTypeOf);
     final targetTypeOfReference = refer('targetTypeOf');
     block.addExpression(targetTypeOfVariable);
 
     for (final mapping in config.mappers) {
       final ifCheckForNull = refer('canReturnNull').and(refer('model').equalToNull()).ifStatement2(
             ifBody: mapping.hasWhenNullDefault()
-                ? mapping.whenSourceIsNullExpression!.asA(AutoMapprMethodBuilder.targetTypeReference).returned.statement
+                ? mapping.whenSourceIsNullExpression!.asA(MethodBuilderBase.targetTypeReference).returned.statement
                 : literalNull.returned.statement,
           );
 
@@ -76,7 +76,7 @@ class PrivateConvertMethodBuilder extends AutoMapprMethodBuilder {
                         refer('model').asA(refer('${mapping.source.getDisplayString(withNullability: false)}?')),
                       ],
                     )
-                    .asA(AutoMapprMethodBuilder.targetTypeReference)
+                    .asA(MethodBuilderBase.targetTypeReference)
                     .returned,
               ))
             .build(),

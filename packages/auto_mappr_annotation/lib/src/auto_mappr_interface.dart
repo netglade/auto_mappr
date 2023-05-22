@@ -5,7 +5,7 @@ abstract class AutoMapprInterface {
   /// {@template AutoMapprInterface:canConvert}
   /// Determines whether conversion from [SOURCE] to [TARGET] is possible.
   /// {@endtemplate}
-  bool canConvert<SOURCE, TARGET>(SOURCE? model, {bool recursive});
+  bool canConvert<SOURCE, TARGET>({bool recursive});
 
   /// {@template AutoMapprInterface:convert}
   /// Converts from SOURCE to TARGET if such mapping is configured.
