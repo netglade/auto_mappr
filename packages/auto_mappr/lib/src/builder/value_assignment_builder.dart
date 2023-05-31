@@ -74,13 +74,14 @@ class ValueAssignmentBuilder {
     final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
     final targetNullable = targetType.nullabilitySuffix == NullabilitySuffix.question;
 
-    final sourceIterableType = (sourceType as ParameterizedType).typeArguments.first;
-    final targetIterableType = (targetType as ParameterizedType).typeArguments.first;
+    final sourceIterableType = sourceType.genericParameterTypeOrThis;
+    final targetIterableType = targetType.genericParameterTypeOrThis;
 
     final shouldFilterNullInSource = sourceIterableType.nullabilitySuffix == NullabilitySuffix.question &&
         targetIterableType.nullabilitySuffix != NullabilitySuffix.question;
 
-    final assignNestedObject = !targetIterableType.isPrimitiveType && (!targetIterableType.isSame(sourceIterableType));
+    final assignNestedObject = (!targetIterableType.isPrimitiveType && !targetIterableType.isSpecializedListType) &&
+        (!targetIterableType.isSame(sourceIterableType));
 
     // When [sourceIterableType] is nullable and [targetIterableType] is not, remove null values.
     final sourceIterableExpression = refer('model').property(assignment.sourceField!.name).maybeWhereIterableNotNull(
@@ -317,8 +318,8 @@ class ValueAssignmentBuilder {
   }
 
   Expression _nestedMapCallForIterable(SourceAssignment assignment) {
-    final targetListType = (assignment.targetType as ParameterizedType).typeArguments.first;
-    final sourceListType = (assignment.sourceType! as ParameterizedType).typeArguments.first;
+    final targetListType = assignment.targetType.genericParameterTypeOrThis;
+    final sourceListType = assignment.sourceType!.genericParameterTypeOrThis;
 
     return _assignNestedObject(
       assignment: assignment,
