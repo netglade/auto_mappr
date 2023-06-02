@@ -23,7 +23,7 @@ extension DartTypeExtension on DartType {
     return thisType.interfaces.any((i) => i.getDisplayString(withNullability: false) == 'List<int>');
   }
 
-  DartType get genericParameterTypeOrThis => (this as ParameterizedType).typeArguments.firstOrNull ?? this;
+  DartType get genericParameterTypeOrSelf => (this as ParameterizedType).typeArguments.firstOrNull ?? this;
 
   /// Checks name, generics, library
   /// and nullability if [withNullability] is not set.
@@ -67,7 +67,7 @@ extension DartTypeExtension on DartType {
   }
 
   Expression defaultIterableExpression() {
-    final itemType = (this as ParameterizedType).typeArguments.firstOrNull ?? this;
+    final itemType = genericParameterTypeOrSelf;
 
     if (isDartCoreList) {
       return literalList([], refer(itemType.getDisplayString(withNullability: true)));

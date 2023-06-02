@@ -74,8 +74,8 @@ class ValueAssignmentBuilder {
     final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
     final targetNullable = targetType.nullabilitySuffix == NullabilitySuffix.question;
 
-    final sourceIterableType = sourceType.genericParameterTypeOrThis;
-    final targetIterableType = targetType.genericParameterTypeOrThis;
+    final sourceIterableType = sourceType.genericParameterTypeOrSelf;
+    final targetIterableType = targetType.genericParameterTypeOrSelf;
 
     final shouldFilterNullInSource = sourceIterableType.nullabilitySuffix == NullabilitySuffix.question &&
         targetIterableType.nullabilitySuffix != NullabilitySuffix.question;
@@ -318,8 +318,8 @@ class ValueAssignmentBuilder {
   }
 
   Expression _nestedMapCallForIterable(SourceAssignment assignment) {
-    final targetListType = assignment.targetType.genericParameterTypeOrThis;
-    final sourceListType = assignment.sourceType!.genericParameterTypeOrThis;
+    final targetListType = assignment.targetType.genericParameterTypeOrSelf;
+    final sourceListType = assignment.sourceType!.genericParameterTypeOrSelf;
 
     return _assignNestedObject(
       assignment: assignment,

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'issue_77.g.dart';
+part 'uint8_issue_77.g.dart';
 
 class Source {
   final Uint8List int8List;
