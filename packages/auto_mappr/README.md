@@ -320,6 +320,11 @@ are mapped using the `.map()` method when the values are complex types.
 When needed, mostly after mapping, `.toList()` or `.toSet()` methods are called
 to cast an `Iterable` into a `List`/`Set`.
 
+#### Specialized variants of `List<int>`
+AutoMappr will automatically convert between `List<int>` and its specialized variants `Uint8List`, `Uint16List`, `Uint32List` and `Uint64List`.  
+
+Convesion between these specialized variants are not handled and its developer responsibility to configure mapping. 
+
 ### Map objects mapping
 
 Maps are a specific case of `Iterable`s,
