@@ -15,7 +15,7 @@ extension DartTypeExtension on DartType {
 
   /// Is special variant of integer.
   ///
-  /// See [Uint8List], [Uint16List], [Uint32List], [Uint64List].
+  /// See `[Uint8List], [Uint16List], [Uint32List], [Uint64List].`
   bool get isSpecializedListType {
     final thisType = this;
     if (thisType is! InterfaceType) return false;

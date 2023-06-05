@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:test/test.dart';
 
-import '../fixture/regression/issue_77.dart' as fixture;
+import '../fixture/regression/uint8_issue_77.dart' as fixture;
 
 void main() {
   late final fixture.Mappr mappr;
