@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
+import 'package:collection/collection.dart';
 
 extension DartTypeExtension on DartType {
   bool get isPrimitiveType =>
@@ -11,6 +12,18 @@ extension DartTypeExtension on DartType {
       isDartCoreBool ||
       isDartCoreEnum ||
       isDartCoreSymbol;
+
+  /// Is special variant of integer.
+  ///
+  /// See `[Uint8List], [Uint16List], [Uint32List], [Uint64List].`
+  bool get isSpecializedListType {
+    final thisType = this;
+    if (thisType is! InterfaceType) return false;
+
+    return thisType.interfaces.any((i) => i.getDisplayString(withNullability: false) == 'List<int>');
+  }
+
+  DartType get genericParameterTypeOrSelf => (this as ParameterizedType).typeArguments.firstOrNull ?? this;
 
   /// Checks name, generics, library
   /// and nullability if [withNullability] is not set.
@@ -54,7 +67,7 @@ extension DartTypeExtension on DartType {
   }
 
   Expression defaultIterableExpression() {
-    final itemType = (this as ParameterizedType).typeArguments.first;
+    final itemType = genericParameterTypeOrSelf;
 
     if (isDartCoreList) {
       return literalList([], refer(itemType.getDisplayString(withNullability: true)));

@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:code_builder/code_builder.dart';
 
 extension ExpressionExtension on Expression {
@@ -8,12 +9,16 @@ extension ExpressionExtension on Expression {
     required bool forceCast,
     required bool isOnNullable,
   }) {
-    if ((!source.isDartCoreList || forceCast) && target.isDartCoreList) {
+    if (((!source.isDartCoreList && !source.isSpecializedListType) || forceCast) && target.isDartCoreList) {
       return maybeProperty('toList', isOnNullable: isOnNullable).call([]);
     }
 
     if ((!source.isDartCoreSet || forceCast) && target.isDartCoreSet) {
       return maybeProperty('toSet', isOnNullable: isOnNullable).call([]);
+    }
+
+    if ((source.isDartCoreList || forceCast) && target.isSpecializedListType) {
+      return refer(target.getDisplayString(withNullability: false)).property('fromList').call([this]);
     }
 
     // Keep iterable as is.
@@ -138,7 +143,8 @@ extension ExpressionExtension on Expression {
   }) {
     final dartEmitter = DartEmitter();
 
-    return refer('''
+    return refer(
+        '''
 for (final ${item.accept(dartEmitter)} in ${iterable.accept(dartEmitter)}) {
   ${body.accept(dartEmitter)}
 } 
