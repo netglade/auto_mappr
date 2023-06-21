@@ -57,7 +57,7 @@ class SourceAssignment {
 
   bool shouldAssignIterable() {
     // The source can be mapped to the target, if the source is mappable object and the target is an iterable.
-    return _isCoreIterable(targetType) && _isMappableIterable(sourceType!);
+    return (_isCoreIterable(targetType) || targetType.isSpecializedListType) && _isMappableIterable(sourceType!);
   }
 
   bool shouldAssignMap() {

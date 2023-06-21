@@ -9,7 +9,9 @@ part 'constructor_parameters.g.dart';
   MapType<Named, Positional>(),
   MapType<Named, Named>(),
 ])
-class Mappr extends $Mappr {}
+class MapprX extends $MapprX {
+  const MapprX();
+}
 
 class Positional extends Equatable {
   final int age;

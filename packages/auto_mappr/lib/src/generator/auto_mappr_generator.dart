@@ -28,6 +28,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     final constant = annotation.objectValue;
     final mappersField = constant.getField('mappers')!;
     final mappersList = mappersField.toListValue()!;
+    final modulesExpression = constant.getField('modules')!.toCodeExpression();
+    final modulesList = constant.getField('modules')!.toListValue();
 
     final libraryUriToAlias = _getLibraryAliases(element: element);
 
@@ -120,6 +122,17 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     }).toList();
   }
 
+    final config = AutoMapprConfig(
+      mappers: mappers,
+      availableMappingsMacroId: element.library.identifier,
+      modulesCode: modulesExpression,
+      modulesList: modulesList ?? [],
+    );
+
+    final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
+
+    final output = builder.build();
+    final emitter = DartEmitter(orderDirectives: true, useNullSafetySyntax: true);
   Map<String, String> _getLibraryAliases({
     required ClassElement element,
   }) {

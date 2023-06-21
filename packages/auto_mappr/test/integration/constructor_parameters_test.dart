@@ -3,10 +3,10 @@ import 'package:test/test.dart';
 import 'fixture/constructor_parameters.dart' as fixture;
 
 void main() {
-  late final fixture.Mappr mappr;
+  late final fixture.MapprX mappr;
 
   setUpAll(() {
-    mappr = fixture.Mappr();
+    mappr = const fixture.MapprX();
   });
 
   group(

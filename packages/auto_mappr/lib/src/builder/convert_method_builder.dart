@@ -23,36 +23,6 @@ class ConvertMethodBuilder {
 
   ConvertMethodBuilder(this._config) : _nullableMappings = {};
 
-  static String concreteConvertMethodName({
-    required DartType source,
-    required DartType target,
-    required AutoMapprConfig config,
-  }) =>
-      '_map__${source.toConvertMethodName(
-        withNullability: false,
-        config: config,
-      )}__To__${target.toConvertMethodName(
-        withNullability: false,
-        config: config,
-      )}';
-
-  static String concreteNullableConvertMethodName({
-    required DartType source,
-    required DartType target,
-    required AutoMapprConfig config,
-  }) =>
-      '${concreteConvertMethodName(source: source, target: target, config: config)}_Nullable';
-
-  bool shouldGenerateNullableMappingMethod(TypeMapping mapping) {
-    return _nullableMappings.contains(mapping);
-  }
-
-  void usedNullableMappingMethod(TypeMapping? mapping) {
-    if (mapping == null) return;
-
-    final _ = _nullableMappings.add(mapping);
-  }
-
   Method buildCanConvert() {
     return Method(
       (b) => b
@@ -72,7 +42,7 @@ class ConvertMethodBuilder {
           '///',
           '/// When source model is null, returns `whenSourceIsNull` if defined or throws an exception.',
           '///',
-          _config.availableMappingsMacroDocComment,
+          _config.availableMappingsDocComment,
         ])
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
@@ -97,7 +67,7 @@ class ConvertMethodBuilder {
           '///',
           '/// When source model is null, returns `whenSourceIsNull` if defined or null.',
           '///',
-          _config.availableMappingsMacroDocComment,
+          _config.availableMappingsDocComment,
         ])
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
@@ -127,7 +97,7 @@ class ConvertMethodBuilder {
           '///',
           '/// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or throws an exception.',
           '///',
-          _config.availableMappingsMacroDocComment,
+          _config.availableMappingsDocComment,
         ])
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
@@ -171,7 +141,7 @@ class ConvertMethodBuilder {
           '///',
           '/// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null',
           '///',
-          _config.availableMappingsMacroDocComment,
+          _config.availableMappingsDocComment,
         ])
         ..types.addAll([_sourceTypeReference, _targetTypeReference])
         ..requiredParameters.add(
@@ -250,7 +220,7 @@ class ConvertMethodBuilder {
     block.addExpression(targetTypeOfVariable);
 
     for (final mapping in mappings) {
-      final ifCheckForNull = refer('canReturnNull').and(refer('model').equalToNull()).ifStatement(
+      final ifCheckForNull = refer('canReturnNul l').and(refer('model').equalToNull()).ifStatement2(
             ifBody: mapping.hasWhenNullDefault()
                 ? mapping.whenSourceIsNullExpression!.asA(_targetTypeReference).returned.statement
                 : literalNull.returned.statement,
@@ -315,7 +285,7 @@ class ConvertMethodBuilder {
           .equalTo(refer(mapping.source.getDisplayStringWithLibraryAlias(config: _config)))
           .and(outputExpression);
 
-      final ifStatement = ifConditionExpression.ifStatement(ifBody: literalTrue.returned.statement);
+      final ifStatement = ifConditionExpression.ifStatement2(ifBody: literalTrue.returned.statement);
 
       block.statements.add(ifStatement.code);
     }
@@ -344,6 +314,6 @@ class ConvertMethodBuilder {
 
     final ifConditionExpression = modelIsTypeExpression.bracketed().and(outputExpression.bracketed());
 
-    return ifConditionExpression.ifStatement(ifBody: inIfExpression);
+    return ifConditionExpression.ifStatement2(ifBody: inIfExpression);
   }
 }

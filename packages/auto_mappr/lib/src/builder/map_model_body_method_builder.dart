@@ -362,15 +362,15 @@ class MapModelBodyMethodBuilder {
       //   return whenSourceIsNullExpression; // When whenSourceIsNullExpression is set.
       //   return null; // Otherwise.
       // }
-      return ifConditionExpression.ifStatement(ifBody: ifBodyExpression.returned.statement).code;
+      return ifConditionExpression.ifStatement2(ifBody: ifBodyExpression.returned.statement).code;
     }
 
     final ifBodyExpression = mapping.hasWhenNullDefault()
         ? mapping.whenSourceIsNullExpression!.returned
         : refer('Exception').newInstance([
             refer(
-              "'Mapping $mapping failed because ${mapping.source} was null, and no default value was provided. '\n"
-              "'Consider setting the whenSourceIsNull parameter on the MapType<${mapping.source}, ${mapping.target}> to handle null values during mapping.'",
+              "r'Mapping $mapping failed because ${mapping.source} was null, and no default value was provided. '\n"
+              "r'Consider setting the whenSourceIsNull parameter on the MapType<${mapping.source}, ${mapping.target}> to handle null values during mapping.'",
             ),
           ]).thrown;
 
@@ -380,6 +380,6 @@ class MapModelBodyMethodBuilder {
     //   return whenSourceIsNullExpression; // When whenSourceIsNullExpression is set.
     //   throw Exception('Mapping UserDto -> User when null but no default value provided!'); // Otherwise.
     // }
-    return ifConditionExpression.ifStatement(ifBody: ifBodyExpression.statement).code;
+    return ifConditionExpression.ifStatement2(ifBody: ifBodyExpression.statement).code;
   }
 }
