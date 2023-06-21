@@ -4,8 +4,6 @@ import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
-// modules OK
-// modules tests OK
 class ConvertMethodBuilder extends MethodBuilderBase {
   ConvertMethodBuilder(super.config);
 

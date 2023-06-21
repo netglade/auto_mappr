@@ -12,7 +12,7 @@ part of 'enum.dart';
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-/// {@template package:auto_mappr_example_another/enum.dart}
+/// {@template package:examples_example/enum.dart}
 /// Available mappings:
 /// - `UserType` → `PersonType`.
 /// - `Vehicle` → `Vehicle`.
@@ -25,7 +25,7 @@ class $Mappr implements AutoMapprInterface {
   List<AutoMapprInterface> get _modules => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:auto_mappr_example_another/enum.dart}
+  /// {@macro package:examples_example/enum.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
@@ -59,7 +59,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:auto_mappr_example_another/enum.dart}
+  /// {@macro package:examples_example/enum.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -75,7 +75,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:auto_mappr_example_another/enum.dart}
+  /// {@macro package:examples_example/enum.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -94,7 +94,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:auto_mappr_example_another/enum.dart}
+  /// {@macro package:examples_example/enum.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -113,7 +113,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_example_another/enum.dart}
+  /// {@macro package:examples_example/enum.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
       Iterable<SOURCE?> model) {
@@ -130,7 +130,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:auto_mappr_example_another/enum.dart}
+  /// {@macro package:examples_example/enum.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -149,7 +149,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_example_another/enum.dart}
+  /// {@macro package:examples_example/enum.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -165,7 +165,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:auto_mappr_example_another/enum.dart}
+  /// {@macro package:examples_example/enum.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -184,7 +184,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_example_another/enum.dart}
+  /// {@macro package:examples_example/enum.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -212,7 +212,7 @@ class $Mappr implements AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_UserType_To_PersonType((model as UserType?)) as TARGET);
+      return (_map__UserType__To__PersonType((model as UserType?)) as TARGET);
     }
     if ((sourceTypeOf == _typeOf<Vehicle>() ||
             sourceTypeOf == _typeOf<Vehicle?>()) &&
@@ -221,7 +221,7 @@ class $Mappr implements AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_Vehicle_To_Vehicle((model as Vehicle?)) as TARGET);
+      return (_map__Vehicle__To__Vehicle((model as Vehicle?)) as TARGET);
     }
     if ((sourceTypeOf == _typeOf<Vehicle>() ||
             sourceTypeOf == _typeOf<Vehicle?>()) &&
@@ -230,12 +230,12 @@ class $Mappr implements AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_Vehicle_To_VehicleX((model as Vehicle?)) as TARGET);
+      return (_map__Vehicle__To__VehicleX((model as Vehicle?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  PersonType _map_UserType_To_PersonType(UserType? input) {
+  PersonType _map__UserType__To__PersonType(UserType? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -245,7 +245,7 @@ class $Mappr implements AutoMapprInterface {
     return PersonType.values.firstWhere((x) => x.name == model.name);
   }
 
-  Vehicle _map_Vehicle_To_Vehicle(Vehicle? input) {
+  Vehicle _map__Vehicle__To__Vehicle(Vehicle? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -255,7 +255,7 @@ class $Mappr implements AutoMapprInterface {
     return Vehicle.values.firstWhere((x) => x.name == model.name);
   }
 
-  VehicleX _map_Vehicle_To_VehicleX(Vehicle? input) {
+  VehicleX _map__Vehicle__To__VehicleX(Vehicle? input) {
     final model = input;
     if (model == null) {
       throw Exception(

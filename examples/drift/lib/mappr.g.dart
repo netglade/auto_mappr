@@ -12,7 +12,7 @@ part of 'mappr.dart';
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-/// {@template package:auto_mappr_drift_example/mappr.dart}
+/// {@template package:examples_drift/mappr.dart}
 /// Available mappings:
 /// - `Todo` → `TodoItem`.
 /// {@endtemplate}
@@ -23,7 +23,7 @@ class $Mappr implements AutoMapprInterface {
   List<AutoMapprInterface> get _modules => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
@@ -44,7 +44,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -60,7 +60,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -79,7 +79,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -98,7 +98,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
       Iterable<SOURCE?> model) {
@@ -115,7 +115,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -134,7 +134,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -150,7 +150,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -169,7 +169,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_drift_example/mappr.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -196,12 +196,12 @@ class $Mappr implements AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_Todo_To_TodoItem((model as Todo?)) as TARGET);
+      return (_map__Todo__To__TodoItem((model as Todo?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  TodoItem _map_Todo_To_TodoItem(Todo? input) {
+  TodoItem _map__Todo__To__TodoItem(Todo? input) {
     final model = input;
     if (model == null) {
       throw Exception(

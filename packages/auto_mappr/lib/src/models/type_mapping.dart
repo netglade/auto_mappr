@@ -2,10 +2,9 @@
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mappr/src/builder/convert_method_builder.dart';
+import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
-import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/models/field_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
@@ -17,16 +16,6 @@ class TypeMapping extends Equatable {
   final List<FieldMapping>? fieldMappings;
   final Expression? whenSourceIsNullExpression;
   final String? constructor;
-
-  String get mappingMethodName => MethodBuilderBase.constructConvertMethodName(
-        source: source,
-        target: target,
-      );
-
-  String get nullableMappingMethodName => MethodBuilderBase.constructNullableConvertMethodName(
-        source: source,
-        target: target,
-      );
 
   bool get isEnumMapping => source.element is EnumElement || target.element is EnumElement;
 
@@ -52,7 +41,7 @@ class TypeMapping extends Equatable {
   String mappingMethodName({
     required AutoMapprConfig config,
   }) =>
-      ConvertMethodBuilder.concreteConvertMethodName(
+      MethodBuilderBase.constructConvertMethodName(
         source: source,
         target: target,
         config: config,
@@ -61,7 +50,7 @@ class TypeMapping extends Equatable {
   String nullableMappingMethodName({
     required AutoMapprConfig config,
   }) =>
-      ConvertMethodBuilder.concreteNullableConvertMethodName(
+      MethodBuilderBase.constructNullableConvertMethodName(
         source: source,
         target: target,
         config: config,

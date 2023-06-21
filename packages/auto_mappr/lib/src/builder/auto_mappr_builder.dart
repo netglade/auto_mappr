@@ -3,8 +3,8 @@
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:auto_mappr/src/builder/map_model_body_method_builder.dart';
-import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/builder/methods/methods.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:built_collection/built_collection.dart';

@@ -12,7 +12,7 @@ part of 'json_serializable.dart';
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-/// {@template asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+/// {@template asset:examples_json_serializable/test/fixture/json_serializable.dart}
 /// Available mappings:
 /// - `UserDto` → `User`.
 /// - `ValueHolderDto` → `ValueHolder`.
@@ -24,7 +24,7 @@ class $Mappr implements AutoMapprInterface {
   List<AutoMapprInterface> get _modules => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
@@ -51,7 +51,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -67,7 +67,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -86,7 +86,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -105,7 +105,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
       Iterable<SOURCE?> model) {
@@ -122,7 +122,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -141,7 +141,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -157,7 +157,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -176,7 +176,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro asset:auto_mappr_json_example/test/fixture/json_serializable.dart}
+  /// {@macro asset:examples_json_serializable/test/fixture/json_serializable.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -203,7 +203,7 @@ class $Mappr implements AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_UserDto_To_User((model as UserDto?)) as TARGET);
+      return (_map__UserDto__To__User((model as UserDto?)) as TARGET);
     }
     if ((sourceTypeOf == _typeOf<ValueHolderDto>() ||
             sourceTypeOf == _typeOf<ValueHolderDto?>()) &&
@@ -212,13 +212,13 @@ class $Mappr implements AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_ValueHolderDto_To_ValueHolder((model as ValueHolderDto?))
+      return (_map__ValueHolderDto__To__ValueHolder((model as ValueHolderDto?))
           as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  User _map_UserDto_To_User(UserDto? input) {
+  User _map__UserDto__To__User(UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -231,7 +231,7 @@ class $Mappr implements AutoMapprInterface {
     );
   }
 
-  ValueHolder _map_ValueHolderDto_To_ValueHolder(ValueHolderDto? input) {
+  ValueHolder _map__ValueHolderDto__To__ValueHolder(ValueHolderDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(

@@ -22,9 +22,9 @@ class AutoMapprConfig {
   const AutoMapprConfig({
     required this.mappers,
     required this.availableMappingsMacroId,
+    required this.libraryUriToAlias,
     this.modulesCode,
     this.modulesList = const [],
-    required this.libraryUriToAlias,
   });
 
   TypeMapping? findMapping({

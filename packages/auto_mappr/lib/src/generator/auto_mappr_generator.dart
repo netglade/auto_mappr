@@ -60,6 +60,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       mappers: mappers,
       availableMappingsMacroId: element.library.identifier,
       libraryUriToAlias: libraryUriToAlias,
+      modulesCode: modulesExpression,
+      modulesList: modulesList ?? [],
     );
 
     final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
@@ -122,17 +124,6 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     }).toList();
   }
 
-    final config = AutoMapprConfig(
-      mappers: mappers,
-      availableMappingsMacroId: element.library.identifier,
-      modulesCode: modulesExpression,
-      modulesList: modulesList ?? [],
-    );
-
-    final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
-
-    final output = builder.build();
-    final emitter = DartEmitter(orderDirectives: true, useNullSafetySyntax: true);
   Map<String, String> _getLibraryAliases({
     required ClassElement element,
   }) {

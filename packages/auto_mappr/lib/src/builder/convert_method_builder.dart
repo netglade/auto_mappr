@@ -1,4 +1,3 @@
-import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
@@ -19,9 +18,8 @@ class ConvertMethodBuilder {
   static const _targetTypeOf = Reference('_typeOf<$_targetKey>()');
 
   final AutoMapprConfig _config;
-  final Set<TypeMapping> _nullableMappings;
 
-  ConvertMethodBuilder(this._config) : _nullableMappings = {};
+  ConvertMethodBuilder(this._config);
 
   Method buildCanConvert() {
     return Method(
@@ -220,7 +218,7 @@ class ConvertMethodBuilder {
     block.addExpression(targetTypeOfVariable);
 
     for (final mapping in mappings) {
-      final ifCheckForNull = refer('canReturnNul l').and(refer('model').equalToNull()).ifStatement2(
+      final ifCheckForNull = refer('canReturnNull').and(refer('model').equalToNull()).ifStatement2(
             ifBody: mapping.hasWhenNullDefault()
                 ? mapping.whenSourceIsNullExpression!.asA(_targetTypeReference).returned.statement
                 : literalNull.returned.statement,

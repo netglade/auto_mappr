@@ -1,7 +1,6 @@
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
-import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:code_builder/code_builder.dart';
 
 extension ExpressionExtension on Expression {
@@ -146,8 +145,7 @@ extension ExpressionExtension on Expression {
   }) {
     final dartEmitter = DartEmitter();
 
-    return refer(
-        '''
+    return refer('''
 for (final ${item.accept(dartEmitter)} in ${iterable.accept(dartEmitter)}) {
   ${body.accept(dartEmitter)}
 } 
