@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs
-// ignore_for_file: format-comment
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:auto_mappr/src/builder/map_model_body_method_builder.dart';

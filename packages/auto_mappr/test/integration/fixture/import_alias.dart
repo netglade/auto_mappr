@@ -1,26 +1,34 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
-import 'import_alias_1.dart' as a1;
-import 'import_alias_2.dart' as a2;
+
+import 'import_alias/import_alias_1.dart' as a1;
+import 'import_alias/import_alias_2.dart' as a2;
+import 'import_alias/import_alias_module.dart' as module;
 
 part 'import_alias.g.dart';
 
-@AutoMappr([
-  MapType<UserDto, User>(),
-  MapType<UserDto, a1.User>(),
-  MapType<UserDto, a2.User>(),
-  MapType<a1.UserDto, User>(),
-  MapType<a1.UserDto, a1.User>(),
-  MapType<a1.UserDto, a2.User>(),
-  MapType<a2.UserDto, User>(),
-  MapType<a2.UserDto, a1.User>(),
-  MapType<a2.UserDto, a2.User>(),
-  // generics
-  MapType<Holder<a1.UserDto, a2.UserDto>, a2.Holder<a1.User, a2.User>>(),
-  // iterable
-  MapType<ListHolder<UserDto>, ListHolder<a1.User>>(),
-  MapType<MapHolder<UserDto>, MapHolder<a2.User>>(),
-])
+@AutoMappr(
+  [
+    MapType<UserDto, User>(),
+    MapType<UserDto, a1.User>(),
+    MapType<UserDto, a2.User>(),
+    MapType<a1.UserDto, User>(),
+    MapType<a1.UserDto, a1.User>(),
+    MapType<a1.UserDto, a2.User>(),
+    MapType<a2.UserDto, User>(),
+    MapType<a2.UserDto, a1.User>(),
+    MapType<a2.UserDto, a2.User>(),
+    // export from a1
+    MapType<a1.XxxDto, a1.Xxx>(),
+    MapType<a1.YyyDto, a1.Yyy>(),
+    // generics
+    MapType<Holder<a1.UserDto, a2.UserDto>, a2.Holder<a1.User, a2.User>>(),
+    // iterable
+    MapType<ListHolder<UserDto>, ListHolder<a1.User>>(),
+    MapType<MapHolder<UserDto>, MapHolder<a2.User>>(),
+  ],
+  modules: [module.ImportAliasModule()],
+)
 class Mappr extends $Mappr {}
 
 class UserDto {

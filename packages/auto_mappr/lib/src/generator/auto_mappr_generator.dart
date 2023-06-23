@@ -11,6 +11,7 @@ import 'package:auto_mappr/src/models/models.dart';
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
+import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
 /// Code generator to generate implemented mapping classes.
@@ -25,12 +26,6 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       );
     }
 
-    final constant = annotation.objectValue;
-    final mappersField = constant.getField('mappers')!;
-    final mappersList = mappersField.toListValue()!;
-    final modulesExpression = constant.getField('modules')!.toCodeExpression();
-    final modulesList = constant.getField('modules')!.toListValue();
-
     final libraryUriToAlias = _getLibraryAliases(element: element);
 
     final tmpConfig = AutoMapprConfig(
@@ -38,6 +33,12 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       availableMappingsMacroId: 'tmp',
       libraryUriToAlias: libraryUriToAlias,
     );
+
+    final constant = annotation.objectValue;
+    final mappersField = constant.getField('mappers')!;
+    final mappersList = mappersField.toListValue()!;
+    final modulesExpression = constant.getField('modules')!.toCodeExpression(config: tmpConfig);
+    final modulesList = constant.getField('modules')!.toListValue();
 
     final mappers = _processMappers(
       mappers: mappersList,
@@ -99,7 +100,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       }
 
       final fields = mapper.getField('fields')?.toListValue();
-      final whenSourceIsNull = mapper.getField('whenSourceIsNull')?.toCodeExpression();
+      final whenSourceIsNull = mapper.getField('whenSourceIsNull')?.toCodeExpression(config: config);
       final constructor = mapper.getField('constructor')?.toStringValue();
 
       final fieldMappings = fields
@@ -108,8 +109,9 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
               field: fieldMapping.getField('field')!.toStringValue()!,
               ignore: fieldMapping.getField('ignore')!.toBoolValue()!,
               from: fieldMapping.getField('from')!.toStringValue(),
-              customExpression: fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true),
-              whenNullExpression: fieldMapping.getField('whenNull')!.toCodeExpression(),
+              customExpression:
+                  fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true, config: config),
+              whenNullExpression: fieldMapping.getField('whenNull')!.toCodeExpression(config: config),
             ),
           )
           .toList();
@@ -134,13 +136,31 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     final uris = imports.map((e) => e.importedLibrary!.identifier).toList();
 
     for (var i = 0; i < imports.length; i++) {
-      if (aliases[i] == null) continue;
+      final currentAlias = aliases[i];
+      if (currentAlias == null) continue;
+
+      final importedLibrary = imports[i].importedLibrary!;
+      final exports = _getRecursiveLibraryExports(importedLibrary);
 
       libraryUriToAlias.addAll({
-        uris[i]: aliases[i]!,
+        // Current library.
+        uris[i]: currentAlias,
+        // It's exports.
+        for (final exported in exports) exported.identifier: currentAlias,
       });
     }
 
     return libraryUriToAlias;
+  }
+
+  /// Recursively returns all exports (even nested) for [library].
+  Iterable<LibraryElement> _getRecursiveLibraryExports(LibraryElement library) {
+    final exports = library.libraryExports;
+    if (exports.isEmpty) return [];
+
+    return [
+      ...exports.map((e) => e.exportedLibrary!),
+      ...exports.map((e) => _getRecursiveLibraryExports(e.exportedLibrary!)).flattened,
+    ];
   }
 }

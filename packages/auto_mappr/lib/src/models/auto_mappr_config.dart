@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/extensions/element_extension.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
@@ -50,7 +51,11 @@ class AutoMapprConfig {
     return [
       if (modulesList.isNotEmpty) ...[
         '///',
-        "/// Available modules: ${modulesList.map((e) => '[\$${e.type!.getDisplayString(withNullability: false)}]').join(', ')}",
+        "/// Available modules: ${modulesList.map((e) {
+          final alias = e.type!.element!.getLibraryAlias(config: this);
+
+          return '[$alias\$${e.type!.getDisplayString(withNullability: false)}]';
+        }).join(', ')}",
       ],
     ];
   }

@@ -1,8 +1,8 @@
 import 'package:test/test.dart';
 
 import 'fixture/import_alias.dart' as fixture;
-import 'fixture/import_alias_1.dart' as fixture_a1;
-import 'fixture/import_alias_2.dart' as fixture_a2;
+import 'fixture/import_alias/import_alias_1.dart' as fixture_a1;
+import 'fixture/import_alias/import_alias_2.dart' as fixture_a2;
 
 void main() {
   late final fixture.Mappr mappr;
@@ -101,6 +101,31 @@ void main() {
         expect(
           converted,
           const fixture_a2.User(name: 'John Wick', age: 42),
+        );
+      });
+    },
+  );
+
+  group(
+    'Aliasing import with exports inside works correctly',
+    () {
+      test('XxxDto to Xxx works', () {
+        const dto = fixture_a1.XxxDto(name: 'Neo', age: 69);
+        final converted = mappr.convert<fixture_a1.XxxDto, fixture_a1.Xxx>(dto);
+
+        expect(
+          converted,
+          const fixture_a1.Xxx(name: 'Neo', age: 69),
+        );
+      });
+
+      test('YyyDto to Yyy works', () {
+        const dto = fixture_a1.YyyDto(name: 'Trinity', age: 70);
+        final converted = mappr.convert<fixture_a1.YyyDto, fixture_a1.Yyy>(dto);
+
+        expect(
+          converted,
+          const fixture_a1.Yyy(name: 'Trinity', age: 70),
         );
       });
     },

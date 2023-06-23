@@ -241,10 +241,9 @@ class MapModelBodyMethodBuilder {
     required List<SourceAssignment> named,
   }) {
     final alias = targetConstructor.enclosingElement.getLibraryAlias(config: mapperConfig);
-    final connectionString = alias.trim().isEmpty ? '' : '.';
     final constructorName = targetConstructor.displayName;
 
-    return refer('$alias$connectionString$constructorName').newInstance(
+    return refer('$alias$constructorName').newInstance(
       positional.map(
         (assignment) => ValueAssignmentBuilder(
           mapperConfig: mapperConfig,

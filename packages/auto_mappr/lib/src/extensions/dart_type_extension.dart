@@ -101,9 +101,8 @@ extension DartTypeExtension on DartType {
     bool withNullability = false,
   }) {
     final alias = element!.getLibraryAlias(config: config);
-    final connectionString = alias.trim().isEmpty ? '' : '.';
     final typeName = element!.name;
-    final buffer = StringBuffer('$alias$connectionString$typeName');
+    final buffer = StringBuffer('$alias$typeName');
 
     if (this is ParameterizedType && (this as ParameterizedType).typeArguments.isNotEmpty) {
       final arguments = (this as ParameterizedType)
@@ -130,10 +129,9 @@ extension DartTypeExtension on DartType {
     required bool withNullability,
     required AutoMapprConfig config,
   }) {
-    final libraryAlias = element!.getLibraryAlias(config: config);
-    final connectionString = libraryAlias.trim().isEmpty ? '' : '_';
+    final alias = element!.getLibraryAlias(config: config, postfix: '_');
     final typeName = element!.name;
-    final buffer = StringBuffer()..write('$libraryAlias$connectionString$typeName');
+    final buffer = StringBuffer()..write('$alias$typeName');
 
     if (this is ParameterizedType && (this as ParameterizedType).typeArguments.isNotEmpty) {
       final arguments = (this as ParameterizedType)

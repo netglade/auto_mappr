@@ -1,4 +1,14 @@
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
+
+part 'import_alias_module.g.dart';
+
+@AutoMappr([
+  MapType<UserDto, User>(),
+])
+class ImportAliasModule extends $ImportAliasModule {
+  const ImportAliasModule();
+}
 
 class UserDto {
   final String name;
@@ -20,18 +30,5 @@ class User with EquatableMixin {
   const User({
     required this.name,
     required this.age,
-  });
-}
-
-class Holder<A, B> extends Equatable {
-  final A first;
-  final B second;
-
-  @override
-  List<Object?> get props => [first, second];
-
-  const Holder({
-    required this.first,
-    required this.second,
   });
 }
