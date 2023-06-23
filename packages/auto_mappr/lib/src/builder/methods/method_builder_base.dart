@@ -29,14 +29,23 @@ abstract class MethodBuilderBase {
   static String constructConvertMethodName({
     required DartType source,
     required DartType target,
+    required AutoMapprConfig config,
   }) =>
-      '_map_${source.toConvertMethodName(withNullability: false)}_To_${target.toConvertMethodName(withNullability: false)}';
+      '_map__${source.toConvertMethodName(withNullability: false, config: config)}__To__${target.toConvertMethodName(
+        withNullability: false,
+        config: config,
+      )}';
 
   static String constructNullableConvertMethodName({
     required DartType source,
     required DartType target,
+    required AutoMapprConfig config,
   }) =>
-      '${constructConvertMethodName(source: source, target: target)}_Nullable';
+      '${constructConvertMethodName(
+        source: source,
+        target: target,
+        config: config,
+      )}_Nullable';
 
   bool shouldGenerateNullableMappingMethod(TypeMapping mapping) {
     return nullableMappings.contains(mapping);
@@ -69,8 +78,8 @@ abstract class MethodBuilderBase {
     required Reference targetTypeOfReference,
     required Spec inIfExpression,
   }) {
-    final sourceName = mapping.source.getDisplayString(withNullability: false);
-    final targetName = mapping.target.getDisplayString(withNullability: false);
+    final sourceName = mapping.source.getDisplayStringWithLibraryAlias(config: config);
+    final targetName = mapping.target.getDisplayStringWithLibraryAlias(config: config);
 
     final modelIsTypeExpression = sourceTypeOfReference
         .equalTo(refer('_typeOf<$sourceName>()'))

@@ -1,5 +1,5 @@
-import 'package:auto_mappr_injectable_example/getit.dart';
-import 'package:auto_mappr_injectable_example/mappr.dart';
+import 'package:examples_injectable/getit.dart';
+import 'package:examples_injectable/mappr.dart';
 
 void main() {
   configureDependencies();

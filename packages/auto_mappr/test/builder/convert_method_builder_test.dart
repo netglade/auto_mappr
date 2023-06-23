@@ -15,6 +15,7 @@ void main() {
         const AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
+          libraryUriToAlias: {},
         ),
       ).buildMethod();
 
@@ -40,6 +41,7 @@ void main() {
         const AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
+          libraryUriToAlias: {},
         ),
       ).buildMethod();
 
@@ -65,6 +67,7 @@ void main() {
         const AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
+          libraryUriToAlias: {},
         ),
       ).buildMethod();
 
@@ -90,6 +93,7 @@ void main() {
         const AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
+          libraryUriToAlias: {},
         ),
       ).buildMethod();
 

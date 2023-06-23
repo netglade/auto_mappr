@@ -12,7 +12,7 @@ part of 'nested.dart';
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-/// {@template package:auto_mappr_example_another/nested.dart}
+/// {@template package:examples_example/nested.dart}
 /// Available mappings:
 /// - `UserDto` → `User`.
 /// - `NestedDto` → `Nested`.
@@ -25,7 +25,7 @@ class $Mappr implements AutoMapprInterface {
   List<AutoMapprInterface> get _modules => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:auto_mappr_example_another/nested.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
@@ -58,7 +58,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:auto_mappr_example_another/nested.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -74,7 +74,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:auto_mappr_example_another/nested.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -93,7 +93,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:auto_mappr_example_another/nested.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -112,7 +112,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_example_another/nested.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
       Iterable<SOURCE?> model) {
@@ -129,7 +129,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:auto_mappr_example_another/nested.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -148,7 +148,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_example_another/nested.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -164,7 +164,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:auto_mappr_example_another/nested.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -183,7 +183,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_example_another/nested.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -210,7 +210,7 @@ class $Mappr implements AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_UserDto_To_User((model as UserDto?)) as TARGET);
+      return (_map__UserDto__To__User((model as UserDto?)) as TARGET);
     }
     if ((sourceTypeOf == _typeOf<NestedDto>() ||
             sourceTypeOf == _typeOf<NestedDto?>()) &&
@@ -219,7 +219,7 @@ class $Mappr implements AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_NestedDto_To_Nested((model as NestedDto?)) as TARGET);
+      return (_map__NestedDto__To__Nested((model as NestedDto?)) as TARGET);
     }
     if ((sourceTypeOf == _typeOf<NestedTagDto>() ||
             sourceTypeOf == _typeOf<NestedTagDto?>()) &&
@@ -228,13 +228,13 @@ class $Mappr implements AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_NestedTagDto_To_NestedTag((model as NestedTagDto?))
+      return (_map__NestedTagDto__To__NestedTag((model as NestedTagDto?))
           as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  User _map_UserDto_To_User(UserDto? input) {
+  User _map__UserDto__To__User(UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -243,28 +243,28 @@ class $Mappr implements AutoMapprInterface {
     }
     return User(
       id: model.id,
-      name: _map_NestedDto_To_Nested(model.name),
+      name: _map__NestedDto__To__Nested(model.name),
       nestedItems:
-          model.nestedItems.map<Nested>(_map_NestedDto_To_Nested).toList(),
+          model.nestedItems.map<Nested>(_map__NestedDto__To__Nested).toList(),
       nestedItemsNullable: model.nestedItemsNullable
-              ?.map<Nested>(_map_NestedDto_To_Nested)
+              ?.map<Nested>(_map__NestedDto__To__Nested)
               .toList() ??
           <Nested>[],
       nestedItemsNullable2: model.nestedItemsNullable2
-          .map<Nested>(_map_NestedDto_To_Nested)
+          .map<Nested>(_map__NestedDto__To__Nested)
           .toList(),
       itemsWithNullableItem: model.itemsWithNullableItem
           .whereNotNull()
-          .map<Nested>(_map_NestedDto_To_Nested)
+          .map<Nested>(_map__NestedDto__To__Nested)
           .toList(),
       itemsWithNullableItem2: model.itemsWithNullableItem2
-          .map<Nested?>(_map_NestedDto_To_Nested_Nullable)
+          .map<Nested?>(_map__NestedDto__To__Nested_Nullable)
           .toList(),
       tag: null,
     );
   }
 
-  Nested _map_NestedDto_To_Nested(NestedDto? input) {
+  Nested _map__NestedDto__To__Nested(NestedDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -274,11 +274,11 @@ class $Mappr implements AutoMapprInterface {
     return Nested(
       id: model.id,
       name: model.name,
-      tag: _map_NestedTagDto_To_NestedTag(model.tag),
+      tag: _map__NestedTagDto__To__NestedTag(model.tag),
     );
   }
 
-  NestedTag _map_NestedTagDto_To_NestedTag(NestedTagDto? input) {
+  NestedTag _map__NestedTagDto__To__NestedTag(NestedTagDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -288,7 +288,7 @@ class $Mappr implements AutoMapprInterface {
     return NestedTag();
   }
 
-  Nested? _map_NestedDto_To_Nested_Nullable(NestedDto? input) {
+  Nested? _map__NestedDto__To__Nested_Nullable(NestedDto? input) {
     final model = input;
     if (model == null) {
       return null;
@@ -296,7 +296,7 @@ class $Mappr implements AutoMapprInterface {
     return Nested(
       id: model.id,
       name: model.name,
-      tag: _map_NestedTagDto_To_NestedTag(model.tag),
+      tag: _map__NestedTagDto__To__NestedTag(model.tag),
     );
   }
 }

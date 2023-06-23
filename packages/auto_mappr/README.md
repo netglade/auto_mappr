@@ -41,6 +41,7 @@ Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
     * ✅ [Mapping from source](#mapping-from-source)
     * ✅ [Nullability handling](#nullability-handling)
     * ✅ [Generics](#generics)
+    * ✅ [Library import aliases](#library-import-aliases)
     * ✅ [Modules](#modules)
     * ✅ [Works with `equatable`](#works-with-equatable)
     * ✅ [Works with `json_serializable`](#works-with-jsonserializable)
@@ -485,6 +486,26 @@ class Nested<X, Y> {
 // ...
 }
 ```
+
+### Library import aliases
+
+In cases when you have two libraries with classes with the same name,
+mapping works as expected by using import aliases.
+
+```dart
+import 'my_api.dart' as api;
+import 'my_domain.dart' as entity;
+
+@AutoMappr([
+  MapType<api.User, entity.User>(),
+])
+class Mappr extends $Mappr {}
+```
+
+Note that importing a list of `MapType` from another library
+and putting it inside `@AutoMappr` annotation is not possible,
+since we cannot generate the type correctly (it can overlap with something else)
+while using shared part builder.
 
 ### Modules
 

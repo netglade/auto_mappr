@@ -1,4 +1,5 @@
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:code_builder/code_builder.dart';
 
@@ -70,10 +71,11 @@ class PrivateConvertMethodBuilder extends MethodBuilderBase {
         inIfExpression: (BlockBuilder()
               ..statements.add(ifCheckForNull.code)
               ..addExpression(
-                refer(mapping.mappingMethodName)
+                refer(mapping.mappingMethodName(config: config))
                     .call(
                       [
-                        refer('model').asA(refer('${mapping.source.getDisplayString(withNullability: false)}?')),
+                        refer('model')
+                            .asA(refer('${mapping.source.getDisplayStringWithLibraryAlias(config: config)}?')),
                       ],
                     )
                     .asA(MethodBuilderBase.targetTypeReference)

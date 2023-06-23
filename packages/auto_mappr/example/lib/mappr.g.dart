@@ -196,12 +196,12 @@ class $Mappr implements AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map_UserDto_To_User((model as UserDto?)) as TARGET);
+      return (_map__UserDto__To__User((model as UserDto?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  User _map_UserDto_To_User(UserDto? input) {
+  User _map__UserDto__To__User(UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(

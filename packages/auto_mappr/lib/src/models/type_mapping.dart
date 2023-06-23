@@ -3,6 +3,8 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/field_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
@@ -14,16 +16,6 @@ class TypeMapping extends Equatable {
   final List<FieldMapping>? fieldMappings;
   final Expression? whenSourceIsNullExpression;
   final String? constructor;
-
-  String get mappingMethodName => MethodBuilderBase.constructConvertMethodName(
-        source: source,
-        target: target,
-      );
-
-  String get nullableMappingMethodName => MethodBuilderBase.constructNullableConvertMethodName(
-        source: source,
-        target: target,
-      );
 
   bool get isEnumMapping => source.element is EnumElement || target.element is EnumElement;
 
@@ -46,13 +38,27 @@ class TypeMapping extends Equatable {
     this.constructor,
   });
 
+  String mappingMethodName({
+    required AutoMapprConfig config,
+  }) =>
+      MethodBuilderBase.constructConvertMethodName(
+        source: source,
+        target: target,
+        config: config,
+      );
+
+  String nullableMappingMethodName({
+    required AutoMapprConfig config,
+  }) =>
+      MethodBuilderBase.constructNullableConvertMethodName(
+        source: source,
+        target: target,
+        config: config,
+      );
+
   bool hasWhenNullDefault() {
     return whenSourceIsNullExpression != null;
   }
-
-  String sourceName({bool withNullability = false}) => source.getDisplayString(withNullability: withNullability);
-
-  String targetName({bool withNullability = false}) => target.getDisplayString(withNullability: withNullability);
 
   bool hasFieldMapping(String field) => fieldMappings?.any((x) => x.field == field) ?? false;
 
@@ -66,5 +72,16 @@ class TypeMapping extends Equatable {
   String toString() {
     // ignore: avoid-non-ascii-symbols, it is ok
     return '$source → $target';
+  }
+
+  String toStringWithLibraryAlias({
+    required AutoMapprConfig config,
+  }) {
+    // ignore: avoid-non-ascii-symbols, it is ok
+    return '${source.getDisplayStringWithLibraryAlias(
+      config: config,
+    )} → ${target.getDisplayStringWithLibraryAlias(
+      config: config,
+    )}';
   }
 }

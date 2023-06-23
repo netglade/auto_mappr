@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs
-// ignore_for_file: format-comment
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:auto_mappr/src/builder/map_model_body_method_builder.dart';
 import 'package:auto_mappr/src/builder/methods/methods.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:built_collection/built_collection.dart';
@@ -121,15 +121,17 @@ class AutoMapprBuilder {
       for (final mapping in config.mappers)
         Method(
           (b) => b
-            ..name = mapping.mappingMethodName
+            ..name = mapping.mappingMethodName(config: config)
             ..requiredParameters.addAll([
               Parameter(
                 (p) => p
                   ..name = 'input'
-                  ..type = refer('${mapping.source.getDisplayString(withNullability: false)}?'),
+                  ..type = refer('${mapping.source.getDisplayStringWithLibraryAlias(config: config)}?'),
               )
             ])
-            ..returns = refer(mapping.target.getDisplayString(withNullability: false))
+            ..returns = refer(
+              mapping.target.getDisplayStringWithLibraryAlias(config: config),
+            )
             ..body = MapModelBodyMethodBuilder(
               mapping: mapping,
               mapperConfig: config,
@@ -142,15 +144,18 @@ class AutoMapprBuilder {
       for (final mapping in config.mappers.where(nullableMappings.contains))
         Method(
           (b) => b
-            ..name = mapping.nullableMappingMethodName
+            ..name = mapping.nullableMappingMethodName(config: config)
             ..requiredParameters.addAll([
               Parameter(
                 (p) => p
                   ..name = 'input'
-                  ..type = refer('${mapping.source.getDisplayString(withNullability: false)}?'),
+                  ..type = refer('${mapping.source.getDisplayStringWithLibraryAlias(config: config)}?'),
               )
             ])
-            ..returns = refer('${mapping.target.getDisplayString(withNullability: true)}?')
+            ..returns = refer('${mapping.target.getDisplayStringWithLibraryAlias(
+              withNullability: true,
+              config: config,
+            )}?')
             ..body = MapModelBodyMethodBuilder(
               mapping: mapping,
               mapperConfig: config,

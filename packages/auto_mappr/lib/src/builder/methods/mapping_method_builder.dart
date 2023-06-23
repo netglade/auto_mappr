@@ -21,7 +21,7 @@ class MappingMethodBuilder extends MethodBuilderBase {
 
     return Method(
       (b) => b
-        ..name = mapping.mappingMethodName
+        ..name = mapping.mappingMethodName(config: config)
         ..requiredParameters.addAll([
           Parameter(
             (p) => p

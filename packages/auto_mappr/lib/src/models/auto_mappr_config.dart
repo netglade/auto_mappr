@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/extensions/element_extension.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
@@ -10,6 +11,7 @@ class AutoMapprConfig {
   final String availableMappingsMacroId;
   final Expression? modulesCode;
   final List<DartObject> modulesList;
+  final Map<String, String> libraryUriToAlias;
 
   String get availableMappingsDocComment {
     return [
@@ -21,6 +23,7 @@ class AutoMapprConfig {
   const AutoMapprConfig({
     required this.mappers,
     required this.availableMappingsMacroId,
+    required this.libraryUriToAlias,
     this.modulesCode,
     this.modulesList = const [],
   });
@@ -48,7 +51,11 @@ class AutoMapprConfig {
     return [
       if (modulesList.isNotEmpty) ...[
         '///',
-        "/// Available modules: ${modulesList.map((e) => '[\$${e.type!.getDisplayString(withNullability: false)}]').join(', ')}",
+        "/// Available modules: ${modulesList.map((e) {
+          final alias = e.type!.element!.getLibraryAlias(config: this);
+
+          return '[$alias\$${e.type!.getDisplayString(withNullability: false)}]';
+        }).join(', ')}",
       ],
     ];
   }
@@ -57,6 +64,10 @@ class AutoMapprConfig {
     final trailingPart = typeMapping.hasWhenNullDefault() ? ' -- With default value.' : '.';
 
     // ignore: avoid-non-ascii-symbols, it is ok
-    return '/// - `${typeMapping.source}` → `${typeMapping.target}`$trailingPart';
+    return '/// - `${typeMapping.source.getDisplayStringWithLibraryAlias(
+      config: this,
+    )}` → `${typeMapping.target.getDisplayStringWithLibraryAlias(
+      config: this,
+    )}`$trailingPart';
   }
 }

@@ -34,6 +34,8 @@ class SourceAssignment {
   /// Like UserDto to User.
   final TypeMapping typeMapping;
 
+  final AutoMapprConfig config;
+
   bool get shouldBeIgnored => fieldMapping?.ignore ?? false;
 
   DartType? get sourceType => sourceField?.returnType;
@@ -48,6 +50,7 @@ class SourceAssignment {
     required this.sourceField,
     required this.targetField,
     required this.typeMapping,
+    required this.config,
     this.targetConstructorParam,
     this.fieldMapping,
   });
@@ -66,8 +69,8 @@ class SourceAssignment {
 
   @override
   String toString() {
-    final sourceTypeName = sourceType?.getDisplayString(withNullability: true);
-    final targetTypeName = targetType.getDisplayString(withNullability: true);
+    final sourceTypeName = sourceType?.getDisplayStringWithLibraryAlias(withNullability: true, config: config);
+    final targetTypeName = targetType.getDisplayStringWithLibraryAlias(withNullability: true, config: config);
 
     return '$sourceTypeName $sourceName -> $targetTypeName $targetName';
   }
