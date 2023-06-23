@@ -1,3 +1,8 @@
+[//]: # (## Unreleased)
+
+## Unreleased
+- Adhere to netglade_analysis 2.0.0.
+
 ## 1.1.0
 - Add `AutoMapprInterface` with methods:
   - `canConvert`
