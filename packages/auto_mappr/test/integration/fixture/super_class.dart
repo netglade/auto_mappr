@@ -7,14 +7,14 @@ part 'super_class.g.dart';
   MapType<FlattenedClass, SubClass>(),
   MapType<SubClass, FlattenedClass>(),
 ])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 class SuperClass {
   final int first;
 
-  SuperClass({
-    required this.first,
-  });
+  const SuperClass({required this.first});
 }
 
 class SubClass extends SuperClass with EquatableMixin {
@@ -23,10 +23,7 @@ class SubClass extends SuperClass with EquatableMixin {
   @override
   List<Object?> get props => [first, second];
 
-  SubClass({
-    required this.second,
-    required super.first,
-  });
+  const SubClass({required this.second, required super.first});
 }
 
 class FlattenedClass with EquatableMixin {
@@ -36,8 +33,5 @@ class FlattenedClass with EquatableMixin {
   @override
   List<Object?> get props => [first, second];
 
-  FlattenedClass({
-    required this.first,
-    required this.second,
-  });
+  const FlattenedClass({required this.first, required this.second});
 }

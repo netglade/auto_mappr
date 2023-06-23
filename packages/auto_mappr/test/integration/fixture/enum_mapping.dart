@@ -65,4 +65,6 @@ LocalPerson _localRemoteUnknownDefault() => LocalPerson.unknown;
     whenSourceIsNull: EnhancedTarget.unknown,
   ),
 ])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}

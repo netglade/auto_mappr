@@ -11,7 +11,9 @@ part 'set.g.dart';
   MapType<ComplexDto, Complex>(),
   MapType<ComplexNullableDto, Complex>(),
 ])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 class NestedTag extends Equatable {
   final bool flag;
@@ -36,11 +38,7 @@ class Nested extends Equatable {
   @override
   List<Object?> get props => [id, name, tag];
 
-  const Nested({
-    required this.id,
-    required this.name,
-    required this.tag,
-  });
+  const Nested({required this.id, required this.name, required this.tag});
 }
 
 class NestedDto {
@@ -48,11 +46,7 @@ class NestedDto {
   final String name;
   final NestedTagDto tag;
 
-  NestedDto(
-    this.id, {
-    required this.name,
-    required this.tag,
-  });
+  const NestedDto(this.id, {required this.name, required this.tag});
 }
 
 // primitive

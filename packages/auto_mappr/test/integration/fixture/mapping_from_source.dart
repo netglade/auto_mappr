@@ -9,7 +9,9 @@ part 'mapping_from_source.g.dart';
   MapType<StaticField, ValueHolder>(),
   MapType<StaticGetter, ValueHolder>(),
 ])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 // ignore: must_be_immutable, for testing
 class ValueHolder extends Equatable {

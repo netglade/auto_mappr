@@ -3,9 +3,7 @@ import 'package:equatable/equatable.dart';
 
 part 'module_gama.g.dart';
 
-@AutoMappr([
-  MapType<GamaDto, Gama>(),
-])
+@AutoMappr([MapType<GamaDto, Gama>()])
 class MapprGama extends $MapprGama {
   const MapprGama();
 }

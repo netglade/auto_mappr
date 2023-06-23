@@ -38,18 +38,13 @@ class TypeMapping extends Equatable {
     this.constructor,
   });
 
-  String mappingMethodName({
-    required AutoMapprConfig config,
-  }) =>
-      MethodBuilderBase.constructConvertMethodName(
+  String mappingMethodName({required AutoMapprConfig config}) => MethodBuilderBase.constructConvertMethodName(
         source: source,
         target: target,
         config: config,
       );
 
-  String nullableMappingMethodName({
-    required AutoMapprConfig config,
-  }) =>
+  String nullableMappingMethodName({required AutoMapprConfig config}) =>
       MethodBuilderBase.constructNullableConvertMethodName(
         source: source,
         target: target,
@@ -62,11 +57,11 @@ class TypeMapping extends Equatable {
 
   bool hasFieldMapping(String field) => fieldMappings?.any((x) => x.field == field) ?? false;
 
-  FieldMapping getFieldMapping(String field) => fieldMappings!.firstWhere((x) => x.field == field);
+  FieldMapping? getFieldMapping(String field) => fieldMappings?.firstWhereOrNull((x) => x.field == field);
 
   FieldMapping? tryGetFieldMapping(String field) => fieldMappings?.firstWhereOrNull((x) => x.field == field);
 
-  bool fieldShouldBeIgnored(String field) => hasFieldMapping(field) && getFieldMapping(field).ignore;
+  bool fieldShouldBeIgnored(String field) => hasFieldMapping(field) && (getFieldMapping(field)?.ignore ?? false);
 
   @override
   String toString() {
@@ -74,14 +69,8 @@ class TypeMapping extends Equatable {
     return '$source → $target';
   }
 
-  String toStringWithLibraryAlias({
-    required AutoMapprConfig config,
-  }) {
+  String toStringWithLibraryAlias({required AutoMapprConfig config}) {
     // ignore: avoid-non-ascii-symbols, it is ok
-    return '${source.getDisplayStringWithLibraryAlias(
-      config: config,
-    )} → ${target.getDisplayStringWithLibraryAlias(
-      config: config,
-    )}';
+    return '${source.getDisplayStringWithLibraryAlias(config: config)} → ${target.getDisplayStringWithLibraryAlias(config: config)}';
   }
 }

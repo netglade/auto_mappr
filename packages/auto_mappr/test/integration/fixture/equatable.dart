@@ -3,10 +3,10 @@ import 'package:equatable/equatable.dart';
 
 part 'equatable.g.dart';
 
-@AutoMappr([
-  MapType<Source, Target>(),
-])
-class Mappr extends $Mappr {}
+@AutoMappr([MapType<Source, Target>()])
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 class Target extends Equatable {
   final int value;

@@ -6,16 +6,13 @@ void main() {
   late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mappr = fixture.Mappr();
+    mappr = const fixture.Mappr();
   });
 
   test('Equatable.props and only-setter fields are not mapped', () {
     const dto = fixture.Source(123);
     final converted = mappr.convert<fixture.Source, fixture.Target>(dto);
 
-    expect(
-      converted,
-      const fixture.Target(123),
-    );
+    expect(converted, equals(const fixture.Target(123)));
   });
 }

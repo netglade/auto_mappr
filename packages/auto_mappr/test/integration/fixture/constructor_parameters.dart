@@ -21,11 +21,7 @@ class Positional extends Equatable {
   @override
   List<Object?> get props => [age, name, note];
 
-  const Positional(
-    this.age,
-    this.name, [
-    this.note,
-  ]);
+  const Positional(this.age, this.name, [this.note]);
 }
 
 class Named extends Equatable {
@@ -36,9 +32,5 @@ class Named extends Equatable {
   @override
   List<Object?> get props => [age, name, note];
 
-  const Named({
-    required this.age,
-    required this.name,
-    this.note,
-  });
+  const Named({required this.age, required this.name, this.note});
 }

@@ -18,52 +18,36 @@ part 'special_characters.g.dart';
   MapType<Number123Class, Number123Class>(),
   // in field
   MapType<DollarField, DollarField>(
-    fields: [
-      Field(r'val$ue', from: r'val$ue'),
-    ],
+    fields: [Field(r'val$ue', from: r'val$ue')],
   ),
   MapType<DollarField, UnderscoreField>(
-    fields: [
-      Field('val_ue', from: r'val$ue'),
-    ],
+    fields: [Field('val_ue', from: r'val$ue')],
   ),
   MapType<DollarField, NumberField>(
-    fields: [
-      Field('val123ue', from: r'val$ue'),
-    ],
+    fields: [Field('val123ue', from: r'val$ue')],
   ),
   MapType<UnderscoreField, DollarField>(
-    fields: [
-      Field(r'val$ue', from: 'val_ue'),
-    ],
+    fields: [Field(r'val$ue', from: 'val_ue')],
   ),
   MapType<UnderscoreField, UnderscoreField>(
-    fields: [
-      Field('val_ue', from: 'val_ue'),
-    ],
+    fields: [Field('val_ue', from: 'val_ue')],
   ),
   MapType<UnderscoreField, NumberField>(
-    fields: [
-      Field('val123ue', from: 'val_ue'),
-    ],
+    fields: [Field('val123ue', from: 'val_ue')],
   ),
   MapType<NumberField, DollarField>(
-    fields: [
-      Field(r'val$ue', from: 'val123ue'),
-    ],
+    fields: [Field(r'val$ue', from: 'val123ue')],
   ),
   MapType<NumberField, UnderscoreField>(
-    fields: [
-      Field('val_ue', from: 'val123ue'),
-    ],
+    fields: [Field('val_ue', from: 'val123ue')],
   ),
   MapType<NumberField, NumberField>(
-    fields: [
-      Field('val123ue', from: 'val123ue'),
-    ],
+    fields: [Field('val123ue', from: 'val123ue')],
   ),
 ])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 class Dollar$Class extends Equatable {
   final int value;

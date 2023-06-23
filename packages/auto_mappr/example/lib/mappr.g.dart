@@ -28,8 +28,7 @@ class $Mappr implements AutoMapprInterface {
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserDto>() ||
-            sourceTypeOf == _typeOf<UserDto?>()) &&
+    if ((sourceTypeOf == _typeOf<UserDto>() || sourceTypeOf == _typeOf<UserDto?>()) &&
         (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
       return true;
     }
@@ -100,8 +99,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
-  Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
-      Iterable<SOURCE?> model) {
+  Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
     }
@@ -190,8 +188,7 @@ class $Mappr implements AutoMapprInterface {
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserDto>() ||
-            sourceTypeOf == _typeOf<UserDto?>()) &&
+    if ((sourceTypeOf == _typeOf<UserDto>() || sourceTypeOf == _typeOf<UserDto?>()) &&
         (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
       if (canReturnNull && model == null) {
         return null;
@@ -204,8 +201,7 @@ class $Mappr implements AutoMapprInterface {
   User _map__UserDto__To__User(UserDto? input) {
     final model = input;
     if (model == null) {
-      throw Exception(
-          r'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
+      throw Exception(r'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
     return User(

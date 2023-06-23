@@ -10,14 +10,20 @@ part 'complex_types.g.dart';
     MapType<NestedTagDto, NestedTag>(),
   ],
 )
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 class NestedTag extends Equatable {
   @override
   List<Object?> get props => [];
+
+  const NestedTag();
 }
 
-class NestedTagDto {}
+class NestedTagDto {
+  const NestedTagDto();
+}
 
 class Nested extends Equatable {
   final int id;
@@ -27,11 +33,7 @@ class Nested extends Equatable {
   @override
   List<Object?> get props => [id, name, tag];
 
-  const Nested({
-    required this.id,
-    required this.name,
-    required this.tag,
-  });
+  const Nested({required this.id, required this.name, required this.tag});
 }
 
 class NestedDto {
@@ -39,11 +41,7 @@ class NestedDto {
   final String name;
   final NestedTagDto tag;
 
-  NestedDto(
-    this.id, {
-    required this.name,
-    required this.tag,
-  });
+  const NestedDto(this.id, {required this.name, required this.tag});
 }
 
 class UserDto {
@@ -51,11 +49,7 @@ class UserDto {
   final NestedDto name;
   final NestedTagDto tag;
 
-  UserDto({
-    required this.id,
-    required this.name,
-    required this.tag,
-  });
+  const UserDto({required this.id, required this.name, required this.tag});
 }
 
 class User extends Equatable {
@@ -68,9 +62,5 @@ class User extends Equatable {
   @override
   List<Object?> get props => [id, name, tag];
 
-  const User({
-    required this.id,
-    required this.name,
-    this.tag,
-  });
+  const User({required this.id, required this.name, this.tag});
 }

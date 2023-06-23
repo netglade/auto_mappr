@@ -11,10 +11,6 @@ extension ElementExtension on Element {
     final libraryUri = source?.uri.toString();
     final contains = config.libraryUriToAlias.containsKey(libraryUri);
 
-    if (contains) {
-      return '${config.libraryUriToAlias[libraryUri]!}$postfix';
-    }
-
-    return '';
+    return contains ? '${config.libraryUriToAlias[libraryUri]!}$postfix' : '';
   }
 }

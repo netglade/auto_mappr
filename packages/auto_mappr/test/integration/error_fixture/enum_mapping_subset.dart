@@ -7,4 +7,6 @@ enum Source { a, b }
 enum Target { b, c }
 
 @AutoMappr([MapType<Source, Target>()])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}

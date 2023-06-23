@@ -35,25 +35,18 @@ class Field {
   });
 
   /// Field renaming using [from] or assigning default value with [whenNull].
-  const Field.from(
-    this.field, {
-    required this.from,
-    this.whenNull,
-  })  : custom = null,
+  const Field.from(this.field, {required this.from, this.whenNull})
+      : custom = null,
         ignore = false;
 
   /// Field custom mapping.
-  const Field.custom(
-    this.field, {
-    required this.custom,
-    this.whenNull,
-  })  : from = null,
+  const Field.custom(this.field, {required this.custom, this.whenNull})
+      : from = null,
         ignore = false;
 
   /// Field ignoring.
-  const Field.ignore(
-    this.field,
-  )   : ignore = true,
+  const Field.ignore(this.field)
+      : ignore = true,
         from = null,
         custom = null,
         whenNull = null;

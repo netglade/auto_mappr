@@ -14,7 +14,9 @@ part 'convert_iterable.g.dart';
   ),
   MapType<AddressDto, Address>(),
 ])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 class User with EquatableMixin {
   final String userName;

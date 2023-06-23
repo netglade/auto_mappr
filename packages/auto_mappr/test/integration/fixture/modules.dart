@@ -5,14 +5,7 @@ import 'modules/module_alpha.dart';
 
 part 'modules.g.dart';
 
-@AutoMappr(
-  [
-    MapType<GroupDto, Group>(),
-  ],
-  modules: [
-    MapprAlpha(),
-  ],
-)
+@AutoMappr([MapType<GroupDto, Group>()], modules: [MapprAlpha()])
 class MapprGroup extends $MapprGroup {
   const MapprGroup();
 }

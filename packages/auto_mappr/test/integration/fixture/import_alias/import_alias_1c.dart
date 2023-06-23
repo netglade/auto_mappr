@@ -4,10 +4,7 @@ class YyyDto {
   final String name;
   final int age;
 
-  const YyyDto({
-    required this.name,
-    required this.age,
-  });
+  const YyyDto({required this.name, required this.age});
 }
 
 class Yyy with EquatableMixin {
@@ -17,8 +14,5 @@ class Yyy with EquatableMixin {
   @override
   List<Object?> get props => [name, age];
 
-  const Yyy({
-    required this.name,
-    required this.age,
-  });
+  const Yyy({required this.name, required this.age});
 }

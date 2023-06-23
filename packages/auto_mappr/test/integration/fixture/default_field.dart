@@ -7,45 +7,29 @@ part 'default_field.g.dart';
   MapType<NestedDto, Nested>(),
   // value
   MapType<ComplexPositionalValueDto, ComplexPositionalValue>(
-    fields: [
-      Field('name', whenNull: Nested(id: 963, name: 'tag test')),
-    ],
+    fields: [Field('name', whenNull: Nested(id: 963, name: 'tag test'))],
   ),
   MapType<ComplexNamedValueDto, ComplexNamedValue>(
-    fields: [
-      Field('name', whenNull: Nested(id: 492, name: 'tag test 2')),
-    ],
+    fields: [Field('name', whenNull: Nested(id: 492, name: 'tag test 2'))],
   ),
   MapType<PrimitivePositionalValueDto, PrimitivePositionalValue>(
-    fields: [
-      Field('name', whenNull: 'test abc'),
-    ],
+    fields: [Field('name', whenNull: 'test abc')],
   ),
   MapType<PrimitiveNamedValueDto, PrimitiveNamedValue>(
-    fields: [
-      Field('name', whenNull: 'test def'),
-    ],
+    fields: [Field('name', whenNull: 'test def')],
   ),
   // function
   MapType<ComplexPositionalFunctionDto, ComplexPositionalFunction>(
-    fields: [
-      Field('name', whenNull: Mappr.defaultNested),
-    ],
+    fields: [Field('name', whenNull: Mappr.defaultNested)],
   ),
   MapType<ComplexNamedFunctionDto, ComplexNamedFunction>(
-    fields: [
-      Field('name', whenNull: Mappr.defaultNested),
-    ],
+    fields: [Field('name', whenNull: Mappr.defaultNested)],
   ),
   MapType<PrimitivePositionalFunctionDto, PrimitivePositionalFunction>(
-    fields: [
-      Field('name', whenNull: Mappr.defaultString),
-    ],
+    fields: [Field('name', whenNull: Mappr.defaultString)],
   ),
   MapType<PrimitiveNamedFunctionDto, PrimitiveNamedFunction>(
-    fields: [
-      Field('name', whenNull: Mappr.defaultString),
-    ],
+    fields: [Field('name', whenNull: Mappr.defaultString)],
   ),
 ])
 class Mappr extends $Mappr {
@@ -70,7 +54,7 @@ class NestedDto {
   final int id;
   final String name;
 
-  NestedDto(this.id, {required this.name});
+  const NestedDto(this.id, {required this.name});
 }
 
 // --- Value
@@ -91,7 +75,7 @@ class ComplexPositionalValueDto {
   final int age;
   final NestedDto? name;
 
-  ComplexPositionalValueDto(this.age, this.name);
+  const ComplexPositionalValueDto(this.age, this.name);
 }
 
 class ComplexNamedValue extends Equatable {
@@ -108,7 +92,7 @@ class ComplexNamedValueDto {
   final int age;
   final NestedDto? name;
 
-  ComplexNamedValueDto({required this.age, required this.name});
+  const ComplexNamedValueDto({required this.age, required this.name});
 }
 
 // Primitive
@@ -127,7 +111,7 @@ class PrimitivePositionalValueDto {
   final int age;
   final String? name;
 
-  PrimitivePositionalValueDto(this.age, this.name);
+  const PrimitivePositionalValueDto(this.age, this.name);
 }
 
 class PrimitiveNamedValue extends Equatable {
@@ -144,7 +128,7 @@ class PrimitiveNamedValueDto {
   final int age;
   final String? name;
 
-  PrimitiveNamedValueDto({required this.age, required this.name});
+  const PrimitiveNamedValueDto({required this.age, required this.name});
 }
 
 // --- Function
@@ -165,7 +149,7 @@ class ComplexPositionalFunctionDto {
   final int age;
   final NestedDto? name;
 
-  ComplexPositionalFunctionDto(this.age, this.name);
+  const ComplexPositionalFunctionDto(this.age, this.name);
 }
 
 class ComplexNamedFunction extends Equatable {
@@ -182,7 +166,7 @@ class ComplexNamedFunctionDto {
   final int age;
   final NestedDto? name;
 
-  ComplexNamedFunctionDto({required this.age, required this.name});
+  const ComplexNamedFunctionDto({required this.age, required this.name});
 }
 
 // Primitive
@@ -201,7 +185,7 @@ class PrimitivePositionalFunctionDto {
   final int age;
   final String? name;
 
-  PrimitivePositionalFunctionDto(this.age, this.name);
+  const PrimitivePositionalFunctionDto(this.age, this.name);
 }
 
 class PrimitiveNamedFunction extends Equatable {
@@ -218,5 +202,5 @@ class PrimitiveNamedFunctionDto {
   final int age;
   final String? name;
 
-  PrimitiveNamedFunctionDto({required this.age, required this.name});
+  const PrimitiveNamedFunctionDto({required this.age, required this.name});
 }

@@ -23,7 +23,9 @@ part 'selecting_constructor.g.dart';
   MapType<TestFactoryDto, TestFactoryNotSelected>(),
   MapType<TestFactoryDto, TestFactorySelected>(),
 ])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 class FinalTarget with EquatableMixin {
   final int? a;
@@ -76,7 +78,7 @@ class TestEmptyDto {
   final int b;
   final int c;
 
-  TestEmptyDto(this.a, this.b, this.c);
+  const TestEmptyDto(this.a, this.b, this.c);
 }
 
 class TestAlphaDto {
@@ -92,7 +94,7 @@ class TestBetaDto {
   final int b;
   final int c;
 
-  TestBetaDto(this.a, this.b, this.c);
+  const TestBetaDto(this.a, this.b, this.c);
 }
 
 class TestGamaDto {
@@ -100,7 +102,7 @@ class TestGamaDto {
   final int b;
   final int c;
 
-  TestGamaDto(this.a, this.b, this.c);
+  const TestGamaDto(this.a, this.b, this.c);
 }
 
 class TestNonsenseDto {
@@ -108,7 +110,7 @@ class TestNonsenseDto {
   final int b;
   final int c;
 
-  TestNonsenseDto(this.a, this.b, this.c);
+  const TestNonsenseDto(this.a, this.b, this.c);
 }
 
 // Factory selection
@@ -126,17 +128,13 @@ class TestFactoryNotSelected with EquatableMixin {
         b = 2,
         c = 3;
 
-  TestFactoryNotSelected.one({
-    required this.a,
-  })  : b = 4,
+  TestFactoryNotSelected.one({required this.a})
+      : b = 4,
         c = 5;
 
-  TestFactoryNotSelected.two({
-    required this.a,
-    required this.b,
-  }) : c = 5;
+  TestFactoryNotSelected.two({required this.a, required this.b}) : c = 5;
 
-  TestFactoryNotSelected.three({
+  const TestFactoryNotSelected.three({
     required this.a,
     required this.b,
     required this.c,
@@ -215,7 +213,7 @@ class TestFactoryDto {
   final int c;
   final int d;
 
-  TestFactoryDto({
+  const TestFactoryDto({
     required this.a,
     required this.b,
     required this.c,

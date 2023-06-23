@@ -1,9 +1,7 @@
 include: package:netglade_analysis/lints_package.yaml
 
-analyzer:
-  plugins:
-    - dart_code_metrics
-
 dart_code_metrics:
   extends:
     - package:netglade_analysis/dcm.yaml
+  pubspec-rules:
+    prefer-publish-to-none: false

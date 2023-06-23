@@ -78,9 +78,7 @@ class CanConvertMethodBuilder extends MethodBuilderBase implements CallableMetho
   }
 
   @override
-  Expression methodCall({
-    Map<String, Expression> namedArguments = const {},
-  }) {
+  Expression methodCall({Map<String, Expression> namedArguments = const {}}) {
     return refer('canConvert').call(
       const [],
       namedArguments,

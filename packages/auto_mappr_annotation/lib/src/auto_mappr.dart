@@ -13,8 +13,5 @@ class AutoMappr {
   final List<AutoMapprInterface>? modules;
 
   /// Constructs AutoMappr.
-  const AutoMappr(
-    this.mappers, {
-    this.modules,
-  });
+  const AutoMappr(this.mappers, {this.modules});
 }

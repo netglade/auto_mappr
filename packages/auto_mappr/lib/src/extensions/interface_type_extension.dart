@@ -6,16 +6,14 @@ extension InterfaceTypeExtension on InterfaceType {
   Iterable<PropertyAccessorElement> getAllGetters() {
     return [
       ...accessors,
-      for (final superType in allSupertypes)
-        ...superType.accessors,
+      for (final superType in allSupertypes) ...superType.accessors,
     ].where((accessor) => accessor.isReadable);
   }
 
   Iterable<PropertyAccessorElement> getAllSetters() {
     return [
       ...accessors,
-      for (final superType in allSupertypes)
-        ...superType.accessors,
+      for (final superType in allSupertypes) ...superType.accessors,
     ].where((accessor) => accessor.isWritable);
   }
 }
