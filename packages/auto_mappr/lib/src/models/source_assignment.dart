@@ -93,7 +93,6 @@ class SourceAssignment {
       return false;
     }
 
-    // ignore: prefer-returning-conditional-expressions, not possible here
     return type.allSupertypes.any(_isCoreIterable);
   }
 
@@ -106,7 +105,6 @@ class SourceAssignment {
       return false;
     }
 
-    // ignore: prefer-returning-conditional-expressions, not possible here
     return type.allSupertypes.any((superType) => superType.isDartCoreMap);
   }
 }

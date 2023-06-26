@@ -15,3 +15,4 @@ dart_code_metrics:
     avoid-top-level-members-in-tests:
       exclude:
         - test/integration/fixture/**
+    avoid-long-parameter-list: false

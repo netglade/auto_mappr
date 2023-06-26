@@ -26,6 +26,6 @@ dev_dependencies:
   build_runner: ^2.0.0
   generator_test: ^0.2.0
   mocktail: ^0.3.0
-  netglade_analysis: ^2.0.0-rc.1
+  netglade_analysis: ^2.0.0
   source_gen_test: ^1.0.4
   test: ^1.16.0

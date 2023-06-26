@@ -23,7 +23,6 @@ extension ExpressionExtension on Expression {
     }
 
     // Keep iterable as is.
-    // ignore: prefer-returning-conditional-expressions
     return this;
   }
 

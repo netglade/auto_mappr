@@ -65,7 +65,6 @@ class ValueAssignmentBuilder {
       return rightSide.ifNullThen(fieldMapping!.whenNullExpression!);
     }
 
-    // ignore: prefer-returning-conditional-expressions, not possible here
     return rightSide;
   }
 
@@ -121,7 +120,6 @@ class ValueAssignmentBuilder {
           .maybeIfNullThen(defaultIterableValueExpression, isOnNullable: sourceNullable && !targetNullable);
     }
 
-    // ignore: prefer-returning-conditional-expressions, not possible here
     return sourceIterableExpression
         .maybeToIterableCall(
           source: sourceType,
@@ -281,7 +279,6 @@ class ValueAssignmentBuilder {
     // Generates code like:
     //
     // `_map_NestedDto_To_Nested(model.name)`
-    // ignore: prefer-returning-conditional-expressions, not possible here
     return convertCallExpression;
   }
 

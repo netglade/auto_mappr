@@ -8,5 +8,5 @@ environment:
   sdk: ">=2.18.7 <4.0.0"
 
 dev_dependencies:
-  netglade_analysis: ^2.0.0-rc.1
+  netglade_analysis: ^2.0.0
   test: ^1.16.0

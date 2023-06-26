@@ -84,7 +84,6 @@ class _ToCodeExpressionConverter {
     }
 
     // int, double, num, null
-    // ignore: prefer-returning-conditional-expressions
     return literal(constant.literalValue);
   }
 
