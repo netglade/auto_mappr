@@ -18,7 +18,7 @@ class MapModelBodyMethodBuilder {
   final bool nullable;
   final void Function(TypeMapping? mapping)? usedNullableMethodCallback;
 
-  MapModelBodyMethodBuilder({
+  const MapModelBodyMethodBuilder({
     required this.mapperConfig,
     required this.mapping,
     this.usedNullableMethodCallback,
@@ -123,11 +123,20 @@ class MapModelBodyMethodBuilder {
 
     final targetConstructor = _findBestConstructor(mapping.target, forcedConstructor: mapping.constructor);
 
+    if (targetConstructor == null) {
+      throw InvalidGenerationSourceError(
+        'There is no target constructor in ${mapping.target}',
+      );
+    }
+
     final targetClassGetters = (mapping.target).getAllGetters();
 
     // Map constructor parameters
     for (var i = 0; i < targetConstructor.parameters.length; i++) {
-      final param = targetConstructor.parameters[i];
+      final param = targetConstructor.parameters.elementAtOrNull(i);
+
+      if (param == null) continue;
+
       final paramPosition = param.isPositional ? i : null;
       final constructorAssignment = ConstructorAssignment(param: param, position: paramPosition);
 
@@ -140,7 +149,9 @@ class MapModelBodyMethodBuilder {
       // Custom mapping has precedence.
       if (fieldMapping?.hasCustomMapping() ?? false) {
         final targetField =
-            targetClassGetters.firstWhere((targetField) => targetField.displayName == fieldMapping?.field);
+            targetClassGetters.firstWhereOrNull((targetField) => targetField.displayName == fieldMapping?.field);
+
+        if (targetField == null) continue;
 
         if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
           _assertParamFieldCanBeIgnored(param, targetField);
@@ -164,9 +175,11 @@ class MapModelBodyMethodBuilder {
 
         final targetField = from != null
             // support custom field rename mapping
-            ? targetClassGetters.firstWhere((field) => field.displayName == fieldMapping?.field)
+            ? targetClassGetters.firstWhereOrNull((field) => field.displayName == fieldMapping?.field)
             // find target field based on matching source field
-            : targetClassGetters.firstWhere((field) => field.displayName == sourceField.displayName);
+            : targetClassGetters.firstWhereOrNull((field) => field.displayName == sourceField.displayName);
+
+        if (targetField == null) continue;
 
         if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
           _assertParamFieldCanBeIgnored(param, sourceField);
@@ -289,7 +302,9 @@ class MapModelBodyMethodBuilder {
 
     var cascadedAssignments = constructorExpression;
     for (final sourceField in fields) {
-      final targetField = targetClassGetters.firstWhere((field) => field.displayName == sourceField.displayName);
+      final targetField = targetClassGetters.firstWhereOrNull((field) => field.displayName == sourceField.displayName);
+
+      if (targetField == null) continue;
 
       // Assign result.X = model.X
       cascadedAssignments = cascadedAssignments.cascade(sourceField.displayName).assign(
@@ -316,16 +331,14 @@ class MapModelBodyMethodBuilder {
   }) {
     final fieldsWithGetter = classType.getAllGetters();
 
-    return {
-      for (final field in fieldsWithGetter) field.name: field,
-    };
+    return {for (final field in fieldsWithGetter) field.name: field};
   }
 
   /// Tries to find best constructor for mapping.
   ///
   /// Returns a constructor with the most parameter count.
   /// Prefer non factory constructors over factory ones.
-  ConstructorElement _findBestConstructor(InterfaceType classType, {String? forcedConstructor}) {
+  ConstructorElement? _findBestConstructor(InterfaceType classType, {String? forcedConstructor}) {
     if (forcedConstructor != null) {
       final selectedConstructor = classType.constructors.firstWhereOrNull((c) => c.name == forcedConstructor);
       if (selectedConstructor != null) return selectedConstructor;
@@ -346,7 +359,7 @@ class MapModelBodyMethodBuilder {
         allConstructors.where((c) => c.isFactory && c.name != 'fromJson').sorted(sortConstructors);
 
     // Prefers non factory constructors over factory ones.
-    return [...nonFactoryConstructors, ...factoryConstructors].first;
+    return [...nonFactoryConstructors, ...factoryConstructors].firstOrNull;
   }
 
   Code _whenModelIsNullHandling() {

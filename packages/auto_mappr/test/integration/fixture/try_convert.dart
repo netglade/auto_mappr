@@ -10,7 +10,9 @@ part 'try_convert.g.dart';
     whenSourceIsNull: ComplexValue(99, Nested(id: 123, name: 'test qwerty')),
   ),
 ])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 // Nested object
 
@@ -28,7 +30,7 @@ class NestedDto {
   final int id;
   final String name;
 
-  NestedDto(this.id, {required this.name});
+  const NestedDto(this.id, {required this.name});
 }
 
 // --- Value
@@ -49,5 +51,5 @@ class ComplexValueDto {
   final int age;
   final NestedDto? name;
 
-  ComplexValueDto(this.age, this.name);
+  const ComplexValueDto(this.age, this.name);
 }

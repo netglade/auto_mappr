@@ -1,3 +1,4 @@
+/// AutoMappr Annotation.
 library auto_mappr_annotation;
 
 export 'src/auto_mappr.dart';

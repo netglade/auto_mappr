@@ -8,9 +8,7 @@ part 'custom_mapping.g.dart';
 @AutoMappr([
   // custom type
   MapType<CustomValueFromEmptyDto, CustomValueHolder>(
-    fields: [
-      Field.custom('value', custom: CustomValue(42)),
-    ],
+    fields: [Field.custom('value', custom: CustomValue(42))],
   ),
   MapType<CustomValueFromEmptyDto, CustomValueHolderNamed>(
     fields: [
@@ -70,9 +68,7 @@ part 'custom_mapping.g.dart';
     ],
   ),
   MapType<CustomValueNamedDto, CustomValueNamed>(
-    fields: [
-      Field.custom('nameAndId', custom: 'hello "there" kenobi'),
-    ],
+    fields: [Field.custom('nameAndId', custom: 'hello "there" kenobi')],
   ),
   // from function
   MapType<CustomFunctionPositionalDto, CustomFunctionPositional>(
@@ -246,19 +242,14 @@ class CustomValuePositional extends Equatable {
   @override
   List<Object?> get props => [nameAndId];
 
-  const CustomValuePositional(
-    this.nameAndId,
-  );
+  const CustomValuePositional(this.nameAndId);
 }
 
 class CustomValuePositionalDto {
   final int id;
   final String name;
 
-  const CustomValuePositionalDto(
-    this.id,
-    this.name,
-  );
+  const CustomValuePositionalDto(this.id, this.name);
 }
 
 class CustomValueNamed extends Equatable {
@@ -267,19 +258,14 @@ class CustomValueNamed extends Equatable {
   @override
   List<Object?> get props => [nameAndId];
 
-  const CustomValueNamed({
-    required this.nameAndId,
-  });
+  const CustomValueNamed({required this.nameAndId});
 }
 
 class CustomValueNamedDto {
   final int id;
   final String name;
 
-  const CustomValueNamedDto({
-    required this.id,
-    required this.name,
-  });
+  const CustomValueNamedDto({required this.id, required this.name});
 }
 
 class CustomFunctionPositional extends Equatable {
@@ -288,19 +274,14 @@ class CustomFunctionPositional extends Equatable {
   @override
   List<Object?> get props => [nameAndId];
 
-  const CustomFunctionPositional(
-    this.nameAndId,
-  );
+  const CustomFunctionPositional(this.nameAndId);
 }
 
 class CustomFunctionPositionalDto {
   final int id;
   final String name;
 
-  const CustomFunctionPositionalDto(
-    this.id,
-    this.name,
-  );
+  const CustomFunctionPositionalDto(this.id, this.name);
 }
 
 class CustomFunctionNamed extends Equatable {
@@ -309,17 +290,12 @@ class CustomFunctionNamed extends Equatable {
   @override
   List<Object?> get props => [nameAndId];
 
-  const CustomFunctionNamed({
-    required this.nameAndId,
-  });
+  const CustomFunctionNamed({required this.nameAndId});
 }
 
 class CustomFunctionNamedDto {
   final int id;
   final String name;
 
-  const CustomFunctionNamedDto({
-    required this.id,
-    required this.name,
-  });
+  const CustomFunctionNamedDto({required this.id, required this.name});
 }

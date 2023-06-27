@@ -3,6 +3,7 @@
 ## Unreleased
 - Add support for library aliases, so mapping now supports types from different libraries with the same name.
 It also work in cases when library alias's exports. [#62](https://github.com/netglade/auto_mappr/pull/62)
+- Adhere to netglade_analysis 2.0.0.
 
 ## 1.4.0
 - Add modules. [#67](https://github.com/netglade/auto_mappr/pull/67)

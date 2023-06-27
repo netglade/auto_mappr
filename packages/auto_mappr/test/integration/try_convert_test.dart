@@ -6,7 +6,7 @@ void main() {
   late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mappr = fixture.Mappr();
+    mappr = const fixture.Mappr();
   });
 
   group('convert', () {
@@ -17,7 +17,7 @@ void main() {
     test('Returns default when configured', () {
       expect(
         mappr.convert<fixture.ComplexValueDto, fixture.ComplexValue>(null),
-        const fixture.ComplexValue(99, fixture.Nested(id: 123, name: 'test qwerty')),
+        equals(const fixture.ComplexValue(99, fixture.Nested(id: 123, name: 'test qwerty'))),
       );
     });
   });
@@ -30,7 +30,7 @@ void main() {
     test('Returns default when configured', () {
       expect(
         mappr.tryConvert<fixture.ComplexValueDto, fixture.ComplexValue>(null),
-        const fixture.ComplexValue(99, fixture.Nested(id: 123, name: 'test qwerty')),
+        equals(const fixture.ComplexValue(99, fixture.Nested(id: 123, name: 'test qwerty'))),
       );
     });
   });

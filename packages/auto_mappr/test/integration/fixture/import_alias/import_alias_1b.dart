@@ -6,10 +6,7 @@ class XxxDto {
   final String name;
   final int age;
 
-  const XxxDto({
-    required this.name,
-    required this.age,
-  });
+  const XxxDto({required this.name, required this.age});
 }
 
 class Xxx with EquatableMixin {
@@ -19,8 +16,5 @@ class Xxx with EquatableMixin {
   @override
   List<Object?> get props => [name, age];
 
-  const Xxx({
-    required this.name,
-    required this.age,
-  });
+  const Xxx({required this.name, required this.age});
 }

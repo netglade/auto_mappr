@@ -17,7 +17,7 @@ extension DartTypeExtension on DartType {
 
   /// Is special variant of integer.
   ///
-  /// See `[Uint8List], [Uint16List], [Uint32List], [Uint64List].`
+  /// See `[Uint8List], [Uint16List], [Uint32List], [Uint64List]`.
   bool get isSpecializedListType {
     final thisType = this;
     if (thisType is! InterfaceType) return false;
@@ -29,10 +29,9 @@ extension DartTypeExtension on DartType {
 
   /// Checks name, generics, library
   /// and nullability if [withNullability] is not set.
-  bool isSame(
-    DartType other, {
-    bool withNullability = false,
-  }) {
+  bool isSame(DartType? other, {bool withNullability = false}) {
+    if (other == null) return false;
+
     // Not the same type of type.
     if ((this is InterfaceType) ^ (other is InterfaceType)) {
       return false;
@@ -68,32 +67,28 @@ extension DartTypeExtension on DartType {
     return isSameExceptNullability && isSameNullability;
   }
 
-  Expression defaultIterableExpression({
-    required AutoMapprConfig config,
-  }) {
+  Expression defaultIterableExpression({required AutoMapprConfig config}) {
     final itemType = genericParameterTypeOrSelf;
 
-    if (isDartCoreSet) {
-      return literalSet(
-        {},
-        refer(
-          itemType.getDisplayStringWithLibraryAlias(
-            config: config,
-            withNullability: true,
-          ),
-        ),
-      );
-    }
-
-    return literalList(
-      [],
-      refer(
-        itemType.getDisplayStringWithLibraryAlias(
-          config: config,
-          withNullability: true,
-        ),
-      ),
-    );
+    return isDartCoreSet
+        ? literalSet(
+            {},
+            refer(
+              itemType.getDisplayStringWithLibraryAlias(
+                config: config,
+                withNullability: true,
+              ),
+            ),
+          )
+        : literalList(
+            [],
+            refer(
+              itemType.getDisplayStringWithLibraryAlias(
+                config: config,
+                withNullability: true,
+              ),
+            ),
+          );
   }
 
   String getDisplayStringWithLibraryAlias({

@@ -21,7 +21,9 @@ part 'generics.g.dart';
   MapType<IterableHolder<String, int>, IterableHolder<String, int>>(),
   MapType<MapHolder<String, int, bool>, MapHolder<String, int, bool>>(),
 ])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 class AlphaDto<T> {
   final With<T, T> first;
@@ -47,10 +49,7 @@ class With<A, B> extends Equatable {
   @override
   List<Object?> get props => [first, second];
 
-  const With({
-    required this.first,
-    required this.second,
-  });
+  const With({required this.first, required this.second});
 }
 
 class Without extends Equatable {
@@ -60,10 +59,7 @@ class Without extends Equatable {
   @override
   List<Object?> get props => [first, second];
 
-  const Without({
-    required this.first,
-    required this.second,
-  });
+  const Without({required this.first, required this.second});
 }
 
 // collections

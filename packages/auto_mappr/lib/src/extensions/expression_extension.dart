@@ -55,18 +55,13 @@ extension ExpressionExtension on Expression {
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   }) {
-    if (!condition) {
-      return this;
-    }
-
-    return maybeNullSafeProperty(name, isOnNullable: isOnNullable)
-        .call(positionalArguments, namedArguments, typeArguments);
+    return condition
+        ? maybeNullSafeProperty(name, isOnNullable: isOnNullable)
+            .call(positionalArguments, namedArguments, typeArguments)
+        : this;
   }
 
-  Expression maybeIfNullThen(
-    Expression other, {
-    required bool isOnNullable,
-  }) {
+  Expression maybeIfNullThen(Expression other, {required bool isOnNullable}) {
     if (!isOnNullable) return this;
 
     return ifNullThen(other);
@@ -89,16 +84,14 @@ extension ExpressionExtension on Expression {
     required DartType valueType,
     required AutoMapprConfig config,
   }) {
-    if (!(keyIsNullable || valueIsNullable)) return this;
+    if (!keyIsNullable && !valueIsNullable) return this;
 
     final keyCondition = keyIsNullable ? 'key != null' : '';
     final and = (keyIsNullable && valueIsNullable) ? '&&' : '';
     final valueCondition = valueIsNullable ? 'value != null' : '';
 
     return maybeNullSafeProperty('where', isOnNullable: isOnNullable).call(
-      [
-        refer('(key, value) => $keyCondition $and $valueCondition'),
-      ],
+      [refer('(key, value) => $keyCondition $and $valueCondition')],
       {},
       [
         refer(keyType.getDisplayStringWithLibraryAlias(config: config)),
@@ -107,10 +100,7 @@ extension ExpressionExtension on Expression {
     );
   }
 
-  Expression maybeAsA(
-    Expression expression, {
-    required bool condition,
-  }) {
+  Expression maybeAsA(Expression expression, {required bool condition}) {
     if (!condition) return this;
 
     return asA(expression);

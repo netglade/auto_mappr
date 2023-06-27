@@ -34,11 +34,17 @@ part 'default_target.g.dart';
 ])
 class Mappr extends $Mappr {
   static ComplexPositionalFunction defaultComplexPositionalFunction() {
-    return const ComplexPositionalFunction(99, Nested(id: 123, name: 'test qwerty'));
+    return const ComplexPositionalFunction(
+      99,
+      Nested(id: 123, name: 'test qwerty'),
+    );
   }
 
   static ComplexNamedFunction defaultComplexNamedFunction() {
-    return const ComplexNamedFunction(age: 99, name: Nested(id: 123, name: 'test qwerty'));
+    return const ComplexNamedFunction(
+      age: 99,
+      name: Nested(id: 123, name: 'test qwerty'),
+    );
   }
 
   static PrimitivePositionalFunction defaultPrimitivePositionalFunction() {
@@ -66,7 +72,7 @@ class NestedDto {
   final int id;
   final String name;
 
-  NestedDto(this.id, {required this.name});
+  const NestedDto(this.id, {required this.name});
 }
 
 // --- Value
@@ -87,7 +93,7 @@ class ComplexPositionalValueDto {
   final int age;
   final NestedDto? name;
 
-  ComplexPositionalValueDto(this.age, this.name);
+  const ComplexPositionalValueDto(this.age, this.name);
 }
 
 class ComplexNamedValue extends Equatable {
@@ -104,7 +110,7 @@ class ComplexNamedValueDto {
   final int age;
   final NestedDto? name;
 
-  ComplexNamedValueDto({required this.age, required this.name});
+  const ComplexNamedValueDto({required this.age, required this.name});
 }
 
 // Primitive
@@ -123,7 +129,7 @@ class PrimitivePositionalValueDto {
   final int age;
   final String name;
 
-  PrimitivePositionalValueDto(this.age, this.name);
+  const PrimitivePositionalValueDto(this.age, this.name);
 }
 
 class PrimitiveNamedValue extends Equatable {
@@ -140,7 +146,7 @@ class PrimitiveNamedValueDto {
   final int age;
   final String name;
 
-  PrimitiveNamedValueDto({required this.age, required this.name});
+  const PrimitiveNamedValueDto({required this.age, required this.name});
 }
 
 // --- Function
@@ -161,7 +167,7 @@ class ComplexPositionalFunctionDto {
   final int age;
   final NestedDto? name;
 
-  ComplexPositionalFunctionDto(this.age, this.name);
+  const ComplexPositionalFunctionDto(this.age, this.name);
 }
 
 class ComplexNamedFunction extends Equatable {
@@ -178,7 +184,7 @@ class ComplexNamedFunctionDto {
   final int age;
   final NestedDto? name;
 
-  ComplexNamedFunctionDto({required this.age, required this.name});
+  const ComplexNamedFunctionDto({required this.age, required this.name});
 }
 
 // Primitive
@@ -197,7 +203,7 @@ class PrimitivePositionalFunctionDto {
   final int age;
   final String name;
 
-  PrimitivePositionalFunctionDto(this.age, this.name);
+  const PrimitivePositionalFunctionDto(this.age, this.name);
 }
 
 class PrimitiveNamedFunction extends Equatable {
@@ -214,5 +220,5 @@ class PrimitiveNamedFunctionDto {
   final int age;
   final String name;
 
-  PrimitiveNamedFunctionDto({required this.age, required this.name});
+  const PrimitiveNamedFunctionDto({required this.age, required this.name});
 }

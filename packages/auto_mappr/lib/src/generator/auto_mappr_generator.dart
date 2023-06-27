@@ -16,6 +16,8 @@ import 'package:source_gen/source_gen.dart';
 
 /// Code generator to generate implemented mapping classes.
 class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
+  const AutoMapprGenerator();
+
   @override
   dynamic generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
     if (element is! ClassElement) {
@@ -50,9 +52,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     if (duplicates.isNotEmpty) {
       throw InvalidGenerationSourceError(
         '@AutoMappr has configured duplicated mappings:\n\t${duplicates.map(
-              (e) => e.toStringWithLibraryAlias(
-                config: tmpConfig,
-              ),
+              (e) => e.toStringWithLibraryAlias(config: tmpConfig),
             ).join('\n\t')}',
       );
     }
@@ -81,19 +81,19 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     return mappers.map((mapper) {
       final mapperType = mapper.type! as ParameterizedType;
 
-      final sourceType = mapperType.typeArguments.first;
-      final targetType = mapperType.typeArguments.last;
+      final sourceType = mapperType.typeArguments.firstOrNull;
+      final targetType = mapperType.typeArguments.lastOrNull;
 
       if (sourceType is! InterfaceType) {
         throw InvalidGenerationSourceError(
-          '${sourceType.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped from',
+          '${sourceType?.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped from',
           element: element,
           todo: 'Use a class',
         );
       }
       if (targetType is! InterfaceType) {
         throw InvalidGenerationSourceError(
-          '${targetType.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped to',
+          '${targetType?.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped to',
           element: element,
           todo: 'Use a class',
         );
@@ -126,9 +126,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     }).toList();
   }
 
-  Map<String, String> _getLibraryAliases({
-    required ClassElement element,
-  }) {
+  Map<String, String> _getLibraryAliases({required ClassElement element}) {
     final libraryUriToAlias = <String, String>{};
 
     final imports = element.library.libraryImports;
@@ -136,15 +134,17 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     final uris = imports.map((e) => e.importedLibrary!.identifier).toList();
 
     for (var i = 0; i < imports.length; i++) {
-      final currentAlias = aliases[i];
+      final currentAlias = aliases.elementAtOrNull(i);
       if (currentAlias == null) continue;
 
-      final importedLibrary = imports[i].importedLibrary!;
-      final exports = _getRecursiveLibraryExports(importedLibrary);
+      final importedLibrary = imports.elementAtOrNull(i)?.importedLibrary;
+      final exports = importedLibrary == null ? <LibraryElement>[] : _getRecursiveLibraryExports(importedLibrary);
+
+      final uri = uris.elementAtOrNull(i);
 
       libraryUriToAlias.addAll({
         // Current library.
-        uris[i]: currentAlias,
+        if (uri != null) uri: currentAlias,
         // It's exports.
         for (final exported in exports) exported.identifier: currentAlias,
       });

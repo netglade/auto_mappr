@@ -12,66 +12,68 @@ part 'primitive_types.g.dart';
   MapType<BoolHolderDto, BoolHolder>(),
   MapType<EnumHolderDto, EnumHolder>(),
 ])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 class NumHolder {
   final num value;
 
-  NumHolder(this.value);
+  const NumHolder(this.value);
 }
 
 class NumHolderDto {
   final num value;
 
-  NumHolderDto(this.value);
+  const NumHolderDto(this.value);
 }
 
 class IntHolder {
   final int value;
 
-  IntHolder(this.value);
+  const IntHolder(this.value);
 }
 
 class IntHolderDto {
   final int value;
 
-  IntHolderDto(this.value);
+  const IntHolderDto(this.value);
 }
 
 class DoubleHolder {
   final double value;
 
-  DoubleHolder(this.value);
+  const DoubleHolder(this.value);
 }
 
 class DoubleHolderDto {
   final double value;
 
-  DoubleHolderDto(this.value);
+  const DoubleHolderDto(this.value);
 }
 
 class StringHolder {
   final String value;
 
-  StringHolder(this.value);
+  const StringHolder(this.value);
 }
 
 class StringHolderDto {
   final String value;
 
-  StringHolderDto(this.value);
+  const StringHolderDto(this.value);
 }
 
 class BoolHolder {
   final bool value;
 
-  BoolHolder(this.value);
+  const BoolHolder(this.value);
 }
 
 class BoolHolderDto {
   final bool value;
 
-  BoolHolderDto(this.value);
+  const BoolHolderDto(this.value);
 }
 
 enum Enum { alpha, beta, gama }
@@ -79,11 +81,11 @@ enum Enum { alpha, beta, gama }
 class EnumHolder {
   final Enum value;
 
-  EnumHolder(this.value);
+  const EnumHolder(this.value);
 }
 
 class EnumHolderDto {
   final Enum value;
 
-  EnumHolderDto(this.value);
+  const EnumHolderDto(this.value);
 }

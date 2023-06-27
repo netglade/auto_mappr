@@ -6,7 +6,7 @@ targets:
         generate_for:
           exclude:
             - test/integration/error_fixture/**
-            
+
 builders:
   auto_mappr:
     import: "package:auto_mappr/auto_mappr.dart"

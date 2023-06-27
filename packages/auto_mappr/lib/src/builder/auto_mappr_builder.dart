@@ -21,12 +21,12 @@ class AutoMapprBuilder {
     'unnecessary_raw_strings',
     'unnecessary_lambdas',
 
-    // Can we fix this somehow? (const defaults, const customs)
+    // Can we fix this somehow? (const defaults, const customs).
     'prefer_const_constructors',
     'prefer_const_literals_to_create_immutables'
   ];
 
-  AutoMapprBuilder({
+  const AutoMapprBuilder({
     required this.config,
     required this.mapperClassElement,
   });
@@ -54,9 +54,7 @@ class AutoMapprBuilder {
   List<Constructor> _buildConstructors() {
     return [
       // Constant constructor to allow usage of modules.
-      Constructor(
-        (builder) => builder..constant = true,
-      ),
+      Constructor((builder) => builder..constant = true),
     ];
   }
 
@@ -113,11 +111,11 @@ class AutoMapprBuilder {
         iterableTransformer: 'toSet',
       ).buildMethod(),
 
-      // Internal convert method
+      // Internal convert method.
       PrivateConvertMethodBuilder(config).buildMethod(),
 
       // Generate non-nullable mapping method.
-      // TODO(later): switch to MappingMethodBuilder
+      // TODO(later): switch to MappingMethodBuilder.
       for (final mapping in config.mappers)
         Method(
           (b) => b
@@ -140,7 +138,7 @@ class AutoMapprBuilder {
         ),
 
       // Generates nullable mapping method only when nullable method is used.
-      // TODO(later): switch to MappingMethodBuilder
+      // TODO(later): switch to MappingMethodBuilder.
       for (final mapping in config.mappers.where(nullableMappings.contains))
         Method(
           (b) => b

@@ -6,11 +6,11 @@ void main() {
   late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mappr = fixture.Mappr();
+    mappr = const fixture.Mappr();
   });
 
   test('Target fields are correctly assigned using constructor arguments or setters', () {
-    final dto = fixture.OneDto(
+    const dto = fixture.OneDto(
       usingConstructor1: 42,
       usingConstructor2: 'Heya',
       withoutConstructor1: true,
@@ -21,13 +21,12 @@ void main() {
 
     expect(
       converted,
-      fixture.One(
-        usingConstructor1: 42,
-        usingConstructor2: 'Heya',
-      )
-        ..withoutConstructor1 = true
-        ..withoutConstructor2 = 9.42
-        ..withoutConstructor3 = 666,
+      equals(
+        fixture.One(usingConstructor1: 42, usingConstructor2: 'Heya')
+          ..withoutConstructor1 = true
+          ..withoutConstructor2 = 9.42
+          ..withoutConstructor3 = 666,
+      ),
     );
   });
 }

@@ -2,6 +2,9 @@
 ///
 /// Users should not implement or extend this.
 abstract class AutoMapprInterface {
+  ///
+  const AutoMapprInterface();
+
   /// {@template AutoMapprInterface:canConvert}
   /// Determines whether conversion from [SOURCE] to [TARGET] is possible.
   /// {@endtemplate}

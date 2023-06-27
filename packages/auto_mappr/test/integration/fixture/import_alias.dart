@@ -29,16 +29,15 @@ part 'import_alias.g.dart';
   ],
   modules: [module.ImportAliasModule()],
 )
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 class UserDto {
   final String name;
   final int age;
 
-  const UserDto({
-    required this.name,
-    required this.age,
-  });
+  const UserDto({required this.name, required this.age});
 }
 
 class User with EquatableMixin {
@@ -48,10 +47,7 @@ class User with EquatableMixin {
   @override
   List<Object?> get props => [name, age];
 
-  const User({
-    required this.name,
-    required this.age,
-  });
+  const User({required this.name, required this.age});
 }
 
 class Holder<A, B> extends Equatable {
@@ -61,10 +57,7 @@ class Holder<A, B> extends Equatable {
   @override
   List<Object?> get props => [first, second];
 
-  const Holder({
-    required this.first,
-    required this.second,
-  });
+  const Holder({required this.first, required this.second});
 }
 
 // iterables

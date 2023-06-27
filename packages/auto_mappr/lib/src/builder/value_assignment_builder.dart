@@ -6,6 +6,7 @@ import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
+import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
 class ValueAssignmentBuilder {
@@ -14,7 +15,7 @@ class ValueAssignmentBuilder {
   final SourceAssignment assignment;
   final void Function(TypeMapping? mapping)? usedNullableMethodCallback;
 
-  ValueAssignmentBuilder({
+  const ValueAssignmentBuilder({
     required this.mapperConfig,
     required this.mapping,
     required this.assignment,
@@ -138,16 +139,28 @@ class ValueAssignmentBuilder {
 
     final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
 
-    final sourceKeyType = (sourceType as ParameterizedType).typeArguments.first;
-    final sourceValueType = sourceType.typeArguments.last;
+    final sourceKeyType = (sourceType as ParameterizedType).typeArguments.firstOrNull;
+    final sourceValueType = sourceType.typeArguments.lastOrNull;
 
-    final targetKeyType = (targetType as ParameterizedType).typeArguments.first;
-    final targetValueType = targetType.typeArguments.last;
+    final targetKeyType = (targetType as ParameterizedType).typeArguments.firstOrNull;
+    final targetValueType = targetType.typeArguments.lastOrNull;
 
-    final sourceNullableKey = sourceKeyType.nullabilitySuffix == NullabilitySuffix.question;
-    final sourceNullableValue = sourceValueType.nullabilitySuffix == NullabilitySuffix.question;
-    final targetNullableKey = targetKeyType.nullabilitySuffix == NullabilitySuffix.question;
-    final targetNullableValue = targetValueType.nullabilitySuffix == NullabilitySuffix.question;
+    final sourceNullableKey = sourceKeyType?.nullabilitySuffix == NullabilitySuffix.question;
+    final sourceNullableValue = sourceValueType?.nullabilitySuffix == NullabilitySuffix.question;
+    final targetNullableKey = targetKeyType?.nullabilitySuffix == NullabilitySuffix.question;
+    final targetNullableValue = targetValueType?.nullabilitySuffix == NullabilitySuffix.question;
+
+    if (targetKeyType == null || targetValueType == null) {
+      throw InvalidGenerationSourceError(
+        'Target key or value type is null for ${targetType.getDisplayStringWithLibraryAlias(config: assignment.config)}',
+      );
+    }
+
+    if (sourceKeyType == null || sourceValueType == null) {
+      throw InvalidGenerationSourceError(
+        'Source key or value type is null for ${sourceType.getDisplayStringWithLibraryAlias(config: assignment.config)}',
+      );
+    }
 
     final keyMapping = mapperConfig.findMapping(source: sourceKeyType, target: targetKeyType);
     final valueMapping = mapperConfig.findMapping(source: sourceValueType, target: targetValueType);
@@ -188,9 +201,7 @@ class ValueAssignmentBuilder {
       isOnNullable: sourceNullable,
       // Call map only when actually some mapping is required.
       condition: shouldDoMapCall,
-      positionalArguments: [
-        _callMapForMap(assignment),
-      ],
+      positionalArguments: [_callMapForMap(assignment)],
       typeArguments: [
         refer(targetKeyType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
         refer(targetValueType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
@@ -334,13 +345,23 @@ class ValueAssignmentBuilder {
     );
   }
 
-  Expression _callMapForMap(
-    SourceAssignment assignment,
-  ) {
-    final sourceKeyType = (assignment.sourceType! as ParameterizedType).typeArguments.first;
-    final sourceValueType = (assignment.sourceType! as ParameterizedType).typeArguments.last;
-    final targetKeyType = (assignment.targetType as ParameterizedType).typeArguments.first;
-    final targetValueType = (assignment.targetType as ParameterizedType).typeArguments.last;
+  Expression _callMapForMap(SourceAssignment assignment) {
+    final sourceKeyType = (assignment.sourceType! as ParameterizedType).typeArguments.firstOrNull;
+    final sourceValueType = (assignment.sourceType! as ParameterizedType).typeArguments.lastOrNull;
+    final targetKeyType = (assignment.targetType as ParameterizedType).typeArguments.firstOrNull;
+    final targetValueType = (assignment.targetType as ParameterizedType).typeArguments.lastOrNull;
+
+    if (targetKeyType == null || targetValueType == null) {
+      throw InvalidGenerationSourceError(
+        'Target key or value type is null for ${assignment.targetType.getDisplayStringWithLibraryAlias(config: assignment.config)}',
+      );
+    }
+
+    if (sourceKeyType == null || sourceValueType == null) {
+      throw InvalidGenerationSourceError(
+        'Source key or value type is null for ${assignment.sourceType?.getDisplayStringWithLibraryAlias(config: assignment.config)}',
+      );
+    }
 
     final assignNestedObjectKey = !targetKeyType.isPrimitiveType && (targetKeyType != sourceKeyType);
     final assignNestedObjectValue = !targetValueType.isPrimitiveType && (targetValueType != sourceValueType);

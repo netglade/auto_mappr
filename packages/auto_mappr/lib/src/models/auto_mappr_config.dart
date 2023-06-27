@@ -29,8 +29,8 @@ class AutoMapprConfig {
   });
 
   TypeMapping? findMapping({
-    required DartType source,
-    required DartType target,
+    required DartType? source,
+    required DartType? target,
   }) {
     return mappers.firstWhereOrNull(
       (mapper) => mapper.source.isSame(source) && mapper.target.isSame(target),

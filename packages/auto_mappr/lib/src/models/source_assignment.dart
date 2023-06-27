@@ -12,10 +12,7 @@ class ConstructorAssignment {
 
   bool get isNamed => param.isNamed;
 
-  ConstructorAssignment({
-    required this.param,
-    this.position,
-  });
+  const ConstructorAssignment({required this.param, this.position});
 }
 
 class SourceAssignment {
@@ -46,7 +43,7 @@ class SourceAssignment {
 
   String get targetName => targetConstructorParam?.param.displayName ?? targetField!.displayName;
 
-  SourceAssignment({
+  const SourceAssignment({
     required this.sourceField,
     required this.targetField,
     required this.typeMapping,

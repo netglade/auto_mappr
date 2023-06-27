@@ -2,16 +2,17 @@ include: package:netglade_analysis/lints.yaml
 # TODO include: package:netglade_analysis/lints_package.yaml
 
 analyzer:
-  plugins:
-    - dart_code_metrics
-
   exclude:
     - test/integration/error_fixture/**
 
 dart_code_metrics:
   extends:
     - package:netglade_analysis/dcm.yaml
+  pubspec-rules:
+    prefer-publish-to-none: false
   rules:
-    - format-comment: false
-    - avoid-non-null-assertion: false
-    - avoid-top-level-members-in-tests: false
+    avoid-non-null-assertion: false
+    avoid-top-level-members-in-tests:
+      exclude:
+        - test/integration/fixture/**
+    avoid-long-parameter-list: false

@@ -5,6 +5,7 @@ import 'package:auto_mappr/src/extensions/element_extension.dart';
 import 'package:auto_mappr/src/extensions/executable_element_extension.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:code_builder/code_builder.dart';
+import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
 extension DartObjectExtension on DartObject {
@@ -37,7 +38,7 @@ extension DartObjectExtension on DartObject {
 class _ToCodeExpressionConverter {
   final AutoMapprConfig config;
 
-  _ToCodeExpressionConverter({required this.config});
+  const _ToCodeExpressionConverter({required this.config});
 
   Spec convert(DartObject dartObject) {
     return _toSpec(dartObject);
@@ -46,12 +47,7 @@ class _ToCodeExpressionConverter {
   Spec _toSpec(DartObject dartObject) {
     final constant = ConstantReader(dartObject);
 
-    if (constant.isLiteral) {
-      return _reviveLiteral(dartObject);
-    }
-
-    /// Perhaps an object instantiation?
-    return _reviveObject(dartObject);
+    return constant.isLiteral ? _reviveLiteral(dartObject) : _reviveObject(dartObject);
   }
 
   Spec _reviveLiteral(DartObject dartObject) {
@@ -109,7 +105,7 @@ class _ToCodeExpressionConverter {
     //
     // location[1] - class
     // revived.accessor - named constructor
-    final instantiation = location[1];
+    final instantiation = location.elementAtOrNull(1);
     final useNamedConstructor = revived.accessor.isNotEmpty;
 
     final revivedInstance = refer('$libraryAlias$instantiation');
@@ -119,10 +115,8 @@ class _ToCodeExpressionConverter {
     final namedArguments =
         revived.namedArguments.map<String, Expression>((key, value) => MapEntry(key, _toSpec(value) as Expression));
 
-    if (useNamedConstructor) {
-      return revivedInstance.constInstanceNamed(revived.accessor, positionalArguments, namedArguments);
-    }
-
-    return revivedInstance.constInstance(positionalArguments, namedArguments);
+    return useNamedConstructor
+        ? revivedInstance.constInstanceNamed(revived.accessor, positionalArguments, namedArguments)
+        : revivedInstance.constInstance(positionalArguments, namedArguments);
   }
 }

@@ -66,9 +66,7 @@ class TryConvertMethodBuilder extends MethodBuilderBase {
       ).code,
     );
 
-    block.addExpression(
-      literalNull.returned,
-    );
+    block.addExpression(literalNull.returned);
 
     return block.build();
   }

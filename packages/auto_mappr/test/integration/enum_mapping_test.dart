@@ -9,7 +9,7 @@ void main() {
   late final fixture.Mappr mappr;
 
   setUpAll(() {
-    mappr = fixture.Mappr();
+    mappr = const fixture.Mappr();
   });
 
   test('Simple enum', () {
@@ -17,15 +17,14 @@ void main() {
 
     final target = mappr.convert<fixture.Person, fixture.User>(source);
 
-    expect(target, fixture.User.parent);
+    expect(target, equals(fixture.User.parent));
   });
 
   test('Simple enum with unknown case', () {
     const source = fixture.RemotePerson.vp;
-    final target =
-        mappr.convert<fixture.RemotePerson, fixture.LocalPerson>(source);
+    final target = mappr.convert<fixture.RemotePerson, fixture.LocalPerson>(source);
 
-    expect(target, fixture.LocalPerson.unknown);
+    expect(target, equals(fixture.LocalPerson.unknown));
   });
 
   test('Enhanced enum', () {
@@ -33,7 +32,7 @@ void main() {
 
     final target = mappr.convert<fixture.EnhancedSource, fixture.EnhancedTarget>(source);
 
-    expect(target, fixture.EnhancedTarget.parent);
+    expect(target, equals(fixture.EnhancedTarget.parent));
   });
 
   test('Enhanced enum with unknown case', () {
@@ -41,7 +40,7 @@ void main() {
 
     final target = mappr.convert<fixture.EnhancedSourceWithUnknown, fixture.EnhancedTarget>(source);
 
-    expect(target, fixture.EnhancedTarget.unknown);
+    expect(target, equals(fixture.EnhancedTarget.unknown));
   });
 
   group('Error handling', () {

@@ -10,24 +10,23 @@ void main() {
   });
 
   test('whenSourceIsNull with static value ', () {
-    final source = fixture.SourceValue(null);
+    const source = fixture.SourceValue(null);
     final target = mappr.convert<fixture.SourceValue, fixture.Target>(source);
 
-    expect(target.name, 'static');
+    expect(target.name, equals('static'));
   });
 
   test('whenSourceIsNull with static function in Mappr', () {
-    final source = fixture.SourceStatic(null);
+    const source = fixture.SourceStatic(null);
     final target = mappr.convert<fixture.SourceStatic, fixture.Target>(source);
 
-    expect(target.name, 'whenSourceIsNull');
+    expect(target.name, equals('whenSourceIsNull'));
   });
 
   test('whenSourceIsNull with top level function', () {
-    final source = fixture.SourceTopLevel(null);
-    final target =
-        mappr.convert<fixture.SourceTopLevel, fixture.Target>(source);
+    const source = fixture.SourceTopLevel(null);
+    final target = mappr.convert<fixture.SourceTopLevel, fixture.Target>(source);
 
-    expect(target.name, 'whenSourceIsNullTopLevel');
+    expect(target.name, equals('whenSourceIsNullTopLevel'));
   });
 }

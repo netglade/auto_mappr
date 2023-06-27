@@ -515,6 +515,10 @@ Each AutoMappr class can include a list of modules
 that can be used to nest modules
 and use all of its underlying mappings.
 
+Note that modules work as disjunctive units
+and their mappings cannot be internally used by by mappr that imported it.
+They only work for grouping at the moment.
+
 Applications are often split into independent parts (we will call them **features**).
 Each feature should probably have its own independent mappr,
 that is used as a module.

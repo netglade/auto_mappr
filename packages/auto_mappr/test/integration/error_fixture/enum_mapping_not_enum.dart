@@ -8,11 +8,10 @@ class Target {
   final int a;
   final int b;
 
-  Target({
-    required this.a,
-    required this.b,
-  });
+  const Target({required this.a, required this.b});
 }
 
 @AutoMappr([MapType<Source, Target>()])
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}

@@ -15,7 +15,7 @@ class Source {
   final List<int> listData32;
   final List<int> listData64;
 
-  Source({
+  const Source({
     required this.int8List,
     required this.int16List,
     required this.int32List,
@@ -51,7 +51,7 @@ class Destination with EquatableMixin {
     ];
   }
 
-  Destination({
+  const Destination({
     required this.int8List,
     required this.int16List,
     required this.int32List,
@@ -63,7 +63,7 @@ class Destination with EquatableMixin {
   });
 }
 
-@AutoMappr([
-  MapType<Source, Destination>(),
-])
-class Mappr extends $Mappr {}
+@AutoMappr([MapType<Source, Destination>()])
+class Mappr extends $Mappr {
+  const Mappr();
+}

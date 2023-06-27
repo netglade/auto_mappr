@@ -12,11 +12,11 @@ class AnnotationB {
 }
 
 @AnnotationA()
-@AutoMappr([
-  MapType<UserDto, User>(),
-])
+@AutoMappr([MapType<UserDto, User>()])
 @AnnotationB()
-class Mappr extends $Mappr {}
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 class User with EquatableMixin {
   final int age;
@@ -25,18 +25,12 @@ class User with EquatableMixin {
   @override
   List<Object?> get props => [age, name];
 
-  const User({
-    required this.age,
-    required this.name,
-  });
+  const User({required this.age, required this.name});
 }
 
 class UserDto {
   final int age;
   final String name;
 
-  const UserDto({
-    required this.age,
-    required this.name,
-  });
+  const UserDto({required this.age, required this.name});
 }

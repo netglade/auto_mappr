@@ -8,7 +8,7 @@ class EnumAssignmentBuilder {
   final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
 
-  EnumAssignmentBuilder({
+  const EnumAssignmentBuilder({
     required this.mapperConfig,
     required this.mapping,
   });
@@ -30,14 +30,8 @@ class EnumAssignmentBuilder {
     final sourceEnum = mapping.source.element as EnumElement;
     final targetEnum = mapping.target.element as EnumElement;
 
-    final sourceValues = sourceEnum.fields
-        .where((e) => e.isEnumConstant && e.isPublic)
-        .map((e) => e.name)
-        .toSet();
-    final targetValues = targetEnum.fields
-        .where((e) => e.isEnumConstant && e.isPublic)
-        .map((e) => e.name)
-        .toSet();
+    final sourceValues = sourceEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
+    final targetValues = targetEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
 
     final sourceIsSubset = targetValues.containsAll(sourceValues);
 
@@ -51,7 +45,9 @@ class EnumAssignmentBuilder {
       );
     }
 
-    final targetReference = refer(mapping.target.getDisplayStringWithLibraryAlias(config: mapperConfig));
+    final targetReference = refer(
+      mapping.target.getDisplayStringWithLibraryAlias(config: mapperConfig),
+    );
 
     return targetReference
         .property('values')

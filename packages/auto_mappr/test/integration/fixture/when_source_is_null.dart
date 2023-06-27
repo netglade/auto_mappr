@@ -5,38 +5,30 @@ part 'when_source_is_null.g.dart';
 class SourceValue {
   final String? name;
 
-  SourceValue(this.name);
+  const SourceValue(this.name);
 }
 
 class SourceStatic extends SourceValue {
-  SourceStatic(super.name);
+  const SourceStatic(super.name);
 }
 
 class SourceTopLevel extends SourceValue {
-  SourceTopLevel(super.name);
+  const SourceTopLevel(super.name);
 }
 
 class Target {
   final String name;
 
-  Target(this.name);
+  const Target(this.name);
 }
 
 @AutoMappr([
-  MapType<SourceValue, Target>(
-    fields: [
-      Field('name', whenNull: 'static'),
-    ],
-  ),
+  MapType<SourceValue, Target>(fields: [Field('name', whenNull: 'static')]),
   MapType<SourceStatic, Target>(
-    fields: [
-      Field('name', whenNull: Mappr._whenSourceIsNull),
-    ],
+    fields: [Field('name', whenNull: Mappr._whenSourceIsNull)],
   ),
   MapType<SourceTopLevel, Target>(
-    fields: [
-      Field('name', whenNull: _whenSourceIsNullTopLevel),
-    ],
+    fields: [Field('name', whenNull: _whenSourceIsNullTopLevel)],
   ),
 ])
 class Mappr extends $Mappr {

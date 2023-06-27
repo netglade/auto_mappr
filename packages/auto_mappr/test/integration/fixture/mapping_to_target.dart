@@ -3,10 +3,10 @@ import 'package:equatable/equatable.dart';
 
 part 'mapping_to_target.g.dart';
 
-@AutoMappr([
-  MapType<OneDto, One>(),
-])
-class Mappr extends $Mappr {}
+@AutoMappr([MapType<OneDto, One>()])
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 // ignore: must_be_immutable, for testing
 class One extends Equatable {
@@ -25,10 +25,7 @@ class One extends Equatable {
         withoutConstructor3,
       ];
 
-  One({
-    required this.usingConstructor1,
-    required this.usingConstructor2,
-  });
+  One({required this.usingConstructor1, required this.usingConstructor2});
 }
 
 class OneDto {
@@ -38,7 +35,7 @@ class OneDto {
   final double withoutConstructor2;
   final int withoutConstructor3;
 
-  OneDto({
+  const OneDto({
     required this.usingConstructor1,
     required this.usingConstructor2,
     required this.withoutConstructor1,
