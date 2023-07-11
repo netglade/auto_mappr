@@ -50,14 +50,15 @@ class ConvertIterableMethodBuilder extends MethodBuilderBase {
     //
     // for List/Set:
     // convertIterable<SOURCE, TARGET>(model).toList()
-    final convertIterableCall = iterableTransformer != null
-        ? refer('convertIterable')
-            .call([refer('model')], {}, [MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])
-            .property(iterableTransformer!)
-            .call([])
-        : refer('model')
+    final convertIterableCall = iterableTransformer == null
+        ? refer('model')
             .property('map')
-            .call([refer('(item) => _convert(item)').nullChecked], {}, [MethodBuilderBase.targetTypeReference]);
+            .call([refer('(item) => _convert(item)').nullChecked], {}, [MethodBuilderBase.targetTypeReference])
+        : refer('convertIterable')
+            .call([refer('model')], {}, [MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])
+            // ignore: avoid-non-null-assertion, checked by the condition
+            .property(iterableTransformer!)
+            .call([]);
 
     // Generates code like:
     //

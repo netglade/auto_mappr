@@ -31,10 +31,6 @@ class FieldMapping extends Equatable {
     return from != null;
   }
 
-  bool hasWhenNullDefault() {
-    return whenNullExpression != null;
-  }
-
   bool hasCustomMapping() {
     return customExpression != null;
   }

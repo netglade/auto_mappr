@@ -22,8 +22,8 @@ part 'custom_mapping.g.dart';
         custom: [
           CustomListValue([
             CustomListValue([CustomValue(1)]),
-            CustomValue.named(2, xxx: 3)
-          ])
+            CustomValue.named(2, xxx: 3),
+          ]),
         ],
       ),
     ],
@@ -41,7 +41,7 @@ part 'custom_mapping.g.dart';
         'listListValue',
         custom: [
           ['alpha', 3],
-          [true, null]
+          [true, null],
         ],
       ),
       Field.custom('setValue', custom: {3, -1, 123, -888}),

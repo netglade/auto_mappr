@@ -27,7 +27,7 @@ class MappingMethodBuilder extends MethodBuilderBase {
             (p) => p
               ..name = 'input'
               ..type = refer('${mapping.source.getDisplayString(withNullability: false)}?'),
-          )
+          ),
         ])
         ..returns = refer(mapping.target.getDisplayString(withNullability: false))
         ..body = MapModelBodyMethodBuilder(

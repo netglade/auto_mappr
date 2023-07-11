@@ -23,7 +23,7 @@ class AutoMapprBuilder {
 
     // Can we fix this somehow? (const defaults, const customs).
     'prefer_const_constructors',
-    'prefer_const_literals_to_create_immutables'
+    'prefer_const_literals_to_create_immutables',
   ];
 
   const AutoMapprBuilder({
@@ -125,7 +125,7 @@ class AutoMapprBuilder {
                 (p) => p
                   ..name = 'input'
                   ..type = refer('${mapping.source.getDisplayStringWithLibraryAlias(config: config)}?'),
-              )
+              ),
             ])
             ..returns = refer(
               mapping.target.getDisplayStringWithLibraryAlias(config: config),
@@ -148,7 +148,7 @@ class AutoMapprBuilder {
                 (p) => p
                   ..name = 'input'
                   ..type = refer('${mapping.source.getDisplayStringWithLibraryAlias(config: config)}?'),
-              )
+              ),
             ])
             ..returns = refer('${mapping.target.getDisplayStringWithLibraryAlias(
               withNullability: true,
