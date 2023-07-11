@@ -58,6 +58,7 @@ void main() {
           isA<InvalidGenerationSourceError>().having(
             (x) => x.message,
             'Match message',
+            // ignore: avoid-non-ascii-symbols, ok now
             'Failed to map Source → Target because target Target is not an enum.',
           ),
         ),

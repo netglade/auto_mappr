@@ -35,7 +35,7 @@ jobs:
           folders: .
           fatal_style: true
           fatal_performance: true
-          fatal_warning: true
+          fatal_warnings: true
 
       - name: Test
         run: melos run test

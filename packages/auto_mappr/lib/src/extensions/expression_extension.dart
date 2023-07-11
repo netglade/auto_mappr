@@ -76,6 +76,7 @@ extension ExpressionExtension on Expression {
     return maybeNullSafeProperty('whereNotNull', isOnNullable: isOnNullable).call([], {}, []);
   }
 
+  // ignore: avoid-long-parameter-list, lint will be removed
   Expression maybeWhereMapNotNull({
     required bool isOnNullable,
     required bool keyIsNullable,
