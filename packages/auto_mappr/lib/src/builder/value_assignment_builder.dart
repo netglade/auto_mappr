@@ -62,7 +62,6 @@ class ValueAssignmentBuilder {
     }
 
     if (fieldMapping?.whenNullExpression != null) {
-      // ignore: avoid-non-null-assertion, is checked by the condition
       return rightSide.ifNullThen(fieldMapping!.whenNullExpression!);
     }
 
@@ -272,7 +271,6 @@ class ValueAssignmentBuilder {
       //       )
       //     : _map_NestedDto_To_Nested(model.name),
       return refer('model').property(assignment.sourceField!.displayName).equalTo(literalNull).conditional(
-            // ignore: avoid-non-null-assertion, checked by the condition
             fieldMapping!.whenNullExpression!,
             convertCallExpression,
           );

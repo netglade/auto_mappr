@@ -65,7 +65,6 @@ class TryConvertIterableMethodBuilder extends MethodBuilderBase {
               {},
               [MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference],
             )
-            // ignore: avoid-non-null-assertion, checked by the condition
             .property(iterableTransformer!)
             .call([]);
 

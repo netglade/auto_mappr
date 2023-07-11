@@ -14,3 +14,4 @@ dart_code_metrics:
     avoid-top-level-members-in-tests:
       exclude:
         - test/integration/fixture/**
+    avoid-non-null-assertion: false # TODO

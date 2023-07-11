@@ -56,7 +56,6 @@ class ConvertIterableMethodBuilder extends MethodBuilderBase {
             .call([refer('(item) => _convert(item)').nullChecked], {}, [MethodBuilderBase.targetTypeReference])
         : refer('convertIterable')
             .call([refer('model')], {}, [MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])
-            // ignore: avoid-non-null-assertion, checked by the condition
             .property(iterableTransformer!)
             .call([]);
 
