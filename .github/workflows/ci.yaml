@@ -33,9 +33,9 @@ jobs:
           ci_key: ${{ secrets.DCM_KEY }}
           email: ${{ secrets.DCM_EMAIL }}
           folders: .
-          fatal-style: true
-          fatal-performance: true
-          fatal-warning: true
+          fatal_style: true
+          fatal_performance: true
+          fatal_warning: true
 
       - name: Test
         run: melos run test
