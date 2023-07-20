@@ -16,6 +16,7 @@ class TypeMapping extends Equatable {
   final List<FieldMapping>? fieldMappings;
   final Expression? whenSourceIsNullExpression;
   final String? constructor;
+  final bool? ignoreFieldNull;
 
   bool get isEnumMapping => source.element is EnumElement || target.element is EnumElement;
 
@@ -27,12 +28,14 @@ class TypeMapping extends Equatable {
       fieldMappings,
       whenSourceIsNullExpression,
       constructor,
+      ignoreFieldNull,
     ];
   }
 
   const TypeMapping({
     required this.source,
     required this.target,
+    required this.ignoreFieldNull,
     this.fieldMappings,
     this.whenSourceIsNullExpression,
     this.constructor,

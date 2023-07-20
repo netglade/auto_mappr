@@ -7,6 +7,7 @@ import 'package:auto_mappr/src/builder/auto_mappr_builder.dart';
 import 'package:auto_mappr/src/extensions/dart_object_extension.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/list_extension.dart';
+import 'package:auto_mappr/src/models/auto_mappr_options.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:build/build.dart';
@@ -16,7 +17,9 @@ import 'package:source_gen/source_gen.dart';
 
 /// Code generator to generate implemented mapping classes.
 class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
-  const AutoMapprGenerator();
+  final BuilderOptions builderOptions;
+
+  const AutoMapprGenerator({required this.builderOptions});
 
   @override
   dynamic generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
@@ -30,10 +33,13 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
 
     final libraryUriToAlias = _getLibraryAliases(element: element);
 
+    final mapprOptions = AutoMapprOptions.fromJson(builderOptions.config);
+
     final tmpConfig = AutoMapprConfig(
       mappers: [],
       availableMappingsMacroId: 'tmp',
       libraryUriToAlias: libraryUriToAlias,
+      mapprOptions: mapprOptions,
     );
 
     final constant = annotation.objectValue;
@@ -63,6 +69,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       libraryUriToAlias: libraryUriToAlias,
       modulesCode: modulesExpression,
       modulesList: modulesList ?? [],
+      mapprOptions: mapprOptions,
     );
 
     final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
@@ -102,6 +109,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       final fields = mapper.getField('fields')?.toListValue();
       final whenSourceIsNull = mapper.getField('whenSourceIsNull')?.toCodeExpression(config: config);
       final constructor = mapper.getField('constructor')?.toStringValue();
+      final ignoreFieldNull = mapper.getField('ignoreFieldNull')?.toBoolValue();
 
       final fieldMappings = fields
           ?.map(
@@ -112,6 +120,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
               customExpression:
                   fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true, config: config),
               whenNullExpression: fieldMapping.getField('whenNull')!.toCodeExpression(config: config),
+              ignoreNull: fieldMapping.getField('ignoreNull')?.toBoolValue(),
             ),
           )
           .toList();
@@ -122,6 +131,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
         fieldMappings: fieldMappings,
         whenSourceIsNullExpression: whenSourceIsNull,
         constructor: constructor,
+        ignoreFieldNull: ignoreFieldNull,
       );
     }).toList();
   }

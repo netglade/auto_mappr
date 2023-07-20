@@ -2,6 +2,7 @@ import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/element_extension.dart';
+import 'package:auto_mappr/src/models/auto_mappr_options.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
@@ -12,6 +13,7 @@ class AutoMapprConfig {
   final Expression? modulesCode;
   final List<DartObject> modulesList;
   final Map<String, String> libraryUriToAlias;
+  final AutoMapprOptions mapprOptions;
 
   String get availableMappingsDocComment {
     return [
@@ -24,6 +26,7 @@ class AutoMapprConfig {
     required this.mappers,
     required this.availableMappingsMacroId,
     required this.libraryUriToAlias,
+    required this.mapprOptions,
     this.modulesCode,
     this.modulesList = const [],
   });
