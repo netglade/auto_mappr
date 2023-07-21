@@ -25,6 +25,9 @@ class Field {
   /// Note that [custom] has priority.
   final String? from;
 
+  /// Force non-nullable value if SOURCE's field is nullable and TARGET's field not.
+  final bool? ignoreNull;
+
   /// Universal constructor.
   const Field(
     this.field, {
@@ -32,22 +35,26 @@ class Field {
     this.custom,
     this.ignore = false,
     this.whenNull,
+    this.ignoreNull,
   });
 
   /// Field renaming using [from] or assigning default value with [whenNull].
   const Field.from(this.field, {required this.from, this.whenNull})
       : custom = null,
-        ignore = false;
+        ignore = false,
+        ignoreNull = null;
 
   /// Field custom mapping.
   const Field.custom(this.field, {required this.custom, this.whenNull})
       : from = null,
-        ignore = false;
+        ignore = false,
+        ignoreNull = null;
 
   /// Field ignoring.
   const Field.ignore(this.field)
       : ignore = true,
         from = null,
         custom = null,
-        whenNull = null;
+        whenNull = null,
+        ignoreNull = null;
 }

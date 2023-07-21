@@ -9,6 +9,7 @@ class FieldMapping extends Equatable {
   final String? from;
   final Expression? customExpression;
   final Expression? whenNullExpression;
+  final bool? ignoreNull;
 
   @override
   List<Object?> get props => [
@@ -17,11 +18,13 @@ class FieldMapping extends Equatable {
         from,
         customExpression,
         whenNullExpression,
+        ignoreNull,
       ];
 
   const FieldMapping({
     required this.field,
     required this.ignore,
+    required this.ignoreNull,
     this.from,
     this.customExpression,
     this.whenNullExpression,

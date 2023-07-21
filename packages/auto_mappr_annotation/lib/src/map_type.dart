@@ -22,10 +22,14 @@ class MapType<SOURCE, TARGET> {
   /// To select the default constructor use the `null` value.
   final String? constructor;
 
+  /// Ignores if [SOURCE]'s field is nullable and [TARGET]'s field non-nullable.
+  final bool? ignoreFieldNull;
+
   /// Constructs mapping between [SOURCE] and [TARGET] types.
   const MapType({
     this.fields = const [],
     this.whenSourceIsNull,
     this.constructor,
+    this.ignoreFieldNull,
   });
 }
