@@ -25,20 +25,14 @@ class Source {
   final String? id;
   final String? name;
 
-  const Source({
-    this.id,
-    this.name,
-  });
+  const Source({this.id, this.name});
 }
 
 class Target {
   final String id;
   final String name;
 
-  const Target({
-    required this.id,
-    required this.name,
-  });
+  const Target({required this.id, required this.name});
 }
 
 // * BASED on Field settings
@@ -47,38 +41,26 @@ class SourceField {
   final String? id;
   final String? name;
 
-  const SourceField({
-    this.id,
-    this.name,
-  });
+  const SourceField({this.id, this.name});
 }
 
 class TargeField {
   final String id;
   final String name;
 
-  const TargeField({
-    required this.id,
-    required this.name,
-  });
+  const TargeField({required this.id, required this.name});
 }
 
 class SourceGlobal {
   final String? id;
   final String? name;
 
-  const SourceGlobal({
-    this.id,
-    this.name,
-  });
+  const SourceGlobal({this.id, this.name});
 }
 
 class TargeGlobal {
   final String id;
   final String name;
 
-  const TargeGlobal({
-    required this.id,
-    required this.name,
-  });
+  const TargeGlobal({required this.id, required this.name});
 }
