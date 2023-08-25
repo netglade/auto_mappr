@@ -22,15 +22,20 @@ jobs:
         run: melos run lint:all
 
       - name: Install DCM
-        run: |
-          sudo apt-get update
-          wget -qO- https://dcm.dev/pgp-key.public | sudo gpg --dearmor -o /usr/share/keyrings/dcm.gpg
-          echo 'deb [signed-by=/usr/share/keyrings/dcm.gpg arch=amd64] https://dcm.dev/debian stable main' | sudo tee /etc/apt/sources.list.d/dart_stable.list
-          sudo apt-get update
-          sudo apt-get install dcm
+        uses: CQLabs/setup-dcm@v1.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: DCM Analyze
-        run: dcm analyze --reporter=github --ci-key ${{ secrets.DCM_KEY }} --email ${{ secrets.DCM_EMAIL }} --fatal-style --fatal-performance --fatal-warnings .
+      - name: Run DCM
+        uses: CQLabs/dcm-action@v1.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          ci_key: ${{ secrets.DCM_KEY }}
+          email: ${{ secrets.DCM_EMAIL }}
+          folders: .
+          fatal_style: true
+          fatal_performance: true
+          fatal_warnings: true
 
       - name: Test
         run: melos run test

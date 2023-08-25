@@ -10,10 +10,9 @@ dart_code_metrics:
   pubspec-rules:
     prefer-publish-to-none: false
   rules:
-    # TODO: has to be fixed in this package
-    avoid-non-null-assertion: false
+    avoid-unnecessary-call: false # the Expression API uses a lot of `.call` which is clearer
     avoid-top-level-members-in-tests:
       exclude:
         - test/integration/fixture/**
-    # TODO: new analysis will have new DCM config
-    avoid-long-parameter-list: false
+    avoid-non-null-assertion: false # TODO
+    avoid-nullable-interpolation: false # TODO

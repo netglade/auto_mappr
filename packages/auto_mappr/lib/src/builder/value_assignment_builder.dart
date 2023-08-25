@@ -61,7 +61,7 @@ class ValueAssignmentBuilder {
       );
     }
 
-    if (fieldMapping?.hasWhenNullDefault() ?? false) {
+    if (fieldMapping?.whenNullExpression != null) {
       return rightSide.ifNullThen(fieldMapping!.whenNullExpression!);
     }
 
@@ -120,7 +120,7 @@ class ValueAssignmentBuilder {
                   withNullability: true,
                   config: mapperConfig,
                 ),
-              )
+              ),
             ],
           )
           // Call toList, toSet or nothing.
@@ -276,7 +276,7 @@ class ValueAssignmentBuilder {
 
     // If source == null and target not nullable -> use whenNullDefault if possible
     final fieldMapping = mapping.tryGetFieldMapping(assignment.targetName);
-    if (source.nullabilitySuffix == NullabilitySuffix.question && (fieldMapping?.hasWhenNullDefault() ?? false)) {
+    if (source.nullabilitySuffix == NullabilitySuffix.question && (fieldMapping?.whenNullExpression != null)) {
       // Generates code like:
       //
       // model.name == null
@@ -343,7 +343,7 @@ class ValueAssignmentBuilder {
             includeGenericTypes
                 ? [
                     refer(source.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
-                    refer(target.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig))
+                    refer(target.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
                   ]
                 : [],
           );

@@ -40,8 +40,8 @@ void main() {
           const fixture.CustomListValue([
             fixture.CustomListValue([
               fixture.CustomListValue([fixture.CustomValue(1)]),
-              fixture.CustomValue.named(2, xxx: 3)
-            ])
+              fixture.CustomValue.named(2, xxx: 3),
+            ]),
           ]),
         ),
       );
@@ -65,7 +65,7 @@ void main() {
             ['alpha', 3, true, null],
             [
               ['alpha', 3],
-              [true, null]
+              [true, null],
             ],
             {3, -1, 123, -888},
             {'alpha': 1, 'beta': 2, 'gama': 3},
