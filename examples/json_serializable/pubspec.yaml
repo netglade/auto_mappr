@@ -4,11 +4,11 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: ">=2.18.7 <3.0.0"
+  sdk: ">=2.18.7 <4.0.0"
 
 dependencies:
   auto_mappr_annotation: ^1.2.0
-  json_annotation: ^4.8.0
+  json_annotation: ^4.8.1
 
 dev_dependencies:
   auto_mappr: ^1.6.0
