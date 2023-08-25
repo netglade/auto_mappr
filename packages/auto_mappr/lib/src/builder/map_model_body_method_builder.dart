@@ -174,12 +174,10 @@ class MapModelBodyMethodBuilder {
         final sourceField = sourceFields[sourceFieldName]!;
 
         final targetField = from == null
-            ?
             // find target field based on matching source field
-            targetClassGetters.firstWhereOrNull((field) => field.displayName == sourceField.displayName)
-            :
+            ? targetClassGetters.firstWhereOrNull((field) => field.displayName == sourceField.displayName)
             // support custom field rename mapping
-            targetClassGetters.firstWhereOrNull((field) => field.displayName == fieldMapping?.field);
+            : targetClassGetters.firstWhereOrNull((field) => field.displayName == fieldMapping?.field);
 
         if (targetField == null) continue;
 
