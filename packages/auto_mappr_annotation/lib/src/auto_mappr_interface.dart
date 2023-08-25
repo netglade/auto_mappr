@@ -1,7 +1,7 @@
 /// AutoMappr interface for converting source objects into target objects.
 ///
 /// Users should not implement or extend this.
-abstract class AutoMapprInterface {
+abstract interface class AutoMapprInterface {
   ///
   const AutoMapprInterface();
 

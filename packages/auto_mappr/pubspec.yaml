@@ -8,7 +8,7 @@ screenshots:
     path: doc/icon.png
 
 environment:
-  sdk: ">=2.18.7 <4.0.0"
+  sdk: ^3.0.0
 
 dependencies:
   # TODO: Support analyzer same way as json_serializable https://github.com/google/json_serializable.dart/pull/1333

@@ -5,7 +5,7 @@ repository: https://github.com/netglade/auto_mappr
 issue_tracker: https://github.com/netglade/auto_mappr/issues
 
 environment:
-  sdk: ">=2.18.7 <4.0.0"
+  sdk: ^3.0.0
 
 dev_dependencies:
   netglade_analysis: ^4.0.0
