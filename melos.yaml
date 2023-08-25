@@ -46,7 +46,7 @@ scripts:
     description: Generate example mappers once.
 
   gen:test:
-    run: melos exec -- dart run build_runner watch --delete-conflicting-outputs
+    run: melos exec -- dart run build_runner watch --delete-conflicting-outputs --verbose
     packageFilters:
       dirExists:
         - test

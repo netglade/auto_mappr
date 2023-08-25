@@ -6,6 +6,8 @@ targets:
         generate_for:
           exclude:
             - test/integration/error_fixture/**
+        options:
+          ignoreNullableSourceField: true
 
 builders:
   auto_mappr:
@@ -19,8 +21,8 @@ builders:
 
   not_shared:
     import: "package:auto_mappr/auto_mappr.dart"
-    builder_factories: [ "autoMapprBuilderNotShared" ]
-    build_extensions: { ".dart": [ ".auto_mappr.dart" ] }
+    builder_factories: ["autoMapprBuilderNotShared"]
+    build_extensions: { ".dart": [".auto_mappr.dart"] }
     auto_apply: none
     build_to: source
     required_inputs: [".freezed.dart", ".drift.dart"]

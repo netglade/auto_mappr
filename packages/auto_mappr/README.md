@@ -19,35 +19,43 @@ Developed with 💚 by [netglade][netglade_link]
 A mapper that maps between different objects with ease.
 Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
 
-* [👀 What is this?](#-what-is-this)
-* [🚀 Getting started](#-getting-started)
-    * [How to use](#how-to-use)
-    * [Install](#install)
-    * [Run the generator](#run-the-generator)
-* [✨ Features](#-features)
-    * ✅ [Primitive objects mapping](#primitive-objects-mapping)
-    * ✅ [Complex objects mapping](#complex-objects-mapping)
-    * ✅ [Field mapping](#field-mapping)
-    * ✅ [Custom mapping](#custom-mapping)
-    * ✅ [Ignore mapping](#ignore-mapping)
-    * ✅ [Iterable objects mapping](#iterable-objects-mapping)
-    * ✅ [Map objects mapping](#map-objects-mapping)
-    * ✅ [Default field value](#default-field-value)
-    * ✅ [Default object value](#default-object-value)
-    * ✅ [Constructor selection](#constructor-selection)
-    * ✅ [Enum mapping](#enum-mapping)
-    * ✅ [Positional and named constructor parameters](#positional-and-named-constructor-parameters)
-    * ✅ [Mapping to target](#mapping-to-target)
-    * ✅ [Mapping from source](#mapping-from-source)
-    * ✅ [Nullability handling](#nullability-handling)
-    * ✅ [Generics](#generics)
-    * ✅ [Library import aliases](#library-import-aliases)
-    * ✅ [Modules](#modules)
-    * ✅ [Works with `equatable`](#works-with-equatable)
-    * ✅ [Works with `json_serializable`](#works-with-jsonserializable)
-    * ✅ [Works with generated source and target classes](#works-with-generated-source-and-target-classes)
-* [⚙️ Customizing the build](#-customizing-the-build)
-* [👏 Contributing](#-contributing)
+- [👀 What is this?](#-what-is-this)
+  - [Why should you use it?](#why-should-you-use-it)
+- [🚀 Getting started](#-getting-started)
+  - [How to use](#how-to-use)
+    - [`convert` vs `tryConvert`](#convert-vs-tryconvert)
+    - [`try/convert{Iterable, List, Set}`](#tryconvertiterable-list-set)
+  - [Install](#install)
+  - [Run the generator](#run-the-generator)
+- [✨ Features](#-features)
+  - [Primitive objects mapping](#primitive-objects-mapping)
+  - [Complex objects mapping](#complex-objects-mapping)
+  - [Field mapping](#field-mapping)
+  - [Custom mapping](#custom-mapping)
+  - [Ignore mapping](#ignore-mapping)
+  - [Iterable objects mapping](#iterable-objects-mapping)
+    - [Specialized variants of `List<int>`](#specialized-variants-of-listint)
+  - [Map objects mapping](#map-objects-mapping)
+  - [Default field value](#default-field-value)
+  - [Default object value](#default-object-value)
+  - [Constructor selection](#constructor-selection)
+  - [Enum mapping](#enum-mapping)
+  - [Positional and named constructor parameters](#positional-and-named-constructor-parameters)
+  - [Mapping to target](#mapping-to-target)
+  - [Mapping from source](#mapping-from-source)
+  - [Nullability handling](#nullability-handling)
+    - [Forced non-nullable field for nullable source](#forced-non-nullable-field-for-nullable-source)
+  - [Generics](#generics)
+  - [Library import aliases](#library-import-aliases)
+  - [Modules](#modules)
+  - [Works with `equatable`](#works-with-equatable)
+  - [Works with `json_serializable`](#works-with-json_serializable)
+  - [Works with generated source and target classes](#works-with-generated-source-and-target-classes)
+- [⚙ Customizing the build](#-customizing-the-build)
+  - [Builder options](#builder-options)
+  - [Default dependencies](#default-dependencies)
+    - [Drift integration](#drift-integration)
+- [👏 Contributing](#-contributing)
 
 ## 👀 What is this?
 
@@ -452,6 +460,35 @@ the nullable method is not generated.
 Note that `convert` cannot return `null`.
 The value `null` can only be returned for nested object mappings.
 
+#### Forced non-nullable field for nullable source
+It is possible to configure automappr use bang operator (`!`) in cases where `SOURCE`'s field is nullable but `TARGET`'s field not. In that case mappr will generate 
+
+```dart
+sourceField: targetField!
+```
+
+By default mappr would generate invalid code 
+
+```dart
+sourceField: targetField
+```
+
+This is by design and it is up to developer decide if bang operator is appropiate. This behavior can be configured 
+
+- Globally, via `build.yaml` with option `ignoreNullableSourceField`
+
+  ```yaml
+   $default:
+    builders:
+      :auto_mappr:
+        options:
+          ignoreNullableSourceField: true
+  ```
+- On `MapType` with `ignoreFieldNull`
+- On `Field` level with `ignoreNull`
+
+Precedense is `global configuration` -> `MapType` -> `Field` -> defaults to false.
+
 ### Generics
 
 AutoMappr can handle generics, so you can map objects with type arguments with ease.
@@ -616,6 +653,9 @@ targets:
       auto_mappr:not_shared:
         enabled: true
 ```
+
+### Builder options
+- ignoreNullableSourceField - Force bang operator on non-nullable target's field if source's field is nullable
 
 ### Default dependencies
 

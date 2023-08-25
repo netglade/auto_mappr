@@ -65,6 +65,21 @@ class ValueAssignmentBuilder {
       return rightSide.ifNullThen(fieldMapping!.whenNullExpression!);
     }
 
+    final sourceNullable = assignment.sourceType!.nullabilitySuffix == NullabilitySuffix.question;
+    final targetNullable = assignment.targetType.nullabilitySuffix == NullabilitySuffix.question;
+
+    // BANG operator when Source is nullable and Target not
+    final shouldIgnoreNull = fieldMapping?.ignoreNull ??
+        mapping.ignoreFieldNull ??
+        mapperConfig.mapprOptions.ignoreNullableSourceField ??
+        false;
+
+    if (shouldIgnoreNull && sourceNullable && !targetNullable) {
+      return refer(sourceField.isStatic ? '${sourceField.enclosingElement.name}' : 'model')
+          .property(sourceField.name)
+          .nullChecked;
+    }
+
     return rightSide;
   }
 

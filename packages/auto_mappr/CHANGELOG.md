@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 1.6.0
+- Add support for Forced non-nullable field for nullable source. [#105](https://github.com/netglade/auto_mappr/pull/105)
+
 ## 1.5.0
 - Add support for library aliases, so mapping now supports types from different libraries with the same name.
 It also work in cases when library alias's exports. [#62](https://github.com/netglade/auto_mappr/pull/62)
