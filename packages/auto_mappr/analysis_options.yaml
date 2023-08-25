@@ -9,6 +9,8 @@ dart_code_metrics:
     - package:netglade_analysis/dcm.yaml
   pubspec-rules:
     prefer-publish-to-none: false
+    # TODO: Support analyzer same way as json_serializable https://github.com/google/json_serializable.dart/pull/1333
+    prefer-caret-version-syntax: false
   rules:
     avoid-unnecessary-call: false # the Expression API uses a lot of `.call` which is clearer
     avoid-top-level-members-in-tests:

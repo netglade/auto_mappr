@@ -1,5 +1,3 @@
-// ignore_for_file: no-equal-arguments
-
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
