@@ -1,4 +1,4 @@
-// ignore_for_file:avoid_positional_boolean_parameters
+// ignore_for_file: avoid_positional_boolean_parameters, prefer-named-boolean-parameters
 
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
