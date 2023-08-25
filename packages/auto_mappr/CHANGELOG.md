@@ -3,7 +3,7 @@
 ## 1.6.0
 - Add support for Forced non-nullable field for nullable source. [#105](https://github.com/netglade/auto_mappr/pull/105)
 - Adhere to netglade_analysis. [#94](https://github.com/netglade/auto_mappr/pull/94)
-- Add support for analyzer ^6.0.0. [#]()
+- Update analyzer and mocktail packages. [#111](https://github.com/netglade/auto_mappr/pull/111)
 
 ## 1.5.0
 - Add support for library aliases, so mapping now supports types from different libraries with the same name.
