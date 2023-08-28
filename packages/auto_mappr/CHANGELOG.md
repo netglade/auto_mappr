@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## Unreleased
+- Add a `reverse` option on `MapType`, which includes the reverse mapping. [#115](https://github.com/netglade/auto_mappr/pull/115)
+
 ## 1.7.0
 - Adhere to netglade_analysis. [#94](https://github.com/netglade/auto_mappr/pull/94)
 - Update analyzer and mocktail packages. [#111](https://github.com/netglade/auto_mappr/pull/111)

@@ -2,9 +2,9 @@ import 'package:auto_mappr_annotation/src/auto_mappr_interface.dart';
 import 'package:auto_mappr_annotation/src/map_type.dart';
 
 /// Annotates class which will be used as base for generated mappr.
-class AutoMappr {
+final class AutoMappr {
   /// List of mapprs.
-  final List<MapType<Object?, Object?>> mappers;
+  final List<MapType<Object, Object>> mappers;
 
   /// List of other AutoMappr classes to use as modules.
   ///
