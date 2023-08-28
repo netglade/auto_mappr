@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/src/field.dart';
 
 /// Configured mapping from [SOURCE] to [TARGET].
-class MapType<SOURCE, TARGET> {
+final class MapType<SOURCE, TARGET> {
   /// Configuration for [TARGET]'s fields.
   final List<Field> fields;
 
