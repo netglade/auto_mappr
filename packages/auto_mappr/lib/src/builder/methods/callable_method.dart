@@ -5,6 +5,4 @@ abstract class CallableMethod {
   const CallableMethod();
 
   Expression methodCall({Map<String, Expression> namedArguments = const {}});
-
-  
 }

@@ -62,6 +62,10 @@ class SourceAssignment {
     return targetType.isDartCoreMap && _isMappableMap(sourceType!);
   }
 
+  bool shouldAssignRecord() {
+    return targetType.isDartCoreRecord && sourceType!.isDartCoreRecord;
+  }
+
   bool shouldAssignComplexObject() => !targetType.isPrimitiveType;
 
   @override
