@@ -48,6 +48,7 @@ Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
   - [Generics](#generics)
   - [Library import aliases](#library-import-aliases)
   - [Modules](#modules)
+  - [Reverse mapping](#reverse-mapping)
   - [Works with `equatable`](#works-with-equatable)
   - [Works with `json_serializable`](#works-with-json_serializable)
   - [Works with generated source and target classes](#works-with-generated-source-and-target-classes)
@@ -604,6 +605,19 @@ That can be handy for example with dependency injection,
 so you can only provide one grouping/main mappr that can handle everything.
 Each feature in your app can return an instance of const `AutoMapprInterface`,
 that each mappr internally implements.
+
+### Reverse mapping
+
+When you want to create a bidirectional mapping (e.g. normal: source to target and reversed: target to source),
+you can use `reverse` option on `MapType`.
+
+Note that it's your responsibility to make sure those objects
+support normal and reverse mapping
+and to keep them in sync.
+Also note that reverse mapping might not work properly when additional configuration
+such as [whenSourceIsNull] or [constructor] is used.
+
+For more complicated scenarios two separate mappings are recommended instead.
 
 ### Works with `equatable`
 
