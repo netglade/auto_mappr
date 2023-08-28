@@ -2,10 +2,11 @@
 
 ## Unreleased
 - Adhere to netglade_analysis 4.0.0
+- Add `reverse` option to `MapType`.
 
 ## 1.2.0
-- Add `ignoreFieldNull` in MapType to force non-nullable field for when source's field is nullable
-- Add `ignoreNull` in Field to force non-nullable field for when source's field is nullable
+- Add `ignoreFieldNull` in `MapType` to force non-nullable field for when source's field is nullable
+- Add `ignoreNull` in `Field`` to force non-nullable field for when source's field is nullable
 
 ## 1.1.1
 - Adhere to netglade_analysis 2.0.0.
