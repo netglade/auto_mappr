@@ -233,13 +233,7 @@ dart pub add --dev auto_mappr
 
 ### Run the generator
 
-For a Flutter project:
-
-```shell
-flutter pub run build_runner build
-```
-
-For a Dart project:
+For Dart or Flutter projects:
 
 ```shell
 dart run build_runner build
