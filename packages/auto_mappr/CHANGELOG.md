@@ -1,9 +1,14 @@
 [//]: # (## Unreleased)
 
-## 1.6.0
-- Add support for Forced non-nullable field for nullable source. [#105](https://github.com/netglade/auto_mappr/pull/105)
+## Unreleased
+- Add a `reverse` option on `MapType`, which includes the reverse mapping. [#115](https://github.com/netglade/auto_mappr/pull/115)
+
+## 1.7.0
 - Adhere to netglade_analysis. [#94](https://github.com/netglade/auto_mappr/pull/94)
 - Update analyzer and mocktail packages. [#111](https://github.com/netglade/auto_mappr/pull/111)
+
+## 1.6.0
+- Add support for Forced non-nullable field for nullable source. [#105](https://github.com/netglade/auto_mappr/pull/105)
 
 ## 1.5.0
 - Add support for library aliases, so mapping now supports types from different libraries with the same name.
