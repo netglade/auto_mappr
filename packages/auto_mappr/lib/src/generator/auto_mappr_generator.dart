@@ -85,55 +85,70 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     required ClassElement element,
     required AutoMapprConfig config,
   }) {
-    return mappers.map((mapper) {
-      final mapperType = mapper.type! as ParameterizedType;
+    return mappers
+        .map((mapper) {
+          final mapperType = mapper.type! as ParameterizedType;
 
-      final sourceType = mapperType.typeArguments.firstOrNull;
-      final targetType = mapperType.typeArguments.lastOrNull;
+          final sourceType = mapperType.typeArguments.firstOrNull;
+          final targetType = mapperType.typeArguments.lastOrNull;
 
-      if (sourceType is! InterfaceType) {
-        throw InvalidGenerationSourceError(
-          '${sourceType?.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped from',
-          element: element,
-          todo: 'Use a class',
-        );
-      }
-      if (targetType is! InterfaceType) {
-        throw InvalidGenerationSourceError(
-          '${targetType?.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped to',
-          element: element,
-          todo: 'Use a class',
-        );
-      }
+          if (sourceType is! InterfaceType) {
+            throw InvalidGenerationSourceError(
+              '${sourceType?.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped from',
+              element: element,
+              todo: 'Use a class',
+            );
+          }
+          if (targetType is! InterfaceType) {
+            throw InvalidGenerationSourceError(
+              '${targetType?.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped to',
+              element: element,
+              todo: 'Use a class',
+            );
+          }
 
-      final fields = mapper.getField('fields')?.toListValue();
-      final whenSourceIsNull = mapper.getField('whenSourceIsNull')?.toCodeExpression(config: config);
-      final constructor = mapper.getField('constructor')?.toStringValue();
-      final ignoreFieldNull = mapper.getField('ignoreFieldNull')?.toBoolValue();
+          final fields = mapper.getField('fields')?.toListValue();
+          final whenSourceIsNull = mapper.getField('whenSourceIsNull')?.toCodeExpression(config: config);
+          final constructor = mapper.getField('constructor')?.toStringValue();
+          final ignoreFieldNull = mapper.getField('ignoreFieldNull')?.toBoolValue();
+          final reverse = mapper.getField('reverse')?.toBoolValue();
 
-      final fieldMappings = fields
-          ?.map(
-            (fieldMapping) => FieldMapping(
-              field: fieldMapping.getField('field')!.toStringValue()!,
-              ignore: fieldMapping.getField('ignore')!.toBoolValue()!,
-              from: fieldMapping.getField('from')!.toStringValue(),
-              customExpression:
-                  fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true, config: config),
-              whenNullExpression: fieldMapping.getField('whenNull')!.toCodeExpression(config: config),
-              ignoreNull: fieldMapping.getField('ignoreNull')?.toBoolValue(),
+          final fieldMappings = fields
+              ?.map(
+                (fieldMapping) => FieldMapping(
+                  field: fieldMapping.getField('field')!.toStringValue()!,
+                  ignore: fieldMapping.getField('ignore')!.toBoolValue()!,
+                  from: fieldMapping.getField('from')!.toStringValue(),
+                  customExpression:
+                      fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true, config: config),
+                  whenNullExpression: fieldMapping.getField('whenNull')!.toCodeExpression(config: config),
+                  ignoreNull: fieldMapping.getField('ignoreNull')?.toBoolValue(),
+                ),
+              )
+              .toList();
+
+          return [
+            TypeMapping(
+              source: sourceType,
+              target: targetType,
+              fieldMappings: fieldMappings,
+              whenSourceIsNullExpression: whenSourceIsNull,
+              constructor: constructor,
+              ignoreFieldNull: ignoreFieldNull,
             ),
-          )
-          .toList();
-
-      return TypeMapping(
-        source: sourceType,
-        target: targetType,
-        fieldMappings: fieldMappings,
-        whenSourceIsNullExpression: whenSourceIsNull,
-        constructor: constructor,
-        ignoreFieldNull: ignoreFieldNull,
-      );
-    }).toList();
+            if (reverse ?? false)
+              TypeMapping(
+                source: targetType,
+                target: sourceType,
+                fieldMappings: fieldMappings,
+                whenSourceIsNullExpression: whenSourceIsNull,
+                constructor: constructor,
+                ignoreFieldNull: ignoreFieldNull,
+              ),
+          ];
+        })
+        .flattened
+        .toList();
   }
 
   Map<String, String> _getLibraryAliases({required ClassElement element}) {
