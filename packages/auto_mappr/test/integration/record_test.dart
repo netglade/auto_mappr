@@ -10,24 +10,39 @@ void main() {
   });
 
   group('primitive', () {
-    test('non nullable to non nullable', () {
-      // const dto = fixture.PositionalDto([1, 2, 3, 4, 5]);
-      // final converted = mappr.convert<fixture.PositionalDto, fixture.Positional>(dto);
+    test('positional', () {
+      const dto = fixture.PositionalDto((1, true, 'Brasil'));
+      final converted = mappr.convert<fixture.PositionalDto, fixture.Positional>(dto);
 
-      // expect(
-      //   converted,
-      //   equals(fixture.Positional([1, 2, 3, 4, 5].where((_) => true))),
-      // );
+      expect(converted, equals(const fixture.Positional((1, true, 'yolo'))));
     });
 
-    test('nullable to non nullable', () {
-      // const dto = fixture.PrimitiveNullableDto([1, 2, 3, null, 4, 5, null]);
-      // final converted = mappr.convert<fixture.PrimitiveNullableDto, fixture.Positional>(dto);
+    test('positional nullable', () {
+      const dto = fixture.PositionalNullableDto((2, false, 'New York'));
+      final converted = mappr.convert<fixture.PositionalNullableDto, fixture.PositionalNullable>(dto);
 
-      // expect(
-      //   converted,
-      //   equals(fixture.Positional([1, 2, 3, 4, 5].where((_) => true))),
-      // );
+      expect(converted, equals(const fixture.PositionalNullable((2, false, 'New York'))));
+    });
+
+    test('positional to positional nullable', () {
+      const dto = fixture.PositionalDto((3, false, 'Prague'));
+      final converted = mappr.convert<fixture.PositionalDto, fixture.PositionalNullable>(dto);
+
+      expect(converted, equals(const fixture.PositionalNullable((3, false, 'Prague'))));
+    });
+
+    test('positional nullable to positional', () {
+      const dto = fixture.PositionalNullableDto((4, true, 'Rome'));
+      final converted = mappr.convert<fixture.PositionalNullableDto, fixture.Positional>(dto);
+
+      expect(converted, equals(const fixture.PositionalNullable((4, true, 'Rome'))));
+    });
+
+    test('named', () {
+      const dto = fixture.NamedDto((alpha: 5, beta: true, gama: 'Paris'));
+      final converted = mappr.convert<fixture.NamedDto, fixture.Named>(dto);
+
+      expect(converted, equals(const fixture.Named((alpha: 5, beta: true, gama: 'Paris'))));
     });
   });
 }
