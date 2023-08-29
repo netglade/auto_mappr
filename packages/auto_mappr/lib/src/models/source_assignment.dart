@@ -52,21 +52,21 @@ class SourceAssignment {
     this.fieldMapping,
   });
 
-  bool shouldAssignIterable() {
+  bool canAssignIterable() {
     // The source can be mapped to the target, if the source is mappable object and the target is an iterable.
     return (_isCoreIterable(targetType) || targetType.isSpecializedListType) && _isMappableIterable(sourceType!);
   }
 
-  bool shouldAssignMap() {
+  bool canAssignMap() {
     // The source can be mapped to the target, if the source is mappable object and the target is map.
     return targetType.isDartCoreMap && _isMappableMap(sourceType!);
   }
 
-  bool shouldAssignRecord() {
+  bool canAssignRecord() {
     return targetType.isDartCoreRecord && sourceType!.isDartCoreRecord;
   }
 
-  bool shouldAssignComplexObject() => !targetType.isPrimitiveType;
+  bool canAssignComplexObject() => !targetType.isPrimitiveType;
 
   @override
   String toString() {

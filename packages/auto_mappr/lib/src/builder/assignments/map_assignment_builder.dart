@@ -19,7 +19,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
 
   @override
   bool canAssign() {
-    return assignment.shouldAssignMap();
+    return assignment.canAssignMap();
   }
 
   @override

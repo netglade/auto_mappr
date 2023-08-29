@@ -1,18 +1,18 @@
 import 'package:analyzer/dart/element/element.dart';
+import 'package:auto_mappr/src/builder/map_bodies/map_body_builder_base.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
-import 'package:auto_mappr/src/models/models.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
-class EnumAssignmentBuilder {
-  final AutoMapprConfig mapperConfig;
-  final TypeMapping mapping;
-
-  const EnumAssignmentBuilder({
-    required this.mapperConfig,
-    required this.mapping,
+class EnumBodyBuilder extends MapBodyBuilderBase {
+  const EnumBodyBuilder({
+    required super.mapperConfig,
+    required super.mapping,
+    required super.nullable,
+    required super.usedNullableMethodCallback,
   });
 
+  @override
   Code build() {
     final isSourceEnum = mapping.source.element is EnumElement;
     final isTargetEnum = mapping.target.element is EnumElement;
@@ -63,5 +63,10 @@ class EnumAssignmentBuilder {
         )
         .returned
         .statement;
+  }
+
+  @override
+  bool canProcess() {
+    return mapping.isEnumMapping;
   }
 }

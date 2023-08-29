@@ -1,10 +1,9 @@
 import 'package:analyzer/dart/element/nullability_suffix.dart';
-import 'package:auto_mappr/src/builder/assignments/iterable_assignment_builder.dart';
-import 'package:auto_mappr/src/builder/assignments/map_assignment_builder.dart';
-import 'package:auto_mappr/src/builder/assignments/nested_object_assignment_builder.dart';
+import 'package:auto_mappr/src/builder/assignments/assignments.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:code_builder/code_builder.dart';
 
+/// Decides how values are assigned.
 class ValueAssignmentBuilder {
   final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
@@ -53,14 +52,13 @@ class ValueAssignmentBuilder {
         mapping: mapping,
         usedNullableMethodCallback: usedNullableMethodCallback,
       ),
-      // TODO(record): Make records assignment
       // Record.
-      // IterableAssignmentBuilder(
-      //   assignment: assignment,
-      //   mapperConfig: mapperConfig,
-      //   mapping: mapping,
-      //   usedNullableMethodCallback: usedNullableMethodCallback,
-      // ),
+      RecordAssignmentBuilder(
+        assignment: assignment,
+        mapperConfig: mapperConfig,
+        mapping: mapping,
+        usedNullableMethodCallback: usedNullableMethodCallback,
+      ),
       // Nested object.
       NestedObjectAssignmentBuilder(
         assignment: assignment,

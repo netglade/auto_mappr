@@ -1,9 +1,9 @@
 name: auto_mappr_workspace
 
 packages:
-  - packages/**
-  - packages/**/example
-  - examples/**
+  - packages/*
+  - packages/*/example
+  # - examples/* # TODO
 
 command:
   bootstrap:

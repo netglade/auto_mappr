@@ -16,7 +16,7 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
 
   @override
   bool canAssign() {
-    return assignment.shouldAssignIterable();
+    return assignment.canAssignIterable();
   }
 
   @override
