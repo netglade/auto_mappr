@@ -49,7 +49,7 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
           // Map complex nested types.
           .maybeNullSafeProperty('map', isOnNullable: sourceNullable)
           .call(
-            [_nestedMapCallForIterable(assignment)],
+            [_map(assignment)],
             {},
             [
               refer(
@@ -85,7 +85,7 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
         );
   }
 
-  Expression _nestedMapCallForIterable(SourceAssignment assignment) {
+  Expression _map(SourceAssignment assignment) {
     final targetListType = assignment.targetType.genericParameterTypeOrSelf;
     final sourceListType = assignment.sourceType!.genericParameterTypeOrSelf;
 

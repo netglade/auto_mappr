@@ -1,9 +1,12 @@
 import 'package:analyzer/dart/element/nullability_suffix.dart';
+import 'package:analyzer/dart/element/type.dart' as type;
 import 'package:auto_mappr/src/builder/assignments/assignment_builder_base.dart';
 import 'package:auto_mappr/src/builder/assignments/nested_object_mixin.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/models/source_assignment.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
+import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
 class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin {
@@ -16,115 +19,93 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
 
   @override
   bool canAssign() {
-    log.warning(
-        'RECORD ASSIGNMENT CHECK ${assignment.targetType is RecordType} ... ${assignment.sourceType is RecordType} /// $assignment');
     return assignment.canAssignRecord();
   }
 
   @override
   Expression buildAssignment() {
-    log.warning('RECORD ASSIGNMENT');
+    // TODO(records): assignment.fieldMapping handle -> whenNullExpression, custom
     final sourceType = assignment.sourceType!;
     final targetType = assignment.targetType;
 
-    // final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
-    // final targetNullable = targetType.nullabilitySuffix == NullabilitySuffix.question;
+    final sourceRecordType = sourceType as type.RecordType;
+    final targetRecordType = targetType as type.RecordType;
 
-    // ignore: avoid-unrelated-type-casts, it's ok and handled by canAssign
-    final sourceRecordType = sourceType as RecordType;
-    // ignore: avoid-unrelated-type-casts, it's ok and handled by canAssign
-    final targetRecordType = targetType as RecordType;
+    log.warning('''
+-- RECORDS --
+${sourceRecordType.positionalFields.map((e) => '${e.type}')}
+${sourceRecordType.namedFields.map((e) => '${e.type} ${e.name}')}
+''');
 
     // Positional fields check.
-    final sourcePositional = sourceRecordType.positionalFieldTypes;
-    final targetPositional = targetRecordType.positionalFieldTypes;
+    final sourcePositional = sourceRecordType.positionalFields;
+    final targetPositional = targetRecordType.positionalFields;
     if (sourcePositional.length != targetPositional.length) {
       throw InvalidGenerationSourceError(
-        'Positional source and target fields length mismatch for source ${sourceType} and target ${targetType}',
+        'Positional source and target fields length mismatch for source $sourceType and target $targetType',
       );
     }
 
     // Named fields check.
-    final sourceNamed = sourceRecordType.namedFieldTypes;
-    final targetNamed = targetRecordType.namedFieldTypes;
-    for (final field in targetNamed.entries) {
-      print('!!! ${field.key} = ${field.value}');
+    final sourceNamed = sourceRecordType.namedFields;
+    final targetNamed = targetRecordType.namedFields;
+    for (final targetField in targetNamed) {
+      if (!sourceNamed.any((sourceField) => sourceField.name == targetField.name) &&
+          targetField.type.nullabilitySuffix == NullabilitySuffix.none) {
+        throw InvalidGenerationSourceError(
+          "Cannot find mapping to non-nullable target record's named field $targetField",
+        );
+      }
     }
 
-    // NAMED - check target has all source's named, if target is nullable it might not
+    final namedFields = <({String key, String value})>[
+      for (final targetField in targetNamed)
+        (
+          key: targetField.name,
+          value: _mapNamedField(
+            assignment: assignment,
+            source: sourceNamed.firstWhereOrNull((sourceField) => sourceField.name == targetField.name),
+            target: targetField,
+          ).accept(DartEmitter()).toString(),
+        ),
+    ];
 
-    // --- ASSIGN MAP ---
-
-    // -- RETURN --
-
-    // TODO(records): return positional and named as code
-    return const CodeExpression(Code('(1, 2, 3, alpha: 4, beta: 5)'));
-
-    // ----------------
-
-    // final shouldFilterNullInSource = sourceRecordType.nullabilitySuffix == NullabilitySuffix.question &&
-    //     targetRecordType.nullabilitySuffix != NullabilitySuffix.question;
-
-    // final assignNestedObject = (!targetRecordType.isPrimitiveType && !targetRecordType.isSpecializedListType) &&
-    //     (!targetRecordType.isSame(sourceRecordType));
-
-    // // When [sourceIterableType] is nullable and [targetIterableType] is not, remove null values.
-    // final sourceIterableExpression = refer('model').property(assignment.sourceField!.name).maybeWhereIterableNotNull(
-    //       condition: shouldFilterNullInSource,
-    //       isOnNullable: sourceNullable,
-    //     );
-
-    // final defaultIterableValueExpression = targetType.defaultIterableExpression(config: mapperConfig);
-
-    // if (assignNestedObject) {
-    //   return sourceIterableExpression
-    //       // Map complex nested types.
-    //       .maybeNullSafeProperty('map', isOnNullable: sourceNullable)
-    //       .call(
-    //         [_nestedMapCallForIterable(assignment)],
-    //         {},
-    //         [
-    //           refer(
-    //             targetRecordType.getDisplayStringWithLibraryAlias(
-    //               withNullability: true,
-    //               config: mapperConfig,
-    //             ),
-    //           ),
-    //         ],
-    //       )
-    //       // Call toList, toSet or nothing.
-    //       // isOnNullable is false, because if map() was called, the value is non-null
-    //       .maybeToIterableCall(
-    //         source: sourceType,
-    //         target: targetType,
-    //         forceCast: true, //map was used so we want force toIterable() call
-    //         isOnNullable: false,
-    //       )
-    //       // When [sourceNullable], use default value.
-    //       .maybeIfNullThen(defaultIterableValueExpression, isOnNullable: sourceNullable && !targetNullable);
-    // }
-
-    // return sourceIterableExpression
-    //     .maybeToIterableCall(
-    //       source: sourceType,
-    //       target: targetType,
-    //       forceCast: shouldFilterNullInSource, // if whereNotNull was used -> we want to force toIterable() call
-    //       isOnNullable: !targetNullable && sourceNullable,
-    //     )
-    //     .maybeIfNullThen(
-    //       defaultIterableValueExpression,
-    //       isOnNullable: !targetNullable && sourceNullable,
-    //     );
+    return CodeExpression(
+      Code(
+        '(${namedFields.map((field) => '${field.key}: ${field.value}')})',
+      ),
+    );
   }
 
-  // Expression _nestedMapCallForIterable(SourceAssignment assignment) {
-  //   final targetListType = assignment.targetType.genericParameterTypeOrSelf;
-  //   final sourceListType = assignment.sourceType!.genericParameterTypeOrSelf;
+  // Handles mapping of only one named field.
+  //
+  // Generates
+  // - mapping for primitives: `model.alpha`
+  // - mapping for complex types: `_map_NestedDto_To_Nested(model.alpha)`
+  // - and when nullable and if `whenNullExpression` defined, uses that as a fallback
+  Expression _mapNamedField({
+    required SourceAssignment assignment,
+    required type.RecordTypeNamedField? source,
+    required type.RecordTypeNamedField target,
+  }) {
+    if (source == null) return literalNull;
 
-  //   return assignNestedObject(
-  //     assignment: assignment,
-  //     source: sourceListType,
-  //     target: targetListType,
-  //   );
-  // }
+    final valuesAreSameType = source.type == target.type;
+    final shouldAssignNestedObject = !target.type.isPrimitiveType && !valuesAreSameType;
+
+    final targetRecordExpression = refer(assignment.sourceField!.name);
+
+    if (!shouldAssignNestedObject) {
+      return refer('model.${targetRecordExpression.accept(DartEmitter())}.${source.name}');
+    }
+
+    final valueExpression = assignNestedObject(
+      assignment: assignment,
+      source: source.type,
+      target: target.type,
+      convertMethodArgument: valuesAreSameType ? null : targetRecordExpression,
+    );
+
+    return refer('${valueExpression.accept(DartEmitter())})');
+  }
 }

@@ -4,7 +4,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/models.dart';
-import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/code_builder.dart' show Expression, literalList, literalMap, literalNull, literalSet;
 
 class ConstructorAssignment {
   final ParameterElement param;
@@ -63,7 +63,10 @@ class SourceAssignment {
   }
 
   bool canAssignRecord() {
-    return targetType.isDartCoreRecord && sourceType!.isDartCoreRecord;
+    final isSourceRecord = sourceType is RecordType;
+    final isTargetRecord = targetType is RecordType;
+
+    return isSourceRecord && isTargetRecord;
   }
 
   bool canAssignComplexObject() => !targetType.isPrimitiveType;

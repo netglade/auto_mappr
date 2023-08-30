@@ -91,7 +91,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
       isOnNullable: sourceNullable,
       // Call map only when actually some mapping is required.
       condition: shouldDoMapCall,
-      positionalArguments: [_callMapForMap(assignment)],
+      positionalArguments: [_map(assignment)],
       typeArguments: [
         refer(targetKeyType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
         refer(targetValueType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
@@ -101,7 +101,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
         .maybeIfNullThen(defaultMapValueExpression, isOnNullable: sourceNullable);
   }
 
-  Expression _callMapForMap(SourceAssignment assignment) {
+  Expression _map(SourceAssignment assignment) {
     final sourceKeyType = (assignment.sourceType! as ParameterizedType).typeArguments.firstOrNull;
     final sourceValueType = (assignment.sourceType! as ParameterizedType).typeArguments.lastOrNull;
     final targetKeyType = (assignment.targetType as ParameterizedType).typeArguments.firstOrNull;

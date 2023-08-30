@@ -1,25 +1,27 @@
 // ignore_for_file: move-records-to-typedefs
 
+import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'record.g.dart';
 
 // TODO(records)
-// @AutoMappr([
-//   // simple
-//   MapType<PositionalDto, Positional>(),
-//   MapType<PositionalNullableDto, PositionalNullable>(),
-//   MapType<PositionalDto, PositionalNullable>(),
-//   // MapType<PositionalNullableDto, Positional>(), // TODO
-//   MapType<NamedDto, Named>(),
-//   // complex
-//   // MapType<ComplexDto, Complex>(),
-//   // MapType<ComplexNullableDto, Complex>(),
-// ])
-// class Mappr extends $Mappr {
-//   const Mappr();
-// }
+@AutoMappr([
+  // simple
+  // MapType<PositionalDto, Positional>(),
+  // MapType<PositionalNullableDto, PositionalNullable>(),
+  // MapType<PositionalDto, PositionalNullable>(),
+  // MapType<PositionalNullableDto, Positional>(), // TODO
+  MapType<NamedDto, Named>(),
+  MapType<NamedDto, NamedNullable>(),
+  // complex
+  // MapType<ComplexDto, Complex>(),
+  // MapType<ComplexNullableDto, Complex>(),
+])
+class Mappr extends $Mappr {
+  const Mappr();
+}
 
 // positional
 
@@ -66,6 +68,15 @@ class Named extends Equatable {
   List<Object?> get props => [value];
 
   const Named(this.value);
+}
+
+class NamedNullable extends Equatable {
+  final ({int alpha, bool beta, String gama, int? delta, bool? epsilon}) value;
+
+  @override
+  List<Object?> get props => [value];
+
+  const NamedNullable(this.value);
 }
 
 class NamedDto extends Equatable {

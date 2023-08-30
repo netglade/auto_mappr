@@ -7,7 +7,7 @@ import 'package:auto_mappr/src/extensions/element_extension.dart';
 import 'package:auto_mappr/src/extensions/interface_type_extension.dart';
 import 'package:auto_mappr/src/models/source_assignment.dart';
 import 'package:build/build.dart';
-import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/code_builder.dart' show Code, Expression, refer;
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -91,18 +91,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
       final param = targetConstructor.parameters.elementAtOrNull(i);
 
       if (param == null) continue;
-
-// TODO
-//       log.warning('''
-// PARAM $param
-// type.getDisplayString: ${param.type.getDisplayString(withNullability: true)}
-// type.isDartCoreRecord: ${param.type.isDartCoreRecord}
-// type.name: ${param.type.name}
-// type.element.name: ${param.type.element?.name}
-// type.element.library.isDartCore: ${param.type.element?.library?.isDartCore}
-// type.element.library: ${param.type.element?.library}
-// //////
-// ''');
 
       final paramPosition = param.isPositional ? i : null;
       final constructorAssignment = ConstructorAssignment(param: param, position: paramPosition);
