@@ -1,23 +1,20 @@
 // ignore_for_file: move-records-to-typedefs
 
-import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 part 'record.g.dart';
 
-// TODO(records)
 @AutoMappr([
   // simple
-  // MapType<PositionalDto, Positional>(),
-  // MapType<PositionalNullableDto, PositionalNullable>(),
-  // MapType<PositionalDto, PositionalNullable>(),
-  // MapType<PositionalNullableDto, Positional>(), // TODO
+  MapType<PositionalDto, Positional>(),
+  MapType<PositionalNullableDto, PositionalNullable>(),
+  MapType<PositionalDto, PositionalNullable>(),
   MapType<NamedDto, Named>(),
   MapType<NamedDto, NamedNullable>(),
   // complex
-  // MapType<ComplexDto, Complex>(),
-  // MapType<ComplexNullableDto, Complex>(),
+  MapType<ComplexPositionalDto, ComplexPositional>(),
+  MapType<ComplexNamedDto, ComplexNamed>(),
 ])
 class Mappr extends $Mappr {
   const Mappr();
@@ -44,7 +41,8 @@ class PositionalDto extends Equatable {
 }
 
 class PositionalNullable extends Equatable {
-  final (int?, bool?, String?) value;
+  // ignore: prefer-trailing-comma, false positive
+  final (int?, bool?, String?, int?, bool?) value;
 
   @override
   List<Object?> get props => [value];
@@ -71,6 +69,7 @@ class Named extends Equatable {
 }
 
 class NamedNullable extends Equatable {
+  // ignore: prefer-trailing-comma, dcm has to fix this
   final ({int alpha, bool beta, String gama, int? delta, bool? epsilon}) value;
 
   @override
@@ -90,58 +89,38 @@ class NamedDto extends Equatable {
 
 // complex
 
-// class Complex extends Equatable {
-//   final Iterable<Nested> value;
+class ComplexPositional extends Equatable {
+  final List<Positional> value;
 
-//   @override
-//   List<Object?> get props => [value];
+  @override
+  List<Object?> get props => [value];
 
-//   const Complex(this.value);
-// }
+  const ComplexPositional(this.value);
+}
 
-// class ComplexDto extends Equatable {
-//   final Iterable<NestedDto> value;
+class ComplexPositionalDto extends Equatable {
+  final List<PositionalDto> value;
 
-//   @override
-//   List<Object?> get props => [value];
+  @override
+  List<Object?> get props => [value];
 
-//   const ComplexDto(this.value);
-// }
+  const ComplexPositionalDto(this.value);
+}
 
-// class ComplexNullableDto extends Equatable {
-//   final Iterable<NestedDto?> value;
+class ComplexNamed extends Equatable {
+  final List<Named> value;
 
-//   @override
-//   List<Object?> get props => [value];
+  @override
+  List<Object?> get props => [value];
 
-//   const ComplexNullableDto(this.value);
-// }
+  const ComplexNamed(this.value);
+}
 
-// // List, Set, Iterable
+class ComplexNamedDto extends Equatable {
+  final List<NamedDto> value;
 
-// class ListHolder extends Equatable {
-//   final List<int> value;
+  @override
+  List<Object?> get props => [value];
 
-//   @override
-//   List<Object?> get props => [value];
-
-//   const ListHolder(this.value);
-// }
-
-// class SetHolder extends Equatable {
-//   final Set<int> value;
-
-//   @override
-//   List<Object?> get props => [value];
-
-//   const SetHolder(this.value);
-// }
-
-// class IterableHolder extends Equatable {
-//   final Iterable<int> value;
-
-//   @override
-//   List<Object?> get props => [value];
-
-//   const IterableHolder(this.value);
-// }
+  const ComplexNamedDto(this.value);
+}

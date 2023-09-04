@@ -49,6 +49,7 @@ Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
   - [Library import aliases](#library-import-aliases)
   - [Modules](#modules)
   - [Reverse mapping](#reverse-mapping)
+  - [Records](#records)
   - [Works with `equatable`](#works-with-equatable)
   - [Works with `json_serializable`](#works-with-json_serializable)
   - [Works with generated source and target classes](#works-with-generated-source-and-target-classes)
@@ -612,6 +613,20 @@ Also note that reverse mapping might not work properly when additional configura
 such as [whenSourceIsNull] or [constructor] is used.
 
 For more complicated scenarios two separate mappings are recommended instead.
+
+### Records
+
+Converting records is supported for both positional and named record's fields.
+
+Target positional fields must have their source field equivalent.
+Target named fields must have their source field equivalent determined by name.
+Bot positional and named target fields without source equivalent must be nullable in order
+for mapping to be created successfully
+and then thier value will be `null`.
+
+Note that we do not have a function similar to `convertList` for records
+due to Dart 3 "limitation"
+as we cannot iterate throught it's positional or named fields on the fly.
 
 ### Works with `equatable`
 

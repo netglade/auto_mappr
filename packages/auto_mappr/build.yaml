@@ -4,7 +4,7 @@ targets:
       :auto_mappr:
         enabled: true
         generate_for:
-          # include: # TODO
+          # include:
           # - test/integration/fixture/record.dart
           exclude:
             - test/integration/error_fixture/**

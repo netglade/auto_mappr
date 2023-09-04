@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-shadowing
+
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart' as type;
 import 'package:auto_mappr/src/builder/assignments/assignment_builder_base.dart';
@@ -37,13 +39,22 @@ ${sourceRecordType.positionalFields.map((e) => '${e.type}')}
 ${sourceRecordType.namedFields.map((e) => '${e.type} ${e.name}')}
 ''');
 
-    // Positional fields check.
     final sourcePositional = sourceRecordType.positionalFields;
     final targetPositional = targetRecordType.positionalFields;
-    if (sourcePositional.length != targetPositional.length) {
-      throw InvalidGenerationSourceError(
-        'Positional source and target fields length mismatch for source $sourceType and target $targetType',
-      );
+    // if (sourcePositional.length != targetPositional.length) {
+    //   throw InvalidGenerationSourceError(
+    //     'Positional source and target fields length mismatch for source $sourceType and target $targetType',
+    //   );
+    // }
+
+    // Positional fields check.
+    for (final (index, targetField) in targetPositional.indexed) {
+      final sourceField = sourcePositional.elementAtOrNull(index);
+      if (sourceField == null && targetField.type.nullabilitySuffix == NullabilitySuffix.none) {
+        throw InvalidGenerationSourceError(
+          'Cannot map source field to non-nullable target field for source $sourceType and target $targetType',
+        );
+      }
     }
 
     // Named fields check.
@@ -57,6 +68,16 @@ ${sourceRecordType.namedFields.map((e) => '${e.type} ${e.name}')}
         );
       }
     }
+
+    final positionalFields = <String>[
+      for (final (index, targetField) in targetPositional.indexed)
+        _mapPositionalField(
+          assignment: assignment,
+          source: sourcePositional.elementAtOrNull(index),
+          target: targetField,
+          index: index + 1,
+        ).accept(DartEmitter()).toString(),
+    ];
 
     final namedFields = <({String key, String value})>[
       for (final targetField in targetNamed)
@@ -72,7 +93,7 @@ ${sourceRecordType.namedFields.map((e) => '${e.type} ${e.name}')}
 
     return CodeExpression(
       Code(
-        '(${namedFields.map((field) => '${field.key}: ${field.value}')})',
+        '(${positionalFields.join(',')} ${positionalFields.isNotEmpty ? ',' : ''} ${namedFields.map((field) => '${field.key}: ${field.value}').join(',')})',
       ),
     );
   }
@@ -97,6 +118,39 @@ ${sourceRecordType.namedFields.map((e) => '${e.type} ${e.name}')}
 
     if (!shouldAssignNestedObject) {
       return refer('model.${targetRecordExpression.accept(DartEmitter())}.${source.name}');
+    }
+
+    final valueExpression = assignNestedObject(
+      assignment: assignment,
+      source: source.type,
+      target: target.type,
+      convertMethodArgument: valuesAreSameType ? null : targetRecordExpression,
+    );
+
+    return refer('${valueExpression.accept(DartEmitter())})');
+  }
+
+  // Handles mapping of only one positional field.
+  //
+  // Generates
+  // - mapping for primitives: `model.$1`
+  // - mapping for complex types: `_map_NestedDto_To_Nested(model.$1)`
+  // - and when nullable and if `whenNullExpression` defined, uses that as a fallback
+  Expression _mapPositionalField({
+    required SourceAssignment assignment,
+    required type.RecordTypePositionalField? source,
+    required type.RecordTypePositionalField target,
+    required int index,
+  }) {
+    if (source == null) return literalNull;
+
+    final valuesAreSameType = source.type == target.type;
+    final shouldAssignNestedObject = !target.type.isPrimitiveType && !valuesAreSameType;
+
+    final targetRecordExpression = refer(assignment.sourceField!.name);
+
+    if (!shouldAssignNestedObject) {
+      return refer('model.${targetRecordExpression.accept(DartEmitter())}.\$$index');
     }
 
     final valueExpression = assignNestedObject(
