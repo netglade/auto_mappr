@@ -542,48 +542,94 @@ while using shared part builder.
 ### Modules
 
 Each AutoMappr class can be used as a **module**.
-That means a mappr used inside of another mappr.
-Each AutoMappr class can include a list of modules
-that can be used to nest modules
-and use all of its underlying mappings.
+The only rule is that the mappr must be constant,
+and that most of the time means you have to add an `const` constructor to be able to use it.
+Other modules (AutoMappr classes) can then use it in two ways.
 
-Note that modules work as disjunctive units
-and their mappings cannot be internally used by by mappr that imported it.
-They only work for grouping at the moment.
+#### Importing
 
-Applications are often split into independent parts (we will call them **features**).
-Each feature should probably have its own independent mappr,
-that is used as a module.
+Note: Feature TBA
 
-Imagine that in a feature you have a local mappr `UserMappr`.
+Importing a module means that you want to "absorb" it's mappings
+and use them later anywhere **inside** any mapped object.
+Basically imagine copy-pasting definitions from imported module to yours.
+
+That can be handy when you have a common/shared mappr with mappings between objects shared across the app.
+Since you want to use these common/shared mappings,
+you **include** them in your mappr.
 
 ```dart
-// file: user_mappr.dart
-@AutoMappr([
-  MapType<UserDto, User>(),
-])
-class UserMappr extends $UserMappr {
-  const UserMappr(); // must implement const constructor
+// file: shared_mappr.dart
+@AutoMappr(
+  [
+    MapType<AddressDto, Address>(),
+  ],
+)
+class SharedMappr extends $SharedMappr {
+  const SharedMappr(); // must be const!
 }
+
+// file: user_mappr.dart
+@AutoMappr(
+  [
+    MapType<UserDto, User>(), // UserDto uses AddressDto inside
+  ],
+  includes: [SharedMappr()], // include shared mappr
+)
+class UserMappr extends $UserMappr {}
+
+// file: settings_mappr.dart
+@AutoMappr(
+  [
+    MapType<ProfileDto, Profile>(), // ProfileDto uses AddressDto inside
+  ],
+  includes: [SharedMappr()], // include shared mappr
+)
+class SettingsMappr extends $SettingsMappr {}
 ```
 
-And in some global place,
-you can have a main mappr that unifies all smaller mapprs
-(`UserMappr` in this case).
-As usual, it can also set it's own mappings
-(`MapType<GroupDto, Group>()`).
+#### Delegating
+
+Delegating to a module is a bit different from including them.
+A mappr **delegates** to a **standalone** module.
+When your mappr does not know how to convert the **top level object** (the object you put inside `mappr.convert()` method),
+it asks delegates to do it.
+So you can think of them as disjunctive units that are **grouped** together.
+
+This is usefull when you have an app with a mappr for each feature
+and you want to create one main mappr using other feature mapprs.
+The main mappr may not have any mapping at all
+and it delegates everything to feature mapprs.
 
 ```dart
 // file: main_mappr.dart
 @AutoMappr(
-  [
-    MapType<GroupDto, Group>(),
-  ],
-  modules: [
-    UserMappr(), // use module
-  ],
+  [],
+  delegates: [
+    UserFeatureMappr(),
+    SettingsFeatureMappr(),
+    // other features
+  ], 
 )
 class MainMappr extends $MainMappr {}
+
+// file: user_feature_mappr.dart
+@AutoMappr(
+  [
+    MapType<UserDto, User>(),
+    MapType<AddressDto, Address>(),
+  ],
+)
+class UserFeatureMappr extends $UserFeatureMappr {}
+
+// file: settings_feature_mappr.dart
+@AutoMappr(
+  [
+    MapType<UserDto, User>(),
+    MapType<AddressDto, Address>(),
+  ],
+)
+class SettingsFeatureMappr extends $SettingsFeatureMappr {}
 ```
 
 Then you can use this main mappr to map between objects specified from every included mappr.
@@ -591,14 +637,12 @@ Then you can use this main mappr to map between objects specified from every inc
 ```dart
 final mappr = MainMappr();
 
-final Group user = mappr.convert(GroupDto(...)); // from this mappr
-final User user = mappr.convert(UserDto(...)); // from included mappr
+final Settings settings = mappr.convert(SettingsDto(...)); // delegates to settings feature mappr
+final User user = mappr.convert(UserDto(...)); // delegates to user feature mappr
 ```
 
 That can be handy for example with dependency injection,
-so you can only provide one grouping/main mappr that can handle everything.
-Each feature in your app can return an instance of const `AutoMapprInterface`,
-that each mappr internally implements.
+so you can only provide one main mappr that can handle everything by delegating to other mapprs.
 
 ### Reverse mapping
 
