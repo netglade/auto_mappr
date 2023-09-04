@@ -620,7 +620,7 @@ Converting records is supported for both positional and named record's fields.
 
 Target positional fields must have their source field equivalent.
 Target named fields must have their source field equivalent determined by name.
-Bot positional and named target fields without source equivalent must be nullable in order
+Both positional and named target fields without source equivalent must be nullable in order
 for mapping to be created successfully
 and then thier value will be `null`.
 
