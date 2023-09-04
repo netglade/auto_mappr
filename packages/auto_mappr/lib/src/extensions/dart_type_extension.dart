@@ -95,8 +95,13 @@ extension DartTypeExtension on DartType {
     required AutoMapprConfig config,
     bool withNullability = false,
   }) {
-    final alias = element!.getLibraryAlias(config: config);
-    final typeName = element!.name;
+    final alias = element?.getLibraryAlias(config: config);
+    final typeName = element?.name;
+
+    if (alias == null || typeName == null) {
+      return '??';
+    }
+
     final buffer = StringBuffer('$alias$typeName');
 
     if (this is ParameterizedType && (this as ParameterizedType).typeArguments.isNotEmpty) {

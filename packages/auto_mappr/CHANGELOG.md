@@ -2,6 +2,7 @@
 
 ## Unreleased
 - Add a `reverse` option on `MapType`, which includes the reverse mapping. [#115](https://github.com/netglade/auto_mappr/pull/115)
+- Add a support for Dart 3 and Records feature. [#116](https://github.com/netglade/auto_mappr/pull/116)
 
 - Allow use modules using `includes` on `@AutoMappr`. Previous `modules` is now `delegates`.
 - Remove shared AutoMappr builder that used PartBuilder, now `.auto_mappr.dart` is generated using LibraryBuilder.

@@ -4,7 +4,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/models.dart';
-import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/code_builder.dart' show Expression, literalList, literalMap, literalNull, literalSet;
 
 class ConstructorAssignment {
   final ParameterElement param;
@@ -52,17 +52,24 @@ class SourceAssignment {
     this.fieldMapping,
   });
 
-  bool shouldAssignIterable() {
+  bool canAssignIterable() {
     // The source can be mapped to the target, if the source is mappable object and the target is an iterable.
     return (_isCoreIterable(targetType) || targetType.isSpecializedListType) && _isMappableIterable(sourceType!);
   }
 
-  bool shouldAssignMap() {
+  bool canAssignMap() {
     // The source can be mapped to the target, if the source is mappable object and the target is map.
     return targetType.isDartCoreMap && _isMappableMap(sourceType!);
   }
 
-  bool shouldAssignComplexObject() => !targetType.isPrimitiveType;
+  bool canAssignRecord() {
+    final isSourceRecord = sourceType is RecordType;
+    final isTargetRecord = targetType is RecordType;
+
+    return isSourceRecord && isTargetRecord;
+  }
+
+  bool canAssignComplexObject() => !targetType.isPrimitiveType;
 
   @override
   String toString() {
