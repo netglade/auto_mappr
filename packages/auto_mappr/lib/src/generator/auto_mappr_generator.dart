@@ -20,7 +20,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
   final BuilderOptions builderOptions;
 
   // Constants for AutoMappr.
-  static const String annotationName = 'AutoMappr';
+  static const String annotationAutoMappr = 'AutoMappr';
   static const String annotationFieldDelegates = 'delegates';
   static const String annotationFieldMappers = 'mappers';
   static const String annotationFieldIncludes = 'includes';
@@ -69,24 +69,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     final delegatesList = constant.getField(annotationFieldDelegates)!.toListValue();
     final includesList = constant.getField(annotationFieldIncludes)!.toListValue();
 
-    final allMappers = [...mappersList];
-
-    for (final include in includesList ?? <DartObject>[]) {
-      if (include.type?.element?.metadata
-              .firstWhereOrNull((data) => data.element?.displayName == annotationName)
-              ?.computeConstantValue()
-          case final includeConstant?) {
-        final mappersList2 = includeConstant.getField(annotationFieldMappers)!.toListValue()!;
-        // final delegatesExpression2 = includeConstant.getField(fieldDelegates)!.toCodeExpression(config: tmpConfig);
-        // final delegatesList2 = includeConstant.getField(fieldDelegates)!.toListValue();
-        // final includesList2 = includeConstant.getField(fieldIncludes)!.toListValue();
-
-        allMappers.addAll(mappersList2);
-      }
-    }
-
-    log.warning('all mappings = ${allMappers.join(',\n')} ...');
-
+    final allMappers = [...mappersList, ..._mappersFromRecursiveIncludes(includesList: includesList ?? [])];
     final mappers = _processMappers(
       mappers: allMappers,
       element: element,
@@ -227,5 +210,32 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       ...exports.map((e) => e.exportedLibrary!),
       ...exports.map((e) => _getRecursiveLibraryExports(e.exportedLibrary!)).flattened,
     ];
+  }
+
+  /// Recursively returns all mappings from includes.
+  Iterable<DartObject> _mappersFromRecursiveIncludes({required List<DartObject> includesList}) {
+    final mappings = <DartObject>[];
+
+    for (final include in includesList) {
+      // For each include locate AutoMappr annotation.
+      if (include.type?.element?.metadata
+              .firstWhereOrNull((data) => data.element?.displayName == annotationAutoMappr)
+              ?.computeConstantValue()
+          case final includeConstant?) {
+        // This -- mappers.
+        final mappers = includeConstant.getField(annotationFieldMappers)?.toListValue();
+        if (mappers != null) {
+          mappings.addAll(mappers);
+        }
+
+        // Bellow -- recursive includes.
+        final includes = includeConstant.getField(annotationFieldIncludes)?.toListValue();
+        if (includes != null) {
+          mappings.addAll(_mappersFromRecursiveIncludes(includesList: includes));
+        }
+      }
+    }
+
+    return mappings;
   }
 }
