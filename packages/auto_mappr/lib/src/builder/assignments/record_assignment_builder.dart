@@ -6,7 +6,6 @@ import 'package:auto_mappr/src/builder/assignments/assignment_builder_base.dart'
 import 'package:auto_mappr/src/builder/assignments/nested_object_mixin.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/source_assignment.dart';
-import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
@@ -26,33 +25,21 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
 
   @override
   Expression buildAssignment() {
-    // TODO(records): assignment.fieldMapping handle -> whenNullExpression, custom
     final sourceType = assignment.sourceType!;
     final targetType = assignment.targetType;
 
     final sourceRecordType = sourceType as type.RecordType;
     final targetRecordType = targetType as type.RecordType;
 
-    log.warning('''
--- RECORDS --
-${sourceRecordType.positionalFields.map((e) => '${e.type}')}
-${sourceRecordType.namedFields.map((e) => '${e.type} ${e.name}')}
-''');
-
     final sourcePositional = sourceRecordType.positionalFields;
     final targetPositional = targetRecordType.positionalFields;
-    // if (sourcePositional.length != targetPositional.length) {
-    //   throw InvalidGenerationSourceError(
-    //     'Positional source and target fields length mismatch for source $sourceType and target $targetType',
-    //   );
-    // }
 
     // Positional fields check.
     for (final (index, targetField) in targetPositional.indexed) {
       final sourceField = sourcePositional.elementAtOrNull(index);
       if (sourceField == null && targetField.type.nullabilitySuffix == NullabilitySuffix.none) {
         throw InvalidGenerationSourceError(
-          'Cannot map source field to non-nullable target field for source $sourceType and target $targetType',
+          'Cannot map positional source field to non-nullable target field for source $sourceType and target $targetType',
         );
       }
     }
