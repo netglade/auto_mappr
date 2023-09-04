@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'equatable.g.dart';
+import 'package:examples_example/equatable.auto_mappr.dart';
 
 @AutoMappr([
   MapType<UserDto, User>(),

@@ -3,7 +3,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'nested.g.dart';
+import 'package:examples_example/nested.auto_mappr.dart';
 
 @AutoMappr([
   MapType<UserDto, User>(),

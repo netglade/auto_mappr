@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'serializable.dart';
-
 // **************************************************************************
 // AutoMapprGenerator
 // **************************************************************************
@@ -12,10 +10,11 @@ part of 'serializable.dart';
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-/// {@template package:examples_json_serializable/serializable.dart}
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+
+/// {@template package:examples_drift/mappr.dart}
 /// Available mappings:
-/// - `UserDto` → `User`.
-/// - `ValueHolderDto` → `ValueHolder`.
+/// - `Todo` → `TodoItem`.
 /// {@endtemplate}
 class $Mappr implements AutoMapprInterface {
   const $Mappr();
@@ -24,20 +23,14 @@ class $Mappr implements AutoMapprInterface {
   List<AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:examples_json_serializable/serializable.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserDto>() ||
-            sourceTypeOf == _typeOf<UserDto?>()) &&
-        (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
-      return true;
-    }
-    if ((sourceTypeOf == _typeOf<ValueHolderDto>() ||
-            sourceTypeOf == _typeOf<ValueHolderDto?>()) &&
-        (targetTypeOf == _typeOf<ValueHolder>() ||
-            targetTypeOf == _typeOf<ValueHolder?>())) {
+    if ((sourceTypeOf == _typeOf<Todo>() || sourceTypeOf == _typeOf<Todo?>()) &&
+        (targetTypeOf == _typeOf<TodoItem>() ||
+            targetTypeOf == _typeOf<TodoItem?>())) {
       return true;
     }
     if (recursive) {
@@ -51,7 +44,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:examples_json_serializable/serializable.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -67,7 +60,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:examples_json_serializable/serializable.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -86,7 +79,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:examples_json_serializable/serializable.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -105,7 +98,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_json_serializable/serializable.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
       Iterable<SOURCE?> model) {
@@ -122,7 +115,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:examples_json_serializable/serializable.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -141,7 +134,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_json_serializable/serializable.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -157,7 +150,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:examples_json_serializable/serializable.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -176,7 +169,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_json_serializable/serializable.dart}
+  /// {@macro package:examples_drift/mappr.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -197,71 +190,27 @@ class $Mappr implements AutoMapprInterface {
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserDto>() ||
-            sourceTypeOf == _typeOf<UserDto?>()) &&
-        (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+    if ((sourceTypeOf == _typeOf<Todo>() || sourceTypeOf == _typeOf<Todo?>()) &&
+        (targetTypeOf == _typeOf<TodoItem>() ||
+            targetTypeOf == _typeOf<TodoItem?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__UserDto__To__User((model as UserDto?)) as TARGET);
-    }
-    if ((sourceTypeOf == _typeOf<ValueHolderDto>() ||
-            sourceTypeOf == _typeOf<ValueHolderDto?>()) &&
-        (targetTypeOf == _typeOf<ValueHolder>() ||
-            targetTypeOf == _typeOf<ValueHolder?>())) {
-      if (canReturnNull && model == null) {
-        return null;
-      }
-      return (_map__ValueHolderDto__To__ValueHolder((model as ValueHolderDto?))
-          as TARGET);
+      return (_map__Todo__To__TodoItem((model as Todo?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  User _map__UserDto__To__User(UserDto? input) {
+  TodoItem _map__Todo__To__TodoItem(Todo? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
+          r'Mapping Todo → TodoItem failed because Todo was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<Todo, TodoItem> to handle null values during mapping.');
     }
-    return User(
-      firstName: model.firstName,
-      lastName: model.lastName,
+    return TodoItem(
+      id: model.id,
+      title: model.title,
     );
-  }
-
-  ValueHolder _map__ValueHolderDto__To__ValueHolder(ValueHolderDto? input) {
-    final model = input;
-    if (model == null) {
-      throw Exception(
-          r'Mapping ValueHolderDto → ValueHolder failed because ValueHolderDto was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<ValueHolderDto, ValueHolder> to handle null values during mapping.');
-    }
-    return ValueHolder(model.json);
   }
 }
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
-
-UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
-    );
-
-Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{
-      'firstName': instance.firstName,
-      'lastName': instance.lastName,
-    };
-
-ValueHolderDto _$ValueHolderDtoFromJson(Map<String, dynamic> json) =>
-    ValueHolderDto(
-      json['json'] as Map<String, dynamic>,
-    );
-
-Map<String, dynamic> _$ValueHolderDtoToJson(ValueHolderDto instance) =>
-    <String, dynamic>{
-      'json': instance.json,
-    };

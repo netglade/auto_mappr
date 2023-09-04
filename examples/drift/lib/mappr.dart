@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:examples_drift/db.dart';
 
-part 'mappr.g.dart';
+import 'mappr.auto_mappr.dart';
 
 class TodoItem {
   final int id;

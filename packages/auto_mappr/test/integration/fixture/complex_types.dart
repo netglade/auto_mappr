@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'complex_types.g.dart';
+import 'complex_types.auto_mappr.dart';
 
 @AutoMappr(
   [

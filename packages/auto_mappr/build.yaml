@@ -13,16 +13,7 @@ builders:
   auto_mappr:
     import: "package:auto_mappr/auto_mappr.dart"
     builder_factories: ["autoMapprBuilder"]
-    build_extensions: { ".dart": [".auto_mappr.g.part"] }
-    auto_apply: dependents
-    build_to: cache
-    applies_builders: ["source_gen:combining_builder"]
-    required_inputs: [".freezed.dart", ".drift.dart"]
-
-  not_shared:
-    import: "package:auto_mappr/auto_mappr.dart"
-    builder_factories: ["autoMapprBuilderNotShared"]
     build_extensions: { ".dart": [".auto_mappr.dart"] }
-    auto_apply: none
+    auto_apply: dependents
     build_to: source
     required_inputs: [".freezed.dart", ".drift.dart"]

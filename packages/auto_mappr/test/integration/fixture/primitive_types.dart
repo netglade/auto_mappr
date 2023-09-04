@@ -2,7 +2,7 @@
 
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'primitive_types.g.dart';
+import 'primitive_types.auto_mappr.dart';
 
 @AutoMappr([
   MapType<NumHolderDto, NumHolder>(),

@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'json_serializable.g.dart';
+import 'json_serializable.auto_mappr.dart';
 
 @AutoMappr([
   MapType<UserDto, User>(),

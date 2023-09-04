@@ -1,6 +1,6 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'enum_mapping.g.dart';
+import 'enum_mapping.auto_mappr.dart';
 
 enum Person { employee, parent, student }
 

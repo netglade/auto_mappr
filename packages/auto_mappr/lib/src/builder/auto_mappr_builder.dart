@@ -32,13 +32,18 @@ class AutoMapprBuilder {
   });
 
   Library build() {
+    // TODO(modules): first process class and then generate library and its imports
+
     return Library(
       (b) => b
         ..ignoreForFile = ListBuilder(fileIgnores)
+        ..directives = ListBuilder(<Directive>[
+          Directive.import('package:auto_mappr_annotation/auto_mappr_annotation.dart'),
+        ])
         ..body.addAll(
           [
             Class(
-              (b) => b
+              (cb) => cb
                 ..name = '\$${mapperClassElement.displayName}'
                 ..implements = ListBuilder([refer('AutoMapprInterface')])
                 ..methods.addAll(_buildMethods())

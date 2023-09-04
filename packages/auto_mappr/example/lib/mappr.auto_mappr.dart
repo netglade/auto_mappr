@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'mappr.dart';
-
 // **************************************************************************
 // AutoMapprGenerator
 // **************************************************************************
@@ -11,6 +9,8 @@ part of 'mappr.dart';
 // ignore_for_file: require_trailing_commas, unnecessary_const
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
+
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
 /// {@template asset:auto_mappr/example/lib/mappr.dart}
 /// Available mappings:

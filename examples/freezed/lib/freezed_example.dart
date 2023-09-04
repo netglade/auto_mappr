@@ -1,8 +1,8 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+import 'package:examples_freezed/freezed_example.auto_mappr.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'freezed_example.freezed.dart';
-part 'freezed_example.g.dart';
 
 @freezed
 class UserInfoUnion with _$UserInfoUnion {

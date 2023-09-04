@@ -5,7 +5,7 @@ import 'import_alias/import_alias_1.dart' as a1;
 import 'import_alias/import_alias_2.dart' as a2;
 import 'import_alias/import_alias_module.dart' as module;
 
-part 'import_alias.g.dart';
+import 'import_alias.auto_mappr.dart';
 
 @AutoMappr(
   [

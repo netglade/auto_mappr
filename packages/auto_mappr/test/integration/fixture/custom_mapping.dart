@@ -3,7 +3,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'custom_mapping.g.dart';
+import 'custom_mapping.auto_mappr.dart';
 
 @AutoMappr([
   // custom type

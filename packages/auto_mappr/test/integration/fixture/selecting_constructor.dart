@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'selecting_constructor.g.dart';
+import 'selecting_constructor.auto_mappr.dart';
 
 @AutoMappr([
   // empty

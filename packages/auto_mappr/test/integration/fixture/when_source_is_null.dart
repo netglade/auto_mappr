@@ -1,6 +1,6 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'when_source_is_null.g.dart';
+import 'when_source_is_null.auto_mappr.dart';
 
 class SourceValue {
   final String? name;

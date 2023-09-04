@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'rename.dart';
-
 // **************************************************************************
 // AutoMapprGenerator
 // **************************************************************************
@@ -12,7 +10,9 @@ part of 'rename.dart';
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-/// {@template package:examples_example/rename.dart}
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+
+/// {@template package:examples_injectable/mappr.dart}
 /// Available mappings:
 /// - `UserDto` → `User`.
 /// {@endtemplate}
@@ -23,7 +23,7 @@ class $Mappr implements AutoMapprInterface {
   List<AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:examples_example/rename.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
@@ -44,7 +44,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:examples_example/rename.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -60,7 +60,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:examples_example/rename.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -79,7 +79,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:examples_example/rename.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -98,7 +98,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/rename.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
       Iterable<SOURCE?> model) {
@@ -115,7 +115,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:examples_example/rename.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -134,7 +134,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/rename.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -150,7 +150,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:examples_example/rename.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -169,7 +169,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/rename.dart}
+  /// {@macro package:examples_injectable/mappr.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -210,7 +210,7 @@ class $Mappr implements AutoMapprInterface {
     }
     return User(
       id: model.id,
-      name: model.xname,
+      name: model.name,
     );
   }
 }

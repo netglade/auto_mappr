@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'mapping_to_target.g.dart';
+import 'mapping_to_target.auto_mappr.dart';
 
 @AutoMappr([MapType<OneDto, One>()])
 class Mappr extends $Mappr {

@@ -11,3 +11,4 @@ pubspec.lock
 
 # Example
 !*.g.dart
+!*.auto_mappr.dart

@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'equatable.dart';
-
 // **************************************************************************
 // AutoMapprGenerator
 // **************************************************************************
@@ -12,9 +10,12 @@ part of 'equatable.dart';
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-/// {@template package:examples_example/equatable.dart}
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+
+/// {@template package:examples_json_serializable/serializable.dart}
 /// Available mappings:
 /// - `UserDto` → `User`.
+/// - `ValueHolderDto` → `ValueHolder`.
 /// {@endtemplate}
 class $Mappr implements AutoMapprInterface {
   const $Mappr();
@@ -23,7 +24,7 @@ class $Mappr implements AutoMapprInterface {
   List<AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:examples_example/equatable.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
@@ -31,6 +32,12 @@ class $Mappr implements AutoMapprInterface {
     if ((sourceTypeOf == _typeOf<UserDto>() ||
             sourceTypeOf == _typeOf<UserDto?>()) &&
         (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+      return true;
+    }
+    if ((sourceTypeOf == _typeOf<ValueHolderDto>() ||
+            sourceTypeOf == _typeOf<ValueHolderDto?>()) &&
+        (targetTypeOf == _typeOf<ValueHolder>() ||
+            targetTypeOf == _typeOf<ValueHolder?>())) {
       return true;
     }
     if (recursive) {
@@ -44,7 +51,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:examples_example/equatable.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -60,7 +67,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:examples_example/equatable.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -79,7 +86,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:examples_example/equatable.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -98,7 +105,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/equatable.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
       Iterable<SOURCE?> model) {
@@ -115,7 +122,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:examples_example/equatable.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -134,7 +141,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/equatable.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -150,7 +157,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:examples_example/equatable.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -169,7 +176,7 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/equatable.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -198,6 +205,16 @@ class $Mappr implements AutoMapprInterface {
       }
       return (_map__UserDto__To__User((model as UserDto?)) as TARGET);
     }
+    if ((sourceTypeOf == _typeOf<ValueHolderDto>() ||
+            sourceTypeOf == _typeOf<ValueHolderDto?>()) &&
+        (targetTypeOf == _typeOf<ValueHolder>() ||
+            targetTypeOf == _typeOf<ValueHolder?>())) {
+      if (canReturnNull && model == null) {
+        return null;
+      }
+      return (_map__ValueHolderDto__To__ValueHolder((model as ValueHolderDto?))
+          as TARGET);
+    }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
@@ -209,9 +226,18 @@ class $Mappr implements AutoMapprInterface {
           r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
     return User(
-      id: model.id,
-      name: model.name,
-      tag: null,
+      firstName: model.firstName,
+      lastName: model.lastName,
     );
+  }
+
+  ValueHolder _map__ValueHolderDto__To__ValueHolder(ValueHolderDto? input) {
+    final model = input;
+    if (model == null) {
+      throw Exception(
+          r'Mapping ValueHolderDto → ValueHolder failed because ValueHolderDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<ValueHolderDto, ValueHolder> to handle null values during mapping.');
+    }
+    return ValueHolder(model.json);
   }
 }

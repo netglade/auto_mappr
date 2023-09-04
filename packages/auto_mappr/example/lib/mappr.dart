@@ -1,6 +1,6 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'mappr.g.dart';
+import 'mappr.auto_mappr.dart';
 
 @AutoMappr([
   MapType<UserDto, User>(

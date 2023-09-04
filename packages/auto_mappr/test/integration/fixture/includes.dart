@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import 'includes/module_alpha.dart' as alpha_feature;
 
-part 'includes.g.dart';
+import 'includes.auto_mappr.dart';
 
 @AutoMappr([MapType<GroupDto, Group>()], includes: [alpha_feature.MapprAlpha()])
 class MapprGroup extends $MapprGroup {

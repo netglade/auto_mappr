@@ -111,7 +111,7 @@ Then use `MapType<Source, Target>()` for each mapping.
 ```dart
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'my_file.g.dart';
+import 'my_file.auto_mappr.dart';
 
 @AutoMappr([
   MapType<UserDto, User>(),
@@ -126,7 +126,7 @@ See [features](#-features) for a complete list.
 ```dart
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'my_file.g.dart';
+import 'my_file.auto_mappr.dart';
 
 @AutoMappr([
   MapType<UserDto, User>(
@@ -666,8 +666,8 @@ Equatable and other packages with similar conditions implicitly works.
 
 ### Works with `json_serializable`
 
-AutoMappr uses a `SharedPartBuilder`.
-That means it can share the `.g.dart` file with packages like JSON Serializable
+AutoMappr uses a `LibraryBuilder` with `.auto_mappr.dart` file output.
+That means it does not interfere with shared `.g.dart` file with packages like JSON Serializable
 to generate other code to the generated super class.
 
 ### Works with generated source and target classes
@@ -685,10 +685,8 @@ Check the [customizing the build](#-customizing-the-build) chapter to learn more
 
 ## ⚙ Customizing the build
 
-By default, AutoMappr uses the `auto_mappr:auto_mappr` builder
-that works with `SharedPartBuilder`, which generates combined `.g.dart` files.
-If you need to use `PartBuilder` to generate not-shared `.auto_mappr.dart` part files,
-you can use the `auto_mappr:not_shared` builder.
+By default, AutoMappr uses the `auto_mappr:auto_mappr` builder that works with `LibraryBuilder`,
+which generates `.auto_mappr.dart` file.
 
 Modify your `build.yaml` file:
 
@@ -700,19 +698,16 @@ targets:
     builders:
       # Or disable specific ones.
       auto_mappr:
-        enabled: false
-      # And enable the not_shared builder.
-      auto_mappr:not_shared:
         enabled: true
 ```
 
 ### Builder options
-- ignoreNullableSourceField - Force bang operator on non-nullable target's field if source's field is nullable
+
+- `ignoreNullableSourceField` - Force bang operator on non-nullable target's field if source's field is nullable
 
 ### Default dependencies
 
-By default both `auto_mappr` builders has defined required inputs for freezed
-and drift classes.
+By default the `auto_mappr` builder has defined required inputs for freezed and drift classes.
 
 ```yaml
  required_inputs: [".freezed.dart", ".drift.dart"]
@@ -729,25 +724,6 @@ which you can add a input dependency to.
 Specify the `required_inputs` dependency on your local AutoMappr builder
 and disable the builders provided by AutoMappr.
 
-Shared builder:
-
-```yaml
-targets:
-  $default:
-    auto_apply_builders: true
-    builders:
-      # Enable their generators according to their documentation.
-      drift_dev:not_shared:
-        enabled: true
-      drift_dev:preparing_builder:
-        enabled: true
-      # Disable Drift's shared builder
-      drift_dev:drift_dev:
-        enabled: false
-```
-
-Not shared builder:
-
 ```yaml
 targets:
   $default:
@@ -763,9 +739,6 @@ targets:
         enabled: false
 
       auto_mappr:
-        enabled: false
-      # Enable the not_shared builder.
-      auto_mappr:not_shared:
         enabled: true
 ```
 
