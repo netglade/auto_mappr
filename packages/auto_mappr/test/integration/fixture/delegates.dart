@@ -3,9 +3,9 @@ import 'package:equatable/equatable.dart';
 
 import 'modules/module_alpha.dart';
 
-part 'modules.g.dart';
+part 'delegates.g.dart';
 
-@AutoMappr([MapType<GroupDto, Group>()], modules: [MapprAlpha()])
+@AutoMappr([MapType<GroupDto, Group>()], delegates: [MapprAlpha()])
 class MapprGroup extends $MapprGroup {
   const MapprGroup();
 }

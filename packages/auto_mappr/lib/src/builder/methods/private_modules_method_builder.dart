@@ -8,7 +8,7 @@ class PrivateModulesMethodBuilder extends MethodBuilderBase {
   Method buildMethod() {
     return Method(
       (builder) => builder
-        ..name = '_modules'
+        ..name = MethodBuilderBase.delegatesField
         ..returns = refer('List<AutoMapprInterface>')
         ..lambda = true
         ..type = MethodType.getter

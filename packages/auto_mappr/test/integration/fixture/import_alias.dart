@@ -27,7 +27,7 @@ part 'import_alias.g.dart';
     MapType<ListHolder<UserDto>, ListHolder<a1.User>>(),
     MapType<MapHolder<UserDto>, MapHolder<a2.User>>(),
   ],
-  modules: [module.ImportAliasModule()],
+  delegates: [module.ImportAliasModule()],
 )
 class Mappr extends $Mappr {
   const Mappr();

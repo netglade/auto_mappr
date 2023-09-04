@@ -19,6 +19,27 @@ import 'package:source_gen/source_gen.dart';
 class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
   final BuilderOptions builderOptions;
 
+  // Constants for AutoMappr.
+  static const String annotationName = 'AutoMappr';
+  static const String annotationFieldDelegates = 'delegates';
+  static const String annotationFieldMappers = 'mappers';
+  static const String annotationFieldIncludes = 'includes';
+
+  // Constants for MapType.
+  static const String mapTypeFieldFields = 'fields';
+  static const String mapTypeFieldWhenSourceIsNull = 'whenSourceIsNull';
+  static const String mapTypeFieldConstructor = 'constructor';
+  static const String mapTypeFieldIgnoreFieldNull = 'ignoreFieldNull';
+  static const String mapTypeFieldReverse = 'reverse';
+
+  // Constants for Field.
+  static const String fieldFieldField = 'field';
+  static const String fieldFieldIgnore = 'ignore';
+  static const String fieldFieldFrom = 'from';
+  static const String fieldFieldCustom = 'custom';
+  static const String fieldFieldWhenNull = 'whenNull';
+  static const String fieldFieldIgnoreNull = 'ignoreNull';
+
   const AutoMapprGenerator({required this.builderOptions});
 
   @override
@@ -43,13 +64,31 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     );
 
     final constant = annotation.objectValue;
-    final mappersField = constant.getField('mappers')!;
-    final mappersList = mappersField.toListValue()!;
-    final modulesExpression = constant.getField('modules')!.toCodeExpression(config: tmpConfig);
-    final modulesList = constant.getField('modules')!.toListValue();
+    final mappersList = constant.getField(annotationFieldMappers)!.toListValue()!;
+    final delegatesExpression = constant.getField(annotationFieldDelegates)!.toCodeExpression(config: tmpConfig);
+    final delegatesList = constant.getField(annotationFieldDelegates)!.toListValue();
+    final includesList = constant.getField(annotationFieldIncludes)!.toListValue();
+
+    final allMappers = [...mappersList];
+
+    for (final include in includesList ?? <DartObject>[]) {
+      if (include.type?.element?.metadata
+              .firstWhereOrNull((data) => data.element?.displayName == annotationName)
+              ?.computeConstantValue()
+          case final includeConstant?) {
+        final mappersList2 = includeConstant.getField(annotationFieldMappers)!.toListValue()!;
+        // final delegatesExpression2 = includeConstant.getField(fieldDelegates)!.toCodeExpression(config: tmpConfig);
+        // final delegatesList2 = includeConstant.getField(fieldDelegates)!.toListValue();
+        // final includesList2 = includeConstant.getField(fieldIncludes)!.toListValue();
+
+        allMappers.addAll(mappersList2);
+      }
+    }
+
+    log.warning('all mappings = ${allMappers.join(',\n')} ...');
 
     final mappers = _processMappers(
-      mappers: mappersList,
+      mappers: allMappers,
       element: element,
       config: tmpConfig,
     );
@@ -67,8 +106,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       mappers: mappers,
       availableMappingsMacroId: element.library.identifier,
       libraryUriToAlias: libraryUriToAlias,
-      modulesCode: modulesExpression,
-      modulesList: modulesList ?? [],
+      modulesCode: delegatesExpression,
+      modulesList: delegatesList ?? [],
       mapprOptions: mapprOptions,
     );
 
@@ -107,22 +146,23 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
             );
           }
 
-          final fields = mapper.getField('fields')?.toListValue();
-          final whenSourceIsNull = mapper.getField('whenSourceIsNull')?.toCodeExpression(config: config);
-          final constructor = mapper.getField('constructor')?.toStringValue();
-          final ignoreFieldNull = mapper.getField('ignoreFieldNull')?.toBoolValue();
-          final reverse = mapper.getField('reverse')?.toBoolValue();
+          final fields = mapper.getField(mapTypeFieldFields)?.toListValue();
+          final whenSourceIsNull = mapper.getField(mapTypeFieldWhenSourceIsNull)?.toCodeExpression(config: config);
+          final constructor = mapper.getField(mapTypeFieldConstructor)?.toStringValue();
+          final ignoreFieldNull = mapper.getField(mapTypeFieldIgnoreFieldNull)?.toBoolValue();
+          final reverse = mapper.getField(mapTypeFieldReverse)?.toBoolValue();
 
           final fieldMappings = fields
               ?.map(
                 (fieldMapping) => FieldMapping(
-                  field: fieldMapping.getField('field')!.toStringValue()!,
-                  ignore: fieldMapping.getField('ignore')!.toBoolValue()!,
-                  from: fieldMapping.getField('from')!.toStringValue(),
-                  customExpression:
-                      fieldMapping.getField('custom')!.toCodeExpression(passModelArgument: true, config: config),
-                  whenNullExpression: fieldMapping.getField('whenNull')!.toCodeExpression(config: config),
-                  ignoreNull: fieldMapping.getField('ignoreNull')?.toBoolValue(),
+                  field: fieldMapping.getField(fieldFieldField)!.toStringValue()!,
+                  ignore: fieldMapping.getField(fieldFieldIgnore)!.toBoolValue()!,
+                  from: fieldMapping.getField(fieldFieldFrom)!.toStringValue(),
+                  customExpression: fieldMapping
+                      .getField(fieldFieldCustom)!
+                      .toCodeExpression(passModelArgument: true, config: config),
+                  whenNullExpression: fieldMapping.getField(fieldFieldWhenNull)!.toCodeExpression(config: config),
+                  ignoreNull: fieldMapping.getField(fieldFieldIgnoreNull)?.toBoolValue(),
                 ),
               )
               .toList();

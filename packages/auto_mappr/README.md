@@ -541,7 +541,7 @@ while using shared part builder.
 
 ### Modules
 
-Each AutoMappr class can be used as a **module**.
+Each AutoMappr can be considered as a **module**.
 The only rule is that the mappr must be constant,
 and that most of the time means you have to add an `const` constructor to be able to use it.
 Other modules (AutoMappr classes) can then use it in two ways.

@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'fixture/modules.dart' as fixture_group;
+import 'fixture/delegates.dart' as fixture_group;
 import 'fixture/modules/module_alpha.dart' as fixture_alpha;
 import 'fixture/modules/module_beta.dart' as fixture_beta;
 import 'fixture/modules/module_gama.dart' as fixture_gama;

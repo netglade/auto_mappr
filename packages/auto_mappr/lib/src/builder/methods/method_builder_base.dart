@@ -9,6 +9,8 @@ import 'package:meta/meta.dart';
 
 /// Base class for method builders.
 abstract class MethodBuilderBase {
+  static const delegatesField = '_delegates';
+
   static const sourceKey = 'SOURCE';
   static const sourceTypeReference = Reference(sourceKey);
   static const nullableSourceTypeReference = Reference('$sourceKey?');

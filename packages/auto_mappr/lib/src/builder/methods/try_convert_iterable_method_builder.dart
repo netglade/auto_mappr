@@ -90,7 +90,7 @@ class TryConvertIterableMethodBuilder extends MethodBuilderBase {
     block.statements.add(
       ExpressionExtension.forStatement(
         item: refer('mappr'),
-        iterable: refer('_modules'),
+        iterable: refer(MethodBuilderBase.delegatesField),
         body: ExpressionExtension.ifStatement(
           condition: CanConvertMethodBuilder(config).propertyCall(on: refer('mappr')),
           ifBody: refer('mappr').property('tryConvert$wrapper').call([refer('model')], {}, []).returned.statement,

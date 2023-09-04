@@ -63,7 +63,7 @@ class CanConvertMethodBuilder extends MethodBuilderBase implements CallableMetho
         condition: refer('recursive'),
         ifBody: ExpressionExtension.forStatement(
           item: refer('mappr'),
-          iterable: refer('_modules'),
+          iterable: refer(MethodBuilderBase.delegatesField),
           body: ExpressionExtension.ifStatement(
             condition: CanConvertMethodBuilder(config).propertyCall(on: refer('mappr')),
             ifBody: literalTrue.returned.statement,

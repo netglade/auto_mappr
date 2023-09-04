@@ -5,7 +5,7 @@ import 'module_beta.dart';
 
 part 'module_alpha.g.dart';
 
-@AutoMappr([MapType<AlphaDto, Alpha>()], modules: [MapprBeta()])
+@AutoMappr([MapType<AlphaDto, Alpha>()], delegates: [MapprBeta()])
 class MapprAlpha extends $MapprAlpha {
   const MapprAlpha();
 }
