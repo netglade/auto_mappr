@@ -1,5 +1,5 @@
 /// Mapping configuration of target object's field.
-class Field {
+final class Field {
   /// Which field is mapped.
   ///
   /// It should be either name of TARGET's field OR name of TARGET's constructor.
