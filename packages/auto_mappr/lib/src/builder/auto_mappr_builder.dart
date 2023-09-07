@@ -4,6 +4,8 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:auto_mappr/src/builder/map_model_body_method_builder.dart';
 import 'package:auto_mappr/src/builder/methods/methods.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
+import 'package:auto_mappr/src/helpers/urls.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:built_collection/built_collection.dart';
@@ -35,24 +37,19 @@ class AutoMapprBuilder {
   Library build() {
     // TODO(modules): first process class and then generate library and its imports
 
+    final generatedClass = Class(
+      (cb) => cb
+        ..name = '\$${mapperClassElement.displayName}'
+        ..implements = ListBuilder([refer('AutoMapprInterface', Urls.annotationPackageUrl)])
+        ..methods.addAll(_buildMethods())
+        ..constructors.addAll(_buildConstructors())
+        ..docs = ListBuilder(config.getAvailableMappingsDocComment()),
+    );
+
     return Library(
       (b) => b
         ..ignoreForFile = ListBuilder(fileIgnores)
-        ..directives = ListBuilder(<Directive>[
-          Directive.import('package:auto_mappr_annotation/auto_mappr_annotation.dart'),
-        ])
-        ..body.addAll(
-          [
-            Class(
-              (cb) => cb
-                ..name = '\$${mapperClassElement.displayName}'
-                ..implements = ListBuilder([refer('AutoMapprInterface')])
-                ..methods.addAll(_buildMethods())
-                ..constructors.addAll(_buildConstructors())
-                ..docs = ListBuilder(config.getAvailableMappingsDocComment()),
-            ),
-          ],
-        ),
+        ..body.addAll([generatedClass]),
     );
   }
 

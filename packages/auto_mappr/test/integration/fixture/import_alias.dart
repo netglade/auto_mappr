@@ -1,11 +1,10 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
+import 'import_alias.auto_mappr.dart';
 import 'import_alias/import_alias_1.dart' as a1;
 import 'import_alias/import_alias_2.dart' as a2;
 import 'import_alias/import_alias_module.dart' as module;
-
-import 'import_alias.auto_mappr.dart';
 
 @AutoMappr(
   [

@@ -10,17 +10,20 @@
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
+
+import 'freezed_example.dart' as _i2;
 
 /// {@template package:examples_freezed/freezed_example.dart}
 /// Available mappings:
 /// - `UserInfo` → `UserInfoCompanion`.
 /// {@endtemplate}
-class $Mappr implements AutoMapprInterface {
+class $Mappr implements _i1.AutoMapprInterface {
   const $Mappr();
 
   Type _typeOf<T>() => T;
-  List<AutoMapprInterface> get _delegates => const [];
+  List<_i1.AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
   /// {@macro package:examples_freezed/freezed_example.dart}
@@ -28,10 +31,10 @@ class $Mappr implements AutoMapprInterface {
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserInfo>() ||
-            sourceTypeOf == _typeOf<UserInfo?>()) &&
-        (targetTypeOf == _typeOf<UserInfoCompanion>() ||
-            targetTypeOf == _typeOf<UserInfoCompanion?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserInfo>() ||
+            sourceTypeOf == _typeOf<_i2.UserInfo?>()) &&
+        (targetTypeOf == _typeOf<_i2.UserInfoCompanion>() ||
+            targetTypeOf == _typeOf<_i2.UserInfoCompanion?>())) {
       return true;
     }
     if (recursive) {
@@ -191,10 +194,10 @@ class $Mappr implements AutoMapprInterface {
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserInfo>() ||
-            sourceTypeOf == _typeOf<UserInfo?>()) &&
-        (targetTypeOf == _typeOf<UserInfoCompanion>() ||
-            targetTypeOf == _typeOf<UserInfoCompanion?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserInfo>() ||
+            sourceTypeOf == _typeOf<_i2.UserInfo?>()) &&
+        (targetTypeOf == _typeOf<_i2.UserInfoCompanion>() ||
+            targetTypeOf == _typeOf<_i2.UserInfoCompanion?>())) {
       if (canReturnNull && model == null) {
         return null;
       }

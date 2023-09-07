@@ -10,17 +10,21 @@
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
+
+import 'db.dart' as _i2;
+import 'mappr.dart' as _i3;
 
 /// {@template package:examples_drift/mappr.dart}
 /// Available mappings:
 /// - `Todo` → `TodoItem`.
 /// {@endtemplate}
-class $Mappr implements AutoMapprInterface {
+class $Mappr implements _i1.AutoMapprInterface {
   const $Mappr();
 
   Type _typeOf<T>() => T;
-  List<AutoMapprInterface> get _delegates => const [];
+  List<_i1.AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
   /// {@macro package:examples_drift/mappr.dart}
@@ -28,9 +32,10 @@ class $Mappr implements AutoMapprInterface {
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<Todo>() || sourceTypeOf == _typeOf<Todo?>()) &&
-        (targetTypeOf == _typeOf<TodoItem>() ||
-            targetTypeOf == _typeOf<TodoItem?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.Todo>() ||
+            sourceTypeOf == _typeOf<_i2.Todo?>()) &&
+        (targetTypeOf == _typeOf<_i3.TodoItem>() ||
+            targetTypeOf == _typeOf<_i3.TodoItem?>())) {
       return true;
     }
     if (recursive) {
@@ -190,9 +195,10 @@ class $Mappr implements AutoMapprInterface {
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<Todo>() || sourceTypeOf == _typeOf<Todo?>()) &&
-        (targetTypeOf == _typeOf<TodoItem>() ||
-            targetTypeOf == _typeOf<TodoItem?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.Todo>() ||
+            sourceTypeOf == _typeOf<_i2.Todo?>()) &&
+        (targetTypeOf == _typeOf<_i3.TodoItem>() ||
+            targetTypeOf == _typeOf<_i3.TodoItem?>())) {
       if (canReturnNull && model == null) {
         return null;
       }

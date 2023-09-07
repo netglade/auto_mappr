@@ -1,9 +1,9 @@
-import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/assignments/assignment_builder_base.dart';
 import 'package:auto_mappr/src/builder/assignments/nested_object_mixin.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
@@ -27,7 +27,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     final sourceType = assignment.sourceType!;
     final targetType = assignment.targetType;
 
-    final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
+    final sourceNullable = sourceType.isNullable;
 
     final sourceKeyType = (sourceType as ParameterizedType).typeArguments.firstOrNull;
     final sourceValueType = sourceType.typeArguments.lastOrNull;
@@ -35,10 +35,10 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     final targetKeyType = (targetType as ParameterizedType).typeArguments.firstOrNull;
     final targetValueType = targetType.typeArguments.lastOrNull;
 
-    final sourceNullableKey = sourceKeyType?.nullabilitySuffix == NullabilitySuffix.question;
-    final sourceNullableValue = sourceValueType?.nullabilitySuffix == NullabilitySuffix.question;
-    final targetNullableKey = targetKeyType?.nullabilitySuffix == NullabilitySuffix.question;
-    final targetNullableValue = targetValueType?.nullabilitySuffix == NullabilitySuffix.question;
+    final sourceNullableKey = sourceKeyType?.isNullable ?? false;
+    final sourceNullableValue = sourceValueType?.isNullable ?? false;
+    final targetNullableKey = targetKeyType?.isNullable ?? false;
+    final targetNullableValue = targetValueType?.isNullable ?? false;
 
     if (targetKeyType == null || targetValueType == null) {
       throw InvalidGenerationSourceError(
@@ -152,7 +152,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
         : targetMapExpression;
 
     return refer(
-      '(key, value) => MapEntry(${keyExpression.accept(DartEmitter())}, ${valueExpression.accept(DartEmitter())})',
+      '(key, value) => MapEntry(${keyExpression.accept(EmitterHelper.current.emitter)}, ${valueExpression.accept(EmitterHelper.current.emitter)})',
     );
   }
 }

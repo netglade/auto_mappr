@@ -1,6 +1,7 @@
 import 'package:auto_mappr/src/builder/methods/can_convert_method_builder.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
@@ -34,10 +35,12 @@ class TryConvertIterableMethodBuilder extends MethodBuilderBase {
           Parameter(
             (p) => p
               ..name = 'model'
-              ..type = Reference('Iterable<${MethodBuilderBase.nullableSourceTypeReference.accept(DartEmitter())}>'),
+              ..type =
+                  Reference('Iterable<${MethodBuilderBase.nullableSourceTypeReference.accept(EmitterHelper.current.emitter)}>'),
           ),
         )
-        ..returns = Reference('$wrapper<${MethodBuilderBase.nullableTargetTypeReference.accept(DartEmitter())}>')
+        ..returns =
+            Reference('$wrapper<${MethodBuilderBase.nullableTargetTypeReference.accept(EmitterHelper.current.emitter)}>')
         ..body = buildBody(),
     );
   }

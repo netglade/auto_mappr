@@ -3,6 +3,7 @@
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:auto_mappr/src/extensions/element_extension.dart';
 import 'package:auto_mappr/src/extensions/executable_element_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
@@ -28,8 +29,7 @@ extension DartObjectExtension on DartObject {
       ]);
     }
 
-    final emitter = DartEmitter();
-    final output = _ToCodeExpressionConverter(config: config).convert(this).accept(emitter);
+    final output = _ToCodeExpressionConverter(config: config).convert(this).accept(EmitterHelper.current.emitter);
 
     return CodeExpression(Code('$output'));
   }

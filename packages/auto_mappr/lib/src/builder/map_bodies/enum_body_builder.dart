@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:auto_mappr/src/builder/map_bodies/map_body_builder_base.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -57,7 +58,7 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
           {
             if (mapping.hasWhenNullDefault())
               'orElse': refer(
-                '() => ${mapping.whenSourceIsNullExpression!.accept(DartEmitter())}',
+                '() => ${mapping.whenSourceIsNullExpression!.accept(EmitterHelper.current.emitter)}',
               ),
           },
         )

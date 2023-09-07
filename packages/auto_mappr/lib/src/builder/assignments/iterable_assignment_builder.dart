@@ -24,14 +24,13 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
     final sourceType = assignment.sourceType!;
     final targetType = assignment.targetType;
 
-    final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
-    final targetNullable = targetType.nullabilitySuffix == NullabilitySuffix.question;
+    final sourceNullable = sourceType.isNullable;
+    final targetNullable = targetType.isNullable;
 
     final sourceIterableType = sourceType.genericParameterTypeOrSelf;
     final targetIterableType = targetType.genericParameterTypeOrSelf;
 
-    final shouldFilterNullInSource = sourceIterableType.nullabilitySuffix == NullabilitySuffix.question &&
-        targetIterableType.nullabilitySuffix != NullabilitySuffix.question;
+    final shouldFilterNullInSource = sourceIterableType.isNullable && targetIterableType.isNotNullable;
 
     final assignNestedObject = (!targetIterableType.isPrimitiveType && !targetIterableType.isSpecializedListType) &&
         (!targetIterableType.isSame(sourceIterableType));

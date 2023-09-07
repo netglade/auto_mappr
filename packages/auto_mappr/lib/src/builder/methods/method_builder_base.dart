@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:built_collection/built_collection.dart';
@@ -80,8 +81,10 @@ abstract class MethodBuilderBase {
     required Reference targetTypeOfReference,
     required Spec inIfExpression,
   }) {
-    final sourceName = mapping.source.getDisplayStringWithLibraryAlias(config: config);
-    final targetName = mapping.target.getDisplayStringWithLibraryAlias(config: config);
+    // final sourceName = mapping.source.getDisplayStringWithLibraryAlias(config: config);
+    // final targetName = mapping.target.getDisplayStringWithLibraryAlias(config: config);
+    final sourceName = EmitterHelper.current.typeReferEmitted(type: mapping.source);
+    final targetName = EmitterHelper.current.typeReferEmitted(type: mapping.target);
 
     final modelIsTypeExpression = sourceTypeOfReference
         .equalTo(refer('_typeOf<$sourceName>()'))

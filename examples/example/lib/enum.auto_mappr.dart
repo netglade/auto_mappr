@@ -10,7 +10,10 @@
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
+
+import 'enum.dart' as _i2;
 
 /// {@template package:examples_example/enum.dart}
 /// Available mappings:
@@ -18,11 +21,11 @@ import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 /// - `Vehicle` → `Vehicle`.
 /// - `Vehicle` → `VehicleX`.
 /// {@endtemplate}
-class $Mappr implements AutoMapprInterface {
+class $Mappr implements _i1.AutoMapprInterface {
   const $Mappr();
 
   Type _typeOf<T>() => T;
-  List<AutoMapprInterface> get _delegates => const [];
+  List<_i1.AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
   /// {@macro package:examples_example/enum.dart}
@@ -30,22 +33,22 @@ class $Mappr implements AutoMapprInterface {
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserType>() ||
-            sourceTypeOf == _typeOf<UserType?>()) &&
-        (targetTypeOf == _typeOf<PersonType>() ||
-            targetTypeOf == _typeOf<PersonType?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserType>() ||
+            sourceTypeOf == _typeOf<_i2.UserType?>()) &&
+        (targetTypeOf == _typeOf<_i2.PersonType>() ||
+            targetTypeOf == _typeOf<_i2.PersonType?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<Vehicle>() ||
-            sourceTypeOf == _typeOf<Vehicle?>()) &&
-        (targetTypeOf == _typeOf<Vehicle>() ||
-            targetTypeOf == _typeOf<Vehicle?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.Vehicle>() ||
+            sourceTypeOf == _typeOf<_i2.Vehicle?>()) &&
+        (targetTypeOf == _typeOf<_i2.Vehicle>() ||
+            targetTypeOf == _typeOf<_i2.Vehicle?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<Vehicle>() ||
-            sourceTypeOf == _typeOf<Vehicle?>()) &&
-        (targetTypeOf == _typeOf<VehicleX>() ||
-            targetTypeOf == _typeOf<VehicleX?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.Vehicle>() ||
+            sourceTypeOf == _typeOf<_i2.Vehicle?>()) &&
+        (targetTypeOf == _typeOf<_i2.VehicleX>() ||
+            targetTypeOf == _typeOf<_i2.VehicleX?>())) {
       return true;
     }
     if (recursive) {
@@ -205,28 +208,28 @@ class $Mappr implements AutoMapprInterface {
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserType>() ||
-            sourceTypeOf == _typeOf<UserType?>()) &&
-        (targetTypeOf == _typeOf<PersonType>() ||
-            targetTypeOf == _typeOf<PersonType?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserType>() ||
+            sourceTypeOf == _typeOf<_i2.UserType?>()) &&
+        (targetTypeOf == _typeOf<_i2.PersonType>() ||
+            targetTypeOf == _typeOf<_i2.PersonType?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
       return (_map__UserType__To__PersonType((model as UserType?)) as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<Vehicle>() ||
-            sourceTypeOf == _typeOf<Vehicle?>()) &&
-        (targetTypeOf == _typeOf<Vehicle>() ||
-            targetTypeOf == _typeOf<Vehicle?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.Vehicle>() ||
+            sourceTypeOf == _typeOf<_i2.Vehicle?>()) &&
+        (targetTypeOf == _typeOf<_i2.Vehicle>() ||
+            targetTypeOf == _typeOf<_i2.Vehicle?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
       return (_map__Vehicle__To__Vehicle((model as Vehicle?)) as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<Vehicle>() ||
-            sourceTypeOf == _typeOf<Vehicle?>()) &&
-        (targetTypeOf == _typeOf<VehicleX>() ||
-            targetTypeOf == _typeOf<VehicleX?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.Vehicle>() ||
+            sourceTypeOf == _typeOf<_i2.Vehicle?>()) &&
+        (targetTypeOf == _typeOf<_i2.VehicleX>() ||
+            targetTypeOf == _typeOf<_i2.VehicleX?>())) {
       if (canReturnNull && model == null) {
         return null;
       }

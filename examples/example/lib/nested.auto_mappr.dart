@@ -10,7 +10,10 @@
 // ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
 // ignore_for_file: unnecessary_raw_strings
 
-import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
+
+import 'nested.dart' as _i2;
 
 /// {@template package:examples_example/nested.dart}
 /// Available mappings:
@@ -18,11 +21,11 @@ import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 /// - `NestedDto` → `Nested`.
 /// - `NestedTagDto` → `NestedTag`.
 /// {@endtemplate}
-class $Mappr implements AutoMapprInterface {
+class $Mappr implements _i1.AutoMapprInterface {
   const $Mappr();
 
   Type _typeOf<T>() => T;
-  List<AutoMapprInterface> get _delegates => const [];
+  List<_i1.AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
   /// {@macro package:examples_example/nested.dart}
@@ -30,21 +33,22 @@ class $Mappr implements AutoMapprInterface {
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserDto>() ||
-            sourceTypeOf == _typeOf<UserDto?>()) &&
-        (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserDto>() ||
+            sourceTypeOf == _typeOf<_i2.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.User>() ||
+            targetTypeOf == _typeOf<_i2.User?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<NestedDto>() ||
-            sourceTypeOf == _typeOf<NestedDto?>()) &&
-        (targetTypeOf == _typeOf<Nested>() ||
-            targetTypeOf == _typeOf<Nested?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.NestedDto>() ||
+            sourceTypeOf == _typeOf<_i2.NestedDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.Nested>() ||
+            targetTypeOf == _typeOf<_i2.Nested?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<NestedTagDto>() ||
-            sourceTypeOf == _typeOf<NestedTagDto?>()) &&
-        (targetTypeOf == _typeOf<NestedTag>() ||
-            targetTypeOf == _typeOf<NestedTag?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.NestedTagDto>() ||
+            sourceTypeOf == _typeOf<_i2.NestedTagDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.NestedTag>() ||
+            targetTypeOf == _typeOf<_i2.NestedTag?>())) {
       return true;
     }
     if (recursive) {
@@ -204,27 +208,28 @@ class $Mappr implements AutoMapprInterface {
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserDto>() ||
-            sourceTypeOf == _typeOf<UserDto?>()) &&
-        (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserDto>() ||
+            sourceTypeOf == _typeOf<_i2.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.User>() ||
+            targetTypeOf == _typeOf<_i2.User?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
       return (_map__UserDto__To__User((model as UserDto?)) as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<NestedDto>() ||
-            sourceTypeOf == _typeOf<NestedDto?>()) &&
-        (targetTypeOf == _typeOf<Nested>() ||
-            targetTypeOf == _typeOf<Nested?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.NestedDto>() ||
+            sourceTypeOf == _typeOf<_i2.NestedDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.Nested>() ||
+            targetTypeOf == _typeOf<_i2.Nested?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
       return (_map__NestedDto__To__Nested((model as NestedDto?)) as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<NestedTagDto>() ||
-            sourceTypeOf == _typeOf<NestedTagDto?>()) &&
-        (targetTypeOf == _typeOf<NestedTag>() ||
-            targetTypeOf == _typeOf<NestedTag?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.NestedTagDto>() ||
+            sourceTypeOf == _typeOf<_i2.NestedTagDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.NestedTag>() ||
+            targetTypeOf == _typeOf<_i2.NestedTag?>())) {
       if (canReturnNull && model == null) {
         return null;
       }

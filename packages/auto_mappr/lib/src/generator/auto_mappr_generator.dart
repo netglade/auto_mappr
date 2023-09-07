@@ -1,5 +1,7 @@
 //ignore_for_file: avoid-dynamic
 
+import 'dart:async';
+
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
@@ -7,6 +9,7 @@ import 'package:auto_mappr/src/builder/auto_mappr_builder.dart';
 import 'package:auto_mappr/src/extensions/dart_object_extension.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/list_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/auto_mappr_options.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
@@ -44,62 +47,70 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
 
   @override
   dynamic generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
-    if (element is! ClassElement) {
-      throw InvalidGenerationSourceError(
-        '${element.displayName} is not a class and cannot be annotated with @AutoMappr.',
-        element: element,
-        todo: 'Use @AutoMappr annotation on a class',
-      );
-    }
+    final filePath = element.library?.identifier;
+    final fileUri = filePath != null ? Uri.parse(filePath) : null;
 
-    final libraryUriToAlias = _getLibraryAliases(element: element);
+    // We need to use zones so we can easily have "scoped globals" for EmitterHelper.
+    return runZoned(
+      () {
+        if (element is! ClassElement) {
+          throw InvalidGenerationSourceError(
+            '${element.displayName} is not a class and cannot be annotated with @AutoMappr.',
+            element: element,
+            todo: 'Use @AutoMappr annotation on a class',
+          );
+        }
 
-    final mapprOptions = AutoMapprOptions.fromJson(builderOptions.config);
+        final libraryUriToAlias = _getLibraryAliases(element: element);
 
-    final tmpConfig = AutoMapprConfig(
-      mappers: [],
-      availableMappingsMacroId: 'tmp',
-      libraryUriToAlias: libraryUriToAlias,
-      mapprOptions: mapprOptions,
+        final mapprOptions = AutoMapprOptions.fromJson(builderOptions.config);
+
+        final tmpConfig = AutoMapprConfig(
+          mappers: [],
+          availableMappingsMacroId: 'tmp',
+          libraryUriToAlias: libraryUriToAlias,
+          mapprOptions: mapprOptions,
+        );
+
+        final constant = annotation.objectValue;
+        final mappersList = constant.getField(annotationFieldMappers)!.toListValue()!;
+        final delegatesExpression = constant.getField(annotationFieldDelegates)!.toCodeExpression(config: tmpConfig);
+        final delegatesList = constant.getField(annotationFieldDelegates)!.toListValue();
+        final includesList = constant.getField(annotationFieldIncludes)!.toListValue();
+
+        final allMappers = [...mappersList, ..._mappersFromRecursiveIncludes(includesList: includesList ?? [])];
+        final mappers = _processMappers(
+          mappers: allMappers,
+          element: element,
+          config: tmpConfig,
+        );
+
+        final duplicates = mappers.duplicates;
+        if (duplicates.isNotEmpty) {
+          throw InvalidGenerationSourceError(
+            '@AutoMappr has configured duplicated mappings:\n\t${duplicates.map(
+                  (e) => e.toStringWithLibraryAlias(config: tmpConfig),
+                ).join('\n\t')}',
+          );
+        }
+
+        final config = AutoMapprConfig(
+          mappers: mappers,
+          availableMappingsMacroId: element.library.identifier,
+          libraryUriToAlias: libraryUriToAlias,
+          modulesCode: delegatesExpression,
+          modulesList: delegatesList ?? [],
+          mapprOptions: mapprOptions,
+        );
+
+        final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
+
+        final output = builder.build();
+
+        return '${output.accept(EmitterHelper.current.emitter)}';
+      },
+      zoneValues: {EmitterHelper.zoneSymbol: EmitterHelper(fileWithAnnotation: fileUri)},
     );
-
-    final constant = annotation.objectValue;
-    final mappersList = constant.getField(annotationFieldMappers)!.toListValue()!;
-    final delegatesExpression = constant.getField(annotationFieldDelegates)!.toCodeExpression(config: tmpConfig);
-    final delegatesList = constant.getField(annotationFieldDelegates)!.toListValue();
-    final includesList = constant.getField(annotationFieldIncludes)!.toListValue();
-
-    final allMappers = [...mappersList, ..._mappersFromRecursiveIncludes(includesList: includesList ?? [])];
-    final mappers = _processMappers(
-      mappers: allMappers,
-      element: element,
-      config: tmpConfig,
-    );
-
-    final duplicates = mappers.duplicates;
-    if (duplicates.isNotEmpty) {
-      throw InvalidGenerationSourceError(
-        '@AutoMappr has configured duplicated mappings:\n\t${duplicates.map(
-              (e) => e.toStringWithLibraryAlias(config: tmpConfig),
-            ).join('\n\t')}',
-      );
-    }
-
-    final config = AutoMapprConfig(
-      mappers: mappers,
-      availableMappingsMacroId: element.library.identifier,
-      libraryUriToAlias: libraryUriToAlias,
-      modulesCode: delegatesExpression,
-      modulesList: delegatesList ?? [],
-      mapprOptions: mapprOptions,
-    );
-
-    final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
-
-    final output = builder.build();
-    final emitter = DartEmitter(orderDirectives: true, useNullSafetySyntax: true);
-
-    return '${output.accept(emitter)}';
   }
 
   List<TypeMapping> _processMappers({

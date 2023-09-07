@@ -38,7 +38,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
       );
       final sourceName = assignment.sourceField?.getDisplayString(withNullability: true);
 
-      if (target.nullabilitySuffix == NullabilitySuffix.question) {
+      if (target.isNullable) {
         log.warning("Can't find nested mapping '$assignment' but target is nullable. Setting null");
 
         return literalNull;
@@ -60,7 +60,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
 
     // If source == null and target not nullable -> use whenNullDefault if possible
     final fieldMapping = mapping.tryGetFieldMapping(assignment.targetName);
-    if (source.nullabilitySuffix == NullabilitySuffix.question && (fieldMapping?.whenNullExpression != null)) {
+    if (source.isNullable && (fieldMapping?.whenNullExpression != null)) {
       // Generates code like:
       //
       // model.name == null
@@ -93,7 +93,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     Expression? convertMethodArgument,
     bool includeGenericTypes = false,
   }) {
-    final targetNullable = target.nullabilitySuffix == NullabilitySuffix.question;
+    final targetNullable = target.isNullable;
 
     final useNullableMethod = targetNullable && !mapping.hasWhenNullDefault();
 

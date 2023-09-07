@@ -19,6 +19,7 @@ dependencies:
   code_builder: ^4.4.0
   collection: ^1.17.0
   equatable: ^2.0.5
+  get_it: ^7.6.4
   meta: ^1.8.0
   path: ^1.8.2
   source_gen: ^1.2.6

@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:auto_mappr/src/builder/assignments/assignments.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:code_builder/code_builder.dart';
 
@@ -82,8 +83,8 @@ class ValueAssignmentBuilder {
       return rightSide.ifNullThen(fieldMapping!.whenNullExpression!);
     }
 
-    final sourceNullable = assignment.sourceType!.nullabilitySuffix == NullabilitySuffix.question;
-    final targetNullable = assignment.targetType.nullabilitySuffix == NullabilitySuffix.question;
+    final sourceNullable = assignment.sourceType!.isNullable;
+    final targetNullable = assignment.targetType.isNullable;
 
     // BANG operator when Source is nullable and Target not
     final shouldIgnoreNull = fieldMapping?.ignoreNull ??

@@ -15,6 +15,14 @@ extension DartTypeExtension on DartType {
       isDartCoreEnum ||
       isDartCoreSymbol;
 
+  bool get isNullable {
+    return nullabilitySuffix == NullabilitySuffix.question;
+  }
+
+  bool get isNotNullable {
+    return !isNullable;
+  }
+
   /// Is special variant of integer.
   ///
   /// See `[Uint8List], [Uint16List], [Uint32List], [Uint64List]`.
@@ -60,8 +68,8 @@ extension DartTypeExtension on DartType {
     }
 
     // Nullability matches.
-    final thisNullability = nullabilitySuffix == NullabilitySuffix.question;
-    final otherNullability = other.nullabilitySuffix == NullabilitySuffix.question;
+    final thisNullability = isNullable;
+    final otherNullability = other.isNullable;
     final isSameNullability = thisNullability == otherNullability;
 
     return isSameExceptNullability && isSameNullability;
@@ -118,7 +126,7 @@ extension DartTypeExtension on DartType {
     }
 
     // Nullability
-    if (withNullability && nullabilitySuffix == NullabilitySuffix.question) {
+    if (withNullability && isNullable) {
       buffer.write('?');
     }
 
@@ -147,7 +155,7 @@ extension DartTypeExtension on DartType {
     }
 
     // Nullability
-    if (withNullability && nullabilitySuffix == NullabilitySuffix.question) {
+    if (withNullability && isNullable) {
       buffer.write('?');
     }
 

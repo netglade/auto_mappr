@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:code_builder/code_builder.dart';
 
@@ -111,21 +112,17 @@ extension ExpressionExtension on Expression {
     required Spec ifBody,
     Spec? elseBody,
   }) {
-    final dartEmitter = DartEmitter();
+    final ifBlock = '{ ${ifBody.accept(EmitterHelper.current.emitter)} }';
+    final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(EmitterHelper.current.emitter)} }' : '';
 
-    final ifBlock = '{ ${ifBody.accept(dartEmitter)} }';
-    final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(dartEmitter)} }' : '';
-
-    return refer('''if ( ${condition.accept(dartEmitter)} ) $ifBlock $elseBlock''');
+    return refer('''if ( ${condition.accept(EmitterHelper.current.emitter)} ) $ifBlock $elseBlock''');
   }
 
   Expression ifStatement2({required Spec ifBody, Spec? elseBody}) {
-    final dartEmitter = DartEmitter();
+    final ifBlock = '{ ${ifBody.accept(EmitterHelper.current.emitter)} }';
+    final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(EmitterHelper.current.emitter)} }' : '';
 
-    final ifBlock = '{ ${ifBody.accept(dartEmitter)} }';
-    final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(dartEmitter)} }' : '';
-
-    return refer('''if ( ${accept(dartEmitter)} ) $ifBlock $elseBlock''');
+    return refer('''if ( ${accept(EmitterHelper.current.emitter)} ) $ifBlock $elseBlock''');
   }
 
   static Expression forStatement({
@@ -133,21 +130,19 @@ extension ExpressionExtension on Expression {
     required Reference iterable,
     required Spec body,
   }) {
-    final dartEmitter = DartEmitter();
-
     return refer('''
-for (final ${item.accept(dartEmitter)} in ${iterable.accept(dartEmitter)}) {
-  ${body.accept(dartEmitter)}
+for (final ${item.accept(EmitterHelper.current.emitter)} in ${iterable.accept(EmitterHelper.current.emitter)}) {
+  ${body.accept(EmitterHelper.current.emitter)}
 } 
 ''');
   }
 
   Expression bracketed() {
-    return refer('(${accept(DartEmitter())})');
+    return refer('(${accept(EmitterHelper.current.emitter)})');
   }
 
   Expression nullabled() {
-    return refer('${accept(DartEmitter())}?');
+    return refer('${accept(EmitterHelper.current.emitter)}?');
   }
 
   Expression equalToNull() => equalTo(literalNull);

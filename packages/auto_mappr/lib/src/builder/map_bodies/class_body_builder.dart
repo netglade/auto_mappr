@@ -3,6 +3,7 @@ import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/map_bodies/map_body_builder_base.dart';
 import 'package:auto_mappr/src/builder/value_assignment_builder.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/element_extension.dart';
 import 'package:auto_mappr/src/extensions/interface_type_extension.dart';
 import 'package:auto_mappr/src/models/source_assignment.dart';
@@ -205,13 +206,13 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
   void _assertParamFieldCanBeIgnored(ParameterElement param, PropertyAccessorElement sourceField) {
     final sourceFieldName = sourceField.getDisplayString(withNullability: true);
-    if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+    if (param.isPositional && param.type.isNotNullable) {
       throw InvalidGenerationSourceError(
         "Can't ignore field '$sourceFieldName' as it is positional not-nullable parameter",
       );
     }
 
-    if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+    if (param.isRequiredNamed && param.type.isNotNullable) {
       throw InvalidGenerationSourceError(
         "Can't ignore field '$sourceFieldName' as it is required named not-nullable parameter",
       );
@@ -325,13 +326,13 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
   void _assertNotMappedConstructorParameters(Iterable<ParameterElement> notMapped) {
     for (final param in notMapped) {
-      if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+      if (param.isPositional && param.type.isNotNullable) {
         throw InvalidGenerationSourceError(
           "Can't generate mapping $mapping as there is non mapped not-nullable positional parameter ${param.displayName}",
         );
       }
 
-      if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+      if (param.isRequiredNamed && param.type.isNotNullable) {
         if (param.type.isDartCoreList) return;
         throw InvalidGenerationSourceError(
           "Can't generate mapping $mapping as there is non mapped not-nullable required named parameter ${param.displayName}",
