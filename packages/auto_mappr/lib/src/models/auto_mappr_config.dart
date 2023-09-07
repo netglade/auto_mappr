@@ -12,6 +12,7 @@ class AutoMapprConfig {
   final String availableMappingsMacroId;
   final Expression? modulesCode;
   final List<DartObject> modulesList;
+  @Deprecated('use EmitterHelper.current.typeReferenceEmitted instead')
   final Map<String, String> libraryUriToAlias;
   final AutoMapprOptions mapprOptions;
 
@@ -25,6 +26,7 @@ class AutoMapprConfig {
   const AutoMapprConfig({
     required this.mappers,
     required this.availableMappingsMacroId,
+    @Deprecated('use EmitterHelper.current.typeReferenceEmitted instead')
     required this.libraryUriToAlias,
     required this.mapprOptions,
     this.modulesCode,

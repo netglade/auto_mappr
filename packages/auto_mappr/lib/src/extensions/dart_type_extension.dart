@@ -99,6 +99,7 @@ extension DartTypeExtension on DartType {
           );
   }
 
+  @Deprecated('use EmitterHelper.current.typeReferenceEmitted instead')
   String getDisplayStringWithLibraryAlias({
     required AutoMapprConfig config,
     bool withNullability = false,

@@ -81,8 +81,6 @@ abstract class MethodBuilderBase {
     required Reference targetTypeOfReference,
     required Spec inIfExpression,
   }) {
-    // final sourceName = mapping.source.getDisplayStringWithLibraryAlias(config: config);
-    // final targetName = mapping.target.getDisplayStringWithLibraryAlias(config: config);
     final sourceName = EmitterHelper.current.typeReferEmitted(type: mapping.source);
     final targetName = EmitterHelper.current.typeReferEmitted(type: mapping.target);
 

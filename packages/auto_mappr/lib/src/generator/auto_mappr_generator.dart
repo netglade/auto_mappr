@@ -185,6 +185,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
         .toList();
   }
 
+  @Deprecated('use EmitterHelper.current.typeReferenceEmitted instead')
   Map<String, String> _getLibraryAliases({required ClassElement element}) {
     final libraryUriToAlias = <String, String>{};
 
