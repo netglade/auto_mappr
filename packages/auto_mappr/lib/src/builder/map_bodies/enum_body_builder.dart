@@ -19,10 +19,11 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
 
     // Check that both source and target enums are enums.
     if (!isSourceEnum || !isTargetEnum) {
-      final emittedSource = EmitterHelper.current.typeReferEmitted(type: mapping.source);
-      final emittedTarget = EmitterHelper.current.typeReferEmitted(type: mapping.target);
+      final sourceDisplay = mapping.source.getDisplayString(withNullability: true);
+      final targetDisplay = mapping.target.getDisplayString(withNullability: true);
+
       throw InvalidGenerationSourceError(
-        'Failed to map $mapping because ${isSourceEnum ? 'target $emittedTarget' : 'source $emittedSource'} is not an enum.',
+        'Failed to map $mapping because ${isSourceEnum ? 'target $targetDisplay' : 'source $sourceDisplay'} is not an enum.',
       );
     }
 
@@ -35,10 +36,10 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
     final sourceIsSubset = targetValues.containsAll(sourceValues);
 
     if (!sourceIsSubset && !mapping.hasWhenNullDefault()) {
-      final emittedMappingSource = EmitterHelper.current.typeRefer(type: mapping.source);
-      final emittedMappingTarget = EmitterHelper.current.typeRefer(type: mapping.target);
+      final sourceDisplay = mapping.source.getDisplayString(withNullability: true);
+      final targetDisplay = mapping.target.getDisplayString(withNullability: true);
       throw InvalidGenerationSourceError(
-        "Can't map enum $emittedMappingSource into $emittedMappingTarget. Target enum is not superset of source enum.",
+        "Can't map enum $sourceDisplay into $targetDisplay. Target enum is not superset of source enum.",
       );
     }
 

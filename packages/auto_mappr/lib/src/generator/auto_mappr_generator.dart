@@ -9,6 +9,7 @@ import 'package:auto_mappr/src/builder/auto_mappr_builder.dart';
 import 'package:auto_mappr/src/extensions/dart_object_extension.dart';
 import 'package:auto_mappr/src/extensions/list_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
+import 'package:auto_mappr/src/helpers/run_zoned_auto_mappr.dart';
 import 'package:auto_mappr/src/models/auto_mappr_options.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
@@ -48,63 +49,59 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
     final filePath = element.library?.identifier;
     final fileUri = filePath != null ? Uri.parse(filePath) : null;
 
-    // We need to use zones so we can easily have "scoped globals" for EmitterHelper.
-    return runZoned(
-      () {
-        if (element is! ClassElement) {
-          throw InvalidGenerationSourceError(
-            '${element.displayName} is not a class and cannot be annotated with @AutoMappr.',
-            element: element,
-            todo: 'Use @AutoMappr annotation on a class',
-          );
-        }
-
-        final mapprOptions = AutoMapprOptions.fromJson(builderOptions.config);
-
-        final tmpConfig = AutoMapprConfig(
-          mappers: [],
-          availableMappingsMacroId: 'tmp',
-          mapprOptions: mapprOptions,
-        );
-
-        final constant = annotation.objectValue;
-        final mappersList = constant.getField(annotationFieldMappers)!.toListValue()!;
-        final delegatesExpression = constant.getField(annotationFieldDelegates)!.toCodeExpression(config: tmpConfig);
-        final delegatesList = constant.getField(annotationFieldDelegates)!.toListValue();
-        final includesList = constant.getField(annotationFieldIncludes)!.toListValue();
-
-        final allMappers = [...mappersList, ..._mappersFromRecursiveIncludes(includesList: includesList ?? [])];
-        final mappers = _processMappers(
-          mappers: allMappers,
+    return runZonedAutoMappr(libraryUri: fileUri, () {
+      if (element is! ClassElement) {
+        throw InvalidGenerationSourceError(
+          '${element.displayName} is not a class and cannot be annotated with @AutoMappr.',
           element: element,
-          config: tmpConfig,
+          todo: 'Use @AutoMappr annotation on a class',
         );
+      }
 
-        final duplicates = mappers.duplicates;
-        if (duplicates.isNotEmpty) {
-          throw InvalidGenerationSourceError(
-            '@AutoMappr has configured duplicated mappings:\n\t${duplicates.map(
-                  (e) => e.toString(),
-                ).join('\n\t')}',
-          );
-        }
+      final mapprOptions = AutoMapprOptions.fromJson(builderOptions.config);
 
-        final config = AutoMapprConfig(
-          mappers: mappers,
-          availableMappingsMacroId: element.library.identifier,
-          modulesCode: delegatesExpression,
-          delegatesList: delegatesList ?? [],
-          mapprOptions: mapprOptions,
+      final tmpConfig = AutoMapprConfig(
+        mappers: [],
+        availableMappingsMacroId: 'tmp',
+        mapprOptions: mapprOptions,
+      );
+
+      final constant = annotation.objectValue;
+      final mappersList = constant.getField(annotationFieldMappers)!.toListValue()!;
+      final delegatesExpression = constant.getField(annotationFieldDelegates)!.toCodeExpression(config: tmpConfig);
+      final delegatesList = constant.getField(annotationFieldDelegates)!.toListValue();
+      final includesList = constant.getField(annotationFieldIncludes)!.toListValue();
+
+      final allMappers = [...mappersList, ..._mappersFromRecursiveIncludes(includesList: includesList ?? [])];
+      final mappers = _processMappers(
+        mappers: allMappers,
+        element: element,
+        config: tmpConfig,
+      );
+
+      final duplicates = mappers.duplicates;
+      if (duplicates.isNotEmpty) {
+        throw InvalidGenerationSourceError(
+          '@AutoMappr has configured duplicated mappings:\n\t${duplicates.map(
+                (e) => e.toString(),
+              ).join('\n\t')}',
         );
+      }
 
-        final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
+      final config = AutoMapprConfig(
+        mappers: mappers,
+        availableMappingsMacroId: element.library.identifier,
+        modulesCode: delegatesExpression,
+        delegatesList: delegatesList ?? [],
+        mapprOptions: mapprOptions,
+      );
 
-        final output = builder.build();
+      final builder = AutoMapprBuilder(mapperClassElement: element, config: config);
 
-        return '${output.accept(EmitterHelper.current.emitter)}';
-      },
-      zoneValues: {EmitterHelper.zoneSymbol: EmitterHelper(fileWithAnnotation: fileUri)},
-    );
+      final output = builder.build();
+
+      return '${output.accept(EmitterHelper.current.emitter)}';
+    });
   }
 
   List<TypeMapping> _processMappers({

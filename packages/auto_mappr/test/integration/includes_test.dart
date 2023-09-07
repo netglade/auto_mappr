@@ -385,9 +385,9 @@ void main() {
       expect(
         converted,
         equals(const [
-          fixture_group.GroupDto(fixture_alpha.AlphaDto(221), fixture_beta.BetaDto(222), fixture_gama.GamaDto(223)),
+          fixture_group.Group(fixture_alpha.Alpha(221), fixture_beta.Beta(222), fixture_gama.Gama(223)),
           null,
-          fixture_group.GroupDto(fixture_alpha.AlphaDto(231), fixture_beta.BetaDto(232), fixture_gama.GamaDto(233)),
+          fixture_group.Group(fixture_alpha.Alpha(231), fixture_beta.Beta(232), fixture_gama.Gama(233)),
         ]),
       );
     });
