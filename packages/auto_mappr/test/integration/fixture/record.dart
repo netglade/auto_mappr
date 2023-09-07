@@ -3,7 +3,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'record.g.dart';
+import 'record.auto_mappr.dart';
 
 @AutoMappr([
   // simple
@@ -41,7 +41,6 @@ class PositionalDto extends Equatable {
 }
 
 class PositionalNullable extends Equatable {
-  // ignore: prefer-trailing-comma, false positive
   final (int?, bool?, String?, int?, bool?) value;
 
   @override
@@ -69,7 +68,6 @@ class Named extends Equatable {
 }
 
 class NamedNullable extends Equatable {
-  // ignore: prefer-trailing-comma, dcm has to fix this
   final ({int alpha, bool beta, String gama, int? delta, bool? epsilon}) value;
 
   @override

@@ -34,10 +34,7 @@ abstract class MethodBuilderBase {
     required DartType target,
     required AutoMapprConfig config,
   }) =>
-      '_map__${source.toConvertMethodName(withNullability: false, config: config)}__To__${target.toConvertMethodName(
-        withNullability: false,
-        config: config,
-      )}';
+      '_map__${source.toConvertMethodName()}__To__${target.toConvertMethodName()}';
 
   static String constructNullableConvertMethodName({
     required DartType source,

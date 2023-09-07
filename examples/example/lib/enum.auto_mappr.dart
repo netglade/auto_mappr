@@ -4,11 +4,7 @@
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
-// ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_const
-// ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
-// ignore_for_file: unnecessary_raw_strings
+// ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
@@ -215,7 +211,8 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__UserType__To__PersonType((model as UserType?)) as TARGET);
+      return (_map___i2$UserType__To___i2$PersonType((model as _i2.UserType?))
+          as TARGET);
     }
     if ((sourceTypeOf == _typeOf<_i2.Vehicle>() ||
             sourceTypeOf == _typeOf<_i2.Vehicle?>()) &&
@@ -224,7 +221,8 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__Vehicle__To__Vehicle((model as Vehicle?)) as TARGET);
+      return (_map___i2$Vehicle__To___i2$Vehicle((model as _i2.Vehicle?))
+          as TARGET);
     }
     if ((sourceTypeOf == _typeOf<_i2.Vehicle>() ||
             sourceTypeOf == _typeOf<_i2.Vehicle?>()) &&
@@ -233,38 +231,39 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__Vehicle__To__VehicleX((model as Vehicle?)) as TARGET);
+      return (_map___i2$Vehicle__To___i2$VehicleX((model as _i2.Vehicle?))
+          as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  PersonType _map__UserType__To__PersonType(UserType? input) {
+  _i2.PersonType _map___i2$UserType__To___i2$PersonType(_i2.UserType? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping UserType → PersonType failed because UserType was null, and no default value was provided. '
+          r'Mapping _i2.UserType → _i2.PersonType failed because UserType was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<UserType, PersonType> to handle null values during mapping.');
     }
-    return PersonType.values.firstWhere((x) => x.name == model.name);
+    return _i2.PersonType.values.firstWhere((x) => x.name == model.name);
   }
 
-  Vehicle _map__Vehicle__To__Vehicle(Vehicle? input) {
+  _i2.Vehicle _map___i2$Vehicle__To___i2$Vehicle(_i2.Vehicle? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping Vehicle → Vehicle failed because Vehicle was null, and no default value was provided. '
+          r'Mapping _i2.Vehicle → _i2.Vehicle failed because Vehicle was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<Vehicle, Vehicle> to handle null values during mapping.');
     }
-    return Vehicle.values.firstWhere((x) => x.name == model.name);
+    return _i2.Vehicle.values.firstWhere((x) => x.name == model.name);
   }
 
-  VehicleX _map__Vehicle__To__VehicleX(Vehicle? input) {
+  _i2.VehicleX _map___i2$Vehicle__To___i2$VehicleX(_i2.Vehicle? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping Vehicle → VehicleX failed because Vehicle was null, and no default value was provided. '
+          r'Mapping _i2.Vehicle → _i2.VehicleX failed because Vehicle was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<Vehicle, VehicleX> to handle null values during mapping.');
     }
-    return VehicleX.values.firstWhere((x) => x.name == model.name);
+    return _i2.VehicleX.values.firstWhere((x) => x.name == model.name);
   }
 }

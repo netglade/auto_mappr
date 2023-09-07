@@ -1,14 +1,13 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/map_bodies/map_body_builder_base.dart';
 import 'package:auto_mappr/src/builder/value_assignment_builder.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
-import 'package:auto_mappr/src/extensions/element_extension.dart';
 import 'package:auto_mappr/src/extensions/interface_type_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/source_assignment.dart';
 import 'package:build/build.dart';
-import 'package:code_builder/code_builder.dart' show Code, Expression, refer;
+import 'package:code_builder/code_builder.dart' show Code, Expression;
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -104,8 +103,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
       // Custom mapping has precedence.
       if (fieldMapping?.hasCustomMapping() ?? false) {
-        final targetField =
-            targetClassGetters.firstWhereOrNull((targetField) => targetField.displayName == fieldMapping?.field);
+        final targetField = targetClassGetters.firstWhereOrNull((f) => f.displayName == fieldMapping?.field);
 
         if (targetField == null) continue;
 
@@ -159,9 +157,9 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
         final targetField =
             (mapping.target).getAllGetters().firstWhereOrNull((field) => field.displayName == param.displayName);
 
-        final fieldMapping = mapping.tryGetFieldMapping(param.displayName);
+        final fieldMappingX = mapping.tryGetFieldMapping(param.displayName);
 
-        if (targetField == null && fieldMapping == null) {
+        if (targetField == null && fieldMappingX == null) {
           throw InvalidGenerationSourceError(
             "Can't find mapping for target's constructor parameter: ${param.displayName}. Parameter is required and no mapping or target's class field not found",
           );
@@ -171,7 +169,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           SourceAssignment(
             sourceField: null,
             targetField: targetField,
-            fieldMapping: fieldMapping,
+            fieldMapping: fieldMappingX,
             targetConstructorParam: constructorAssignment,
             typeMapping: mapping,
             config: mapperConfig,
@@ -300,10 +298,9 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     required List<SourceAssignment> positional,
     required List<SourceAssignment> named,
   }) {
-    final alias = targetConstructor.enclosingElement.getLibraryAlias(config: mapperConfig);
     final constructorName = targetConstructor.displayName;
 
-    return refer('$alias$constructorName').newInstance(
+    return EmitterHelper.current.refer(constructorName, targetConstructor.library.identifier).newInstance(
       positional.map(
         (assignment) => ValueAssignmentBuilder(
           mapperConfig: mapperConfig,

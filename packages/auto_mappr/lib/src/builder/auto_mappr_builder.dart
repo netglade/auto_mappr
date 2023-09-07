@@ -3,7 +3,8 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:auto_mappr/src/builder/map_model_body_method_builder.dart';
 import 'package:auto_mappr/src/builder/methods/methods.dart';
-import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/extensions/expression_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/helpers/urls.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
@@ -16,16 +17,9 @@ class AutoMapprBuilder {
   final ClassElement mapperClassElement;
 
   static const List<String> fileIgnores = [
-    'unnecessary_parenthesis',
-    'non_constant_identifier_names',
-    'unnecessary_const',
-    'require_trailing_commas',
-    'unnecessary_raw_strings',
-    'unnecessary_lambdas',
-
-    // Can we fix this somehow? (const defaults, const customs).
-    'prefer_const_constructors',
-    'prefer_const_literals_to_create_immutables',
+    // ignore everything
+    // ignore: unnecessary-trailing-comma
+    'type=lint',
   ];
 
   const AutoMapprBuilder({
@@ -34,21 +28,19 @@ class AutoMapprBuilder {
   });
 
   Library build() {
-    // TODO(modules): first process class and then generate library and its imports
-
-    final generatedClass = Class(
-      (cb) => cb
-        ..name = '\$${mapperClassElement.displayName}'
-        ..implements = ListBuilder([refer('AutoMapprInterface', Urls.annotationPackageUrl)])
-        ..methods.addAll(_buildMethods())
-        ..constructors.addAll(_buildConstructors())
-        ..docs = ListBuilder(config.getAvailableMappingsDocComment()),
-    );
-
     return Library(
       (b) => b
         ..ignoreForFile = ListBuilder(fileIgnores)
-        ..body.addAll([generatedClass]),
+        ..body.addAll([
+          Class(
+            (cb) => cb
+              ..name = '\$${mapperClassElement.displayName}'
+              ..implements = ListBuilder([refer('AutoMapprInterface', Urls.annotationPackageUrl)])
+              ..methods.addAll(_buildMethods())
+              ..constructors.addAll(_buildConstructors())
+              ..docs = ListBuilder(config.getAvailableMappingsDocComment()),
+          ),
+        ]),
     );
   }
 
@@ -126,12 +118,10 @@ class AutoMapprBuilder {
               Parameter(
                 (p) => p
                   ..name = 'input'
-                  ..type = refer('${mapping.source.getDisplayStringWithLibraryAlias(config: config)}?'),
+                  ..type = EmitterHelper.current.typeRefer(type: mapping.source).nullabled(),
               ),
             ])
-            ..returns = refer(
-              mapping.target.getDisplayStringWithLibraryAlias(config: config),
-            )
+            ..returns = EmitterHelper.current.typeRefer(type: mapping.target)
             ..body = MapModelBodyMethodBuilder(
               mapping: mapping,
               mapperConfig: config,
@@ -141,6 +131,7 @@ class AutoMapprBuilder {
 
       // Generates nullable mapping method only when nullable method is used.
       // TODO(later): switch to MappingMethodBuilder.
+      // ignore: avoid-shadowing
       for (final mapping in config.mappers.where(nullableMappings.contains))
         Method(
           (b) => b
@@ -149,13 +140,10 @@ class AutoMapprBuilder {
               Parameter(
                 (p) => p
                   ..name = 'input'
-                  ..type = refer('${mapping.source.getDisplayStringWithLibraryAlias(config: config)}?'),
+                  ..type = EmitterHelper.current.typeRefer(type: mapping.source).nullabled(),
               ),
             ])
-            ..returns = refer('${mapping.target.getDisplayStringWithLibraryAlias(
-              withNullability: true,
-              config: config,
-            )}?')
+            ..returns = EmitterHelper.current.typeRefer(type: mapping.target).nullabled()
             ..body = MapModelBodyMethodBuilder(
               mapping: mapping,
               mapperConfig: config,

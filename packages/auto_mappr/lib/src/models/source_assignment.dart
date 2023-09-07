@@ -3,6 +3,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:code_builder/code_builder.dart' show Expression, literalList, literalMap, literalNull, literalSet;
 
@@ -73,10 +74,10 @@ class SourceAssignment {
 
   @override
   String toString() {
-    final sourceTypeName = sourceType?.getDisplayStringWithLibraryAlias(withNullability: true, config: config);
-    final targetTypeName = targetType.getDisplayStringWithLibraryAlias(withNullability: true, config: config);
+    final emittedSource = EmitterHelper.current.typeReferEmitted(type: sourceType);
+    final emittedTarget = EmitterHelper.current.typeReferEmitted(type: targetType);
 
-    return '$sourceTypeName $sourceName -> $targetTypeName $targetName';
+    return '$emittedSource $sourceName -> $emittedTarget $targetName';
   }
 
   Expression getDefaultValue() {

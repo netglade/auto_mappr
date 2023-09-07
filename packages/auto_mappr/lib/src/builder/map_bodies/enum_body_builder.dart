@@ -1,6 +1,5 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:auto_mappr/src/builder/map_bodies/map_body_builder_base.dart';
-import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:source_gen/source_gen.dart';
@@ -17,14 +16,13 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
   Code build() {
     final isSourceEnum = mapping.source.element is EnumElement;
     final isTargetEnum = mapping.target.element is EnumElement;
+
     // Check that both source and target enums are enums.
     if (!isSourceEnum || !isTargetEnum) {
+      final emittedSource = EmitterHelper.current.typeReferEmitted(type: mapping.source);
+      final emittedTarget = EmitterHelper.current.typeReferEmitted(type: mapping.target);
       throw InvalidGenerationSourceError(
-        'Failed to map $mapping because ${isSourceEnum ? 'target ${mapping.target.getDisplayStringWithLibraryAlias(
-            config: mapperConfig,
-          )}' : 'source ${mapping.source.getDisplayStringWithLibraryAlias(
-            config: mapperConfig,
-          )}'} is not an enum.',
+        'Failed to map $mapping because ${isSourceEnum ? 'target $emittedTarget' : 'source $emittedSource'} is not an enum.',
       );
     }
 
@@ -37,18 +35,14 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
     final sourceIsSubset = targetValues.containsAll(sourceValues);
 
     if (!sourceIsSubset && !mapping.hasWhenNullDefault()) {
+      final emittedMappingSource = EmitterHelper.current.typeRefer(type: mapping.source);
+      final emittedMappingTarget = EmitterHelper.current.typeRefer(type: mapping.target);
       throw InvalidGenerationSourceError(
-        "Can't map enum ${mapping.source.getDisplayStringWithLibraryAlias(
-          config: mapperConfig,
-        )} into ${mapping.target.getDisplayStringWithLibraryAlias(
-          config: mapperConfig,
-        )}. Target enum is not superset of source enum.",
+        "Can't map enum $emittedMappingSource into $emittedMappingTarget. Target enum is not superset of source enum.",
       );
     }
 
-    final targetReference = refer(
-      mapping.target.getDisplayStringWithLibraryAlias(config: mapperConfig),
-    );
+    final targetReference = EmitterHelper.current.typeRefer(type: mapping.target);
 
     return targetReference
         .property('values')

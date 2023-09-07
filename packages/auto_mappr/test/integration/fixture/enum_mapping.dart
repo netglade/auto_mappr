@@ -53,12 +53,13 @@ enum EnhancedTarget {
   String get row => '$id+$name';
 }
 
-LocalPerson _localRemoteUnknownDefault() => LocalPerson.unknown;
+// ignore: prefer-static-class, for testing
+LocalPerson localRemoteUnknownDefault() => LocalPerson.unknown;
 
 @AutoMappr([
   MapType<Person, User>(),
   MapType<RemotePerson, LocalPerson>(
-    whenSourceIsNull: _localRemoteUnknownDefault,
+    whenSourceIsNull: localRemoteUnknownDefault,
   ),
   MapType<EnhancedSource, EnhancedTarget>(),
   MapType<EnhancedSourceWithUnknown, EnhancedTarget>(

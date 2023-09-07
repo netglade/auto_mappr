@@ -41,14 +41,18 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     final targetNullableValue = targetValueType?.isNullable ?? false;
 
     if (targetKeyType == null || targetValueType == null) {
+      final emittedTarget = EmitterHelper.current.typeReferEmitted(type: targetType);
+
       throw InvalidGenerationSourceError(
-        'Target key or value type is null for ${targetType.getDisplayStringWithLibraryAlias(config: assignment.config)}',
+        'Target key or value type is null for $emittedTarget',
       );
     }
 
     if (sourceKeyType == null || sourceValueType == null) {
+      final emittedSource = EmitterHelper.current.typeReferEmitted(type: sourceType);
+
       throw InvalidGenerationSourceError(
-        'Source key or value type is null for ${sourceType.getDisplayStringWithLibraryAlias(config: assignment.config)}',
+        'Source key or value type is null for $emittedSource',
       );
     }
 
@@ -67,8 +71,8 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
 
     final defaultMapValueExpression = literalMap(
       {},
-      refer(targetKeyType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
-      refer(targetValueType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
+      EmitterHelper.current.typeRefer(type: targetKeyType),
+      EmitterHelper.current.typeRefer(type: targetValueType),
     );
 
     final assignNestedObjectKey = !targetKeyType.isPrimitiveType && (targetKeyType != sourceKeyType);
@@ -84,7 +88,6 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
       valueIsNullable: shouldRemoveNullsValue,
       keyType: sourceKeyType,
       valueType: sourceValueType,
-      config: mapperConfig,
     )
         .maybeCall(
       'map',
@@ -93,8 +96,8 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
       condition: shouldDoMapCall,
       positionalArguments: [_map(assignment)],
       typeArguments: [
-        refer(targetKeyType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
-        refer(targetValueType.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
+        EmitterHelper.current.typeRefer(type: targetKeyType),
+        EmitterHelper.current.typeRefer(type: targetValueType),
       ],
     )
         // When [sourceNullable], use default value.
@@ -108,14 +111,16 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     final targetValueType = (assignment.targetType as ParameterizedType).typeArguments.lastOrNull;
 
     if (targetKeyType == null || targetValueType == null) {
+      final emittedTarget = EmitterHelper.current.typeReferEmitted(type: assignment.targetType);
       throw InvalidGenerationSourceError(
-        'Target key or value type is null for ${assignment.targetType.getDisplayStringWithLibraryAlias(config: assignment.config)}',
+        'Target key or value type is null for $emittedTarget',
       );
     }
 
     if (sourceKeyType == null || sourceValueType == null) {
+      final emittedSource = EmitterHelper.current.typeReferEmitted(type: assignment.sourceType);
       throw InvalidGenerationSourceError(
-        'Source key or value type is null for ${assignment.sourceType?.getDisplayStringWithLibraryAlias(config: assignment.config)}',
+        'Source key or value type is null for $emittedSource',
       );
     }
 

@@ -4,11 +4,7 @@
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
-// ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_const
-// ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
-// ignore_for_file: unnecessary_raw_strings
+// ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
@@ -208,7 +204,8 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__UserDto__To__User((model as UserDto?)) as TARGET);
+      return (_map___i2$UserDto__To___i2$User((model as _i2.UserDto?))
+          as TARGET);
     }
     if ((sourceTypeOf == _typeOf<_i2.ValueHolderDto>() ||
             sourceTypeOf == _typeOf<_i2.ValueHolderDto?>()) &&
@@ -217,32 +214,33 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__ValueHolderDto__To__ValueHolder((model as ValueHolderDto?))
-          as TARGET);
+      return (_map___i2$ValueHolderDto__To___i2$ValueHolder(
+          (model as _i2.ValueHolderDto?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  User _map__UserDto__To__User(UserDto? input) {
+  _i2.User _map___i2$UserDto__To___i2$User(_i2.UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
+          r'Mapping _i2.UserDto → _i2.User failed because UserDto was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
-    return User(
+    return _i2.User(
       firstName: model.firstName,
       lastName: model.lastName,
     );
   }
 
-  ValueHolder _map__ValueHolderDto__To__ValueHolder(ValueHolderDto? input) {
+  _i2.ValueHolder _map___i2$ValueHolderDto__To___i2$ValueHolder(
+      _i2.ValueHolderDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping ValueHolderDto → ValueHolder failed because ValueHolderDto was null, and no default value was provided. '
+          r'Mapping _i2.ValueHolderDto → _i2.ValueHolder failed because ValueHolderDto was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<ValueHolderDto, ValueHolder> to handle null values during mapping.');
     }
-    return ValueHolder(model.json);
+    return _i2.ValueHolder(model.json);
   }
 }

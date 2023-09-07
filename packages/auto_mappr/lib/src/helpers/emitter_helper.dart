@@ -2,24 +2,36 @@ import 'dart:async';
 
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
-import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/code_builder.dart' as cb;
 import 'package:path/path.dart' as p;
 
 /// Helper class for emitting and package import uri resolution.
 class EmitterHelper {
   /// Global emitter so we can emit on the fly and all imports are preserved.
-  final DartEmitter emitter = DartEmitter(
-    allocator: Allocator.simplePrefixing(),
+  final cb.DartEmitter emitter = cb.DartEmitter(
+    allocator: cb.Allocator.simplePrefixing(),
     orderDirectives: true,
     useNullSafetySyntax: true,
   );
 
-  final Uri fileWithAnnotation;
+  final Uri? fileWithAnnotation;
 
   static Symbol get zoneSymbol => #autoMapprEmitter;
   static EmitterHelper get current => Zone.current[zoneSymbol] as EmitterHelper;
 
   EmitterHelper({required this.fileWithAnnotation});
+
+  /// `refer` that is processed by helper.
+  cb.Reference refer(String symbol, String? url) {
+    final importUrl =
+        // TODO(module): can we check whether the url is from THIS package and therefore we can use relative, also in current project test must be relative
+        // type.isPrimitiveType || type.isDartCoreObject
+        //     ? _resolveAssetImport(libraryPath)
+        //     :
+        _relative(url, fileWithAnnotation);
+
+    return cb.refer(symbol, importUrl);
+  }
 
   /// `refer` that is emitted to String using [emitter].
   String referEmitted(String symbol, [String? url]) {
@@ -28,10 +40,14 @@ class EmitterHelper {
 
   /// [typeRefer] that is also emitted to String using [emitter].
   String typeReferEmitted({
-    required DartType type,
+    required DartType? type,
     // Uri? targetFile,
     bool withNullabilitySuffix = true,
   }) {
+    if (type == null) {
+      return '???';
+    }
+
     return '${typeRefer(type: type, withNullabilitySuffix: withNullabilitySuffix).accept(emitter)}';
   }
 
@@ -39,7 +55,7 @@ class EmitterHelper {
   /// When [fileWithAnnotation] is also set, import is relative.
   ///
   /// Inspired by injectable.
-  Reference typeRefer({
+  cb.Reference typeRefer({
     required DartType type,
     bool withNullabilitySuffix = true,
   }) {
@@ -48,7 +64,7 @@ class EmitterHelper {
         ? _resolveAssetImport(libraryPath)
         : _relative(libraryPath, fileWithAnnotation);
 
-    return TypeReference((reference) {
+    return cb.TypeReference((reference) {
       reference
         ..symbol = type.element?.name
         ..url = importUrl
@@ -69,6 +85,10 @@ class EmitterHelper {
 
     final fileUri = Uri.parse(path);
     final libName = to.pathSegments.firstOrNull;
+
+    if (fileUri.scheme == 'dart') {
+      return 'dart:${fileUri.path}';
+    }
 
     if ((to.scheme == 'package' && fileUri.scheme == 'package' && fileUri.pathSegments.firstOrNull == libName) ||
         (to.scheme == 'asset' && fileUri.scheme != 'package')) {

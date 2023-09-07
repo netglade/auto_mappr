@@ -25,18 +25,19 @@ class Target {
 @AutoMappr([
   MapType<SourceValue, Target>(fields: [Field('name', whenNull: 'static')]),
   MapType<SourceStatic, Target>(
-    fields: [Field('name', whenNull: Mappr._whenSourceIsNull)],
+    fields: [Field('name', whenNull: Mappr.whenSourceIsNull)],
   ),
   MapType<SourceTopLevel, Target>(
-    fields: [Field('name', whenNull: _whenSourceIsNullTopLevel)],
+    fields: [Field('name', whenNull: whenSourceIsNullTopLevel)],
   ),
 ])
 class Mappr extends $Mappr {
-  static String _whenSourceIsNull() {
+  static String whenSourceIsNull() {
     return 'whenSourceIsNull';
   }
 }
 
-String _whenSourceIsNullTopLevel() {
+// ignore: prefer-static-class, for testing
+String whenSourceIsNullTopLevel() {
   return 'whenSourceIsNullTopLevel';
 }

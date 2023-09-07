@@ -4,11 +4,7 @@
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
-// ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_const
-// ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
-// ignore_for_file: unnecessary_raw_strings
+// ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
@@ -202,19 +198,19 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__Todo__To__TodoItem((model as Todo?)) as TARGET);
+      return (_map___i2$Todo__To___i3$TodoItem((model as _i2.Todo?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  TodoItem _map__Todo__To__TodoItem(Todo? input) {
+  _i3.TodoItem _map___i2$Todo__To___i3$TodoItem(_i2.Todo? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping Todo → TodoItem failed because Todo was null, and no default value was provided. '
+          r'Mapping _i2.Todo → _i3.TodoItem failed because Todo was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<Todo, TodoItem> to handle null values during mapping.');
     }
-    return TodoItem(
+    return _i3.TodoItem(
       id: model.id,
       title: model.title,
     );

@@ -15,7 +15,6 @@ void main() {
       const AutoMapprConfig(
         mappers: [],
         availableMappingsMacroId: 'test',
-        libraryUriToAlias: {},
         mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false),
       ),
     ).buildMethod();
@@ -42,7 +41,6 @@ void main() {
       const AutoMapprConfig(
         mappers: [],
         availableMappingsMacroId: 'test',
-        libraryUriToAlias: {},
         mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false),
       ),
     ).buildMethod();
@@ -69,7 +67,6 @@ void main() {
       const AutoMapprConfig(
         mappers: [],
         availableMappingsMacroId: 'test',
-        libraryUriToAlias: {},
         mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false),
       ),
     ).buildMethod();
@@ -96,7 +93,6 @@ void main() {
       const AutoMapprConfig(
         mappers: [],
         availableMappingsMacroId: 'test',
-        libraryUriToAlias: {},
         mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false),
       ),
     ).buildMethod();

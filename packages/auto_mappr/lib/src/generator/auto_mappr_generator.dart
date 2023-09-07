@@ -7,14 +7,12 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/auto_mappr_builder.dart';
 import 'package:auto_mappr/src/extensions/dart_object_extension.dart';
-import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/list_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/auto_mappr_options.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:build/build.dart';
-import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -61,14 +59,11 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
           );
         }
 
-        final libraryUriToAlias = _getLibraryAliases(element: element);
-
         final mapprOptions = AutoMapprOptions.fromJson(builderOptions.config);
 
         final tmpConfig = AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'tmp',
-          libraryUriToAlias: libraryUriToAlias,
           mapprOptions: mapprOptions,
         );
 
@@ -89,7 +84,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
         if (duplicates.isNotEmpty) {
           throw InvalidGenerationSourceError(
             '@AutoMappr has configured duplicated mappings:\n\t${duplicates.map(
-                  (e) => e.toStringWithLibraryAlias(config: tmpConfig),
+                  (e) => e.toString(),
                 ).join('\n\t')}',
           );
         }
@@ -97,9 +92,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
         final config = AutoMapprConfig(
           mappers: mappers,
           availableMappingsMacroId: element.library.identifier,
-          libraryUriToAlias: libraryUriToAlias,
           modulesCode: delegatesExpression,
-          modulesList: delegatesList ?? [],
+          delegatesList: delegatesList ?? [],
           mapprOptions: mapprOptions,
         );
 
@@ -126,15 +120,19 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
           final targetType = mapperType.typeArguments.lastOrNull;
 
           if (sourceType is! InterfaceType) {
+            final emittedSource = EmitterHelper.current.typeReferEmitted(type: sourceType);
+
             throw InvalidGenerationSourceError(
-              '${sourceType?.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped from',
+              '$emittedSource is not a class and cannot be mapped from',
               element: element,
               todo: 'Use a class',
             );
           }
           if (targetType is! InterfaceType) {
+            final emittedTarget = EmitterHelper.current.typeReferEmitted(type: targetType);
+
             throw InvalidGenerationSourceError(
-              '${targetType?.getDisplayStringWithLibraryAlias(config: config, withNullability: true)} is not a class and cannot be mapped to',
+              '$emittedTarget is not a class and cannot be mapped to',
               element: element,
               todo: 'Use a class',
             );
@@ -183,45 +181,6 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
         })
         .flattened
         .toList();
-  }
-
-  @Deprecated('use EmitterHelper.current.typeReferenceEmitted instead')
-  Map<String, String> _getLibraryAliases({required ClassElement element}) {
-    final libraryUriToAlias = <String, String>{};
-
-    final imports = element.library.libraryImports;
-    final aliases = imports.map((e) => e.prefix?.element.name).toList();
-    final uris = imports.map((e) => e.importedLibrary!.identifier).toList();
-
-    for (var i = 0; i < imports.length; i++) {
-      final currentAlias = aliases.elementAtOrNull(i);
-      if (currentAlias == null) continue;
-
-      final importedLibrary = imports.elementAtOrNull(i)?.importedLibrary;
-      final exports = importedLibrary == null ? <LibraryElement>[] : _getRecursiveLibraryExports(importedLibrary);
-
-      final uri = uris.elementAtOrNull(i);
-
-      libraryUriToAlias.addAll({
-        // Current library.
-        if (uri != null) uri: currentAlias,
-        // It's exports.
-        for (final exported in exports) exported.identifier: currentAlias,
-      });
-    }
-
-    return libraryUriToAlias;
-  }
-
-  /// Recursively returns all exports (even nested) for [library].
-  Iterable<LibraryElement> _getRecursiveLibraryExports(LibraryElement library) {
-    final exports = library.libraryExports;
-    if (exports.isEmpty) return [];
-
-    return [
-      ...exports.map((e) => e.exportedLibrary!),
-      ...exports.map((e) => _getRecursiveLibraryExports(e.exportedLibrary!)).flattened,
-    ];
   }
 
   /// Recursively returns all mappings from includes.

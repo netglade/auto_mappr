@@ -4,11 +4,7 @@
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
-// ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_const
-// ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
-// ignore_for_file: unnecessary_raw_strings
+// ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
@@ -201,20 +197,21 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__UserInfo__To__UserInfoCompanion((model as UserInfo?))
-          as TARGET);
+      return (_map___i2$UserInfo__To___i2$UserInfoCompanion(
+          (model as _i2.UserInfo?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  UserInfoCompanion _map__UserInfo__To__UserInfoCompanion(UserInfo? input) {
+  _i2.UserInfoCompanion _map___i2$UserInfo__To___i2$UserInfoCompanion(
+      _i2.UserInfo? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping UserInfo → UserInfoCompanion failed because UserInfo was null, and no default value was provided. '
+          r'Mapping _i2.UserInfo → _i2.UserInfoCompanion failed because UserInfo was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<UserInfo, UserInfoCompanion> to handle null values during mapping.');
     }
-    return UserInfoCompanion(
+    return _i2.UserInfoCompanion(
       email: model.email,
       loginIdentifier: model.loginIdentifier,
       updatedAt: model.updatedAt,

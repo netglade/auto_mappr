@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
-import 'package:auto_mappr/src/extensions/element_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/auto_mappr_options.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:code_builder/code_builder.dart';
@@ -11,26 +11,24 @@ class AutoMapprConfig {
   final List<TypeMapping> mappers;
   final String availableMappingsMacroId;
   final Expression? modulesCode;
-  final List<DartObject> modulesList;
-  @Deprecated('use EmitterHelper.current.typeReferenceEmitted instead')
-  final Map<String, String> libraryUriToAlias;
+  final List<DartObject> importsList;
+  final List<DartObject> delegatesList;
   final AutoMapprOptions mapprOptions;
 
   String get availableMappingsDocComment {
     return [
       '/// {@macro $availableMappingsMacroId}',
-      ..._modulesDocComment(),
+      ..._delegatesDocComment(),
     ].join('\n');
   }
 
   const AutoMapprConfig({
     required this.mappers,
     required this.availableMappingsMacroId,
-    @Deprecated('use EmitterHelper.current.typeReferenceEmitted instead')
-    required this.libraryUriToAlias,
     required this.mapprOptions,
     this.modulesCode,
-    this.modulesList = const [],
+    this.importsList = const [],
+    this.delegatesList = const [],
   });
 
   TypeMapping? findMapping({
@@ -48,18 +46,32 @@ class AutoMapprConfig {
       '/// Available mappings:',
       for (final mapper in mappers) _getTypeMappingDocs(mapper),
       '/// {@endtemplate}',
-      ..._modulesDocComment(),
+      ..._importsDocComment(),
+      ..._delegatesDocComment(),
     ];
   }
 
-  List<String> _modulesDocComment() {
+  List<String> _importsDocComment() {
     return [
-      if (modulesList.isNotEmpty) ...[
+      if (importsList.isNotEmpty) ...[
         '///',
-        "/// Available modules: ${modulesList.map((e) {
-          final alias = e.type!.element!.getLibraryAlias(config: this);
+        "/// Used imports: ${importsList.map((e) {
+          final emittedImport = EmitterHelper.current.typeReferEmitted(type: e.type);
 
-          return '[$alias\$${e.type!.getDisplayString(withNullability: false)}]';
+          return '[$emittedImport]';
+        }).join(', ')}",
+      ],
+    ];
+  }
+
+  List<String> _delegatesDocComment() {
+    return [
+      if (delegatesList.isNotEmpty) ...[
+        '///',
+        "/// Used delegates: ${delegatesList.map((e) {
+          final emittedDelegate = EmitterHelper.current.typeReferEmitted(type: e.type);
+
+          return '[$emittedDelegate]';
         }).join(', ')}",
       ],
     ];
@@ -67,12 +79,11 @@ class AutoMapprConfig {
 
   String _getTypeMappingDocs(TypeMapping typeMapping) {
     final trailingPart = typeMapping.hasWhenNullDefault() ? ' -- With default value.' : '.';
+    // Display without import aliases.
+    final emittedSource = typeMapping.source.getDisplayString(withNullability: true);
+    final emittedTarget = typeMapping.target.getDisplayString(withNullability: true);
 
     // ignore: avoid-non-ascii-symbols, it is ok
-    return '/// - `${typeMapping.source.getDisplayStringWithLibraryAlias(
-      config: this,
-    )}` → `${typeMapping.target.getDisplayStringWithLibraryAlias(
-      config: this,
-    )}`$trailingPart';
+    return '/// - `$emittedSource` → `$emittedTarget`$trailingPart';
   }
 }

@@ -1,5 +1,6 @@
 import 'package:auto_mappr/src/builder/map_model_body_method_builder.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:code_builder/code_builder.dart';
 
@@ -26,10 +27,10 @@ class MappingMethodBuilder extends MethodBuilderBase {
           Parameter(
             (p) => p
               ..name = 'input'
-              ..type = refer('${mapping.source.getDisplayString(withNullability: false)}?'),
+              ..type = EmitterHelper.current.typeRefer(type: mapping.source),
           ),
         ])
-        ..returns = refer(mapping.target.getDisplayString(withNullability: false))
+        ..returns = EmitterHelper.current.typeRefer(type: mapping.target)
         ..body = MapModelBodyMethodBuilder(
           mapping: mapping,
           mapperConfig: config,
