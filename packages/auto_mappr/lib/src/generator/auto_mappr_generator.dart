@@ -197,6 +197,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
         // Bellow -- recursive includes.
         final includes = includeConstant.getField(annotationFieldIncludes)?.toListValue();
         if (includes != null) {
+          // ignore: avoid-recursive-calls, it's handled
           mappings.addAll(_mappersFromRecursiveIncludes(includesList: includes));
         }
       }

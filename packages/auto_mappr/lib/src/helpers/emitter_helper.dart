@@ -72,6 +72,7 @@ class EmitterHelper {
 
       if (type is ParameterizedType && type.typeArguments.isNotEmpty) {
         reference.types.addAll(
+          // ignore: avoid-recursive-calls, it's handled
           type.typeArguments.map((e) => typeRefer(type: e)),
         );
       }
