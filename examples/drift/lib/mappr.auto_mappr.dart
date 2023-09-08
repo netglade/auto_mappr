@@ -207,7 +207,7 @@ class $Mappr implements _i1.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping _i2.Todo → _i3.TodoItem failed because Todo was null, and no default value was provided. '
+          r'Mapping Todo → TodoItem failed because Todo was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<Todo, TodoItem> to handle null values during mapping.');
     }
     return _i3.TodoItem(

@@ -11,7 +11,7 @@ class AutoMapprConfig {
   final List<TypeMapping> mappers;
   final String availableMappingsMacroId;
   final Expression? modulesCode;
-  final List<DartObject> importsList;
+  final List<DartObject> includesList;
   final List<DartObject> delegatesList;
   final AutoMapprOptions mapprOptions;
 
@@ -27,7 +27,7 @@ class AutoMapprConfig {
     required this.availableMappingsMacroId,
     required this.mapprOptions,
     this.modulesCode,
-    this.importsList = const [],
+    this.includesList = const [],
     this.delegatesList = const [],
   });
 
@@ -46,19 +46,19 @@ class AutoMapprConfig {
       '/// Available mappings:',
       for (final mapper in mappers) _getTypeMappingDocs(mapper),
       '/// {@endtemplate}',
-      ..._importsDocComment(),
+      ..._includesDocComment(),
       ..._delegatesDocComment(),
     ];
   }
 
-  List<String> _importsDocComment() {
+  List<String> _includesDocComment() {
     return [
-      if (importsList.isNotEmpty) ...[
+      if (includesList.isNotEmpty) ...[
         '///',
-        "/// Used imports: ${importsList.map((e) {
-          final emittedImport = EmitterHelper.current.typeReferEmitted(type: e.type);
+        "/// Used includes: ${includesList.map((e) {
+          final emittedInclude = EmitterHelper.current.typeReferEmitted(type: e.type);
 
-          return '[$emittedImport]';
+          return '[$emittedInclude]';
         }).join(', ')}",
       ],
     ];

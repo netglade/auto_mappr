@@ -157,9 +157,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
         final targetField =
             (mapping.target).getAllGetters().firstWhereOrNull((field) => field.displayName == param.displayName);
 
-        final fieldMappingX = mapping.tryGetFieldMapping(param.displayName);
-
-        if (targetField == null && fieldMappingX == null) {
+        if (targetField == null && fieldMapping == null) {
           throw InvalidGenerationSourceError(
             "Can't find mapping for target's constructor parameter: ${param.displayName}. Parameter is required and no mapping or target's class field not found",
           );
@@ -169,7 +167,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           SourceAssignment(
             sourceField: null,
             targetField: targetField,
-            fieldMapping: fieldMappingX,
+            fieldMapping: fieldMapping,
             targetConstructorParam: constructorAssignment,
             typeMapping: mapping,
             config: mapperConfig,

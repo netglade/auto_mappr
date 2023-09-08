@@ -224,7 +224,7 @@ class $Mappr implements _i1.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping _i2.UserDto → _i2.User failed because UserDto was null, and no default value was provided. '
+          r'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
     return _i2.User(
@@ -238,7 +238,7 @@ class $Mappr implements _i1.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping _i2.ValueHolderDto → _i2.ValueHolder failed because ValueHolderDto was null, and no default value was provided. '
+          r'Mapping ValueHolderDto → ValueHolder failed because ValueHolderDto was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<ValueHolderDto, ValueHolder> to handle null values during mapping.');
     }
     return _i2.ValueHolder(model.json);

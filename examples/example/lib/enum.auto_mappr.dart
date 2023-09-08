@@ -241,7 +241,7 @@ class $Mappr implements _i1.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping _i2.UserType → _i2.PersonType failed because UserType was null, and no default value was provided. '
+          r'Mapping UserType → PersonType failed because UserType was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<UserType, PersonType> to handle null values during mapping.');
     }
     return _i2.PersonType.values.firstWhere((x) => x.name == model.name);
@@ -251,7 +251,7 @@ class $Mappr implements _i1.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping _i2.Vehicle → _i2.Vehicle failed because Vehicle was null, and no default value was provided. '
+          r'Mapping Vehicle → Vehicle failed because Vehicle was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<Vehicle, Vehicle> to handle null values during mapping.');
     }
     return _i2.Vehicle.values.firstWhere((x) => x.name == model.name);
@@ -261,7 +261,7 @@ class $Mappr implements _i1.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping _i2.Vehicle → _i2.VehicleX failed because Vehicle was null, and no default value was provided. '
+          r'Mapping Vehicle → VehicleX failed because Vehicle was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<Vehicle, VehicleX> to handle null values during mapping.');
     }
     return _i2.VehicleX.values.firstWhere((x) => x.name == model.name);

@@ -250,7 +250,7 @@ class $Mappr implements _i2.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping _i1.NestedDto → _i1.Nested failed because NestedDto was null, and no default value was provided. '
+          r'Mapping NestedDto → Nested failed because NestedDto was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<NestedDto, Nested> to handle null values during mapping.');
     }
     return _i1.Nested(

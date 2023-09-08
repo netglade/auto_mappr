@@ -208,7 +208,7 @@ class $Mappr implements _i1.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping _i2.UserInfo → _i2.UserInfoCompanion failed because UserInfo was null, and no default value was provided. '
+          r'Mapping UserInfo → UserInfoCompanion failed because UserInfo was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<UserInfo, UserInfoCompanion> to handle null values during mapping.');
     }
     return _i2.UserInfoCompanion(
