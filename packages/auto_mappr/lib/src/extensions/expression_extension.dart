@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
-import 'package:auto_mappr/src/models/auto_mappr_config.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:code_builder/code_builder.dart';
 
 extension ExpressionExtension on Expression {
@@ -19,7 +19,10 @@ extension ExpressionExtension on Expression {
     }
 
     if ((source.isDartCoreList || forceCast) && target.isSpecializedListType) {
-      return refer(target.getDisplayString(withNullability: false)).property('fromList').call([this]);
+      return EmitterHelper.current
+          .typeRefer(type: target, withNullabilitySuffix: false)
+          .property('fromList')
+          .call([this]);
     }
 
     // Keep iterable as is.
@@ -82,7 +85,6 @@ extension ExpressionExtension on Expression {
     required bool valueIsNullable,
     required DartType keyType,
     required DartType valueType,
-    required AutoMapprConfig config,
   }) {
     if (!keyIsNullable && !valueIsNullable) return this;
 
@@ -94,60 +96,52 @@ extension ExpressionExtension on Expression {
       [refer('(key, value) => $keyCondition $and $valueCondition')],
       {},
       [
-        refer(keyType.getDisplayStringWithLibraryAlias(config: config)),
-        refer(valueType.getDisplayStringWithLibraryAlias(config: config)),
+        EmitterHelper.current.typeRefer(type: keyType, withNullabilitySuffix: false),
+        EmitterHelper.current.typeRefer(type: valueType, withNullabilitySuffix: false),
       ],
     );
   }
 
-  Expression maybeAsA(Expression expression, {required bool condition}) {
-    if (!condition) return this;
-
-    return asA(expression);
-  }
-
-  static Expression ifStatement({
+  static Reference ifStatement({
     required Spec condition,
     required Spec ifBody,
     Spec? elseBody,
   }) {
-    final dartEmitter = DartEmitter();
+    final emitter = EmitterHelper.current.emitter;
 
-    final ifBlock = '{ ${ifBody.accept(dartEmitter)} }';
-    final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(dartEmitter)} }' : '';
+    final ifBlock = '{ ${ifBody.accept(emitter)} }';
+    final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(emitter)} }' : '';
 
-    return refer('''if ( ${condition.accept(dartEmitter)} ) $ifBlock $elseBlock''');
+    return refer('''if ( ${condition.accept(emitter)} ) $ifBlock $elseBlock''');
   }
 
-  Expression ifStatement2({required Spec ifBody, Spec? elseBody}) {
-    final dartEmitter = DartEmitter();
+  Reference ifStatement2({required Spec ifBody, Spec? elseBody}) {
+    final ifBlock = '{ ${ifBody.accept(EmitterHelper.current.emitter)} }';
+    final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(EmitterHelper.current.emitter)} }' : '';
 
-    final ifBlock = '{ ${ifBody.accept(dartEmitter)} }';
-    final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(dartEmitter)} }' : '';
-
-    return refer('''if ( ${accept(dartEmitter)} ) $ifBlock $elseBlock''');
+    return refer('''if ( ${accept(EmitterHelper.current.emitter)} ) $ifBlock $elseBlock''');
   }
 
-  static Expression forStatement({
+  static Reference forStatement({
     required Reference item,
     required Reference iterable,
     required Spec body,
   }) {
-    final dartEmitter = DartEmitter();
+    final emitter = EmitterHelper.current.emitter;
 
     return refer('''
-for (final ${item.accept(dartEmitter)} in ${iterable.accept(dartEmitter)}) {
-  ${body.accept(dartEmitter)}
+for (final ${item.accept(emitter)} in ${iterable.accept(emitter)}) {
+  ${body.accept(emitter)}
 } 
 ''');
   }
 
-  Expression bracketed() {
-    return refer('(${accept(DartEmitter())})');
+  Reference bracketed() {
+    return refer('(${accept(EmitterHelper.current.emitter)})');
   }
 
-  Expression nullabled() {
-    return refer('${accept(DartEmitter())}?');
+  Reference nullabled() {
+    return refer('${accept(EmitterHelper.current.emitter)}?');
   }
 
   Expression equalToNull() => equalTo(literalNull);

@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:built_collection/built_collection.dart';
@@ -9,6 +10,8 @@ import 'package:meta/meta.dart';
 
 /// Base class for method builders.
 abstract class MethodBuilderBase {
+  static const delegatesField = '_delegates';
+
   static const sourceKey = 'SOURCE';
   static const sourceTypeReference = Reference(sourceKey);
   static const nullableSourceTypeReference = Reference('$sourceKey?');
@@ -22,19 +25,15 @@ abstract class MethodBuilderBase {
   static final ListBuilder<Reference> overrideAnnotation = ListBuilder([const Reference('override')]);
 
   final AutoMapprConfig config;
-  final Set<TypeMapping> nullableMappings;
 
-  MethodBuilderBase(this.config) : nullableMappings = {};
+  const MethodBuilderBase(this.config);
 
   static String constructConvertMethodName({
     required DartType source,
     required DartType target,
     required AutoMapprConfig config,
   }) =>
-      '_map__${source.toConvertMethodName(withNullability: false, config: config)}__To__${target.toConvertMethodName(
-        withNullability: false,
-        config: config,
-      )}';
+      '_map__${source.toConvertMethodName()}__To__${target.toConvertMethodName()}';
 
   static String constructNullableConvertMethodName({
     required DartType source,
@@ -46,16 +45,6 @@ abstract class MethodBuilderBase {
         target: target,
         config: config,
       )}_Nullable';
-
-  bool shouldGenerateNullableMappingMethod(TypeMapping mapping) {
-    return nullableMappings.contains(mapping);
-  }
-
-  void usedNullableMappingMethod(TypeMapping? mapping) {
-    if (mapping == null) return;
-
-    final _ = nullableMappings.add(mapping);
-  }
 
   Method buildMethod();
 
@@ -78,8 +67,8 @@ abstract class MethodBuilderBase {
     required Reference targetTypeOfReference,
     required Spec inIfExpression,
   }) {
-    final sourceName = mapping.source.getDisplayStringWithLibraryAlias(config: config);
-    final targetName = mapping.target.getDisplayStringWithLibraryAlias(config: config);
+    final sourceName = EmitterHelper.current.typeReferEmitted(type: mapping.source);
+    final targetName = EmitterHelper.current.typeReferEmitted(type: mapping.target);
 
     final modelIsTypeExpression = sourceTypeOfReference
         .equalTo(refer('_typeOf<$sourceName>()'))

@@ -1,6 +1,6 @@
 name: auto_mappr_annotation
 description: Annotations for the auto_mappr code-generator of mapping between objects with ease.
-version: 1.2.0
+version: 2.0.0-beta1
 repository: https://github.com/netglade/auto_mappr
 issue_tracker: https://github.com/netglade/auto_mappr/issues
 
@@ -8,5 +8,5 @@ environment:
   sdk: ^3.0.0
 
 dev_dependencies:
-  netglade_analysis: ^4.0.0
+  netglade_analysis: ^4.2.0
   test: ^1.16.0

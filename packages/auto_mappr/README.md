@@ -112,7 +112,7 @@ Then use `MapType<Source, Target>()` for each mapping.
 ```dart
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'my_file.g.dart';
+import 'my_file.auto_mappr.dart';
 
 @AutoMappr([
   MapType<UserDto, User>(),
@@ -127,7 +127,7 @@ See [features](#-features) for a complete list.
 ```dart
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'my_file.g.dart';
+import 'my_file.auto_mappr.dart';
 
 @AutoMappr([
   MapType<UserDto, User>(
@@ -535,56 +535,95 @@ import 'my_domain.dart' as entity;
 class Mappr extends $Mappr {}
 ```
 
-Note that importing a list of `MapType` from another library
-and putting it inside `@AutoMappr` annotation is not possible,
-since we cannot generate the type correctly (it can overlap with something else)
-while using shared part builder.
-
 ### Modules
 
-Each AutoMappr class can be used as a **module**.
-That means a mappr used inside of another mappr.
-Each AutoMappr class can include a list of modules
-that can be used to nest modules
-and use all of its underlying mappings.
+Each AutoMappr can be considered as a **module**.
+The only rule is that the mappr must be constant,
+and that most of the time means you have to add an `const` constructor to be able to use it.
+Other modules (AutoMappr classes) can then use it in two ways.
 
-Note that modules work as disjunctive units
-and their mappings cannot be internally used by by mappr that imported it.
-They only work for grouping at the moment.
+#### Including
 
-Applications are often split into independent parts (we will call them **features**).
-Each feature should probably have its own independent mappr,
-that is used as a module.
+Including a module means that you want to "absorb" it's mappings
+and use them later anywhere **inside** any mapped object.
+Basically imagine copy-pasting definitions from included module to yours.
 
-Imagine that in a feature you have a local mappr `UserMappr`.
+That can be handy when you have a common/shared mappr with mappings between objects shared across the app.
+Since you want to use these common/shared mappings,
+you **include** them in your mappr.
 
 ```dart
-// file: user_mappr.dart
-@AutoMappr([
-  MapType<UserDto, User>(),
-])
-class UserMappr extends $UserMappr {
-  const UserMappr(); // must implement const constructor
+// file: shared_mappr.dart
+@AutoMappr(
+  [
+    MapType<AddressDto, Address>(),
+  ],
+)
+class SharedMappr extends $SharedMappr {
+  const SharedMappr(); // must be const!
 }
+
+// file: user_mappr.dart
+@AutoMappr(
+  [
+    MapType<UserDto, User>(), // UserDto uses AddressDto inside
+  ],
+  includes: [SharedMappr()], // include shared mappr
+)
+class UserMappr extends $UserMappr {}
+
+// file: settings_mappr.dart
+@AutoMappr(
+  [
+    MapType<ProfileDto, Profile>(), // ProfileDto uses AddressDto inside
+  ],
+  includes: [SharedMappr()], // include shared mappr
+)
+class SettingsMappr extends $SettingsMappr {}
 ```
 
-And in some global place,
-you can have a main mappr that unifies all smaller mapprs
-(`UserMappr` in this case).
-As usual, it can also set it's own mappings
-(`MapType<GroupDto, Group>()`).
+#### Delegating
+
+Delegating to a module is a bit different from including them.
+A mappr **delegates** to a **standalone** module.
+When your mappr does not know how to convert the **top level object** (the object you put inside `mappr.convert()` method),
+it asks delegates to do it.
+So you can think of them as disjunctive units that are **grouped** together.
+
+This is usefull when you have an app with a mappr for each feature
+and you want to create one main mappr using other feature mapprs.
+The main mappr may not have any mapping at all
+and it delegates everything to feature mapprs.
 
 ```dart
 // file: main_mappr.dart
 @AutoMappr(
-  [
-    MapType<GroupDto, Group>(),
-  ],
-  modules: [
-    UserMappr(), // use module
-  ],
+  [],
+  delegates: [
+    UserFeatureMappr(),
+    SettingsFeatureMappr(),
+    // other features
+  ], 
 )
 class MainMappr extends $MainMappr {}
+
+// file: user_feature_mappr.dart
+@AutoMappr(
+  [
+    MapType<UserDto, User>(),
+    MapType<AddressDto, Address>(),
+  ],
+)
+class UserFeatureMappr extends $UserFeatureMappr {}
+
+// file: settings_feature_mappr.dart
+@AutoMappr(
+  [
+    MapType<UserDto, User>(),
+    MapType<AddressDto, Address>(),
+  ],
+)
+class SettingsFeatureMappr extends $SettingsFeatureMappr {}
 ```
 
 Then you can use this main mappr to map between objects specified from every included mappr.
@@ -592,14 +631,12 @@ Then you can use this main mappr to map between objects specified from every inc
 ```dart
 final mappr = MainMappr();
 
-final Group user = mappr.convert(GroupDto(...)); // from this mappr
-final User user = mappr.convert(UserDto(...)); // from included mappr
+final Settings settings = mappr.convert(SettingsDto(...)); // delegates to settings feature mappr
+final User user = mappr.convert(UserDto(...)); // delegates to user feature mappr
 ```
 
 That can be handy for example with dependency injection,
-so you can only provide one grouping/main mappr that can handle everything.
-Each feature in your app can return an instance of const `AutoMapprInterface`,
-that each mappr internally implements.
+so you can only provide one main mappr that can handle everything by delegating to other mapprs.
 
 ### Reverse mapping
 
@@ -637,8 +674,8 @@ Equatable and other packages with similar conditions implicitly works.
 
 ### Works with `json_serializable`
 
-AutoMappr uses a `SharedPartBuilder`.
-That means it can share the `.g.dart` file with packages like JSON Serializable
+AutoMappr uses a `LibraryBuilder` with `.auto_mappr.dart` file output.
+That means it does not interfere with shared `.g.dart` file with packages like JSON Serializable
 to generate other code to the generated super class.
 
 ### Works with generated source and target classes
@@ -656,10 +693,8 @@ Check the [customizing the build](#-customizing-the-build) chapter to learn more
 
 ## ⚙ Customizing the build
 
-By default, AutoMappr uses the `auto_mappr:auto_mappr` builder
-that works with `SharedPartBuilder`, which generates combined `.g.dart` files.
-If you need to use `PartBuilder` to generate not-shared `.auto_mappr.dart` part files,
-you can use the `auto_mappr:not_shared` builder.
+By default, AutoMappr uses the `auto_mappr:auto_mappr` builder that works with `LibraryBuilder`,
+which generates `.auto_mappr.dart` file.
 
 Modify your `build.yaml` file:
 
@@ -671,19 +706,16 @@ targets:
     builders:
       # Or disable specific ones.
       auto_mappr:
-        enabled: false
-      # And enable the not_shared builder.
-      auto_mappr:not_shared:
         enabled: true
 ```
 
 ### Builder options
-- ignoreNullableSourceField - Force bang operator on non-nullable target's field if source's field is nullable
+
+- `ignoreNullableSourceField` - Force bang operator on non-nullable target's field if source's field is nullable
 
 ### Default dependencies
 
-By default both `auto_mappr` builders has defined required inputs for freezed
-and drift classes.
+By default the `auto_mappr` builder has defined required inputs for freezed and drift classes.
 
 ```yaml
  required_inputs: [".freezed.dart", ".drift.dart"]
@@ -700,25 +732,6 @@ which you can add a input dependency to.
 Specify the `required_inputs` dependency on your local AutoMappr builder
 and disable the builders provided by AutoMappr.
 
-Shared builder:
-
-```yaml
-targets:
-  $default:
-    auto_apply_builders: true
-    builders:
-      # Enable their generators according to their documentation.
-      drift_dev:not_shared:
-        enabled: true
-      drift_dev:preparing_builder:
-        enabled: true
-      # Disable Drift's shared builder
-      drift_dev:drift_dev:
-        enabled: false
-```
-
-Not shared builder:
-
 ```yaml
 targets:
   $default:
@@ -734,9 +747,6 @@ targets:
         enabled: false
 
       auto_mappr:
-        enabled: false
-      # Enable the not_shared builder.
-      auto_mappr:not_shared:
         enabled: true
 ```
 

@@ -1,13 +1,13 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/map_bodies/map_body_builder_base.dart';
 import 'package:auto_mappr/src/builder/value_assignment_builder.dart';
-import 'package:auto_mappr/src/extensions/element_extension.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/interface_type_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/source_assignment.dart';
 import 'package:build/build.dart';
-import 'package:code_builder/code_builder.dart' show Code, Expression, refer;
+import 'package:code_builder/code_builder.dart' show Code, Expression;
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -15,7 +15,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
   const ClassBodyBuilder({
     required super.mapperConfig,
     required super.mapping,
-    required super.nullable,
     required super.usedNullableMethodCallback,
   });
 
@@ -103,8 +102,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
       // Custom mapping has precedence.
       if (fieldMapping?.hasCustomMapping() ?? false) {
-        final targetField =
-            targetClassGetters.firstWhereOrNull((targetField) => targetField.displayName == fieldMapping?.field);
+        final targetField = targetClassGetters.firstWhereOrNull((f) => f.displayName == fieldMapping?.field);
 
         if (targetField == null) continue;
 
@@ -117,8 +115,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
           fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
-          typeMapping: mapping,
-          config: mapperConfig,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -145,8 +141,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
           fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
-          typeMapping: mapping,
-          config: mapperConfig,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -157,8 +151,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
         final targetField =
             (mapping.target).getAllGetters().firstWhereOrNull((field) => field.displayName == param.displayName);
-
-        final fieldMapping = mapping.tryGetFieldMapping(param.displayName);
 
         if (targetField == null && fieldMapping == null) {
           throw InvalidGenerationSourceError(
@@ -172,8 +164,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
             targetField: targetField,
             fieldMapping: fieldMapping,
             targetConstructorParam: constructorAssignment,
-            typeMapping: mapping,
-            config: mapperConfig,
           ),
         );
       }
@@ -205,13 +195,13 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
   void _assertParamFieldCanBeIgnored(ParameterElement param, PropertyAccessorElement sourceField) {
     final sourceFieldName = sourceField.getDisplayString(withNullability: true);
-    if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+    if (param.isPositional && param.type.isNotNullable) {
       throw InvalidGenerationSourceError(
         "Can't ignore field '$sourceFieldName' as it is positional not-nullable parameter",
       );
     }
 
-    if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+    if (param.isRequiredNamed && param.type.isNotNullable) {
       throw InvalidGenerationSourceError(
         "Can't ignore field '$sourceFieldName' as it is required named not-nullable parameter",
       );
@@ -255,8 +245,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
               assignment: SourceAssignment(
                 sourceField: sourceField,
                 targetField: targetField,
-                typeMapping: mapping,
-                config: mapperConfig,
               ),
               usedNullableMethodCallback: usedNullableMethodCallback,
             ).build(),
@@ -299,10 +287,9 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     required List<SourceAssignment> positional,
     required List<SourceAssignment> named,
   }) {
-    final alias = targetConstructor.enclosingElement.getLibraryAlias(config: mapperConfig);
     final constructorName = targetConstructor.displayName;
 
-    return refer('$alias$constructorName').newInstance(
+    return EmitterHelper.current.refer(constructorName, targetConstructor.library.identifier).newInstance(
       positional.map(
         (assignment) => ValueAssignmentBuilder(
           mapperConfig: mapperConfig,
@@ -325,13 +312,13 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
   void _assertNotMappedConstructorParameters(Iterable<ParameterElement> notMapped) {
     for (final param in notMapped) {
-      if (param.isPositional && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+      if (param.isPositional && param.type.isNotNullable) {
         throw InvalidGenerationSourceError(
           "Can't generate mapping $mapping as there is non mapped not-nullable positional parameter ${param.displayName}",
         );
       }
 
-      if (param.isRequiredNamed && param.type.nullabilitySuffix != NullabilitySuffix.question) {
+      if (param.isRequiredNamed && param.type.isNotNullable) {
         if (param.type.isDartCoreList) return;
         throw InvalidGenerationSourceError(
           "Can't generate mapping $mapping as there is non mapped not-nullable required named parameter ${param.displayName}",

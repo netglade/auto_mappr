@@ -6,13 +6,11 @@ abstract class MapBodyBuilderBase {
   final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
 
-  final bool nullable;
   final void Function(TypeMapping? mapping)? usedNullableMethodCallback;
 
   const MapBodyBuilderBase({
     required this.mapperConfig,
     required this.mapping,
-    required this.nullable,
     required this.usedNullableMethodCallback,
   });
 

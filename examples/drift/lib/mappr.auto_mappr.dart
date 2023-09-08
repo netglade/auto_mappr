@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'mappr.dart';
-
 // **************************************************************************
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
-// ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_const
-// ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
-// ignore_for_file: unnecessary_raw_strings
+// ignore_for_file: type=lint
+
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
+
+import 'db.dart' as _i2;
+import 'mappr.dart' as _i3;
 
 /// {@template package:examples_drift/mappr.dart}
 /// Available mappings:
 /// - `Todo` → `TodoItem`.
 /// {@endtemplate}
-class $Mappr implements AutoMapprInterface {
+class $Mappr implements _i1.AutoMapprInterface {
   const $Mappr();
 
   Type _typeOf<T>() => T;
-  List<AutoMapprInterface> get _modules => const [];
+  List<_i1.AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
   /// {@macro package:examples_drift/mappr.dart}
@@ -28,13 +28,14 @@ class $Mappr implements AutoMapprInterface {
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<Todo>() || sourceTypeOf == _typeOf<Todo?>()) &&
-        (targetTypeOf == _typeOf<TodoItem>() ||
-            targetTypeOf == _typeOf<TodoItem?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.Todo>() ||
+            sourceTypeOf == _typeOf<_i2.Todo?>()) &&
+        (targetTypeOf == _typeOf<_i3.TodoItem>() ||
+            targetTypeOf == _typeOf<_i3.TodoItem?>())) {
       return true;
     }
     if (recursive) {
-      for (final mappr in _modules) {
+      for (final mappr in _delegates) {
         if (mappr.canConvert<SOURCE, TARGET>()) {
           return true;
         }
@@ -50,7 +51,7 @@ class $Mappr implements AutoMapprInterface {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return _convert(model)!;
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convert(model)!;
       }
@@ -69,7 +70,7 @@ class $Mappr implements AutoMapprInterface {
         canReturnNull: true,
       );
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvert(model);
       }
@@ -85,7 +86,7 @@ class $Mappr implements AutoMapprInterface {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return model.map<TARGET>((item) => _convert(item)!);
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertIterable(model);
       }
@@ -105,7 +106,7 @@ class $Mappr implements AutoMapprInterface {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertIterable(model);
       }
@@ -121,7 +122,7 @@ class $Mappr implements AutoMapprInterface {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return convertIterable<SOURCE, TARGET>(model).toList();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertList(model);
       }
@@ -140,7 +141,7 @@ class $Mappr implements AutoMapprInterface {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(model).toList();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertList(model);
       }
@@ -156,7 +157,7 @@ class $Mappr implements AutoMapprInterface {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return convertIterable<SOURCE, TARGET>(model).toSet();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertSet(model);
       }
@@ -175,7 +176,7 @@ class $Mappr implements AutoMapprInterface {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(model).toSet();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertSet(model);
       }
@@ -190,25 +191,26 @@ class $Mappr implements AutoMapprInterface {
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<Todo>() || sourceTypeOf == _typeOf<Todo?>()) &&
-        (targetTypeOf == _typeOf<TodoItem>() ||
-            targetTypeOf == _typeOf<TodoItem?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.Todo>() ||
+            sourceTypeOf == _typeOf<_i2.Todo?>()) &&
+        (targetTypeOf == _typeOf<_i3.TodoItem>() ||
+            targetTypeOf == _typeOf<_i3.TodoItem?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__Todo__To__TodoItem((model as Todo?)) as TARGET);
+      return (_map___i2$Todo__To___i3$TodoItem((model as _i2.Todo?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  TodoItem _map__Todo__To__TodoItem(Todo? input) {
+  _i3.TodoItem _map___i2$Todo__To___i3$TodoItem(_i2.Todo? input) {
     final model = input;
     if (model == null) {
       throw Exception(
           r'Mapping Todo → TodoItem failed because Todo was null, and no default value was provided. '
           r'Consider setting the whenSourceIsNull parameter on the MapType<Todo, TodoItem> to handle null values during mapping.');
     }
-    return TodoItem(
+    return _i3.TodoItem(
       id: model.id,
       title: model.title,
     );

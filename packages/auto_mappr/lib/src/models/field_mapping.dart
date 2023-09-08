@@ -30,10 +30,6 @@ class FieldMapping extends Equatable {
     this.whenNullExpression,
   });
 
-  bool isRenamed() {
-    return from != null;
-  }
-
   bool hasCustomMapping() {
     return customExpression != null;
   }

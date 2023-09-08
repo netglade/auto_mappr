@@ -21,7 +21,7 @@ Developed with 💚 by [netglade][netglade_link]
 ```dart
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'main.g.dart';
+import 'main.auto_mappr.dart';
 
 @AutoMappr([
   MapType<UserDto, User>(),

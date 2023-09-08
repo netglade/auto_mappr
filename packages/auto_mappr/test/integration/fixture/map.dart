@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'map.g.dart';
+import 'map.auto_mappr.dart';
 
 @AutoMappr([
   MapType<NestedTagDto, NestedTag>(),

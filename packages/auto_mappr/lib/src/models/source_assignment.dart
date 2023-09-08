@@ -3,6 +3,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:code_builder/code_builder.dart' show Expression, literalList, literalMap, literalNull, literalSet;
 
@@ -26,15 +27,6 @@ class SourceAssignment {
   /// Like filed 'name' from 'userName' etc.
   final FieldMapping? fieldMapping;
 
-  /// Mapping of type.
-  ///
-  /// Like UserDto to User.
-  final TypeMapping typeMapping;
-
-  final AutoMapprConfig config;
-
-  bool get shouldBeIgnored => fieldMapping?.ignore ?? false;
-
   DartType? get sourceType => sourceField?.returnType;
 
   String? get sourceName => sourceField?.displayName;
@@ -46,8 +38,6 @@ class SourceAssignment {
   const SourceAssignment({
     required this.sourceField,
     required this.targetField,
-    required this.typeMapping,
-    required this.config,
     this.targetConstructorParam,
     this.fieldMapping,
   });
@@ -69,14 +59,12 @@ class SourceAssignment {
     return isSourceRecord && isTargetRecord;
   }
 
-  bool canAssignComplexObject() => !targetType.isPrimitiveType;
-
   @override
   String toString() {
-    final sourceTypeName = sourceType?.getDisplayStringWithLibraryAlias(withNullability: true, config: config);
-    final targetTypeName = targetType.getDisplayStringWithLibraryAlias(withNullability: true, config: config);
+    final emittedSource = EmitterHelper.current.typeReferEmitted(type: sourceType);
+    final emittedTarget = EmitterHelper.current.typeReferEmitted(type: targetType);
 
-    return '$sourceTypeName $sourceName -> $targetTypeName $targetName';
+    return '$emittedSource $sourceName -> $emittedTarget $targetName';
   }
 
   Expression getDefaultValue() {

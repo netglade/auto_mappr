@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'default_field.g.dart';
+import 'default_field.auto_mappr.dart';
 
 @AutoMappr([
   MapType<NestedDto, Nested>(),

@@ -1,9 +1,8 @@
 //ignore_for_file: no-object-declaration
 
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:auto_mappr/src/extensions/element_extension.dart';
 import 'package:auto_mappr/src/extensions/executable_element_extension.dart';
-import 'package:auto_mappr/src/models/auto_mappr_config.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
@@ -12,10 +11,7 @@ extension DartObjectExtension on DartObject {
   /// If the top most object is a function, then return its code expression.
   ///
   /// Otherwise return code expression of literals or objects.
-  Expression? toCodeExpression({
-    required AutoMapprConfig config,
-    bool passModelArgument = false,
-  }) {
+  Expression? toCodeExpression({bool passModelArgument = false}) {
     if (isNull) {
       return null;
     }
@@ -23,22 +19,19 @@ extension DartObjectExtension on DartObject {
     // If the top most object is function, call it.
     final asFunction = toFunctionValue();
     if (asFunction != null) {
-      return refer(asFunction.referCallString).call([
+      return EmitterHelper.current.refer(asFunction.referCallString, asFunction.library.identifier).call([
         if (passModelArgument) refer('model'),
       ]);
     }
 
-    final emitter = DartEmitter();
-    final output = _ToCodeExpressionConverter(config: config).convert(this).accept(emitter);
+    final output = const _ToCodeExpressionConverter().convert(this).accept(EmitterHelper.current.emitter);
 
     return CodeExpression(Code('$output'));
   }
 }
 
 class _ToCodeExpressionConverter {
-  final AutoMapprConfig config;
-
-  const _ToCodeExpressionConverter({required this.config});
+  const _ToCodeExpressionConverter();
 
   Spec convert(DartObject dartObject) {
     return _toSpec(dartObject);
@@ -91,13 +84,13 @@ class _ToCodeExpressionConverter {
     final revived = ConstantReader(dartObject).revive();
 
     final location = revived.source.toString().split('#');
-    final libraryAlias = dartObject.type!.element!.getLibraryAlias(config: config);
+    final libraryUrl = dartObject.type?.element?.library?.identifier;
 
     // Getters, Setters, Methods can't be declared as constants so this
     // literal must either be a top-level constant or a static constant and
     // can be directly accessed by `revived.accessor`.
     if (location.length <= 1) {
-      return refer('$libraryAlias${revived.accessor}');
+      return EmitterHelper.current.refer(revived.accessor, libraryUrl);
     }
 
     // If this is a class instantiation then `location[1]` will be populated
@@ -108,7 +101,7 @@ class _ToCodeExpressionConverter {
     final instantiation = location.elementAtOrNull(1);
     final useNamedConstructor = revived.accessor.isNotEmpty;
 
-    final revivedInstance = refer('$libraryAlias$instantiation');
+    final revivedInstance = EmitterHelper.current.refer('$instantiation', libraryUrl);
 
     final positionalArguments =
         revived.positionalArguments.map<Expression>((argument) => _toSpec(argument) as Expression);

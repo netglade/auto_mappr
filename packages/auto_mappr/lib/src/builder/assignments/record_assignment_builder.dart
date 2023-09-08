@@ -5,6 +5,7 @@ import 'package:analyzer/dart/element/type.dart' as type;
 import 'package:auto_mappr/src/builder/assignments/assignment_builder_base.dart';
 import 'package:auto_mappr/src/builder/assignments/nested_object_mixin.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/source_assignment.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
@@ -63,7 +64,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
           source: sourcePositional.elementAtOrNull(index),
           target: targetField,
           index: index + 1,
-        ).accept(DartEmitter()).toString(),
+        ).accept(EmitterHelper.current.emitter).toString(),
     ];
 
     final namedFields = <({String key, String value})>[
@@ -74,7 +75,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
             assignment: assignment,
             source: sourceNamed.firstWhereOrNull((sourceField) => sourceField.name == targetField.name),
             target: targetField,
-          ).accept(DartEmitter()).toString(),
+          ).accept(EmitterHelper.current.emitter).toString(),
         ),
     ];
 
@@ -104,7 +105,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
     final targetRecordExpression = refer(assignment.sourceField!.name);
 
     if (!shouldAssignNestedObject) {
-      return refer('model.${targetRecordExpression.accept(DartEmitter())}.${source.name}');
+      return refer('model.${targetRecordExpression.accept(EmitterHelper.current.emitter)}.${source.name}');
     }
 
     final valueExpression = assignNestedObject(
@@ -114,7 +115,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
       convertMethodArgument: valuesAreSameType ? null : targetRecordExpression,
     );
 
-    return refer('${valueExpression.accept(DartEmitter())})');
+    return refer('${valueExpression.accept(EmitterHelper.current.emitter)})');
   }
 
   // Handles mapping of only one positional field.
@@ -137,7 +138,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
     final targetRecordExpression = refer(assignment.sourceField!.name);
 
     if (!shouldAssignNestedObject) {
-      return refer('model.${targetRecordExpression.accept(DartEmitter())}.\$$index');
+      return refer('model.${targetRecordExpression.accept(EmitterHelper.current.emitter)}.\$$index');
     }
 
     final valueExpression = assignNestedObject(
@@ -147,6 +148,6 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
       convertMethodArgument: valuesAreSameType ? null : targetRecordExpression,
     );
 
-    return refer('${valueExpression.accept(DartEmitter())})');
+    return refer('${valueExpression.accept(EmitterHelper.current.emitter)})');
   }
 }

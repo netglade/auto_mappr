@@ -3,7 +3,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'special_characters.g.dart';
+import 'special_characters.auto_mappr.dart';
 
 @AutoMappr([
   // in class

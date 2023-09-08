@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'rename.g.dart';
+import 'rename.auto_mappr.dart';
 
 @AutoMappr([
   // nested

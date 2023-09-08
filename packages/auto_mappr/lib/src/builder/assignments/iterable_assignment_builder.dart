@@ -1,8 +1,8 @@
-import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:auto_mappr/src/builder/assignments/assignment_builder_base.dart';
 import 'package:auto_mappr/src/builder/assignments/nested_object_mixin.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:code_builder/code_builder.dart';
 
@@ -24,14 +24,13 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
     final sourceType = assignment.sourceType!;
     final targetType = assignment.targetType;
 
-    final sourceNullable = sourceType.nullabilitySuffix == NullabilitySuffix.question;
-    final targetNullable = targetType.nullabilitySuffix == NullabilitySuffix.question;
+    final sourceNullable = sourceType.isNullable;
+    final targetNullable = targetType.isNullable;
 
     final sourceIterableType = sourceType.genericParameterTypeOrSelf;
     final targetIterableType = targetType.genericParameterTypeOrSelf;
 
-    final shouldFilterNullInSource = sourceIterableType.nullabilitySuffix == NullabilitySuffix.question &&
-        targetIterableType.nullabilitySuffix != NullabilitySuffix.question;
+    final shouldFilterNullInSource = sourceIterableType.isNullable && targetIterableType.isNotNullable;
 
     final assignNestedObject = (!targetIterableType.isPrimitiveType && !targetIterableType.isSpecializedListType) &&
         (!targetIterableType.isSame(sourceIterableType));
@@ -42,7 +41,7 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
           isOnNullable: sourceNullable,
         );
 
-    final defaultIterableValueExpression = targetType.defaultIterableExpression(config: mapperConfig);
+    final defaultIterableValueExpression = targetType.defaultIterableExpression();
 
     if (assignNestedObject) {
       return sourceIterableExpression
@@ -51,14 +50,7 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
           .call(
             [_map(assignment)],
             {},
-            [
-              refer(
-                targetIterableType.getDisplayStringWithLibraryAlias(
-                  withNullability: true,
-                  config: mapperConfig,
-                ),
-              ),
-            ],
+            [EmitterHelper.current.typeRefer(type: targetIterableType)],
           )
           // Call toList, toSet or nothing.
           // isOnNullable is false, because if map() was called, the value is non-null

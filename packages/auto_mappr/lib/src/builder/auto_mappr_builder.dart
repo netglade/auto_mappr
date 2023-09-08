@@ -1,9 +1,8 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/element/element.dart';
-import 'package:auto_mappr/src/builder/map_model_body_method_builder.dart';
 import 'package:auto_mappr/src/builder/methods/methods.dart';
-import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/helpers/urls.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
 import 'package:built_collection/built_collection.dart';
@@ -15,16 +14,9 @@ class AutoMapprBuilder {
   final ClassElement mapperClassElement;
 
   static const List<String> fileIgnores = [
-    'unnecessary_parenthesis',
-    'non_constant_identifier_names',
-    'unnecessary_const',
-    'require_trailing_commas',
-    'unnecessary_raw_strings',
-    'unnecessary_lambdas',
-
-    // Can we fix this somehow? (const defaults, const customs).
-    'prefer_const_constructors',
-    'prefer_const_literals_to_create_immutables',
+    // ignore everything
+    // ignore: unnecessary-trailing-comma
+    'type=lint',
   ];
 
   const AutoMapprBuilder({
@@ -36,18 +28,16 @@ class AutoMapprBuilder {
     return Library(
       (b) => b
         ..ignoreForFile = ListBuilder(fileIgnores)
-        ..body.addAll(
-          [
-            Class(
-              (b) => b
-                ..name = '\$${mapperClassElement.displayName}'
-                ..implements = ListBuilder([refer('AutoMapprInterface')])
-                ..methods.addAll(_buildMethods())
-                ..constructors.addAll(_buildConstructors())
-                ..docs = ListBuilder(config.getAvailableMappingsDocComment()),
-            ),
-          ],
-        ),
+        ..body.addAll([
+          Class(
+            (cb) => cb
+              ..name = '\$${mapperClassElement.displayName}'
+              ..implements = ListBuilder([refer('AutoMapprInterface', Urls.annotationPackageUrl)])
+              ..methods.addAll(_buildMethods())
+              ..constructors.addAll(_buildConstructors())
+              ..docs = ListBuilder(config.getAvailableMappingsDocComment()),
+          ),
+        ]),
     );
   }
 
@@ -116,51 +106,17 @@ class AutoMapprBuilder {
       PrivateConvertMethodBuilder(config).buildMethod(),
 
       // Generate non-nullable mapping method.
-      // TODO(later): switch to MappingMethodBuilder.
       for (final mapping in config.mappers)
-        Method(
-          (b) => b
-            ..name = mapping.mappingMethodName(config: config)
-            ..requiredParameters.addAll([
-              Parameter(
-                (p) => p
-                  ..name = 'input'
-                  ..type = refer('${mapping.source.getDisplayStringWithLibraryAlias(config: config)}?'),
-              ),
-            ])
-            ..returns = refer(
-              mapping.target.getDisplayStringWithLibraryAlias(config: config),
-            )
-            ..body = MapModelBodyMethodBuilder(
-              mapping: mapping,
-              mapperConfig: config,
-              usedNullableMethodCallback: usedNullableMappingMethod,
-            ).build(),
-        ),
+        MappingMethodBuilder(
+          config,
+          mapping: mapping,
+          usedNullableMethodCallback: usedNullableMappingMethod,
+        ).buildMethod(),
 
       // Generates nullable mapping method only when nullable method is used.
-      // TODO(later): switch to MappingMethodBuilder.
+      // ignore: avoid-shadowing
       for (final mapping in config.mappers.where(nullableMappings.contains))
-        Method(
-          (b) => b
-            ..name = mapping.nullableMappingMethodName(config: config)
-            ..requiredParameters.addAll([
-              Parameter(
-                (p) => p
-                  ..name = 'input'
-                  ..type = refer('${mapping.source.getDisplayStringWithLibraryAlias(config: config)}?'),
-              ),
-            ])
-            ..returns = refer('${mapping.target.getDisplayStringWithLibraryAlias(
-              withNullability: true,
-              config: config,
-            )}?')
-            ..body = MapModelBodyMethodBuilder(
-              mapping: mapping,
-              mapperConfig: config,
-              nullable: true,
-            ).build(),
-        ),
+        MappingMethodBuilder(config, mapping: mapping, nullable: true).buildMethod(),
     ];
   }
 }

@@ -1,6 +1,6 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'forced_null_source_field.g.dart';
+import 'forced_null_source_field.auto_mappr.dart';
 
 @AutoMappr([
   MapType<Source, Target>(

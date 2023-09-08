@@ -1,8 +1,8 @@
-import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/assignments/assignment_builder_base.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
@@ -32,21 +32,18 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     );
 
     if (nestedMapping == null) {
-      final targetTypeName = target.getDisplayStringWithLibraryAlias(
-        withNullability: true,
-        config: mapperConfig,
-      );
       final sourceName = assignment.sourceField?.getDisplayString(withNullability: true);
 
-      if (target.nullabilitySuffix == NullabilitySuffix.question) {
+      if (target.isNullable) {
         log.warning("Can't find nested mapping '$assignment' but target is nullable. Setting null");
 
         return literalNull;
       }
 
+      final emittedTarget = EmitterHelper.current.typeReferEmitted(type: target);
       throw InvalidGenerationSourceError(
         'Trying to map nested object from "$assignment" but no mapping is configured.',
-        todo: 'Configure mapping from $sourceName to $targetTypeName',
+        todo: 'Configure mapping from $sourceName to $emittedTarget',
       );
     }
 
@@ -60,7 +57,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
 
     // If source == null and target not nullable -> use whenNullDefault if possible
     final fieldMapping = mapping.tryGetFieldMapping(assignment.targetName);
-    if (source.nullabilitySuffix == NullabilitySuffix.question && (fieldMapping?.whenNullExpression != null)) {
+    if (source.isNullable && (fieldMapping?.whenNullExpression != null)) {
       // Generates code like:
       //
       // model.name == null
@@ -93,7 +90,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     Expression? convertMethodArgument,
     bool includeGenericTypes = false,
   }) {
-    final targetNullable = target.nullabilitySuffix == NullabilitySuffix.question;
+    final targetNullable = target.isNullable;
 
     final useNullableMethod = targetNullable && !mapping.hasWhenNullDefault();
 
@@ -126,8 +123,8 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
             {},
             includeGenericTypes
                 ? [
-                    refer(source.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
-                    refer(target.getDisplayStringWithLibraryAlias(withNullability: true, config: mapperConfig)),
+                    EmitterHelper.current.typeRefer(type: source),
+                    EmitterHelper.current.typeRefer(type: target),
                   ]
                 : [],
           );

@@ -1,6 +1,6 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
-part 'rename.g.dart';
+import 'package:examples_example/rename.auto_mappr.dart';
 
 @AutoMappr([
   MapType<UserDto, User>(

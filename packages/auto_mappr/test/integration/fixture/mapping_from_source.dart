@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'mapping_from_source.g.dart';
+import 'mapping_from_source.auto_mappr.dart';
 
 @AutoMappr([
   MapType<InstanceField, ValueHolder>(),

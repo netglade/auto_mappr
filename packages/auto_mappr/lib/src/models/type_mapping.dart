@@ -1,7 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
-import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/field_mapping.dart';
 import 'package:code_builder/code_builder.dart';
@@ -66,12 +65,11 @@ class TypeMapping extends Equatable {
 
   @override
   String toString() {
-    // ignore: avoid-non-ascii-symbols, it is ok
-    return '$source → $target';
-  }
+    // Without import aliases, used to display errors to user.
+    final sourceAsString = source.getDisplayString(withNullability: true);
+    final targetAsString = target.getDisplayString(withNullability: true);
 
-  String toStringWithLibraryAlias({required AutoMapprConfig config}) {
     // ignore: avoid-non-ascii-symbols, it is ok
-    return '${source.getDisplayStringWithLibraryAlias(config: config)} → ${target.getDisplayStringWithLibraryAlias(config: config)}';
+    return '$sourceAsString → $targetAsString';
   }
 }
