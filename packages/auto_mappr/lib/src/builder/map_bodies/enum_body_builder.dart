@@ -8,7 +8,6 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
   const EnumBodyBuilder({
     required super.mapperConfig,
     required super.mapping,
-    required super.nullable,
     required super.usedNullableMethodCallback,
   });
 

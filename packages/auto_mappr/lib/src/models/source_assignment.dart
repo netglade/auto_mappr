@@ -27,15 +27,6 @@ class SourceAssignment {
   /// Like filed 'name' from 'userName' etc.
   final FieldMapping? fieldMapping;
 
-  /// Mapping of type.
-  ///
-  /// Like UserDto to User.
-  final TypeMapping typeMapping;
-
-  final AutoMapprConfig config;
-
-  bool get shouldBeIgnored => fieldMapping?.ignore ?? false;
-
   DartType? get sourceType => sourceField?.returnType;
 
   String? get sourceName => sourceField?.displayName;
@@ -47,8 +38,6 @@ class SourceAssignment {
   const SourceAssignment({
     required this.sourceField,
     required this.targetField,
-    required this.typeMapping,
-    required this.config,
     this.targetConstructorParam,
     this.fieldMapping,
   });
@@ -69,8 +58,6 @@ class SourceAssignment {
 
     return isSourceRecord && isTargetRecord;
   }
-
-  bool canAssignComplexObject() => !targetType.isPrimitiveType;
 
   @override
   String toString() {

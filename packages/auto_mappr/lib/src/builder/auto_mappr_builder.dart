@@ -1,10 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:analyzer/dart/element/element.dart';
-import 'package:auto_mappr/src/builder/map_model_body_method_builder.dart';
 import 'package:auto_mappr/src/builder/methods/methods.dart';
-import 'package:auto_mappr/src/extensions/expression_extension.dart';
-import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/helpers/urls.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/type_mapping.dart';
@@ -109,47 +106,17 @@ class AutoMapprBuilder {
       PrivateConvertMethodBuilder(config).buildMethod(),
 
       // Generate non-nullable mapping method.
-      // TODO(later): switch to MappingMethodBuilder.
       for (final mapping in config.mappers)
-        Method(
-          (b) => b
-            ..name = mapping.mappingMethodName(config: config)
-            ..requiredParameters.addAll([
-              Parameter(
-                (p) => p
-                  ..name = 'input'
-                  ..type = EmitterHelper.current.typeRefer(type: mapping.source).nullabled(),
-              ),
-            ])
-            ..returns = EmitterHelper.current.typeRefer(type: mapping.target)
-            ..body = MapModelBodyMethodBuilder(
-              mapping: mapping,
-              mapperConfig: config,
-              usedNullableMethodCallback: usedNullableMappingMethod,
-            ).build(),
-        ),
+        MappingMethodBuilder(
+          config,
+          mapping: mapping,
+          usedNullableMethodCallback: usedNullableMappingMethod,
+        ).buildMethod(),
 
       // Generates nullable mapping method only when nullable method is used.
-      // TODO(later): switch to MappingMethodBuilder.
       // ignore: avoid-shadowing
       for (final mapping in config.mappers.where(nullableMappings.contains))
-        Method(
-          (b) => b
-            ..name = mapping.nullableMappingMethodName(config: config)
-            ..requiredParameters.addAll([
-              Parameter(
-                (p) => p
-                  ..name = 'input'
-                  ..type = EmitterHelper.current.typeRefer(type: mapping.source).nullabled(),
-              ),
-            ])
-            ..returns = EmitterHelper.current.typeRefer(type: mapping.target).nullabled()
-            ..body = MapModelBodyMethodBuilder(
-              mapping: mapping,
-              mapperConfig: config,
-              nullable: true,
-            ).build(),
-        ),
+        MappingMethodBuilder(config, mapping: mapping, nullable: true).buildMethod(),
     ];
   }
 }

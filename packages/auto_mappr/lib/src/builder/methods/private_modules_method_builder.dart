@@ -4,7 +4,7 @@ import 'package:auto_mappr/src/helpers/urls.dart';
 import 'package:code_builder/code_builder.dart';
 
 class PrivateModulesMethodBuilder extends MethodBuilderBase {
-  PrivateModulesMethodBuilder(super.config);
+  const PrivateModulesMethodBuilder(super.config);
 
   @override
   Method buildMethod() {

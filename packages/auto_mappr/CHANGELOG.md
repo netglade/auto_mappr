@@ -1,11 +1,10 @@
 [//]: # (## Unreleased)
 
 ## Unreleased
+- **Breaking**: Allow "absorbing" modules using `includes` on `@AutoMappr`. Previous `modules` is now `delegates`.
+- **Breaking**: Remove shared AutoMappr builder that used PartBuilder, now `.auto_mappr.dart` is generated using LibraryBuilder.
 - Add a `reverse` option on `MapType`, which includes the reverse mapping. [#115](https://github.com/netglade/auto_mappr/pull/115)
 - Add a support for Dart 3 and Records feature. [#116](https://github.com/netglade/auto_mappr/pull/116)
-
-- Allow use modules using `includes` on `@AutoMappr`. Previous `modules` is now `delegates`.
-- Remove shared AutoMappr builder that used PartBuilder, now `.auto_mappr.dart` is generated using LibraryBuilder.
 
 ## 1.7.0
 - Adhere to netglade_analysis. [#94](https://github.com/netglade/auto_mappr/pull/94)

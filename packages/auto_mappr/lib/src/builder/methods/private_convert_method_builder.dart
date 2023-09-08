@@ -4,7 +4,7 @@ import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:code_builder/code_builder.dart';
 
 class PrivateConvertMethodBuilder extends MethodBuilderBase {
-  PrivateConvertMethodBuilder(super.config);
+  const PrivateConvertMethodBuilder(super.config);
 
   @override
   Method buildMethod() {

@@ -6,7 +6,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
 class CanConvertMethodBuilder extends MethodBuilderBase implements CallableMethod, CallableProperty {
-  CanConvertMethodBuilder(super.config);
+  const CanConvertMethodBuilder(super.config);
 
   @override
   Method buildMethod() {

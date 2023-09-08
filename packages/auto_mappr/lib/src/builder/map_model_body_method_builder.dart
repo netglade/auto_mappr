@@ -29,7 +29,6 @@ class MapModelBodyMethodBuilder {
     final enumMapBodyBuilder = EnumBodyBuilder(
       mapperConfig: mapperConfig,
       mapping: mapping,
-      nullable: nullable,
       usedNullableMethodCallback: usedNullableMethodCallback,
     );
     if (enumMapBodyBuilder.canProcess()) {
@@ -41,7 +40,6 @@ class MapModelBodyMethodBuilder {
     final classMapBodyBuilder = ClassBodyBuilder(
       mapperConfig: mapperConfig,
       mapping: mapping,
-      nullable: nullable,
       usedNullableMethodCallback: usedNullableMethodCallback,
     );
 

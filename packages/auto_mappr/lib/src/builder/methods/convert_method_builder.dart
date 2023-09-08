@@ -5,7 +5,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
 class ConvertMethodBuilder extends MethodBuilderBase {
-  ConvertMethodBuilder(super.config);
+  const ConvertMethodBuilder(super.config);
 
   @override
   Method buildMethod() {

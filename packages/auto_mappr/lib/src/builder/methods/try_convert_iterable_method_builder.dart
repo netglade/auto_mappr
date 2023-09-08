@@ -11,7 +11,7 @@ class TryConvertIterableMethodBuilder extends MethodBuilderBase {
   final String wrapper;
   final String? iterableTransformer;
 
-  TryConvertIterableMethodBuilder(
+  const TryConvertIterableMethodBuilder(
     super.config, {
     required this.wrapper,
     this.iterableTransformer,

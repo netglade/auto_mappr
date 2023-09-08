@@ -15,7 +15,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
   const ClassBodyBuilder({
     required super.mapperConfig,
     required super.mapping,
-    required super.nullable,
     required super.usedNullableMethodCallback,
   });
 
@@ -116,8 +115,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
           fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
-          typeMapping: mapping,
-          config: mapperConfig,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -144,8 +141,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
           fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
-          typeMapping: mapping,
-          config: mapperConfig,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -169,8 +164,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
             targetField: targetField,
             fieldMapping: fieldMapping,
             targetConstructorParam: constructorAssignment,
-            typeMapping: mapping,
-            config: mapperConfig,
           ),
         );
       }
@@ -252,8 +245,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
               assignment: SourceAssignment(
                 sourceField: sourceField,
                 targetField: targetField,
-                typeMapping: mapping,
-                config: mapperConfig,
               ),
               usedNullableMethodCallback: usedNullableMethodCallback,
             ).build(),

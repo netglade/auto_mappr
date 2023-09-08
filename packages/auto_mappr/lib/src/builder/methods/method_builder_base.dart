@@ -25,9 +25,8 @@ abstract class MethodBuilderBase {
   static final ListBuilder<Reference> overrideAnnotation = ListBuilder([const Reference('override')]);
 
   final AutoMapprConfig config;
-  final Set<TypeMapping> nullableMappings;
 
-  MethodBuilderBase(this.config) : nullableMappings = {};
+  const MethodBuilderBase(this.config);
 
   static String constructConvertMethodName({
     required DartType source,
@@ -46,16 +45,6 @@ abstract class MethodBuilderBase {
         target: target,
         config: config,
       )}_Nullable';
-
-  bool shouldGenerateNullableMappingMethod(TypeMapping mapping) {
-    return nullableMappings.contains(mapping);
-  }
-
-  void usedNullableMappingMethod(TypeMapping? mapping) {
-    if (mapping == null) return;
-
-    final _ = nullableMappings.add(mapping);
-  }
 
   Method buildMethod();
 

@@ -7,7 +7,7 @@ import 'package:code_builder/code_builder.dart';
 // modules OK
 // modules tests OK
 class TryConvertMethodBuilder extends MethodBuilderBase {
-  TryConvertMethodBuilder(super.config);
+  const TryConvertMethodBuilder(super.config);
 
   @override
   Method buildMethod() {

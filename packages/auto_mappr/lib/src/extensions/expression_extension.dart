@@ -102,12 +102,6 @@ extension ExpressionExtension on Expression {
     );
   }
 
-  Expression maybeAsA(Expression expression, {required bool condition}) {
-    if (!condition) return this;
-
-    return asA(expression);
-  }
-
   static Reference ifStatement({
     required Spec condition,
     required Spec ifBody,

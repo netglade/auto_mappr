@@ -58,24 +58,14 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
 
       final mapprOptions = AutoMapprOptions.fromJson(builderOptions.config);
 
-      final tmpConfig = AutoMapprConfig(
-        mappers: [],
-        availableMappingsMacroId: 'tmp',
-        mapprOptions: mapprOptions,
-      );
-
       final constant = annotation.objectValue;
       final mappersList = constant.getField(annotationFieldMappers)!.toListValue()!;
-      final delegatesExpression = constant.getField(annotationFieldDelegates)!.toCodeExpression(config: tmpConfig);
+      final delegatesExpression = constant.getField(annotationFieldDelegates)!.toCodeExpression();
       final delegatesList = constant.getField(annotationFieldDelegates)!.toListValue();
       final includesList = constant.getField(annotationFieldIncludes)!.toListValue();
 
       final allMappers = [...mappersList, ..._mappersFromRecursiveIncludes(includesList: includesList ?? [])];
-      final mappers = _processMappers(
-        mappers: allMappers,
-        element: element,
-        config: tmpConfig,
-      );
+      final mappers = _processMappers(mappers: allMappers, element: element);
 
       final duplicates = mappers.duplicates;
       if (duplicates.isNotEmpty) {
@@ -105,7 +95,6 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
   List<TypeMapping> _processMappers({
     required List<DartObject> mappers,
     required ClassElement element,
-    required AutoMapprConfig config,
   }) {
     return mappers
         .map((mapper) {
@@ -134,7 +123,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
           }
 
           final fields = mapper.getField(mapTypeFieldFields)?.toListValue();
-          final whenSourceIsNull = mapper.getField(mapTypeFieldWhenSourceIsNull)?.toCodeExpression(config: config);
+          final whenSourceIsNull = mapper.getField(mapTypeFieldWhenSourceIsNull)?.toCodeExpression();
           final constructor = mapper.getField(mapTypeFieldConstructor)?.toStringValue();
           final ignoreFieldNull = mapper.getField(mapTypeFieldIgnoreFieldNull)?.toBoolValue();
           final reverse = mapper.getField(mapTypeFieldReverse)?.toBoolValue();
@@ -145,10 +134,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
                   field: fieldMapping.getField(fieldFieldField)!.toStringValue()!,
                   ignore: fieldMapping.getField(fieldFieldIgnore)!.toBoolValue()!,
                   from: fieldMapping.getField(fieldFieldFrom)!.toStringValue(),
-                  customExpression: fieldMapping
-                      .getField(fieldFieldCustom)!
-                      .toCodeExpression(passModelArgument: true, config: config),
-                  whenNullExpression: fieldMapping.getField(fieldFieldWhenNull)!.toCodeExpression(config: config),
+                  customExpression: fieldMapping.getField(fieldFieldCustom)!.toCodeExpression(passModelArgument: true),
+                  whenNullExpression: fieldMapping.getField(fieldFieldWhenNull)!.toCodeExpression(),
                   ignoreNull: fieldMapping.getField(fieldFieldIgnoreNull)?.toBoolValue(),
                 ),
               )

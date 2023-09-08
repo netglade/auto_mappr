@@ -3,7 +3,6 @@
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:auto_mappr/src/extensions/executable_element_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
-import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
@@ -12,10 +11,7 @@ extension DartObjectExtension on DartObject {
   /// If the top most object is a function, then return its code expression.
   ///
   /// Otherwise return code expression of literals or objects.
-  Expression? toCodeExpression({
-    required AutoMapprConfig config,
-    bool passModelArgument = false,
-  }) {
+  Expression? toCodeExpression({bool passModelArgument = false}) {
     if (isNull) {
       return null;
     }
@@ -28,16 +24,14 @@ extension DartObjectExtension on DartObject {
       ]);
     }
 
-    final output = _ToCodeExpressionConverter(config: config).convert(this).accept(EmitterHelper.current.emitter);
+    final output = const _ToCodeExpressionConverter().convert(this).accept(EmitterHelper.current.emitter);
 
     return CodeExpression(Code('$output'));
   }
 }
 
 class _ToCodeExpressionConverter {
-  final AutoMapprConfig config;
-
-  const _ToCodeExpressionConverter({required this.config});
+  const _ToCodeExpressionConverter();
 
   Spec convert(DartObject dartObject) {
     return _toSpec(dartObject);
