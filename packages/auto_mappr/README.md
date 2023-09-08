@@ -535,11 +535,6 @@ import 'my_domain.dart' as entity;
 class Mappr extends $Mappr {}
 ```
 
-Note that importing a list of `MapType` from another library
-and putting it inside `@AutoMappr` annotation is not possible,
-since we cannot generate the type correctly (it can overlap with something else)
-while using shared part builder.
-
 ### Modules
 
 Each AutoMappr can be considered as a **module**.
@@ -547,13 +542,11 @@ The only rule is that the mappr must be constant,
 and that most of the time means you have to add an `const` constructor to be able to use it.
 Other modules (AutoMappr classes) can then use it in two ways.
 
-#### Importing
+#### Including
 
-Note: Feature TBA
-
-Importing a module means that you want to "absorb" it's mappings
+Including a module means that you want to "absorb" it's mappings
 and use them later anywhere **inside** any mapped object.
-Basically imagine copy-pasting definitions from imported module to yours.
+Basically imagine copy-pasting definitions from included module to yours.
 
 That can be handy when you have a common/shared mappr with mappings between objects shared across the app.
 Since you want to use these common/shared mappings,
