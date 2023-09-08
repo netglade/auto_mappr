@@ -1,6 +1,6 @@
 [//]: # (## Unreleased)
 
-## Unreleased
+## 2.0.0-rc.1
 - Adhere to netglade_analysis 4.0.0
 - Add `reverse` option to `MapType`.
 
