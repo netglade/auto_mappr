@@ -11,8 +11,8 @@ import 'package:equatable/equatable.dart';
 class TypeMapping extends Equatable {
   final InterfaceType source;
   final InterfaceType target;
-  final List<FieldMapping>? fieldMappings;
-  final List<TypeConverter>? converters;
+  final List<FieldMapping> fieldMappings;
+  final List<TypeConverter> typeConverters;
   final Expression? whenSourceIsNullExpression;
   final String? constructor;
   final bool? ignoreFieldNull;
@@ -25,7 +25,7 @@ class TypeMapping extends Equatable {
       source,
       target,
       fieldMappings,
-      converters,
+      typeConverters,
       whenSourceIsNullExpression,
       constructor,
       ignoreFieldNull,
@@ -36,8 +36,8 @@ class TypeMapping extends Equatable {
     required this.source,
     required this.target,
     required this.ignoreFieldNull,
-    this.fieldMappings,
-    this.converters,
+    this.fieldMappings = const [],
+    this.typeConverters = const [],
     this.whenSourceIsNullExpression,
     this.constructor,
   });
@@ -59,11 +59,11 @@ class TypeMapping extends Equatable {
     return whenSourceIsNullExpression != null;
   }
 
-  bool hasFieldMapping(String field) => fieldMappings?.any((x) => x.field == field) ?? false;
+  bool hasFieldMapping(String field) => fieldMappings.any((x) => x.field == field);
 
-  FieldMapping? getFieldMapping(String field) => fieldMappings?.firstWhereOrNull((x) => x.field == field);
+  FieldMapping? getFieldMapping(String field) => fieldMappings.firstWhereOrNull((x) => x.field == field);
 
-  FieldMapping? tryGetFieldMapping(String field) => fieldMappings?.firstWhereOrNull((x) => x.field == field);
+  FieldMapping? tryGetFieldMapping(String field) => fieldMappings.firstWhereOrNull((x) => x.field == field);
 
   bool fieldShouldBeIgnored(String field) => hasFieldMapping(field) && (getFieldMapping(field)?.ignore ?? false);
 

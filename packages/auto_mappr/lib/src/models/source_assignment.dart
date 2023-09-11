@@ -5,6 +5,7 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/models.dart';
+import 'package:auto_mappr/src/models/type_converter.dart';
 import 'package:code_builder/code_builder.dart' show Expression, literalList, literalMap, literalNull, literalSet;
 
 class ConstructorAssignment {
@@ -21,6 +22,8 @@ class SourceAssignment {
 
   final ConstructorAssignment? targetConstructorParam;
   final PropertyAccessorElement? targetField;
+
+  final List<TypeConverter> typeConverters;
 
   /// Field mapping.
   ///
@@ -39,6 +42,7 @@ class SourceAssignment {
     required this.sourceField,
     required this.targetField,
     this.targetConstructorParam,
+    this.typeConverters = const [],
     this.fieldMapping,
   });
 

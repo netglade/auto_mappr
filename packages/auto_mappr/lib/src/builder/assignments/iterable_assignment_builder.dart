@@ -81,10 +81,13 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
     final targetListType = assignment.targetType.genericParameterTypeOrSelf;
     final sourceListType = assignment.sourceType!.genericParameterTypeOrSelf;
 
-    return assignNestedObject(
+    final body = assignNestedObject(
       assignment: assignment,
       source: sourceListType,
       target: targetListType,
+      convertMethodArgument: refer('value'),
     );
+
+    return refer('(value) => ${body.accept(EmitterHelper.current.emitter)}');
   }
 }

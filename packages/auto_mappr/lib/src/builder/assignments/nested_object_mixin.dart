@@ -1,5 +1,5 @@
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mappr/src/builder/assignments/assignment_builder_base.dart';
+import 'package:auto_mappr/src/builder/assignments/assignments.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
@@ -12,7 +12,7 @@ import 'package:source_gen/source_gen.dart';
 mixin NestedObjectMixin on AssignmentBuilderBase {
   /// Assigns nested object as either:
   /// - default value
-  /// - call to already generated mapping between two types
+  /// - call to already generated mapping between two typ`es
   ///
   /// If [convertMethodArgument] is null, uses a tear off call instead.
   Expression assignNestedObject({
@@ -22,8 +22,11 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     Expression? convertMethodArgument,
     bool includeGenericTypes = false,
   }) {
+    final sourceOnModel = refer('model').property(assignment.sourceField!.displayName);
+
+    // Source and target is the same.
     if (source.isSame(target)) {
-      return refer('model').property(assignment.sourceField!.displayName);
+      return sourceOnModel;
     }
 
     final nestedMapping = mapperConfig.findMapping(
@@ -31,6 +34,42 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
       target: target,
     );
 
+    // Type converters.
+    final typeConvertersBuilder = TypeConverterBuilder(
+      assignment: assignment,
+      mapperConfig: mapperConfig,
+      mapping: mapping,
+      usedNullableMethodCallback: null,
+      convertMethodArgument: convertMethodArgument,
+      source: source,
+      target: target,
+    );
+    if (typeConvertersBuilder.canAssign()) {
+      return typeConvertersBuilder.buildAssignment();
+    }
+
+    // if (assignment.typeConverters
+    //         .firstWhereOrNull((converter) => converter.canBeUsed(mappingSource: source, mappingTarget: target))
+    //     case final converter?) {
+    //   // Call.
+    //   if (convertMethodArgument != null) {
+    //     final targetRefer = EmitterHelper.current.typeRefer(type: target);
+
+    //     return EmitterHelper.current
+    //         .refer(converter.converter.referCallString, converter.converter.library.identifier)
+    //         .call([convertMethodArgument]).asA(targetRefer);
+    //   }
+
+    //   final sourceEmitted = EmitterHelper.current.typeReferEmitted(type: source);
+    //   final targetEmitted = EmitterHelper.current.typeReferEmitted(type: target);
+
+    //   // Tear-off.
+    //   return EmitterHelper.current
+    //       .refer(converter.converter.referCallString, converter.converter.library.identifier)
+    //       .asA(refer('$targetEmitted Function($sourceEmitted)'));
+    // }
+
+    // Unknown mapping.
     if (nestedMapping == null) {
       final sourceName = assignment.sourceField?.getDisplayString(withNullability: true);
 
@@ -66,7 +105,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
       //         name: 'test',
       //       )
       //     : _map_NestedDto_To_Nested(model.name),
-      return refer('model').property(assignment.sourceField!.displayName).equalTo(literalNull).conditional(
+      return sourceOnModel.equalTo(literalNull).conditional(
             fieldMapping!.whenNullExpression!,
             convertCallExpression,
           );

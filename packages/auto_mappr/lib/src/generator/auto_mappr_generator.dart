@@ -11,13 +11,13 @@ import 'package:auto_mappr/src/helpers/run_zoned_auto_mappr.dart';
 import 'package:auto_mappr/src/models/auto_mappr_options.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:auto_mappr/src/models/type_converter.dart';
-import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as annotation;
 import 'package:build/build.dart';
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
 /// Code generator to generate implemented mapping classes.
-class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
+class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
   final BuilderOptions builderOptions;
 
   // Constants for AutoMappr.
@@ -156,8 +156,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
             TypeMapping(
               source: sourceType,
               target: targetType,
-              fieldMappings: fieldMappings,
-              converters: [...globalConverters, ..._toTypeConverters(mapTypeConverters)],
+              fieldMappings: fieldMappings ?? [],
+              typeConverters: [..._toTypeConverters(mapTypeConverters), ...globalConverters],
               whenSourceIsNullExpression: whenSourceIsNull,
               constructor: constructor,
               ignoreFieldNull: ignoreFieldNull,
@@ -166,7 +166,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
               TypeMapping(
                 source: targetType,
                 target: sourceType,
-                fieldMappings: fieldMappings,
+                fieldMappings: fieldMappings ?? [],
                 whenSourceIsNullExpression: whenSourceIsNull,
                 constructor: constructor,
                 ignoreFieldNull: ignoreFieldNull,
@@ -216,7 +216,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       return TypeConverter(
         source: sourceType,
         target: targetType,
-        converter: converter.getField(typeConverterFieldConverter)?.toCodeExpression(),
+        converter: converter.getField(typeConverterFieldConverter)!.toFunctionValue()!,
       );
     }).toList();
   }
