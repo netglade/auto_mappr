@@ -1,8 +1,8 @@
 [//]: # (## Unreleased)
 
 ## 2.0.0-beta1
-- Adhere to netglade_analysis 4.0.0
-- Add `reverse` option to `MapType`.
+- Adhere to netglade_analysis 4.0.0. [#111](https://github.com/netglade/auto_mappr/pull/111)
+- Add `reverse` option to `MapType`. [#115](https://github.com/netglade/auto_mappr/pull/115)
 
 ## 1.2.0
 - Add `ignoreFieldNull` in `MapType` to force non-nullable field for when source's field is nullable
