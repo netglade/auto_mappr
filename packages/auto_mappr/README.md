@@ -650,7 +650,13 @@ there are `TypeConverter`s that help you with that.
 Boxing, `String` to `DateTime`, and stuff like that, `TypeConverter`s are your friend.
 Note since type converters are only used internally,
 you cannot in any way use them using the `.convert()` method.
-Note that global type converters are also "absorbed" when including a module.
+
+Global type converters are also "absorbed" from included modules.
+To make the priority crystal clear:
+
+1. (local) type converters from `MapType`, in order
+1. (global) type converters from `AutoMappr`, in order
+1. (global included) type converters from `included` modules, in order
 
 Use `MapType` for most of the things.
 Use `TypeConverter` only for cases that cannot be solve otherwise.
@@ -686,7 +692,7 @@ note that you have to either return the correct type with correct type parameter
 or initialize it inside correctly.
 It cannot be cast successfully otherwise.
 Therefore if you need a method that converts `"any"` to `Value("any")`,
-and to make it work of `int` and `String`,
+and to make it work for `int` and `String`,
 it must look like one of these:
 
 ```dart
