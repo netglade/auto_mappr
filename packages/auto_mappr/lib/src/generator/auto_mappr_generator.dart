@@ -10,23 +10,26 @@ import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/helpers/run_zoned_auto_mappr.dart';
 import 'package:auto_mappr/src/models/auto_mappr_options.dart';
 import 'package:auto_mappr/src/models/models.dart';
-import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
+import 'package:auto_mappr/src/models/type_converter.dart';
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as annotation;
 import 'package:build/build.dart';
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
 
 /// Code generator to generate implemented mapping classes.
-class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
+class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
   final BuilderOptions builderOptions;
 
   // Constants for AutoMappr.
   static const String annotationAutoMappr = 'AutoMappr';
-  static const String annotationFieldDelegates = 'delegates';
   static const String annotationFieldMappers = 'mappers';
+  static const String annotationFieldConverters = 'converters';
+  static const String annotationFieldDelegates = 'delegates';
   static const String annotationFieldIncludes = 'includes';
 
   // Constants for MapType.
   static const String mapTypeFieldFields = 'fields';
+  static const String mapTypeFieldConverters = 'converters';
   static const String mapTypeFieldWhenSourceIsNull = 'whenSourceIsNull';
   static const String mapTypeFieldConstructor = 'constructor';
   static const String mapTypeFieldIgnoreFieldNull = 'ignoreFieldNull';
@@ -39,6 +42,9 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
   static const String fieldFieldCustom = 'custom';
   static const String fieldFieldWhenNull = 'whenNull';
   static const String fieldFieldIgnoreNull = 'ignoreNull';
+
+  // Constants for TypeConverter.
+  static const String typeConverterFieldConverter = 'converter';
 
   const AutoMapprGenerator({required this.builderOptions});
 
@@ -59,13 +65,16 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
       final mapprOptions = AutoMapprOptions.fromJson(builderOptions.config);
 
       final constant = annotation.objectValue;
-      final mappersList = constant.getField(annotationFieldMappers)!.toListValue()!;
-      final delegatesExpression = constant.getField(annotationFieldDelegates)!.toCodeExpression();
-      final delegatesList = constant.getField(annotationFieldDelegates)!.toListValue();
-      final includesList = constant.getField(annotationFieldIncludes)!.toListValue();
+      final mappersList = constant.getField(annotationFieldMappers)?.toListValue() ?? <DartObject>[];
+      final convertersList = constant.getField(annotationFieldConverters)?.toListValue() ?? <DartObject>[];
+      final delegatesExpression = constant.getField(annotationFieldDelegates)?.toCodeExpression();
+      final delegatesList = constant.getField(annotationFieldDelegates)?.toListValue() ?? <DartObject>[];
+      final includesList = constant.getField(annotationFieldIncludes)?.toListValue() ?? <DartObject>[];
 
-      final allMappers = [...mappersList, ..._mappersFromRecursiveIncludes(includesList: includesList ?? [])];
-      final mappers = _processMappers(mappers: allMappers, element: element);
+      final allMappers = [...mappersList, ..._mappersFromRecursiveIncludes(includesList: includesList)];
+      final allConverters =
+          _toTypeConverters([...convertersList, ..._convertersFromRecursiveIncludes(includesList: includesList)]);
+      final mappers = _processMappers(mappers: allMappers, globalConverters: allConverters, element: element);
 
       final duplicates = mappers.duplicates;
       if (duplicates.isNotEmpty) {
@@ -80,7 +89,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
         mappers: mappers,
         availableMappingsMacroId: element.library.identifier,
         modulesCode: delegatesExpression,
-        delegatesList: delegatesList ?? [],
+        delegatesList: delegatesList,
         mapprOptions: mapprOptions,
       );
 
@@ -94,6 +103,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
 
   List<TypeMapping> _processMappers({
     required List<DartObject> mappers,
+    required List<TypeConverter> globalConverters,
     required ClassElement element,
   }) {
     return mappers
@@ -123,6 +133,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
           }
 
           final fields = mapper.getField(mapTypeFieldFields)?.toListValue();
+          final mapTypeConverters = mapper.getField(mapTypeFieldConverters)?.toListValue() ?? [];
           final whenSourceIsNull = mapper.getField(mapTypeFieldWhenSourceIsNull)?.toCodeExpression();
           final constructor = mapper.getField(mapTypeFieldConstructor)?.toStringValue();
           final ignoreFieldNull = mapper.getField(mapTypeFieldIgnoreFieldNull)?.toBoolValue();
@@ -136,7 +147,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
                   from: fieldMapping.getField(fieldFieldFrom)!.toStringValue(),
                   customExpression: fieldMapping.getField(fieldFieldCustom)!.toCodeExpression(passModelArgument: true),
                   whenNullExpression: fieldMapping.getField(fieldFieldWhenNull)!.toCodeExpression(),
-                  ignoreNull: fieldMapping.getField(fieldFieldIgnoreNull)?.toBoolValue(),
+                  ignoreNull: fieldMapping.getField(fieldFieldIgnoreNull)!.toBoolValue(),
                 ),
               )
               .toList();
@@ -145,7 +156,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
             TypeMapping(
               source: sourceType,
               target: targetType,
-              fieldMappings: fieldMappings,
+              fieldMappings: fieldMappings ?? [],
+              typeConverters: [..._toTypeConverters(mapTypeConverters), ...globalConverters],
               whenSourceIsNullExpression: whenSourceIsNull,
               constructor: constructor,
               ignoreFieldNull: ignoreFieldNull,
@@ -154,7 +166,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
               TypeMapping(
                 source: targetType,
                 target: sourceType,
-                fieldMappings: fieldMappings,
+                fieldMappings: fieldMappings ?? [],
                 whenSourceIsNullExpression: whenSourceIsNull,
                 constructor: constructor,
                 ignoreFieldNull: ignoreFieldNull,
@@ -186,6 +198,50 @@ class AutoMapprGenerator extends GeneratorForAnnotation<AutoMappr> {
         if (includes != null) {
           // ignore: avoid-recursive-calls, it's handled
           mappings.addAll(_mappersFromRecursiveIncludes(includesList: includes));
+        }
+      }
+    }
+
+    return mappings;
+  }
+
+  List<TypeConverter> _toTypeConverters(List<DartObject> source) {
+    return source.map((converter) {
+      final converterType = converter.type! as ParameterizedType;
+      // ignore: avoid-unsafe-collection-methods, is checked by the TypeConverter interface
+      final sourceType = converterType.typeArguments.first;
+      // ignore: avoid-unsafe-collection-methods, is checked by the TypeConverter interface
+      final targetType = converterType.typeArguments.last;
+
+      return TypeConverter(
+        source: sourceType,
+        target: targetType,
+        converter: converter.getField(typeConverterFieldConverter)!.toFunctionValue()!,
+      );
+    }).toList();
+  }
+
+  /// Recursively returns all type converters from includes.
+  Iterable<DartObject> _convertersFromRecursiveIncludes({required List<DartObject> includesList}) {
+    final mappings = <DartObject>[];
+
+    for (final include in includesList) {
+      // For each include locate AutoMappr annotation.
+      if (include.type?.element?.metadata
+              .firstWhereOrNull((data) => data.element?.displayName == annotationAutoMappr)
+              ?.computeConstantValue()
+          case final includeConstant?) {
+        // This -- converters.
+        final converters = includeConstant.getField(annotationFieldConverters)?.toListValue();
+        if (converters != null) {
+          mappings.addAll(converters);
+        }
+
+        // Bellow -- recursive includes.
+        final includes = includeConstant.getField(annotationFieldIncludes)?.toListValue();
+        if (includes != null) {
+          // ignore: avoid-recursive-calls, it's handled
+          mappings.addAll(_convertersFromRecursiveIncludes(includesList: includes));
         }
       }
     }

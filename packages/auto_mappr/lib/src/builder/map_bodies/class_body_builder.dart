@@ -141,6 +141,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
           fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
+          typeConverters: mapping.typeConverters,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);

@@ -4,7 +4,7 @@
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, unnecessary_cast, unused_local_variable
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
@@ -211,7 +211,7 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map___i2$UserType__To___i2$PersonType((model as _i2.UserType?))
+      return (_map__i2$UserType_To__i2$PersonType((model as _i2.UserType?))
           as TARGET);
     }
     if ((sourceTypeOf == _typeOf<_i2.Vehicle>() ||
@@ -221,7 +221,7 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map___i2$Vehicle__To___i2$Vehicle((model as _i2.Vehicle?))
+      return (_map__i2$Vehicle_To__i2$Vehicle((model as _i2.Vehicle?))
           as TARGET);
     }
     if ((sourceTypeOf == _typeOf<_i2.Vehicle>() ||
@@ -231,13 +231,13 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map___i2$Vehicle__To___i2$VehicleX((model as _i2.Vehicle?))
+      return (_map__i2$Vehicle_To__i2$VehicleX((model as _i2.Vehicle?))
           as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  _i2.PersonType _map___i2$UserType__To___i2$PersonType(_i2.UserType? input) {
+  _i2.PersonType _map__i2$UserType_To__i2$PersonType(_i2.UserType? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -247,7 +247,7 @@ class $Mappr implements _i1.AutoMapprInterface {
     return _i2.PersonType.values.firstWhere((x) => x.name == model.name);
   }
 
-  _i2.Vehicle _map___i2$Vehicle__To___i2$Vehicle(_i2.Vehicle? input) {
+  _i2.Vehicle _map__i2$Vehicle_To__i2$Vehicle(_i2.Vehicle? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -257,7 +257,7 @@ class $Mappr implements _i1.AutoMapprInterface {
     return _i2.Vehicle.values.firstWhere((x) => x.name == model.name);
   }
 
-  _i2.VehicleX _map___i2$Vehicle__To___i2$VehicleX(_i2.Vehicle? input) {
+  _i2.VehicleX _map__i2$Vehicle_To__i2$VehicleX(_i2.Vehicle? input) {
     final model = input;
     if (model == null) {
       throw Exception(

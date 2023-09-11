@@ -75,6 +75,16 @@ class ValueAssignmentBuilder {
         target: assignment.targetType,
         convertMethodArgument: rightSide,
       ),
+      // Type converter for primitive type.
+      TypeConverterBuilder(
+        assignment: assignment,
+        mapperConfig: mapperConfig,
+        mapping: mapping,
+        usedNullableMethodCallback: usedNullableMethodCallback,
+        source: assignment.sourceType!,
+        target: assignment.targetType,
+        convertMethodArgument: rightSide,
+      ),
     ];
 
     // Try to assign value using one of assignment builder.
@@ -84,6 +94,9 @@ class ValueAssignmentBuilder {
       }
     }
 
+    // Primitive types (based on DartTypeExtension.isPrimitiveType)
+
+    // When null.
     if (fieldMapping?.whenNullExpression != null) {
       return rightSide.ifNullThen(fieldMapping!.whenNullExpression!);
     }

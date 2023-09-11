@@ -4,7 +4,7 @@
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, unnecessary_cast, unused_local_variable
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i2;
@@ -210,8 +210,7 @@ class $Mappr implements _i2.AutoMapprInterface {
           ),
         ) as TARGET);
       }
-      return (_map___i1$UserDto__To___i1$User((model as _i1.UserDto?))
-          as TARGET);
+      return (_map__i1$UserDto_To__i1$User((model as _i1.UserDto?)) as TARGET);
     }
     if ((sourceTypeOf == _typeOf<_i1.NestedDto>() ||
             sourceTypeOf == _typeOf<_i1.NestedDto?>()) &&
@@ -220,13 +219,13 @@ class $Mappr implements _i2.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map___i1$NestedDto__To___i1$Nested((model as _i1.NestedDto?))
+      return (_map__i1$NestedDto_To__i1$Nested((model as _i1.NestedDto?))
           as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  _i1.User _map___i1$UserDto__To___i1$User(_i1.UserDto? input) {
+  _i1.User _map__i1$UserDto_To__i1$User(_i1.UserDto? input) {
     final model = input;
     if (model == null) {
       return const _i1.User(
@@ -241,12 +240,12 @@ class $Mappr implements _i2.AutoMapprInterface {
       id: model.id,
       tag: model.tag == null
           ? _i1.Mappr.defaultNested()
-          : _map___i1$NestedDto__To___i1$Nested(model.tag),
-      name: _map___i1$NestedDto__To___i1$Nested(model.name),
+          : _map__i1$NestedDto_To__i1$Nested(model.tag),
+      name: _map__i1$NestedDto_To__i1$Nested(model.name),
     );
   }
 
-  _i1.Nested _map___i1$NestedDto__To___i1$Nested(_i1.NestedDto? input) {
+  _i1.Nested _map__i1$NestedDto_To__i1$Nested(_i1.NestedDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(

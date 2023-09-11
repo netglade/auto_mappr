@@ -4,7 +4,7 @@
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, unnecessary_cast, unused_local_variable
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
@@ -198,12 +198,12 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map___i2$Todo__To___i3$TodoItem((model as _i2.Todo?)) as TARGET);
+      return (_map__i2$Todo_To__i3$TodoItem((model as _i2.Todo?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  _i3.TodoItem _map___i2$Todo__To___i3$TodoItem(_i2.Todo? input) {
+  _i3.TodoItem _map__i2$Todo_To__i3$TodoItem(_i2.Todo? input) {
     final model = input;
     if (model == null) {
       throw Exception(

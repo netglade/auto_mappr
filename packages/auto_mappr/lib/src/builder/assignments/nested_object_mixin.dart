@@ -1,5 +1,5 @@
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mappr/src/builder/assignments/assignment_builder_base.dart';
+import 'package:auto_mappr/src/builder/assignments/assignments.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
@@ -22,8 +22,11 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     Expression? convertMethodArgument,
     bool includeGenericTypes = false,
   }) {
+    final sourceOnModel = refer('model').property(assignment.sourceField!.displayName);
+
+    // Source and target is the same.
     if (source.isSame(target)) {
-      return refer('model').property(assignment.sourceField!.displayName);
+      return sourceOnModel;
     }
 
     final nestedMapping = mapperConfig.findMapping(
@@ -31,6 +34,21 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
       target: target,
     );
 
+    // Type converters.
+    final typeConvertersBuilder = TypeConverterBuilder(
+      assignment: assignment,
+      mapperConfig: mapperConfig,
+      mapping: mapping,
+      usedNullableMethodCallback: null,
+      convertMethodArgument: convertMethodArgument,
+      source: source,
+      target: target,
+    );
+    if (typeConvertersBuilder.canAssign()) {
+      return typeConvertersBuilder.buildAssignment();
+    }
+
+    // Unknown mapping.
     if (nestedMapping == null) {
       final sourceName = assignment.sourceField?.getDisplayString(withNullability: true);
 
@@ -66,7 +84,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
       //         name: 'test',
       //       )
       //     : _map_NestedDto_To_Nested(model.name),
-      return refer('model').property(assignment.sourceField!.displayName).equalTo(literalNull).conditional(
+      return sourceOnModel.equalTo(literalNull).conditional(
             fieldMapping!.whenNullExpression!,
             convertCallExpression,
           );

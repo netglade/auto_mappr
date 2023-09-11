@@ -45,6 +45,7 @@ Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
   - [Mapping from source](#mapping-from-source)
   - [Nullability handling](#nullability-handling)
     - [Forced non-nullable field for nullable source](#forced-non-nullable-field-for-nullable-source)
+  - [Type converters](#type-converters)
   - [Generics](#generics)
   - [Library import aliases](#library-import-aliases)
   - [Modules](#modules)
@@ -637,6 +638,80 @@ final User user = mappr.convert(UserDto(...)); // delegates to user feature mapp
 
 That can be handy for example with dependency injection,
 so you can only provide one main mappr that can handle everything by delegating to other mapprs.
+
+### Type converters
+
+`MapType`s are usefull for mappings that you can use from the **outside**.
+AutoMappr mapps one object to another using constructors and fields
+and you use the `.convert()` method on it.
+
+But when you need to customize an **inner** converting of types,
+there are `TypeConverter`s that help you with that.
+Boxing, `String` to `DateTime`, and stuff like that, `TypeConverter`s are your friend.
+Note since type converters are only used internally,
+you cannot in any way use them using the `.convert()` method.
+
+Global type converters are also "absorbed" from included modules.
+To make the priority crystal clear:
+
+1. (local) type converters from `MapType`, in order
+1. (global) type converters from `AutoMappr`, in order
+1. (global included) type converters from `included` modules, in order
+
+Use `MapType` for most of the things.
+Use `TypeConverter` only for cases that cannot be solve otherwise.
+
+Imagine you have an `UserDto` with a date in a `String` and a `User` model with a date in `DateTime`.
+`MapType` will handle mapping of all the constructor parameters and other fields,
+while `TypeConverter` will convert `String` to `DateTime`.
+
+```dart
+@AutoMappr(
+  [
+    MapType<UserDto, User>(
+      // MapType specific
+      converters: [
+        TypeConverter<String, DateTime>()
+      ],
+    ),
+  ],
+  converters: [
+    // or globally here
+  ],
+)
+class Mappr extends $Mappr {
+  static DateTime stringToDateTime(String source) {
+    // ...
+  }
+}
+```
+
+You can also create methods that can convert "any" (to "any") using `Object`.
+But if you work with type parameters (generics)
+note that you have to either return the correct type with correct type parameters
+or initialize it inside correctly.
+It cannot be cast successfully otherwise.
+Therefore if you need a method that converts `"any"` to `Value("any")`,
+and to make it work for `int` and `String`,
+it must look like one of these:
+
+```dart
+static Value<T> objectToValueObject<T extends Object>(T source) {
+  return Value<T>(source);
+}
+
+static Value<Object> objectToValueObject2(Object source) {
+  if (source is int) {
+    return Value<int>(source);
+  }
+
+  if (source is String) {
+    return Value<String>(source);
+  }
+
+  return Value(source);
+}
+```
 
 ### Reverse mapping
 

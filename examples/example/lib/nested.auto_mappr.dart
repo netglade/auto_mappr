@@ -4,7 +4,7 @@
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, unnecessary_cast, unused_local_variable
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
@@ -211,8 +211,7 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map___i2$UserDto__To___i2$User((model as _i2.UserDto?))
-          as TARGET);
+      return (_map__i2$UserDto_To__i2$User((model as _i2.UserDto?)) as TARGET);
     }
     if ((sourceTypeOf == _typeOf<_i2.NestedDto>() ||
             sourceTypeOf == _typeOf<_i2.NestedDto?>()) &&
@@ -221,7 +220,7 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map___i2$NestedDto__To___i2$Nested((model as _i2.NestedDto?))
+      return (_map__i2$NestedDto_To__i2$Nested((model as _i2.NestedDto?))
           as TARGET);
     }
     if ((sourceTypeOf == _typeOf<_i2.NestedTagDto>() ||
@@ -231,13 +230,13 @@ class $Mappr implements _i1.AutoMapprInterface {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map___i2$NestedTagDto__To___i2$NestedTag(
+      return (_map__i2$NestedTagDto_To__i2$NestedTag(
           (model as _i2.NestedTagDto?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  _i2.User _map___i2$UserDto__To___i2$User(_i2.UserDto? input) {
+  _i2.User _map__i2$UserDto_To__i2$User(_i2.UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -246,29 +245,31 @@ class $Mappr implements _i1.AutoMapprInterface {
     }
     return _i2.User(
       id: model.id,
-      name: _map___i2$NestedDto__To___i2$Nested(model.name),
+      name: _map__i2$NestedDto_To__i2$Nested(model.name),
       nestedItems: model.nestedItems
-          .map<_i2.Nested>(_map___i2$NestedDto__To___i2$Nested)
+          .map<_i2.Nested>((value) => _map__i2$NestedDto_To__i2$Nested(value))
           .toList(),
       nestedItemsNullable: model.nestedItemsNullable
-              ?.map<_i2.Nested>(_map___i2$NestedDto__To___i2$Nested)
+              ?.map<_i2.Nested>(
+                  (value) => _map__i2$NestedDto_To__i2$Nested(value))
               .toList() ??
           <_i2.Nested>[],
       nestedItemsNullable2: model.nestedItemsNullable2
-          .map<_i2.Nested>(_map___i2$NestedDto__To___i2$Nested)
+          .map<_i2.Nested>((value) => _map__i2$NestedDto_To__i2$Nested(value))
           .toList(),
       itemsWithNullableItem: model.itemsWithNullableItem
           .whereNotNull()
-          .map<_i2.Nested>(_map___i2$NestedDto__To___i2$Nested)
+          .map<_i2.Nested>((value) => _map__i2$NestedDto_To__i2$Nested(value))
           .toList(),
       itemsWithNullableItem2: model.itemsWithNullableItem2
-          .map<_i2.Nested?>(_map___i2$NestedDto__To___i2$Nested_Nullable)
+          .map<_i2.Nested?>(
+              (value) => _map__i2$NestedDto_To__i2$Nested_Nullable(value))
           .toList(),
       tag: null,
     );
   }
 
-  _i2.Nested _map___i2$NestedDto__To___i2$Nested(_i2.NestedDto? input) {
+  _i2.Nested _map__i2$NestedDto_To__i2$Nested(_i2.NestedDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -278,11 +279,11 @@ class $Mappr implements _i1.AutoMapprInterface {
     return _i2.Nested(
       id: model.id,
       name: model.name,
-      tag: _map___i2$NestedTagDto__To___i2$NestedTag(model.tag),
+      tag: _map__i2$NestedTagDto_To__i2$NestedTag(model.tag),
     );
   }
 
-  _i2.NestedTag _map___i2$NestedTagDto__To___i2$NestedTag(
+  _i2.NestedTag _map__i2$NestedTagDto_To__i2$NestedTag(
       _i2.NestedTagDto? input) {
     final model = input;
     if (model == null) {
@@ -293,8 +294,7 @@ class $Mappr implements _i1.AutoMapprInterface {
     return _i2.NestedTag();
   }
 
-  _i2.Nested? _map___i2$NestedDto__To___i2$Nested_Nullable(
-      _i2.NestedDto? input) {
+  _i2.Nested? _map__i2$NestedDto_To__i2$Nested_Nullable(_i2.NestedDto? input) {
     final model = input;
     if (model == null) {
       return null;
@@ -302,7 +302,7 @@ class $Mappr implements _i1.AutoMapprInterface {
     return _i2.Nested(
       id: model.id,
       name: model.name,
-      tag: _map___i2$NestedTagDto__To___i2$NestedTag(model.tag),
+      tag: _map__i2$NestedTagDto_To__i2$NestedTag(model.tag),
     );
   }
 }
