@@ -15,8 +15,9 @@ class AutoMapprBuilder {
 
   static const List<String> fileIgnores = [
     // ignore everything
-    // ignore: unnecessary-trailing-comma
     'type=lint',
+    'unused_local_variable',
+    'unnecessary_cast',
   ];
 
   const AutoMapprBuilder({
