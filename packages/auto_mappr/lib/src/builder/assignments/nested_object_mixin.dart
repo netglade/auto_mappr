@@ -12,7 +12,7 @@ import 'package:source_gen/source_gen.dart';
 mixin NestedObjectMixin on AssignmentBuilderBase {
   /// Assigns nested object as either:
   /// - default value
-  /// - call to already generated mapping between two typ`es
+  /// - call to already generated mapping between two types
   ///
   /// If [convertMethodArgument] is null, uses a tear off call instead.
   Expression assignNestedObject({
@@ -47,27 +47,6 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     if (typeConvertersBuilder.canAssign()) {
       return typeConvertersBuilder.buildAssignment();
     }
-
-    // if (assignment.typeConverters
-    //         .firstWhereOrNull((converter) => converter.canBeUsed(mappingSource: source, mappingTarget: target))
-    //     case final converter?) {
-    //   // Call.
-    //   if (convertMethodArgument != null) {
-    //     final targetRefer = EmitterHelper.current.typeRefer(type: target);
-
-    //     return EmitterHelper.current
-    //         .refer(converter.converter.referCallString, converter.converter.library.identifier)
-    //         .call([convertMethodArgument]).asA(targetRefer);
-    //   }
-
-    //   final sourceEmitted = EmitterHelper.current.typeReferEmitted(type: source);
-    //   final targetEmitted = EmitterHelper.current.typeReferEmitted(type: target);
-
-    //   // Tear-off.
-    //   return EmitterHelper.current
-    //       .refer(converter.converter.referCallString, converter.converter.library.identifier)
-    //       .asA(refer('$targetEmitted Function($sourceEmitted)'));
-    // }
 
     // Unknown mapping.
     if (nestedMapping == null) {
