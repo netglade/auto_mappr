@@ -1,9 +1,13 @@
 import 'package:auto_mappr_annotation/src/field.dart';
+import 'package:auto_mappr_annotation/src/type_converter.dart';
 
 /// Configured mapping from [SOURCE] to [TARGET].
 final class MapType<SOURCE, TARGET> {
   /// Configuration for [TARGET]'s fields.
   final List<Field> fields;
+
+  /// List of type converters.
+  final List<TypeConverter<Object, Object>> converters;
 
   /// Provides default value if SOURCE is null.
   ///
@@ -35,6 +39,7 @@ final class MapType<SOURCE, TARGET> {
   /// Constructs mapping between [SOURCE] and [TARGET] types.
   const MapType({
     this.fields = const [],
+    this.converters = const [],
     this.whenSourceIsNull,
     this.constructor,
     this.ignoreFieldNull,
