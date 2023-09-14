@@ -49,6 +49,8 @@ Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
   - [Generics](#generics)
   - [Library import aliases](#library-import-aliases)
   - [Modules](#modules)
+    - [Including](#including)
+    - [Delegating](#delegating) 
   - [Reverse mapping](#reverse-mapping)
   - [Records](#records)
   - [Works with `equatable`](#works-with-equatable)
