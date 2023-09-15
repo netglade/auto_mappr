@@ -5,10 +5,6 @@ packages:
   - packages/*/example
   - examples/*
 
-command:
-  bootstrap:
-    usePubspecOverrides: true
-
 scripts:
   # ANALYZING
 
