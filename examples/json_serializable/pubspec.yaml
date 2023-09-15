@@ -7,11 +7,11 @@ environment:
   sdk: ">=2.18.7 <4.0.0"
 
 dependencies:
-  auto_mappr_annotation: ^2.0.0
+  auto_mappr_annotation: ^3.0.0
   json_annotation: ^4.8.1
 
 dev_dependencies:
-  auto_mappr: ^2.0.0
+  auto_mappr: ^3.0.0
   build_runner: ^2.0.0
   json_serializable: ^6.6.1
   netglade_analysis: ^4.2.0

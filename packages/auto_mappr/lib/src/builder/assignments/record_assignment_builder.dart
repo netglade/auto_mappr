@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-shadowing
-
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart' as type;
 import 'package:auto_mappr/src/builder/assignments/assignment_builder_base.dart';

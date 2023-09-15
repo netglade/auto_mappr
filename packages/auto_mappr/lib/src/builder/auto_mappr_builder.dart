@@ -115,7 +115,6 @@ class AutoMapprBuilder {
         ).buildMethod(),
 
       // Generates nullable mapping method only when nullable method is used.
-      // ignore: avoid-shadowing
       for (final mapping in config.mappers.where(nullableMappings.contains))
         MappingMethodBuilder(config, mapping: mapping, nullable: true).buildMethod(),
     ];
