@@ -7,8 +7,7 @@ environment:
   sdk: ">=2.18.7 <4.0.0"
 
 dependencies:
-  auto_mappr_annotation:
-    path: ../../auto_mappr_annotation/
+  auto_mappr_annotation: ^1.1.0
   equatable: ^2.0.5
 
 dev_dependencies:
