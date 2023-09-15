@@ -2,8 +2,8 @@ name: auto_mappr_workspace
 
 packages:
   - packages/*
-  - examples/*
   - packages/*/example
+  - examples/*
 
 scripts:
   # ANALYZING
