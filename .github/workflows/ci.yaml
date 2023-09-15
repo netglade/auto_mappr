@@ -15,9 +15,6 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       - uses: bluefireteam/melos-action@v2
 
-      - name: Melos bootstrap
-        run: melos bootstrap
-
       - name: Generate AutoMappr files
         run: melos run gen:build-all
 
