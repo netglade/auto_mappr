@@ -46,6 +46,11 @@ updates:
     directory: "/examples/freezed"
     schedule:
       interval: "weekly"
+  
+  - package-ecosystem: "pub"
+    directory: "/examples/injectable"
+    schedule:
+      interval: "weekly"
 
   - package-ecosystem: "pub"
     directory: "/examples/json_serializable"
