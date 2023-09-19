@@ -1,2 +1,3 @@
 # Example
 !*.g.dart
+!*.auto_mappr.dart

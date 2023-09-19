@@ -1,41 +1,47 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'freezed_example.dart';
-
 // **************************************************************************
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
-// ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_const
-// ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
-// ignore_for_file: unnecessary_raw_strings
+// ignore_for_file: type=lint, unnecessary_cast, unused_local_variable
 
-/// {@template package:examples_freezed/freezed_example.dart}
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
+
+import 'serializable.dart' as _i2;
+
+/// {@template package:examples_json_serializable/serializable.dart}
 /// Available mappings:
-/// - `UserInfo` → `UserInfoCompanion`.
+/// - `UserDto` → `User`.
+/// - `ValueHolderDto` → `ValueHolder`.
 /// {@endtemplate}
-class $Mappr implements AutoMapprInterface {
+class $Mappr implements _i1.AutoMapprInterface {
   const $Mappr();
 
   Type _typeOf<T>() => T;
-  List<AutoMapprInterface> get _modules => const [];
+  List<_i1.AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:examples_freezed/freezed_example.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserInfo>() ||
-            sourceTypeOf == _typeOf<UserInfo?>()) &&
-        (targetTypeOf == _typeOf<UserInfoCompanion>() ||
-            targetTypeOf == _typeOf<UserInfoCompanion?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserDto>() ||
+            sourceTypeOf == _typeOf<_i2.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.User>() ||
+            targetTypeOf == _typeOf<_i2.User?>())) {
+      return true;
+    }
+    if ((sourceTypeOf == _typeOf<_i2.ValueHolderDto>() ||
+            sourceTypeOf == _typeOf<_i2.ValueHolderDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.ValueHolder>() ||
+            targetTypeOf == _typeOf<_i2.ValueHolder?>())) {
       return true;
     }
     if (recursive) {
-      for (final mappr in _modules) {
+      for (final mappr in _delegates) {
         if (mappr.canConvert<SOURCE, TARGET>()) {
           return true;
         }
@@ -45,13 +51,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:examples_freezed/freezed_example.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return _convert(model)!;
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convert(model)!;
       }
@@ -61,7 +67,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:examples_freezed/freezed_example.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -70,7 +76,7 @@ class $Mappr implements AutoMapprInterface {
         canReturnNull: true,
       );
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvert(model);
       }
@@ -80,13 +86,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:examples_freezed/freezed_example.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return model.map<TARGET>((item) => _convert(item)!);
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertIterable(model);
       }
@@ -99,14 +105,14 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_freezed/freezed_example.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
       Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertIterable(model);
       }
@@ -116,13 +122,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:examples_freezed/freezed_example.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return convertIterable<SOURCE, TARGET>(model).toList();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertList(model);
       }
@@ -135,13 +141,13 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_freezed/freezed_example.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(model).toList();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertList(model);
       }
@@ -151,13 +157,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:examples_freezed/freezed_example.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return convertIterable<SOURCE, TARGET>(model).toSet();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertSet(model);
       }
@@ -170,13 +176,13 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_freezed/freezed_example.dart}
+  /// {@macro package:examples_json_serializable/serializable.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(model).toSet();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertSet(model);
       }
@@ -191,30 +197,49 @@ class $Mappr implements AutoMapprInterface {
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserInfo>() ||
-            sourceTypeOf == _typeOf<UserInfo?>()) &&
-        (targetTypeOf == _typeOf<UserInfoCompanion>() ||
-            targetTypeOf == _typeOf<UserInfoCompanion?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserDto>() ||
+            sourceTypeOf == _typeOf<_i2.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.User>() ||
+            targetTypeOf == _typeOf<_i2.User?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__UserInfo__To__UserInfoCompanion((model as UserInfo?))
-          as TARGET);
+      return (_map__i2$UserDto_To__i2$User((model as _i2.UserDto?)) as TARGET);
+    }
+    if ((sourceTypeOf == _typeOf<_i2.ValueHolderDto>() ||
+            sourceTypeOf == _typeOf<_i2.ValueHolderDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.ValueHolder>() ||
+            targetTypeOf == _typeOf<_i2.ValueHolder?>())) {
+      if (canReturnNull && model == null) {
+        return null;
+      }
+      return (_map__i2$ValueHolderDto_To__i2$ValueHolder(
+          (model as _i2.ValueHolderDto?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  UserInfoCompanion _map__UserInfo__To__UserInfoCompanion(UserInfo? input) {
+  _i2.User _map__i2$UserDto_To__i2$User(_i2.UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping UserInfo → UserInfoCompanion failed because UserInfo was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<UserInfo, UserInfoCompanion> to handle null values during mapping.');
+          r'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
-    return UserInfoCompanion(
-      email: model.email,
-      loginIdentifier: model.loginIdentifier,
-      updatedAt: model.updatedAt,
+    return _i2.User(
+      firstName: model.firstName,
+      lastName: model.lastName,
     );
+  }
+
+  _i2.ValueHolder _map__i2$ValueHolderDto_To__i2$ValueHolder(
+      _i2.ValueHolderDto? input) {
+    final model = input;
+    if (model == null) {
+      throw Exception(
+          r'Mapping ValueHolderDto → ValueHolder failed because ValueHolderDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<ValueHolderDto, ValueHolder> to handle null values during mapping.');
+    }
+    return _i2.ValueHolder(model.json);
   }
 }

@@ -1,55 +1,54 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'enum.dart';
-
 // **************************************************************************
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
-// ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_const
-// ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
-// ignore_for_file: unnecessary_raw_strings
+// ignore_for_file: type=lint, unnecessary_cast, unused_local_variable
 
-/// {@template package:examples_example/enum.dart}
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
+
+import 'nested.dart' as _i2;
+
+/// {@template package:examples_example/nested.dart}
 /// Available mappings:
-/// - `UserType` → `PersonType`.
-/// - `Vehicle` → `Vehicle`.
-/// - `Vehicle` → `VehicleX`.
+/// - `UserDto` → `User`.
+/// - `NestedDto` → `Nested`.
+/// - `NestedTagDto` → `NestedTag`.
 /// {@endtemplate}
-class $Mappr implements AutoMapprInterface {
+class $Mappr implements _i1.AutoMapprInterface {
   const $Mappr();
 
   Type _typeOf<T>() => T;
-  List<AutoMapprInterface> get _modules => const [];
+  List<_i1.AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:examples_example/enum.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserType>() ||
-            sourceTypeOf == _typeOf<UserType?>()) &&
-        (targetTypeOf == _typeOf<PersonType>() ||
-            targetTypeOf == _typeOf<PersonType?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserDto>() ||
+            sourceTypeOf == _typeOf<_i2.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.User>() ||
+            targetTypeOf == _typeOf<_i2.User?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<Vehicle>() ||
-            sourceTypeOf == _typeOf<Vehicle?>()) &&
-        (targetTypeOf == _typeOf<Vehicle>() ||
-            targetTypeOf == _typeOf<Vehicle?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.NestedDto>() ||
+            sourceTypeOf == _typeOf<_i2.NestedDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.Nested>() ||
+            targetTypeOf == _typeOf<_i2.Nested?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<Vehicle>() ||
-            sourceTypeOf == _typeOf<Vehicle?>()) &&
-        (targetTypeOf == _typeOf<VehicleX>() ||
-            targetTypeOf == _typeOf<VehicleX?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.NestedTagDto>() ||
+            sourceTypeOf == _typeOf<_i2.NestedTagDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.NestedTag>() ||
+            targetTypeOf == _typeOf<_i2.NestedTag?>())) {
       return true;
     }
     if (recursive) {
-      for (final mappr in _modules) {
+      for (final mappr in _delegates) {
         if (mappr.canConvert<SOURCE, TARGET>()) {
           return true;
         }
@@ -59,13 +58,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:examples_example/enum.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return _convert(model)!;
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convert(model)!;
       }
@@ -75,7 +74,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:examples_example/enum.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -84,7 +83,7 @@ class $Mappr implements AutoMapprInterface {
         canReturnNull: true,
       );
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvert(model);
       }
@@ -94,13 +93,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:examples_example/enum.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return model.map<TARGET>((item) => _convert(item)!);
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertIterable(model);
       }
@@ -113,14 +112,14 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/enum.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
       Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertIterable(model);
       }
@@ -130,13 +129,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:examples_example/enum.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return convertIterable<SOURCE, TARGET>(model).toList();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertList(model);
       }
@@ -149,13 +148,13 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/enum.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(model).toList();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertList(model);
       }
@@ -165,13 +164,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:examples_example/enum.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return convertIterable<SOURCE, TARGET>(model).toSet();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertSet(model);
       }
@@ -184,13 +183,13 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/enum.dart}
+  /// {@macro package:examples_example/nested.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(model).toSet();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertSet(model);
       }
@@ -205,63 +204,105 @@ class $Mappr implements AutoMapprInterface {
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserType>() ||
-            sourceTypeOf == _typeOf<UserType?>()) &&
-        (targetTypeOf == _typeOf<PersonType>() ||
-            targetTypeOf == _typeOf<PersonType?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserDto>() ||
+            sourceTypeOf == _typeOf<_i2.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.User>() ||
+            targetTypeOf == _typeOf<_i2.User?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__UserType__To__PersonType((model as UserType?)) as TARGET);
+      return (_map__i2$UserDto_To__i2$User((model as _i2.UserDto?)) as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<Vehicle>() ||
-            sourceTypeOf == _typeOf<Vehicle?>()) &&
-        (targetTypeOf == _typeOf<Vehicle>() ||
-            targetTypeOf == _typeOf<Vehicle?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.NestedDto>() ||
+            sourceTypeOf == _typeOf<_i2.NestedDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.Nested>() ||
+            targetTypeOf == _typeOf<_i2.Nested?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__Vehicle__To__Vehicle((model as Vehicle?)) as TARGET);
+      return (_map__i2$NestedDto_To__i2$Nested((model as _i2.NestedDto?))
+          as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<Vehicle>() ||
-            sourceTypeOf == _typeOf<Vehicle?>()) &&
-        (targetTypeOf == _typeOf<VehicleX>() ||
-            targetTypeOf == _typeOf<VehicleX?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.NestedTagDto>() ||
+            sourceTypeOf == _typeOf<_i2.NestedTagDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.NestedTag>() ||
+            targetTypeOf == _typeOf<_i2.NestedTag?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__Vehicle__To__VehicleX((model as Vehicle?)) as TARGET);
+      return (_map__i2$NestedTagDto_To__i2$NestedTag(
+          (model as _i2.NestedTagDto?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  PersonType _map__UserType__To__PersonType(UserType? input) {
+  _i2.User _map__i2$UserDto_To__i2$User(_i2.UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping UserType → PersonType failed because UserType was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<UserType, PersonType> to handle null values during mapping.');
+          r'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
-    return PersonType.values.firstWhere((x) => x.name == model.name);
+    return _i2.User(
+      id: model.id,
+      name: _map__i2$NestedDto_To__i2$Nested(model.name),
+      nestedItems: model.nestedItems
+          .map<_i2.Nested>((value) => _map__i2$NestedDto_To__i2$Nested(value))
+          .toList(),
+      nestedItemsNullable: model.nestedItemsNullable
+              ?.map<_i2.Nested>(
+                  (value) => _map__i2$NestedDto_To__i2$Nested(value))
+              .toList() ??
+          <_i2.Nested>[],
+      nestedItemsNullable2: model.nestedItemsNullable2
+          .map<_i2.Nested>((value) => _map__i2$NestedDto_To__i2$Nested(value))
+          .toList(),
+      itemsWithNullableItem: model.itemsWithNullableItem
+          .whereNotNull()
+          .map<_i2.Nested>((value) => _map__i2$NestedDto_To__i2$Nested(value))
+          .toList(),
+      itemsWithNullableItem2: model.itemsWithNullableItem2
+          .map<_i2.Nested?>(
+              (value) => _map__i2$NestedDto_To__i2$Nested_Nullable(value))
+          .toList(),
+      tag: null,
+    );
   }
 
-  Vehicle _map__Vehicle__To__Vehicle(Vehicle? input) {
+  _i2.Nested _map__i2$NestedDto_To__i2$Nested(_i2.NestedDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping Vehicle → Vehicle failed because Vehicle was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<Vehicle, Vehicle> to handle null values during mapping.');
+          r'Mapping NestedDto → Nested failed because NestedDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<NestedDto, Nested> to handle null values during mapping.');
     }
-    return Vehicle.values.firstWhere((x) => x.name == model.name);
+    return _i2.Nested(
+      id: model.id,
+      name: model.name,
+      tag: _map__i2$NestedTagDto_To__i2$NestedTag(model.tag),
+    );
   }
 
-  VehicleX _map__Vehicle__To__VehicleX(Vehicle? input) {
+  _i2.NestedTag _map__i2$NestedTagDto_To__i2$NestedTag(
+      _i2.NestedTagDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping Vehicle → VehicleX failed because Vehicle was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<Vehicle, VehicleX> to handle null values during mapping.');
+          r'Mapping NestedTagDto → NestedTag failed because NestedTagDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<NestedTagDto, NestedTag> to handle null values during mapping.');
     }
-    return VehicleX.values.firstWhere((x) => x.name == model.name);
+    return _i2.NestedTag();
+  }
+
+  _i2.Nested? _map__i2$NestedDto_To__i2$Nested_Nullable(_i2.NestedDto? input) {
+    final model = input;
+    if (model == null) {
+      return null;
+    }
+    return _i2.Nested(
+      id: model.id,
+      name: model.name,
+      tag: _map__i2$NestedTagDto_To__i2$NestedTag(model.tag),
+    );
   }
 }

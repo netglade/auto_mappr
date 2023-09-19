@@ -1,11 +1,10 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-import 'modules/module_alpha.dart';
+import 'delegates.auto_mappr.dart';
+import 'delegates/module_alpha.dart';
 
-part 'modules.g.dart';
-
-@AutoMappr([MapType<GroupDto, Group>()], modules: [MapprAlpha()])
+@AutoMappr([MapType<GroupDto, Group>()], delegates: [MapprAlpha()])
 class MapprGroup extends $MapprGroup {
   const MapprGroup();
 }

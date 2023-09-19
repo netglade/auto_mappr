@@ -1,47 +1,40 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'nullable.dart';
-
 // **************************************************************************
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
-// ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: require_trailing_commas, unnecessary_const
-// ignore_for_file: unnecessary_lambdas, unnecessary_parenthesis
-// ignore_for_file: unnecessary_raw_strings
+// ignore_for_file: type=lint, unnecessary_cast, unused_local_variable
 
-/// {@template package:examples_example/nullable.dart}
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
+
+import 'mappr.dart' as _i2;
+
+/// {@template asset:auto_mappr/example/lib/mappr.dart}
 /// Available mappings:
-/// - `UserDto` → `User` -- With default value.
-/// - `NestedDto` → `Nested`.
+/// - `UserDto` → `User`.
 /// {@endtemplate}
-class $Mappr implements AutoMapprInterface {
+class $Mappr implements _i1.AutoMapprInterface {
   const $Mappr();
 
   Type _typeOf<T>() => T;
-  List<AutoMapprInterface> get _modules => const [];
+  List<_i1.AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:examples_example/nullable.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserDto>() ||
-            sourceTypeOf == _typeOf<UserDto?>()) &&
-        (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
-      return true;
-    }
-    if ((sourceTypeOf == _typeOf<NestedDto>() ||
-            sourceTypeOf == _typeOf<NestedDto?>()) &&
-        (targetTypeOf == _typeOf<Nested>() ||
-            targetTypeOf == _typeOf<Nested?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserDto>() ||
+            sourceTypeOf == _typeOf<_i2.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.User>() ||
+            targetTypeOf == _typeOf<_i2.User?>())) {
       return true;
     }
     if (recursive) {
-      for (final mappr in _modules) {
+      for (final mappr in _delegates) {
         if (mappr.canConvert<SOURCE, TARGET>()) {
           return true;
         }
@@ -51,13 +44,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:examples_example/nullable.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return _convert(model)!;
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convert(model)!;
       }
@@ -67,7 +60,7 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:examples_example/nullable.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -76,7 +69,7 @@ class $Mappr implements AutoMapprInterface {
         canReturnNull: true,
       );
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvert(model);
       }
@@ -86,13 +79,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:examples_example/nullable.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return model.map<TARGET>((item) => _convert(item)!);
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertIterable(model);
       }
@@ -105,14 +98,14 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/nullable.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
       Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertIterable(model);
       }
@@ -122,13 +115,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:examples_example/nullable.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return convertIterable<SOURCE, TARGET>(model).toList();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertList(model);
       }
@@ -141,13 +134,13 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/nullable.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(model).toList();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertList(model);
       }
@@ -157,13 +150,13 @@ class $Mappr implements AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:examples_example/nullable.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return convertIterable<SOURCE, TARGET>(model).toSet();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.convertSet(model);
       }
@@ -176,13 +169,13 @@ class $Mappr implements AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:examples_example/nullable.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(model).toSet();
     }
-    for (final mappr in _modules) {
+    for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
         return mappr.tryConvertSet(model);
       }
@@ -197,62 +190,28 @@ class $Mappr implements AutoMapprInterface {
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<UserDto>() ||
-            sourceTypeOf == _typeOf<UserDto?>()) &&
-        (targetTypeOf == _typeOf<User>() || targetTypeOf == _typeOf<User?>())) {
-      if (canReturnNull && model == null) {
-        return (const User(
-          id: 1,
-          tag: Nested(
-            id: 1,
-            name: r'default',
-          ),
-        ) as TARGET);
-      }
-      return (_map__UserDto__To__User((model as UserDto?)) as TARGET);
-    }
-    if ((sourceTypeOf == _typeOf<NestedDto>() ||
-            sourceTypeOf == _typeOf<NestedDto?>()) &&
-        (targetTypeOf == _typeOf<Nested>() ||
-            targetTypeOf == _typeOf<Nested?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.UserDto>() ||
+            sourceTypeOf == _typeOf<_i2.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.User>() ||
+            targetTypeOf == _typeOf<_i2.User?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__NestedDto__To__Nested((model as NestedDto?)) as TARGET);
+      return (_map__i2$UserDto_To__i2$User((model as _i2.UserDto?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
-  User _map__UserDto__To__User(UserDto? input) {
-    final model = input;
-    if (model == null) {
-      return const User(
-        id: 1,
-        tag: Nested(
-          id: 1,
-          name: r'default',
-        ),
-      );
-    }
-    return User(
-      id: model.id,
-      tag: model.tag == null
-          ? Mappr.defaultNested()
-          : _map__NestedDto__To__Nested(model.tag),
-      name: _map__NestedDto__To__Nested(model.name),
-    );
-  }
-
-  Nested _map__NestedDto__To__Nested(NestedDto? input) {
+  _i2.User _map__i2$UserDto_To__i2$User(_i2.UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping NestedDto → Nested failed because NestedDto was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<NestedDto, Nested> to handle null values during mapping.');
+          r'Mapping UserDto → User failed because UserDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, User> to handle null values during mapping.');
     }
-    return Nested(
+    return _i2.User(
       id: model.id,
-      name: model.name,
+      name: model.xname,
     );
   }
 }

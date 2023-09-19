@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'constructor_parameters.g.dart';
+import 'constructor_parameters.auto_mappr.dart';
 
 @AutoMappr([
   MapType<Positional, Positional>(),

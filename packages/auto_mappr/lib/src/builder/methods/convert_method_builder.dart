@@ -5,7 +5,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
 class ConvertMethodBuilder extends MethodBuilderBase {
-  ConvertMethodBuilder(super.config);
+  const ConvertMethodBuilder(super.config);
 
   @override
   Method buildMethod() {
@@ -56,7 +56,7 @@ class ConvertMethodBuilder extends MethodBuilderBase {
     block.statements.add(
       ExpressionExtension.forStatement(
         item: refer('mappr'),
-        iterable: refer('_modules'),
+        iterable: refer(MethodBuilderBase.delegatesField),
         body: ExpressionExtension.ifStatement(
           condition: CanConvertMethodBuilder(config).propertyCall(on: refer('mappr')),
           ifBody: refer('mappr').property('convert').call([refer('model')], {}, []).nullChecked.returned.statement,

@@ -1,6 +1,7 @@
 import 'package:auto_mappr/src/builder/methods/can_convert_method_builder.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
@@ -10,7 +11,7 @@ class ConvertIterableMethodBuilder extends MethodBuilderBase {
   final String wrapper;
   final String? iterableTransformer;
 
-  ConvertIterableMethodBuilder(
+  const ConvertIterableMethodBuilder(
     super.config, {
     required this.wrapper,
     this.iterableTransformer,
@@ -31,10 +32,11 @@ class ConvertIterableMethodBuilder extends MethodBuilderBase {
           Parameter(
             (p) => p
               ..name = 'model'
-              ..type = Reference('Iterable<${MethodBuilderBase.nullableSourceTypeReference.accept(DartEmitter())}>'),
+              ..type =
+                  Reference('Iterable<${MethodBuilderBase.nullableSourceTypeReference.accept(EmitterHelper.current.emitter)}>'),
           ),
         )
-        ..returns = Reference('$wrapper<${MethodBuilderBase.targetTypeReference.accept(DartEmitter())}>')
+        ..returns = Reference('$wrapper<${MethodBuilderBase.targetTypeReference.accept(EmitterHelper.current.emitter)}>')
         ..body = buildBody(),
     );
   }
@@ -81,7 +83,7 @@ class ConvertIterableMethodBuilder extends MethodBuilderBase {
     block.statements.add(
       ExpressionExtension.forStatement(
         item: refer('mappr'),
-        iterable: refer('_modules'),
+        iterable: refer(MethodBuilderBase.delegatesField),
         body: ExpressionExtension.ifStatement(
           condition: CanConvertMethodBuilder(config).propertyCall(on: refer('mappr')),
           ifBody: refer('mappr').property('convert$wrapper').call([refer('model')], {}, []).returned.statement,

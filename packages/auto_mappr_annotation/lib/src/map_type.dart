@@ -1,9 +1,13 @@
 import 'package:auto_mappr_annotation/src/field.dart';
+import 'package:auto_mappr_annotation/src/type_converter.dart';
 
 /// Configured mapping from [SOURCE] to [TARGET].
-class MapType<SOURCE, TARGET> {
+final class MapType<SOURCE, TARGET> {
   /// Configuration for [TARGET]'s fields.
   final List<Field> fields;
+
+  /// List of type converters.
+  final List<TypeConverter<Object, Object>> converters;
 
   /// Provides default value if SOURCE is null.
   ///
@@ -25,11 +29,20 @@ class MapType<SOURCE, TARGET> {
   /// Ignores if [SOURCE]'s field is nullable and [TARGET]'s field non-nullable.
   final bool? ignoreFieldNull;
 
+  /// Includes reverse mapping.
+  ///
+  /// Warning: reverse warning might be suitable only for specific objects.
+  /// Reverse mapping might not work properly when additional configuration
+  /// such as [whenSourceIsNull] or [constructor] is used.
+  final bool reverse;
+
   /// Constructs mapping between [SOURCE] and [TARGET] types.
   const MapType({
     this.fields = const [],
+    this.converters = const [],
     this.whenSourceIsNull,
     this.constructor,
     this.ignoreFieldNull,
+    this.reverse = false,
   });
 }

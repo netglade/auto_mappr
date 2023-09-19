@@ -1,11 +1,10 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
+import 'import_alias.auto_mappr.dart';
 import 'import_alias/import_alias_1.dart' as a1;
 import 'import_alias/import_alias_2.dart' as a2;
 import 'import_alias/import_alias_module.dart' as module;
-
-part 'import_alias.g.dart';
 
 @AutoMappr(
   [
@@ -27,7 +26,7 @@ part 'import_alias.g.dart';
     MapType<ListHolder<UserDto>, ListHolder<a1.User>>(),
     MapType<MapHolder<UserDto>, MapHolder<a2.User>>(),
   ],
-  modules: [module.ImportAliasModule()],
+  delegates: [module.ImportAliasModule()],
 )
 class Mappr extends $Mappr {
   const Mappr();

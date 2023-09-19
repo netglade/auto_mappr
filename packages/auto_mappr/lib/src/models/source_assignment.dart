@@ -3,8 +3,10 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/models.dart';
-import 'package:code_builder/code_builder.dart';
+import 'package:auto_mappr/src/models/type_converter.dart';
+import 'package:code_builder/code_builder.dart' show Expression, literalList, literalMap, literalNull, literalSet;
 
 class ConstructorAssignment {
   final ParameterElement param;
@@ -21,19 +23,12 @@ class SourceAssignment {
   final ConstructorAssignment? targetConstructorParam;
   final PropertyAccessorElement? targetField;
 
+  final List<TypeConverter> typeConverters;
+
   /// Field mapping.
   ///
   /// Like filed 'name' from 'userName' etc.
   final FieldMapping? fieldMapping;
-
-  /// Mapping of type.
-  ///
-  /// Like UserDto to User.
-  final TypeMapping typeMapping;
-
-  final AutoMapprConfig config;
-
-  bool get shouldBeIgnored => fieldMapping?.ignore ?? false;
 
   DartType? get sourceType => sourceField?.returnType;
 
@@ -46,30 +41,34 @@ class SourceAssignment {
   const SourceAssignment({
     required this.sourceField,
     required this.targetField,
-    required this.typeMapping,
-    required this.config,
     this.targetConstructorParam,
+    this.typeConverters = const [],
     this.fieldMapping,
   });
 
-  bool shouldAssignIterable() {
+  bool canAssignIterable() {
     // The source can be mapped to the target, if the source is mappable object and the target is an iterable.
     return (_isCoreIterable(targetType) || targetType.isSpecializedListType) && _isMappableIterable(sourceType!);
   }
 
-  bool shouldAssignMap() {
+  bool canAssignMap() {
     // The source can be mapped to the target, if the source is mappable object and the target is map.
     return targetType.isDartCoreMap && _isMappableMap(sourceType!);
   }
 
-  bool shouldAssignComplexObject() => !targetType.isPrimitiveType;
+  bool canAssignRecord() {
+    final isSourceRecord = sourceType is RecordType;
+    final isTargetRecord = targetType is RecordType;
+
+    return isSourceRecord && isTargetRecord;
+  }
 
   @override
   String toString() {
-    final sourceTypeName = sourceType?.getDisplayStringWithLibraryAlias(withNullability: true, config: config);
-    final targetTypeName = targetType.getDisplayStringWithLibraryAlias(withNullability: true, config: config);
+    final emittedSource = EmitterHelper.current.typeReferEmitted(type: sourceType);
+    final emittedTarget = EmitterHelper.current.typeReferEmitted(type: targetType);
 
-    return '$sourceTypeName $sourceName -> $targetTypeName $targetName';
+    return '$emittedSource $sourceName -> $emittedTarget $targetName';
   }
 
   Expression getDefaultValue() {

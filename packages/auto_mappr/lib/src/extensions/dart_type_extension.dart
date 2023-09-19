@@ -1,7 +1,6 @@
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:auto_mappr/src/extensions/element_extension.dart';
-import 'package:auto_mappr/src/models/auto_mappr_config.dart';
+import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 
@@ -14,6 +13,14 @@ extension DartTypeExtension on DartType {
       isDartCoreBool ||
       isDartCoreEnum ||
       isDartCoreSymbol;
+
+  bool get isNullable {
+    return nullabilitySuffix == NullabilitySuffix.question;
+  }
+
+  bool get isNotNullable {
+    return !isNullable;
+  }
 
   /// Is special variant of integer.
   ///
@@ -60,91 +67,31 @@ extension DartTypeExtension on DartType {
     }
 
     // Nullability matches.
-    final thisNullability = nullabilitySuffix == NullabilitySuffix.question;
-    final otherNullability = other.nullabilitySuffix == NullabilitySuffix.question;
+    final thisNullability = isNullable;
+    final otherNullability = other.isNullable;
     final isSameNullability = thisNullability == otherNullability;
 
     return isSameExceptNullability && isSameNullability;
   }
 
-  Expression defaultIterableExpression({required AutoMapprConfig config}) {
+  Expression defaultIterableExpression() {
     final itemType = genericParameterTypeOrSelf;
 
     return isDartCoreSet
-        ? literalSet(
-            {},
-            refer(
-              itemType.getDisplayStringWithLibraryAlias(
-                config: config,
-                withNullability: true,
-              ),
-            ),
-          )
-        : literalList(
-            [],
-            refer(
-              itemType.getDisplayStringWithLibraryAlias(
-                config: config,
-                withNullability: true,
-              ),
-            ),
-          );
+        ? literalSet({}, EmitterHelper.current.typeRefer(type: itemType))
+        : literalList([], EmitterHelper.current.typeRefer(type: itemType));
   }
 
-  String getDisplayStringWithLibraryAlias({
-    required AutoMapprConfig config,
-    bool withNullability = false,
-  }) {
-    final alias = element!.getLibraryAlias(config: config);
-    final typeName = element!.name;
-    final buffer = StringBuffer('$alias$typeName');
-
-    if (this is ParameterizedType && (this as ParameterizedType).typeArguments.isNotEmpty) {
-      final arguments = (this as ParameterizedType)
-          .typeArguments
-          .map<String>(
-            (argument) => argument.getDisplayStringWithLibraryAlias(
-              withNullability: withNullability,
-              config: config,
-            ),
-          )
-          .join(',');
-      buffer.write('<$arguments>');
-    }
-
-    // Nullability
-    if (withNullability && nullabilitySuffix == NullabilitySuffix.question) {
-      buffer.write('?');
-    }
-
-    return buffer.toString();
-  }
-
-  String toConvertMethodName({
-    required bool withNullability,
-    required AutoMapprConfig config,
-  }) {
-    final alias = element!.getLibraryAlias(config: config, postfix: '_');
-    final typeName = element!.name;
-    final buffer = StringBuffer()..write('$alias$typeName');
-
-    if (this is ParameterizedType && (this as ParameterizedType).typeArguments.isNotEmpty) {
-      final arguments = (this as ParameterizedType)
-          .typeArguments
-          .map<String>(
-            (argument) => argument.toConvertMethodName(
-              withNullability: withNullability,
-              config: config,
-            ),
-          )
-          .join(r'$');
-      buffer.write('\$$arguments');
-    }
-
-    // Nullability
-    if (withNullability && nullabilitySuffix == NullabilitySuffix.question) {
-      buffer.write('?');
-    }
+  String toConvertMethodName() {
+    final emittedThis = EmitterHelper.current
+        .typeReferEmitted(type: this)
+        .replaceAll(' ', '')
+        .replaceAll('?', '')
+        .replaceAll('.', r'$')
+        .replaceAll(',', r'_$')
+        .replaceAll('<', r'$')
+        .replaceAll('>', r'$');
+    final buffer = StringBuffer()..write(emittedThis);
 
     return buffer.toString();
   }

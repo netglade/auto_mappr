@@ -1,11 +1,10 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
+import 'module_beta.auto_mappr.dart';
 import 'module_gama.dart';
 
-part 'module_beta.g.dart';
-
-@AutoMappr([MapType<BetaDto, Beta>()], modules: [MapprGama()])
+@AutoMappr([MapType<BetaDto, Beta>()], delegates: [MapprGama()])
 class MapprBeta extends $MapprBeta {
   const MapprBeta();
 }

@@ -6,7 +6,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
 class CanConvertMethodBuilder extends MethodBuilderBase implements CallableMethod, CallableProperty {
-  CanConvertMethodBuilder(super.config);
+  const CanConvertMethodBuilder(super.config);
 
   @override
   Method buildMethod() {
@@ -63,7 +63,7 @@ class CanConvertMethodBuilder extends MethodBuilderBase implements CallableMetho
         condition: refer('recursive'),
         ifBody: ExpressionExtension.forStatement(
           item: refer('mappr'),
-          iterable: refer('_modules'),
+          iterable: refer(MethodBuilderBase.delegatesField),
           body: ExpressionExtension.ifStatement(
             condition: CanConvertMethodBuilder(config).propertyCall(on: refer('mappr')),
             ifBody: literalTrue.returned.statement,

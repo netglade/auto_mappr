@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'super_class.g.dart';
+import 'super_class.auto_mappr.dart';
 
 @AutoMappr([
   MapType<FlattenedClass, SubClass>(),

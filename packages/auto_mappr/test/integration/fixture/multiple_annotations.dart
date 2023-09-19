@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'multiple_annotations.g.dart';
+import 'multiple_annotations.auto_mappr.dart';
 
 class AnnotationA {
   const AnnotationA();

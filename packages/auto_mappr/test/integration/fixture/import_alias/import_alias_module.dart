@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'import_alias_module.g.dart';
+import 'import_alias_module.auto_mappr.dart';
 
 @AutoMappr([MapType<UserDto, User>()])
 class ImportAliasModule extends $ImportAliasModule {

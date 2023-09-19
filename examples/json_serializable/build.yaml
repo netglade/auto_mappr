@@ -3,3 +3,5 @@ targets:
     builders:
       auto_mappr:
         enabled: true
+      json_serializable:
+        enabled: true

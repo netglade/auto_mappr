@@ -1,7 +1,7 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
-part 'module_gama.g.dart';
+import 'module_gama.auto_mappr.dart';
 
 @AutoMappr([MapType<GamaDto, Gama>()])
 class MapprGama extends $MapprGama {
