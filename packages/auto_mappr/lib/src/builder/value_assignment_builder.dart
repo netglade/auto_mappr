@@ -44,6 +44,16 @@ class ValueAssignmentBuilder {
         .property(sourceField.name);
 
     final assignmentBuilders = [
+      // Type converter.
+      TypeConverterBuilder(
+        assignment: assignment,
+        mapperConfig: mapperConfig,
+        mapping: mapping,
+        usedNullableMethodCallback: usedNullableMethodCallback,
+        source: assignment.sourceType!,
+        target: assignment.targetType,
+        convertMethodArgument: rightSide,
+      ),
       // Iterable.
       IterableAssignmentBuilder(
         assignment: assignment,
@@ -67,16 +77,6 @@ class ValueAssignmentBuilder {
       ),
       // Nested object.
       NestedObjectAssignmentBuilder(
-        assignment: assignment,
-        mapperConfig: mapperConfig,
-        mapping: mapping,
-        usedNullableMethodCallback: usedNullableMethodCallback,
-        source: assignment.sourceType!,
-        target: assignment.targetType,
-        convertMethodArgument: rightSide,
-      ),
-      // Type converter for primitive type.
-      TypeConverterBuilder(
         assignment: assignment,
         mapperConfig: mapperConfig,
         mapping: mapping,

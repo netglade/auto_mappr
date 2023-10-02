@@ -17,10 +17,15 @@ import 'type_converters/module_alpha.dart';
     MapType<InListDto, InList>(),
     MapType<InMapDto, InMap>(),
     MapType<IncludesDto, Includes>(),
+    // Post w/ reverse.
+    MapType<PostDto, Post>(reverse: true),
   ],
   converters: [
     TypeConverter<String, Value<String>>(Mappr.stringToValueString),
     TypeConverter<Object, Value<Object>>(Mappr.objectToValueObject2),
+    // Post w/ reverse.
+    userDtoConverter,
+    userConverter,
   ],
   includes: [MapprAlpha()],
 )
@@ -78,7 +83,11 @@ class NormalFieldDto {
   final String xString;
   final bool normalBool;
 
-  const NormalFieldDto({required this.xInt, required this.xString, required this.normalBool});
+  const NormalFieldDto({
+    required this.xInt,
+    required this.xString,
+    required this.normalBool,
+  });
 }
 
 class NormalField with EquatableMixin {
@@ -99,7 +108,11 @@ class InListDto {
   final String xString;
   final bool normalBool;
 
-  const InListDto({required this.xInt, required this.xString, required this.normalBool});
+  const InListDto({
+    required this.xInt,
+    required this.xString,
+    required this.normalBool,
+  });
 }
 
 class InList with EquatableMixin {
@@ -161,3 +174,46 @@ class Value<T> with EquatableMixin {
 
   const Value(this.value);
 }
+
+// Post w/ reverse.
+
+class Post with EquatableMixin {
+  final User user;
+
+  @override
+  List<Object?> get props => [user];
+
+  const Post({required this.user});
+}
+
+class PostDto with EquatableMixin {
+  final UserDto user;
+
+  @override
+  List<Object?> get props => [user];
+
+  const PostDto({required this.user});
+}
+
+class User with EquatableMixin {
+  final String id;
+
+  @override
+  List<Object?> get props => [id];
+
+  const User({required this.id});
+}
+
+class UserDto with EquatableMixin {
+  final String id;
+
+  @override
+  List<Object?> get props => [id];
+
+  const UserDto({required this.id});
+}
+
+const userDtoConverter = TypeConverter(userDtoToUser);
+const userConverter = TypeConverter(userToUserDto);
+UserDto userToUserDto(User source) => UserDto(id: source.id);
+User userDtoToUser(UserDto source) => User(id: source.id);

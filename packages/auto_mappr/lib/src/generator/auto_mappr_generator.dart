@@ -167,6 +167,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
                 source: targetType,
                 target: sourceType,
                 fieldMappings: fieldMappings ?? [],
+                typeConverters: [..._toTypeConverters(mapTypeConverters), ...globalConverters],
                 whenSourceIsNullExpression: whenSourceIsNull,
                 constructor: constructor,
                 ignoreFieldNull: ignoreFieldNull,

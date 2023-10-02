@@ -115,6 +115,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
           fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
+          typeConverters: mapping.typeConverters,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -165,6 +166,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
             targetField: targetField,
             fieldMapping: fieldMapping,
             targetConstructorParam: constructorAssignment,
+            typeConverters: mapping.typeConverters,
           ),
         );
       }
@@ -246,6 +248,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
               assignment: SourceAssignment(
                 sourceField: sourceField,
                 targetField: targetField,
+                typeConverters: mapping.typeConverters,
               ),
               usedNullableMethodCallback: usedNullableMethodCallback,
             ).build(),
