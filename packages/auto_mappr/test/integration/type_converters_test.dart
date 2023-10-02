@@ -72,4 +72,20 @@ void main() {
 
     expect(converted, equals(const fixture.Includes(false)));
   });
+
+  group('with reverse', () {
+    test('Dto to entity', () {
+      const dto = fixture.PostDto(user: fixture.UserDto(id: 'alpha123'));
+      final converted = mappr.convert<fixture.PostDto, fixture.Post>(dto);
+
+      expect(converted, equals(const fixture.Post(user: fixture.User(id: 'alpha123'))));
+    });
+
+    test('Entity to dto', () {
+      const dto = fixture.Post(user: fixture.User(id: 'beta123'));
+      final converted = mappr.convert<fixture.Post, fixture.PostDto>(dto);
+
+      expect(converted, equals(const fixture.PostDto(user: fixture.UserDto(id: 'beta123'))));
+    });
+  });
 }
