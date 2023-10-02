@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.0.1
+- Fix type converters when used with reverse mappings.
+
 ## 2.0.0
 - **Breaking**: Allow "absorbing" modules using `includes` on `@AutoMappr`. Previous `modules` is now `delegates`. [#117](https://github.com/netglade/auto_mappr/pull/117)
 - **Breaking**: Remove shared AutoMappr builder that used PartBuilder, now `.auto_mappr.dart` is generated using LibraryBuilder. [#117](https://github.com/netglade/auto_mappr/pull/117)
