@@ -22,6 +22,11 @@ import 'map.auto_mappr.dart';
   MapType<ComplexComplexNullableKeyDto, ComplexComplex>(),
   MapType<ComplexComplexNullableValueDto, ComplexComplex>(),
   MapType<ComplexComplexNullableBothDto, ComplexComplex>(),
+  // nullable and non nullable
+  MapType<NullableMap, NullableMap>(),
+  MapType<NullableMap, NonNullableMap>(),
+  MapType<NonNullableMap, NullableMap>(),
+  MapType<NonNullableMap, NonNullableMap>(),
 ])
 class Mappr extends $Mappr {
   const Mappr();
@@ -193,4 +198,24 @@ class ComplexComplexNullableBothDto extends Equatable {
   List<Object?> get props => [value];
 
   const ComplexComplexNullableBothDto(this.value);
+}
+
+// nullable and non nullable
+
+class NullableMap extends Equatable {
+  final Map<String, Object?>? data;
+
+  @override
+  List<Object?> get props => [data];
+
+  const NullableMap({this.data});
+}
+
+class NonNullableMap extends Equatable {
+  final Map<String, Object?> data;
+
+  @override
+  List<Object?> get props => [data];
+
+  const NonNullableMap({required this.data});
 }

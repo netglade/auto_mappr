@@ -28,6 +28,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     final targetType = assignment.targetType;
 
     final sourceNullable = sourceType.isNullable;
+    final targetNullable = targetType.isNullable;
 
     final sourceKeyType = (sourceType as ParameterizedType).typeArguments.firstOrNull;
     final sourceValueType = sourceType.typeArguments.lastOrNull;
@@ -101,7 +102,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
       ],
     )
         // When [sourceNullable], use default value.
-        .maybeIfNullThen(defaultMapValueExpression, isOnNullable: sourceNullable);
+        .maybeIfNullThen(defaultMapValueExpression, isOnNullable: sourceNullable && !targetNullable);
   }
 
   Expression _map(SourceAssignment assignment) {

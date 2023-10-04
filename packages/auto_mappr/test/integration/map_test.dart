@@ -196,4 +196,48 @@ void main() {
       );
     });
   });
+
+  group('nullable data', () {
+    test('nullable to nullable - w/o data', () {
+      const dto = fixture.NullableMap();
+      final converted = mappr.convert<fixture.NullableMap, fixture.NullableMap>(dto);
+
+      expect(converted, equals(const fixture.NullableMap()));
+    });
+
+    test('nullable to nullable - w/ data', () {
+      const dto = fixture.NullableMap(data: {'Alpha': 111});
+      final converted = mappr.convert<fixture.NullableMap, fixture.NullableMap>(dto);
+
+      expect(converted, equals(const fixture.NullableMap(data: {'Alpha': 111})));
+    });
+
+    test('nullable to non nullable - w/o data', () {
+      const dto = fixture.NullableMap();
+      final converted = mappr.convert<fixture.NullableMap, fixture.NonNullableMap>(dto);
+
+      expect(converted, equals(const fixture.NonNullableMap(data: {})));
+    });
+
+    test('nullable to non nullable - w/ data', () {
+      const dto = fixture.NullableMap(data: {'Alpha': 111});
+      final converted = mappr.convert<fixture.NullableMap, fixture.NonNullableMap>(dto);
+
+      expect(converted, equals(const fixture.NonNullableMap(data: {'Alpha': 111})));
+    });
+
+    test('non nullable to nullable', () {
+      const dto = fixture.NonNullableMap(data: {'Beta': 222});
+      final converted = mappr.convert<fixture.NonNullableMap, fixture.NullableMap>(dto);
+
+      expect(converted, equals(const fixture.NullableMap(data: {'Beta': 222})));
+    });
+
+    test('non nullable to nullable', () {
+      const dto = fixture.NonNullableMap(data: {'Gama': 333});
+      final converted = mappr.convert<fixture.NonNullableMap, fixture.NonNullableMap>(dto);
+
+      expect(converted, equals(const fixture.NonNullableMap(data: {'Gama': 333})));
+    });
+  });
 }

@@ -1,7 +1,10 @@
 [//]: # (## Unreleased)
 
+## 2.0.2
+- Fix null value when nullable source and target resulting in `{}` and not `null`. [#129](https://github.com/netglade/auto_mappr/pull/129)
+
 ## 2.0.1
-- Fix type converters when used with reverse mappings.
+- Fix type converters when used with reverse mappings. [#127](https://github.com/netglade/auto_mappr/pull/127)
 
 ## 2.0.0
 - **Breaking**: Allow "absorbing" modules using `includes` on `@AutoMappr`. Previous `modules` is now `delegates`. [#117](https://github.com/netglade/auto_mappr/pull/117)
