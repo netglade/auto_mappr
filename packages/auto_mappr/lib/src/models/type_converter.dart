@@ -33,22 +33,23 @@ class TypeConverter extends Equatable {
         _isConverterSubtype(target, mappingTarget, _ConversionRole.target);
   }
 
-  bool _isConverterSubtype(DartType self, DartType other, _ConversionRole role) {
+  bool _isConverterSubtype(DartType converterType, DartType fieldType, _ConversionRole role) {
     // Same type.
-    if (self == other) return true;
+    if (converterType == fieldType) return true;
 
-    // A converter with a non-nullable source cannot handle a nullable source value
-    if (role == _ConversionRole.source && self.isNotNullable && other.isNullable) return false;
+    // A TypeConverter with a non-nullable source converterType cannot handle a nullable source field
+    if (role == _ConversionRole.source && converterType.isNotNullable && fieldType.isNullable) return false;
 
-    // A converter with a nullable target cannot convert to a target that is non-nullable
-    if (role == _ConversionRole.target && self.isNullable && other.isNotNullable) return false;
+    // A TypeConverter with a nullable target converterType cannot handle a non-nullable target field
+    if (role == _ConversionRole.target && converterType.isNullable && fieldType.isNotNullable) return false;
 
-    // Other must be subtype of self.
+    // fieldType must be subtype of converterType.
     //
-    // When [self] is Object, it is always success.
-    final nonNullSelf = self.element!.library!.typeSystem.promoteToNonNull(self);
-    final nonNullOther = other.element!.library!.typeSystem.promoteToNonNull(other);
-    return self.element?.library?.typeSystem.leastUpperBound(nonNullSelf, nonNullOther) == nonNullSelf;
+    // When [converterType] is Object, it is always success.
+    final nonNullConverterType = converterType.element!.library!.typeSystem.promoteToNonNull(converterType);
+    final nonNullFieldType = fieldType.element!.library!.typeSystem.promoteToNonNull(fieldType);
+    return converterType.element?.library?.typeSystem.leastUpperBound(nonNullConverterType, nonNullFieldType) ==
+        nonNullConverterType;
   }
 }
 
