@@ -5,10 +5,10 @@ import 'package:auto_mappr_annotation/src/type_converter.dart';
 /// Annotates class which will be used as base for generated mappr.
 final class AutoMappr {
   /// List of mapprs.
-  final List<MapType<Object, Object>> mappers;
+  final List<MapType<Object?, Object?>> mappers;
 
   /// List of type converters.
-  final List<TypeConverter<Object, Object>> converters;
+  final List<TypeConverter<Object?, Object?>> converters;
 
   /// List of mapprs that should be included to this mappr.
   ///
