@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.1.0
+- Allow `TypeConverter` to have `<Object?, Object?>`. [#130](https://github.com/netglade/auto_mappr/pull/130)
+
 ## 2.0.0
 - Adhere to netglade_analysis 4.0.0. [#111](https://github.com/netglade/auto_mappr/pull/111)
 - Add `reverse` option to `MapType`. [#115](https://github.com/netglade/auto_mappr/pull/115)
