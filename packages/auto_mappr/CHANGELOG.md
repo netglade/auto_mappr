@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.1.1
+- Fix auto_mappr_annotation dependency. [#130](https://github.com/netglade/auto_mappr/pull/131)
+
 ## 2.1.0
 - Add support for nullable type converters. [#130](https://github.com/netglade/auto_mappr/pull/130)
 
