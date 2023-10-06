@@ -7,7 +7,7 @@ final class MapType<SOURCE, TARGET> {
   final List<Field> fields;
 
   /// List of type converters.
-  final List<TypeConverter<Object, Object>> converters;
+  final List<TypeConverter<Object?, Object?>> converters;
 
   /// Provides default value if SOURCE is null.
   ///

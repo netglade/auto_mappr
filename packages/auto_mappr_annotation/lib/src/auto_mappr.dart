@@ -8,7 +8,7 @@ final class AutoMappr {
   final List<MapType<Object, Object>> mappers;
 
   /// List of type converters.
-  final List<TypeConverter<Object, Object>> converters;
+  final List<TypeConverter<Object?, Object?>> converters;
 
   /// List of mapprs that should be included to this mappr.
   ///

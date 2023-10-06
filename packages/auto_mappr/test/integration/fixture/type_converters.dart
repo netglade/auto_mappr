@@ -217,3 +217,34 @@ const userDtoConverter = TypeConverter(userDtoToUser);
 const userConverter = TypeConverter(userToUserDto);
 UserDto userToUserDto(User source) => UserDto(id: source.id);
 User userDtoToUser(UserDto source) => User(id: source.id);
+
+// Nullable
+
+class RequiredInput {
+  final String xString;
+
+  const RequiredInput(this.xString);
+}
+
+class RequiredOutput with EquatableMixin {
+  final Value<String> xString;
+
+  @override
+  List<Object?> get props => [xString];
+
+  const RequiredOutput(this.xString);
+}
+
+class NullableInput {
+  final String? xString;
+
+  const NullableInput(this.xString);
+}
+
+class NullableOutput with EquatableMixin {
+  final Value<String>? xString;
+
+  @override
+  List<Object?> get props => [xString];
+  const NullableOutput(this.xString);
+}

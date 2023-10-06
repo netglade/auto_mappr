@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:equatable/equatable.dart';
 
 class TypeConverter extends Equatable {
@@ -28,16 +29,32 @@ class TypeConverter extends Equatable {
     required DartType mappingSource,
     required DartType mappingTarget,
   }) {
-    return _isConverterSubtype(source, mappingSource) && _isConverterSubtype(target, mappingTarget);
+    return _isConverterSubtype(source, mappingSource, _ConversionRole.source) &&
+        _isConverterSubtype(target, mappingTarget, _ConversionRole.target);
   }
 
-  bool _isConverterSubtype(DartType self, DartType other) {
+  bool _isConverterSubtype(DartType converterType, DartType fieldType, _ConversionRole role) {
     // Same type.
-    if (self == other) return true;
+    if (converterType == fieldType) return true;
 
-    // Other must be subtype of self.
+    // A TypeConverter with a non-nullable source converterType cannot handle a nullable source field
+    if (role == _ConversionRole.source && converterType.isNotNullable && fieldType.isNullable) return false;
+
+    // A TypeConverter with a nullable target converterType cannot handle a non-nullable target field
+    if (role == _ConversionRole.target && converterType.isNullable && fieldType.isNotNullable) return false;
+
+    // fieldType must be subtype of converterType.
     //
-    // When [self] is Object, it is always success.
-    return self.element?.library?.typeSystem.leastUpperBound(self, other) == self;
+    // When [converterType] is Object, it is always success.
+    final nonNullConverterType = converterType.element!.library!.typeSystem.promoteToNonNull(converterType);
+    final nonNullFieldType = fieldType.element!.library!.typeSystem.promoteToNonNull(fieldType);
+
+    return converterType.element?.library?.typeSystem.leastUpperBound(nonNullConverterType, nonNullFieldType) ==
+        nonNullConverterType;
   }
+}
+
+enum _ConversionRole {
+  source,
+  target,
 }

@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.1.0
+- Add support for nullable type converters. [#130](https://github.com/netglade/auto_mappr/pull/130)
+
 ## 2.0.2
 - Fix null value when nullable source and target resulting in `{}` and not `null`. [#129](https://github.com/netglade/auto_mappr/pull/129)
 
