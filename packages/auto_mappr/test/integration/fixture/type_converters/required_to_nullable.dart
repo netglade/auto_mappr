@@ -1,12 +1,14 @@
+// ignore_for_file: avoid-unnecessary-nullable-return-type
+
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 
 import '../type_converters.dart';
 import 'required_to_nullable.auto_mappr.dart';
 
-// Used to test the TypeConverter<Object, Object?> case
+// Used to test the TypeConverter<Object, Object?> case.
 @AutoMappr(
   [
-    // // Object -> Object?
+    // Object -> Object?
     MapType<RequiredInput, NullableOutput>(),
   ],
   converters: [

@@ -94,116 +94,116 @@ void main() {
   });
 
   group('TypeConverter<Object, Object>', () {
-    late final RequiredToRequiredConverterMappr mappr;
+    late final RequiredToRequiredConverterMappr mapprX;
 
     setUpAll(() {
-      mappr = const RequiredToRequiredConverterMappr();
+      mapprX = const RequiredToRequiredConverterMappr();
     });
 
     test('Object -> Object', () {
       const input = fixture.RequiredInput('aaa');
-      final converted = mappr.convert<fixture.RequiredInput, fixture.RequiredOutput>(input);
+      final converted = mapprX.convert<fixture.RequiredInput, fixture.RequiredOutput>(input);
 
       expect(converted, equals(const fixture.RequiredOutput(fixture.Value('aaa'))));
     });
 
     test('Object -> Object?', () {
       const input = fixture.RequiredInput('aaa');
-      final converted = mappr.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
+      final converted = mapprX.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
   });
 
   group('TypeConverter<Object, Object?>', () {
-    late final RequiredToNullableConverterMappr mappr;
+    late final RequiredToNullableConverterMappr mapprX;
 
     setUpAll(() {
-      mappr = const RequiredToNullableConverterMappr();
+      mapprX = const RequiredToNullableConverterMappr();
     });
 
     test('Object -> Object?', () {
       const input = fixture.RequiredInput('aaa');
-      final converted = mappr.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
+      final converted = mapprX.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
   });
 
   group('TypeConverter<Object?, Object>', () {
-    late final NullableToRequiredConverterMappr mappr;
+    late final NullableToRequiredConverterMappr mapprX;
 
     setUpAll(() {
-      mappr = const NullableToRequiredConverterMappr();
+      mapprX = const NullableToRequiredConverterMappr();
     });
 
     test('Object -> Object', () {
       const input = fixture.RequiredInput('aaa');
-      final converted = mappr.convert<fixture.RequiredInput, fixture.RequiredOutput>(input);
+      final converted = mapprX.convert<fixture.RequiredInput, fixture.RequiredOutput>(input);
 
       expect(converted, equals(const fixture.RequiredOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object', () {
       const input = fixture.NullableInput('aaa');
-      final converted = mappr.convert<fixture.NullableInput, fixture.RequiredOutput>(input);
+      final converted = mapprX.convert<fixture.NullableInput, fixture.RequiredOutput>(input);
 
       expect(converted, equals(const fixture.RequiredOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object (null input)', () {
       const input = fixture.NullableInput(null);
-      final converted = mappr.convert<fixture.NullableInput, fixture.RequiredOutput>(input);
+      final converted = mapprX.convert<fixture.NullableInput, fixture.RequiredOutput>(input);
 
       expect(converted, equals(const fixture.RequiredOutput(fixture.Value(''))));
     });
 
     test('Object -> Object?', () {
       const input = fixture.RequiredInput('aaa');
-      final converted = mappr.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
+      final converted = mapprX.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object?', () {
       const input = fixture.NullableInput('aaa');
-      final converted = mappr.convert<fixture.NullableInput, fixture.NullableOutput>(input);
+      final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object? (null input)', () {
       const input = fixture.NullableInput(null);
-      final converted = mappr.convert<fixture.NullableInput, fixture.NullableOutput>(input);
+      final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value(''))));
     });
   });
 
   group('TypeConverter<Object?, Object?>', () {
-    late final NullableToNullableConverterMappr mappr;
+    late final NullableToNullableConverterMappr mapprX;
 
     setUpAll(() {
-      mappr = const NullableToNullableConverterMappr();
+      mapprX = const NullableToNullableConverterMappr();
     });
 
     test('Object -> Object?', () {
       const input = fixture.RequiredInput('aaa');
-      final converted = mappr.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
+      final converted = mapprX.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object?', () {
       const input = fixture.NullableInput('aaa');
-      final converted = mappr.convert<fixture.NullableInput, fixture.NullableOutput>(input);
+      final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object? (null input)', () {
       const input = fixture.NullableInput(null);
-      final converted = mappr.convert<fixture.NullableInput, fixture.NullableOutput>(input);
+      final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(null)));
     });

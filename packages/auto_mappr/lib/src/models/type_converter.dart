@@ -48,6 +48,7 @@ class TypeConverter extends Equatable {
     // When [converterType] is Object, it is always success.
     final nonNullConverterType = converterType.element!.library!.typeSystem.promoteToNonNull(converterType);
     final nonNullFieldType = fieldType.element!.library!.typeSystem.promoteToNonNull(fieldType);
+
     return converterType.element?.library?.typeSystem.leastUpperBound(nonNullConverterType, nonNullFieldType) ==
         nonNullConverterType;
   }

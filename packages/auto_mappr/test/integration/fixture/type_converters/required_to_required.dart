@@ -3,7 +3,7 @@ import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import '../type_converters.dart';
 import 'required_to_required.auto_mappr.dart';
 
-// Used to test the TypeConverter<Object, Object> case
+// Used to test the TypeConverter<Object, Object> case.
 @AutoMappr(
   [
     // Object -> Object

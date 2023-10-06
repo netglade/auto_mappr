@@ -229,10 +229,10 @@ class RequiredInput {
 class RequiredOutput with EquatableMixin {
   final Value<String> xString;
 
-  const RequiredOutput(this.xString);
-
   @override
   List<Object?> get props => [xString];
+
+  const RequiredOutput(this.xString);
 }
 
 class NullableInput {
@@ -244,8 +244,7 @@ class NullableInput {
 class NullableOutput with EquatableMixin {
   final Value<String>? xString;
 
-  const NullableOutput(this.xString);
-
   @override
   List<Object?> get props => [xString];
+  const NullableOutput(this.xString);
 }
