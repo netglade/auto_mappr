@@ -151,6 +151,13 @@ void main() {
       expect(converted, equals(const fixture.RequiredOutput(fixture.Value('aaa'))));
     });
 
+    test('Object? -> Object (null input)', () {
+      const input = fixture.NullableInput(null);
+      final converted = mappr.convert<fixture.NullableInput, fixture.RequiredOutput>(input);
+
+      expect(converted, equals(const fixture.RequiredOutput(fixture.Value(''))));
+    });
+
     test('Object -> Object?', () {
       const input = fixture.RequiredInput('aaa');
       final converted = mappr.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
@@ -163,6 +170,13 @@ void main() {
       final converted = mappr.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
+    });
+
+    test('Object? -> Object? (null input)', () {
+      const input = fixture.NullableInput(null);
+      final converted = mappr.convert<fixture.NullableInput, fixture.NullableOutput>(input);
+
+      expect(converted, equals(const fixture.NullableOutput(fixture.Value(''))));
     });
   });
 
@@ -185,6 +199,13 @@ void main() {
       final converted = mappr.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
+    });
+
+    test('Object? -> Object? (null input)', () {
+      const input = fixture.NullableInput(null);
+      final converted = mappr.convert<fixture.NullableInput, fixture.NullableOutput>(input);
+
+      expect(converted, equals(const fixture.NullableOutput(null)));
     });
   });
 }
