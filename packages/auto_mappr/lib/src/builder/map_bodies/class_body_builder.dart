@@ -275,6 +275,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     final allConstructors = classType.constructors.where((c) => !c.isPrivate);
 
     // Sort constructors by number of parameters, descending.
+    // ignore: avoid-local-functions, better to keep local here
     int sortConstructors(ConstructorElement a, ConstructorElement b) =>
         -a.parameters.length.compareTo(b.parameters.length);
 
