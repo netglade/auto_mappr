@@ -54,6 +54,7 @@ class AutoMapprBuilder {
   List<Method> _buildMethods() {
     final nullableMappings = <TypeMapping>{};
 
+    // ignore: avoid-local-functions, better to keep local here
     void usedNullableMappingMethod(TypeMapping? mapping) {
       if (mapping == null) return;
 

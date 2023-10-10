@@ -19,7 +19,7 @@ jobs:
         run: melos run gen:build-all
 
       - name: Analyze
-        run: melos run lint:all
+        run: melos run lint:dart
 
       - name: Install DCM
         uses: CQLabs/setup-dcm@v1
