@@ -23,27 +23,55 @@ class TypeConverterBuilder extends AssignmentBuilderBase {
   @override
   bool canAssign() {
     return assignment.typeConverters.firstWhereOrNull(
-          (converter) => converter.canBeUsed(
-            mappingSource: source,
-            mappingTarget: target,
-          ),
+          (converter) =>
+              converter.canBeUsed(
+                mappingSource: source,
+                mappingTarget: target,
+              ) ||
+              converter.canBeUsedNullable(
+                mappingSource: source,
+                mappingTarget: target,
+              ),
         ) !=
         null;
   }
 
   @override
   Expression buildAssignment() {
-    final converter = assignment.typeConverters
-        // ignore: avoid-unsafe-collection-methods, checked by [canAssign]
-        .firstWhere((c) => c.canBeUsed(mappingSource: source, mappingTarget: target));
+    // ignore: avoid-unsafe-collection-methods, checked by [canAssign]
+    final converter = assignment.typeConverters.firstWhere(
+      (c) => c.canBeUsed(mappingSource: source, mappingTarget: target),
+      // ignore: avoid-unsafe-collection-methods, checked by [canAssign]
+      orElse: () => assignment.typeConverters.firstWhere(
+        (c) => c.canBeUsedNullable(
+          mappingSource: source,
+          mappingTarget: target,
+        ),
+      ),
+    );
 
     // Call.
     if (convertMethodArgument case final methodArgument?) {
       final targetRefer = EmitterHelper.current.typeRefer(type: target);
 
-      return EmitterHelper.current
-          .refer(converter.converter.referCallString, converter.converter.library.identifier)
-          .call([methodArgument]).asA(targetRefer);
+      if (converter.canBeUsed(mappingSource: source, mappingTarget: target)) {
+        return EmitterHelper.current
+            .refer(
+          converter.converter.referCallString,
+          converter.converter.library.identifier,
+        )
+            .call([methodArgument]).asA(targetRefer);
+      }
+
+      return methodArgument.equalTo(literalNull).conditional(
+            literalNull,
+            EmitterHelper.current
+                .refer(
+              converter.converter.referCallString,
+              converter.converter.library.identifier,
+            )
+                .call([methodArgument.nullChecked]).asA(targetRefer),
+          );
     }
 
     final sourceEmitted = EmitterHelper.current.typeReferEmitted(type: source);
@@ -51,7 +79,10 @@ class TypeConverterBuilder extends AssignmentBuilderBase {
 
     // Tear-off.
     return EmitterHelper.current
-        .refer(converter.converter.referCallString, converter.converter.library.identifier)
+        .refer(
+          converter.converter.referCallString,
+          converter.converter.library.identifier,
+        )
         .asA(refer('$targetEmitted Function($sourceEmitted)'));
   }
 }

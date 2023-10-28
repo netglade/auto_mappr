@@ -13,6 +13,17 @@ void main() {
     mappr = const fixture.Mappr();
   });
 
+  test('nullable', () {
+    const dto = fixture.NullableDto(alpha: 123456, beta: 123);
+    final converted =
+        mappr.convert<fixture.NullableDto, fixture.Nullable>(dto);
+
+    expect(
+      converted,
+      equals(const fixture.Nullable(fixture.Value(123456), 123)),
+    );
+  });
+
   test('primitives', () {
     const dto = fixture.PrimitivesDto(alpha: 123456, beta: false);
     final converted = mappr.convert<fixture.PrimitivesDto, fixture.Primitives>(dto);

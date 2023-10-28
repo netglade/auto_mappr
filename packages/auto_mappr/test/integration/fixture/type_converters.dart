@@ -11,6 +11,11 @@ import 'type_converters/module_alpha.dart';
     MapType<PrimitivesDto, Primitives>(
       converters: [TypeConverter<Object, String>(Mappr.objectToString)],
     ),
+    MapType<NullableDto, Nullable>(
+      converters: [
+        TypeConverter<int, Value<int>>(Mappr.intToValueInt),
+      ],
+    ),
     MapType<NormalFieldDto, NormalField>(
       converters: [TypeConverter<int, Value<int>>(Mappr.intToValueInt)],
     ),
@@ -55,6 +60,25 @@ class Mappr extends $Mappr {
   static Value<String> stringToValueString(String source) {
     return Value(source);
   }
+}
+
+// Nullables.
+
+class NullableDto {
+  final int? alpha;
+  final int? beta;
+
+  const NullableDto({required this.alpha, required this.beta});
+}
+
+class Nullable with EquatableMixin {
+  final Value<int>? alpha;
+  final int? beta;
+
+  @override
+  List<Object?> get props => [alpha, beta];
+
+  const Nullable(this.alpha, this.beta);
 }
 
 // Primitives.

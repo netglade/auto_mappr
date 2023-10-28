@@ -33,6 +33,18 @@ class TypeConverter extends Equatable {
         _isConverterSubtype(target, mappingTarget, _ConversionRole.target);
   }
 
+  bool canBeUsedNullable({
+    required DartType mappingSource,
+    required DartType mappingTarget,
+  }) {
+    if(!(mappingSource.isNullable && mappingTarget.isNullable)) return false;
+
+    return canBeUsed(
+      mappingSource: mappingSource.element!.library!.typeSystem.promoteToNonNull(mappingSource),
+      mappingTarget: mappingTarget.element!.library!.typeSystem.promoteToNonNull(mappingTarget),
+    );
+  }
+
   bool _isConverterSubtype(DartType converterType, DartType fieldType, _ConversionRole role) {
     // Same type.
     if (converterType == fieldType) return true;
