@@ -38,7 +38,6 @@ class TypeConverterBuilder extends AssignmentBuilderBase {
 
   @override
   Expression buildAssignment() {
-    // ignore: avoid-unsafe-collection-methods, checked by [canAssign]
     final converter = assignment.typeConverters.firstWhere(
       (c) => c.canBeUsed(mappingSource: source, mappingTarget: target),
       // ignore: avoid-unsafe-collection-methods, checked by [canAssign]
@@ -54,6 +53,7 @@ class TypeConverterBuilder extends AssignmentBuilderBase {
     if (convertMethodArgument case final methodArgument?) {
       final targetRefer = EmitterHelper.current.typeRefer(type: target);
 
+      // Can be used.
       if (converter.canBeUsed(mappingSource: source, mappingTarget: target)) {
         return EmitterHelper.current
             .refer(
@@ -63,6 +63,7 @@ class TypeConverterBuilder extends AssignmentBuilderBase {
             .call([methodArgument]).asA(targetRefer);
       }
 
+      // Can be used nullable.
       return methodArgument.equalTo(literalNull).conditional(
             literalNull,
             EmitterHelper.current

@@ -4,6 +4,8 @@ targets:
       :auto_mappr:
         enabled: true
         generate_for:
+          # include:
+          # - test/integration/fixture/type_converters/required_to_nullable.dart
           exclude:
             - test/integration/error_fixture/**
         options:

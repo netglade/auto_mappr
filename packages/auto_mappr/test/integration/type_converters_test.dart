@@ -13,17 +13,6 @@ void main() {
     mappr = const fixture.Mappr();
   });
 
-  test('nullable', () {
-    const dto = fixture.NullableDto(alpha: 123456, beta: 123);
-    final converted =
-        mappr.convert<fixture.NullableDto, fixture.Nullable>(dto);
-
-    expect(
-      converted,
-      equals(const fixture.Nullable(fixture.Value(123456), 123)),
-    );
-  });
-
   test('primitives', () {
     const dto = fixture.PrimitivesDto(alpha: 123456, beta: false);
     final converted = mappr.convert<fixture.PrimitivesDto, fixture.Primitives>(dto);
@@ -124,6 +113,13 @@ void main() {
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
+
+    test('Object? -> Object?, when source is not null', () {
+      const input = fixture.NullableInput('aaa');
+      final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
+
+      expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
+    });
   });
 
   group('TypeConverter<Object, Object?>', () {
@@ -136,6 +132,13 @@ void main() {
     test('Object -> Object?', () {
       const input = fixture.RequiredInput('aaa');
       final converted = mapprX.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
+
+      expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
+    });
+
+    test('Object? -> Object?, when source is not null', () {
+      const input = fixture.NullableInput('aaa');
+      final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });

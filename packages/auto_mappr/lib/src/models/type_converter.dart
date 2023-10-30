@@ -37,11 +37,14 @@ class TypeConverter extends Equatable {
     required DartType mappingSource,
     required DartType mappingTarget,
   }) {
-    if(!(mappingSource.isNullable && mappingTarget.isNullable)) return false;
+    // ignore: avoid-inverted-boolean-checks, this is better
+    if (!(mappingSource.isNullable && mappingTarget.isNullable)) return false;
 
     return canBeUsed(
       mappingSource: mappingSource.element!.library!.typeSystem.promoteToNonNull(mappingSource),
-      mappingTarget: mappingTarget.element!.library!.typeSystem.promoteToNonNull(mappingTarget),
+      mappingTarget: target.isNullable
+          ? mappingTarget
+          : mappingTarget.element!.library!.typeSystem.promoteToNonNull(mappingTarget),
     );
   }
 
