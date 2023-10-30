@@ -715,6 +715,25 @@ static Value<Object> objectToValueObject2(Object source) {
 }
 ```
 
+To make it more clear, here is a list of type converters
+with an input -> source sublist of what the converter support.
+
+- `TypeConverter<Object, Object>` ... aka `Object converter(Object) => ...`
+  - `Object` -> `Object`
+  - `Object` -> `Object?`
+  - `Object?` -> `Object?`, when source IS NOT null
+- `TypeConverter<Object, Object?>` ... aka `Object? converter(Object) => ...`
+  - `Object` -> `Object?`
+  - `Object?` -> `Object?` when source IS NOT null
+- `TypeConverter<Object?, Object>` ... aka `Object converter(Object?) => ...`
+  - `Object` -> `Object`
+  - `Object?` -> `Object`
+  - `Object` -> `Object?`
+  - `Object?` -> `Object?`
+- `TypeConverter<Object?, Object?>` ... aka `Object? converter(Object?) => ...`
+  - `Object` -> `Object?`
+  - `Object?` -> `Object?`
+
 ### Reverse mapping
 
 When you want to create a bidirectional mapping (e.g. normal: source to target and reversed: target to source),
