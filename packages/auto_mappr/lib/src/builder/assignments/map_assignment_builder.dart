@@ -45,7 +45,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
       final emittedTarget = EmitterHelper.current.typeReferEmitted(type: targetType);
 
       throw InvalidGenerationSourceError(
-        'Target key or value type is null for $emittedTarget',
+        'Target key or value type is null for $emittedTarget. ($mapping)',
       );
     }
 
@@ -53,7 +53,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
       final emittedSource = EmitterHelper.current.typeReferEmitted(type: sourceType);
 
       throw InvalidGenerationSourceError(
-        'Source key or value type is null for $emittedSource',
+        'Source key or value type is null for $emittedSource. ($mapping)',
       );
     }
 
@@ -114,14 +114,14 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     if (targetKeyType == null || targetValueType == null) {
       final emittedTarget = EmitterHelper.current.typeReferEmitted(type: assignment.targetType);
       throw InvalidGenerationSourceError(
-        'Target key or value type is null for $emittedTarget',
+        'Target key or value type is null for $emittedTarget. ($mapping)',
       );
     }
 
     if (sourceKeyType == null || sourceValueType == null) {
       final emittedSource = EmitterHelper.current.typeReferEmitted(type: assignment.sourceType);
       throw InvalidGenerationSourceError(
-        'Source key or value type is null for $emittedSource',
+        'Source key or value type is null for $emittedSource. ($mapping)',
       );
     }
 

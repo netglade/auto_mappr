@@ -38,7 +38,7 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
       final sourceDisplay = mapping.source.getDisplayString(withNullability: true);
       final targetDisplay = mapping.target.getDisplayString(withNullability: true);
       throw InvalidGenerationSourceError(
-        "Can't map enum $sourceDisplay into $targetDisplay. Target enum is not superset of source enum.",
+        "Can't map enum $sourceDisplay into $targetDisplay. Target enum is not superset of source enum. ($mapping)",
       );
     }
 

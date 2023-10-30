@@ -1,5 +1,7 @@
 [//]: # (## Unreleased)
 
+- Improve error messages.
+
 ## 2.1.1
 - Fix auto_mappr_annotation dependency. [#130](https://github.com/netglade/auto_mappr/pull/131)
 

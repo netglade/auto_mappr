@@ -79,7 +79,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
     if (targetConstructor == null) {
       throw InvalidGenerationSourceError(
-        'There is no target constructor in ${mapping.target}',
+        'There is no target constructor in ${mapping.target}. ($mapping)',
       );
     }
 
@@ -156,7 +156,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
         if (targetField == null && fieldMapping == null) {
           throw InvalidGenerationSourceError(
-            "Can't find mapping for target's constructor parameter: ${param.displayName}. Parameter is required and no mapping or target's class field not found",
+            "Can't find mapping for target's constructor parameter: ${param.displayName}. Parameter is required and no mapping or target's class field not found. ($mapping)",
           );
         }
 
@@ -200,13 +200,13 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     final sourceFieldName = sourceField.getDisplayString(withNullability: true);
     if (param.isPositional && param.type.isNotNullable) {
       throw InvalidGenerationSourceError(
-        "Can't ignore field '$sourceFieldName' as it is positional not-nullable parameter",
+        "Can't ignore field '$sourceFieldName' as it is positional not-nullable parameter. ($mapping)",
       );
     }
 
     if (param.isRequiredNamed && param.type.isNotNullable) {
       throw InvalidGenerationSourceError(
-        "Can't ignore field '$sourceFieldName' as it is required named not-nullable parameter",
+        "Can't ignore field '$sourceFieldName' as it is required named not-nullable parameter. ($mapping)",
       );
     }
   }
@@ -268,7 +268,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
       if (selectedConstructor != null) return selectedConstructor;
 
       log.warning(
-        "Couldn't find constructor '$forcedConstructor', fall-backing to using the most fitted one instead.",
+        "Couldn't find constructor '$forcedConstructor', fall-backing to using the most fitted one instead. ($mapping)",
       );
     }
 
@@ -319,14 +319,14 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     for (final param in notMapped) {
       if (param.isPositional && param.type.isNotNullable) {
         throw InvalidGenerationSourceError(
-          "Can't generate mapping $mapping as there is non mapped not-nullable positional parameter ${param.displayName}",
+          "Can't generate mapping $mapping as there is non mapped not-nullable positional parameter ${param.displayName}. ($mapping)",
         );
       }
 
       if (param.isRequiredNamed && param.type.isNotNullable) {
         if (param.type.isDartCoreList) return;
         throw InvalidGenerationSourceError(
-          "Can't generate mapping $mapping as there is non mapped not-nullable required named parameter ${param.displayName}",
+          "Can't generate mapping $mapping as there is non mapped not-nullable required named parameter ${param.displayName}. ($mapping)",
         );
       }
     }
