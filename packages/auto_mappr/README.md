@@ -724,7 +724,7 @@ with an input -> source sublist of what the converter support.
   - `Object?` -> `Object?`, when source IS NOT null
 - `TypeConverter<Object, Object?>` ... aka `Object? converter(Object) => ...`
   - `Object` -> `Object?`
-  - `Object?` -> `Object?` when source IS NOT null
+  - `Object?` -> `Object?`, when source IS NOT null
 - `TypeConverter<Object?, Object>` ... aka `Object converter(Object?) => ...`
   - `Object` -> `Object`
   - `Object?` -> `Object`
