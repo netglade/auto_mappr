@@ -715,24 +715,30 @@ static Value<Object> objectToValueObject2(Object source) {
 }
 ```
 
-To make it more clear, here is a list of type converters
-with an input -> source sublist of what the converter support.
+To make it more clear,
+here is a list of type converters
+and for which
+**source field type** -> **target field type**
+combinations they can be used.
+In these examples,
+we've used `int` and `String` as a reference,
+but the `TypeConverter`s can be adapted to various data types.
 
-- `TypeConverter<Object, Object>` ... aka `Object converter(Object) => ...`
-  - `Object` -> `Object`
-  - `Object` -> `Object?`
-  - `Object?` -> `Object?`, when source IS NOT null
-- `TypeConverter<Object, Object?>` ... aka `Object? converter(Object) => ...`
-  - `Object` -> `Object?`
-  - `Object?` -> `Object?`, when source IS NOT null
-- `TypeConverter<Object?, Object>` ... aka `Object converter(Object?) => ...`
-  - `Object` -> `Object`
-  - `Object?` -> `Object`
-  - `Object` -> `Object?`
-  - `Object?` -> `Object?`
-- `TypeConverter<Object?, Object?>` ... aka `Object? converter(Object?) => ...`
-  - `Object` -> `Object?`
-  - `Object?` -> `Object?`
+- `TypeConverter<int, String>` ... aka `String converter(int) => ...`
+  - source field `int` -> target field `String`
+  - source field `int` -> target field `String?`
+  - source field `int?` -> target field `String?`, when source field IS NOT null
+- `TypeConverter<int, String?>` ... aka `String? converter(int) => ...`
+  - source field `int` -> target field `String?`
+  - source field `int?` -> target field `String?`, when source field IS NOT null
+- `TypeConverter<int?, String>` ... aka `String converter(int?) => ...`
+  - source field `int` -> target field `String`
+  - source field `int?` -> target field `String`
+  - source field `int` -> target field `String?`
+  - source field `int?` -> target field `String?`
+- `TypeConverter<int?, String?>` ... aka `String? converter(int?) => ...`
+  - source field `int` -> target field `String?`
+  - source field `int?` -> target field `String?`
 
 ### Reverse mapping
 
