@@ -50,21 +50,20 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
 
     // Unknown mapping.
     if (nestedMapping == null) {
-      //final emittedTarget = EmitterHelper.current.typeReferEmitted(type: target);
       final sourceParentClass = assignment.sourceField?.enclosingElement.name;
       final targetParentClass = assignment.targetField?.enclosingElement.name;
       final enclosingMappingMessage = "Parent mapping holding this is '$sourceParentClass' -> '$targetParentClass'";
 
       if (target.isNullable) {
         log.warning(
-          "Can't find nested mapping '$assignment' but target is nullable. Setting null. $enclosingMappingMessage",
+          "Can't find nested mapping '$assignment' but target is nullable. Setting null. ($enclosingMappingMessage).",
         );
 
         return literalNull;
       }
 
       throw InvalidGenerationSourceError(
-        "Mapping nested object '$assignment' but no mapping is configured. $enclosingMappingMessage",
+        "Mapping nested object '$assignment' but no mapping is configured. ($enclosingMappingMessage).",
       );
     }
 
