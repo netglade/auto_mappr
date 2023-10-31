@@ -715,6 +715,31 @@ static Value<Object> objectToValueObject2(Object source) {
 }
 ```
 
+To make it more clear,
+here is a list of type converters
+and for which
+**source field type** -> **target field type**
+combinations they can be used.
+In these examples,
+we've used `int` and `String` as a reference,
+but the `TypeConverter`s can be adapted to various data types.
+
+- `TypeConverter<int, String>` ... aka `String converter(int) => ...`
+  - source field `int` -> target field `String`
+  - source field `int` -> target field `String?`
+  - source field `int?` -> target field `String?`, when source field IS NOT null
+- `TypeConverter<int, String?>` ... aka `String? converter(int) => ...`
+  - source field `int` -> target field `String?`
+  - source field `int?` -> target field `String?`, when source field IS NOT null
+- `TypeConverter<int?, String>` ... aka `String converter(int?) => ...`
+  - source field `int` -> target field `String`
+  - source field `int?` -> target field `String`
+  - source field `int` -> target field `String?`
+  - source field `int?` -> target field `String?`
+- `TypeConverter<int?, String?>` ... aka `String? converter(int?) => ...`
+  - source field `int` -> target field `String?`
+  - source field `int?` -> target field `String?`
+
 ### Reverse mapping
 
 When you want to create a bidirectional mapping (e.g. normal: source to target and reversed: target to source),

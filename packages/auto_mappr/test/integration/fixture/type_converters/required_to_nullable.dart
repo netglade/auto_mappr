@@ -10,6 +10,8 @@ import 'required_to_nullable.auto_mappr.dart';
   [
     // Object -> Object?
     MapType<RequiredInput, NullableOutput>(),
+    // Object? -> Object?, when source is not null
+    MapType<NullableInput, NullableOutput>(),
   ],
   converters: [
     TypeConverter<String, Value<String>?>(RequiredToNullableConverterMappr.stringToNullableValueString),

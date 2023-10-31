@@ -113,6 +113,13 @@ void main() {
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
+
+    test('Object? -> Object?, when source is not null', () {
+      const input = fixture.NullableInput('aaa');
+      final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
+
+      expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
+    });
   });
 
   group('TypeConverter<Object, Object?>', () {
@@ -125,6 +132,13 @@ void main() {
     test('Object -> Object?', () {
       const input = fixture.RequiredInput('aaa');
       final converted = mapprX.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
+
+      expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
+    });
+
+    test('Object? -> Object?, when source is not null', () {
+      const input = fixture.NullableInput('aaa');
+      final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });

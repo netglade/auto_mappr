@@ -10,6 +10,8 @@ import 'required_to_required.auto_mappr.dart';
     MapType<RequiredInput, RequiredOutput>(),
     // Object -> Object?
     MapType<RequiredInput, NullableOutput>(),
+    // Object? -> Object?, when source is not null
+    MapType<NullableInput, NullableOutput>(),
   ],
   converters: [
     TypeConverter<String, Value<String>>(RequiredToRequiredConverterMappr.stringToValueString),
