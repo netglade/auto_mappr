@@ -30,8 +30,8 @@ jobs:
         uses: CQLabs/dcm-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          ci_key: ''
-          email: ''
+          ci_key: ${{ secrets.DCM_KEY }}
+          email: ${{ secrets.DCM_EMAIL }}
           folders: .
           fatal_style: true
           fatal_performance: true
