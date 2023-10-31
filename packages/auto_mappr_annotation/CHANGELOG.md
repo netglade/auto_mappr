@@ -1,7 +1,5 @@
 [//]: # (## Unreleased)
 
-## Unreleased
-- When the source is not null, `TypeConverter<Object, Object>` and `TypeConverter<Object, Object?>` now support mapping of source field `Object?` -> target field `Object?`. [#142](https://github.com/netglade/auto_mappr/pull/142)
 
 ## 2.1.0
 - Allow `TypeConverter` to have `<Object?, Object?>`. [#130](https://github.com/netglade/auto_mappr/pull/130)

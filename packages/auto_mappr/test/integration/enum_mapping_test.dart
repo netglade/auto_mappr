@@ -82,7 +82,7 @@ void main() {
             isA<InvalidGenerationSourceError>().having(
               (x) => x.message,
               'Match message',
-              "Can't map enum Source into Target. Target enum is not superset of source enum.",
+              "Can't map enum Source into Target. Target enum is not superset of source enum. (Source → Target)",
             ),
           ),
         );

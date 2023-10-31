@@ -38,7 +38,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
       final sourceField = sourcePositional.elementAtOrNull(index);
       if (sourceField == null && targetField.type.nullabilitySuffix == NullabilitySuffix.none) {
         throw InvalidGenerationSourceError(
-          'Cannot map positional source field to non-nullable target field for source $sourceType and target $targetType',
+          'Cannot map positional source field to non-nullable target field for source $sourceType and target $targetType. ($mapping)',
         );
       }
     }
@@ -50,7 +50,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
       if (!sourceNamed.any((sourceField) => sourceField.name == targetField.name) &&
           targetField.type.nullabilitySuffix == NullabilitySuffix.none) {
         throw InvalidGenerationSourceError(
-          "Cannot find mapping to non-nullable target record's named field $targetField",
+          "Cannot find mapping to non-nullable target record's named field $targetField. ($mapping)",
         );
       }
     }
