@@ -83,7 +83,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
       );
     }
 
-    final targetClassGetters = (mapping.target).getAllGetters();
+    final targetClassGetters = mapping.target.getAllGetters();
 
     // Map constructor parameters
     for (var i = 0; i < targetConstructor.parameters.length; i++) {
@@ -151,8 +151,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
         // If not mapped constructor param is optional - skip it
         if (param.isOptional) continue;
 
-        final targetField =
-            (mapping.target).getAllGetters().firstWhereOrNull((field) => field.displayName == param.displayName);
+        final targetField = targetClassGetters.firstWhereOrNull((field) => field.displayName == param.displayName);
 
         if (targetField == null && fieldMapping == null) {
           throw InvalidGenerationSourceError(

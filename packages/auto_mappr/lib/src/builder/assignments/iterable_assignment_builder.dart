@@ -36,7 +36,7 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
         (!targetIterableType.isSame(sourceIterableType));
 
     // When [sourceIterableType] is nullable and [targetIterableType] is not, remove null values.
-    final sourceIterableExpression = refer('model').property(assignment.sourceField!.name).maybeWhereIterableNotNull(
+    final sourceIterableExpression = AssignmentBuilderBase.modelReference.property(assignment.sourceField!.name).maybeWhereIterableNotNull(
           condition: shouldFilterNullInSource,
           isOnNullable: sourceNullable,
         );

@@ -7,6 +7,8 @@ abstract class AssignmentBuilderBase {
   final TypeMapping mapping;
   final void Function(TypeMapping? mapping)? usedNullableMethodCallback;
 
+  static const Reference modelReference = Reference('model');
+
   const AssignmentBuilderBase({
     required this.assignment,
     required this.mapperConfig,
