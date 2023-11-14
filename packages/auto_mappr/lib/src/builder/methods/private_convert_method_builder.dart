@@ -46,7 +46,7 @@ class PrivateConvertMethodBuilder extends MethodBuilderBase {
     block.addExpression(targetTypeOfVariable);
 
     for (final mapping in config.mappers) {
-      final ifCheckForNull = refer('canReturnNull').and(refer('model').equalToNull()).ifStatement2(
+      final ifCheckForNull = refer('canReturnNull').and(MethodBuilderBase.modelReference.equalToNull()).ifStatement2(
             ifBody: mapping.hasWhenNullDefault()
                 ? mapping.whenSourceIsNullExpression!.asA(MethodBuilderBase.targetTypeReference).returned.statement
                 : literalNull.returned.statement,
@@ -74,7 +74,7 @@ class PrivateConvertMethodBuilder extends MethodBuilderBase {
                 refer(mapping.mappingMethodName(config: config))
                     .call(
                       [
-                        refer('model').asA(EmitterHelper.current.typeRefer(type: mapping.source).nullabled()),
+                        MethodBuilderBase.modelReference.asA(EmitterHelper.current.typeRefer(type: mapping.source).nullabled()),
                       ],
                     )
                     .asA(MethodBuilderBase.targetTypeReference)

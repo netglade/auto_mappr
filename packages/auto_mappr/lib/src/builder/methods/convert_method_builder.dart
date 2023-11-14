@@ -42,7 +42,7 @@ class ConvertMethodBuilder extends MethodBuilderBase {
     block.statements.add(
       ExpressionExtension.ifStatement(
         condition: CanConvertMethodBuilder(config).methodCall(namedArguments: {'recursive': literalFalse}),
-        ifBody: refer('_convert').call([refer('model')], {}, []).nullChecked.returned.statement,
+        ifBody: refer('_convert').call([MethodBuilderBase.modelReference], {}, []).nullChecked.returned.statement,
       ).code,
     );
 
@@ -53,13 +53,14 @@ class ConvertMethodBuilder extends MethodBuilderBase {
     //     return mappr.convert(model)!;
     //   }
     // }
+    final mapprReference = refer('mappr');
     block.statements.add(
       ExpressionExtension.forStatement(
-        item: refer('mappr'),
+        item: mapprReference,
         iterable: refer(MethodBuilderBase.delegatesField),
         body: ExpressionExtension.ifStatement(
-          condition: CanConvertMethodBuilder(config).propertyCall(on: refer('mappr')),
-          ifBody: refer('mappr').property('convert').call([refer('model')], {}, []).nullChecked.returned.statement,
+          condition: CanConvertMethodBuilder(config).propertyCall(on: mapprReference),
+          ifBody: mapprReference.property('convert').call([MethodBuilderBase.modelReference], {}, []).nullChecked.returned.statement,
         ),
       ).code,
     );

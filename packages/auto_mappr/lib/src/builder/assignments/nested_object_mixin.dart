@@ -22,7 +22,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     Expression? convertMethodArgument,
     bool includeGenericTypes = false,
   }) {
-    final sourceOnModel = refer('model').property(assignment.sourceField!.displayName);
+    final sourceOnModel = AssignmentBuilderBase.modelReference.property(assignment.sourceField!.displayName);
 
     // Source and target is the same.
     if (source.isSame(target)) {

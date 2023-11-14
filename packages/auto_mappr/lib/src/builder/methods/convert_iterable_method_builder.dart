@@ -53,11 +53,11 @@ class ConvertIterableMethodBuilder extends MethodBuilderBase {
     // for List/Set:
     // convertIterable<SOURCE, TARGET>(model).toList()
     final convertIterableCall = iterableTransformer == null
-        ? refer('model')
+        ? MethodBuilderBase.modelReference
             .property('map')
             .call([refer('(item) => _convert(item)').nullChecked], {}, [MethodBuilderBase.targetTypeReference])
         : refer('convertIterable')
-            .call([refer('model')], {}, [MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])
+            .call([MethodBuilderBase.modelReference], {}, [MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference])
             .property(iterableTransformer!)
             .call([]);
 
@@ -80,13 +80,14 @@ class ConvertIterableMethodBuilder extends MethodBuilderBase {
     //     return mappr.convertIterable(model)!;
     //   }
     // }
+    final mapprReference = refer('mappr');
     block.statements.add(
       ExpressionExtension.forStatement(
-        item: refer('mappr'),
+        item: mapprReference,
         iterable: refer(MethodBuilderBase.delegatesField),
         body: ExpressionExtension.ifStatement(
-          condition: CanConvertMethodBuilder(config).propertyCall(on: refer('mappr')),
-          ifBody: refer('mappr').property('convert$wrapper').call([refer('model')], {}, []).returned.statement,
+          condition: CanConvertMethodBuilder(config).propertyCall(on: mapprReference),
+          ifBody: mapprReference.property('convert$wrapper').call([MethodBuilderBase.modelReference], {}, []).returned.statement,
         ),
       ).code,
     );

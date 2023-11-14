@@ -55,13 +55,14 @@ class TryConvertMethodBuilder extends MethodBuilderBase {
     //     return mappr.convert(model)!;
     //   }
     // }
+    final mapprReference = refer('mappr');
     block.statements.add(
       ExpressionExtension.forStatement(
-        item: refer('mappr'),
+        item: mapprReference,
         iterable: refer(MethodBuilderBase.delegatesField),
         body: ExpressionExtension.ifStatement(
-          condition: CanConvertMethodBuilder(config).propertyCall(on: refer('mappr')),
-          ifBody: refer('mappr').property('tryConvert').call([refer('model')], {}, []).returned.statement,
+          condition: CanConvertMethodBuilder(config).propertyCall(on: mapprReference),
+          ifBody: mapprReference.property('tryConvert').call([MethodBuilderBase.modelReference], {}, []).returned.statement,
         ),
       ).code,
     );

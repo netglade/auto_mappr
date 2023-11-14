@@ -22,6 +22,8 @@ abstract class MethodBuilderBase {
   static const nullableTargetTypeReference = Reference('$targetKey?');
   static const targetTypeOf = Reference('_typeOf<$targetKey>()');
 
+  static const modelReference = Reference('model');
+
   static final ListBuilder<Reference> overrideAnnotation = ListBuilder([const Reference('override')]);
 
   final AutoMapprConfig config;
