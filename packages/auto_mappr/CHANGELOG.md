@@ -1,7 +1,9 @@
 [//]: # (## Unreleased)
 
+## 2.2.0
 - Improve error messages. [#147](https://github.com/netglade/auto_mappr/pull/147)
 - When the source is not null, `TypeConverter<Object, Object>` and `TypeConverter<Object, Object?>` now support mapping of source field `Object?` -> target field `Object?`. [#142](https://github.com/netglade/auto_mappr/pull/142)
+- Support Field's field name mapping in reverse. [#156](https://github.com/netglade/auto_mappr/pull/157)
 
 ## 2.1.1
 - Fix auto_mappr_annotation dependency. [#130](https://github.com/netglade/auto_mappr/pull/131)
