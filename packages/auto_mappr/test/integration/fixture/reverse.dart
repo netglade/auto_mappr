@@ -7,6 +7,13 @@ import 'reverse.auto_mappr.dart';
   MapType<PrimitiveDto, Primitive>(reverse: true),
   MapType<UserDto, User>(reverse: true),
   MapType<AddressDto, Address>(reverse: true),
+  MapType<AddressDto, SpecialAddress>(
+    fields: [
+      Field('specialStreet', from: 'street'),
+      Field('specialCity', from: 'city'),
+    ],
+    reverse: true,
+  ),
 ])
 class Mappr extends $Mappr {
   const Mappr();
@@ -76,4 +83,14 @@ class AddressDto extends Equatable {
   List<Object?> get props => [street, city];
 
   const AddressDto({required this.street, required this.city});
+}
+
+class SpecialAddress extends Equatable {
+  final String specialStreet;
+  final String specialCity;
+
+  @override
+  List<Object?> get props => [specialStreet, specialCity];
+
+  const SpecialAddress({required this.specialStreet, required this.specialCity});
 }

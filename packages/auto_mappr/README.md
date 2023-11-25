@@ -45,12 +45,12 @@ Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
   - [Mapping from source](#mapping-from-source)
   - [Nullability handling](#nullability-handling)
     - [Forced non-nullable field for nullable source](#forced-non-nullable-field-for-nullable-source)
-  - [Type converters](#type-converters)
   - [Generics](#generics)
   - [Library import aliases](#library-import-aliases)
   - [Modules](#modules)
     - [Including](#including)
-    - [Delegating](#delegating) 
+    - [Delegating](#delegating)
+  - [Type converters](#type-converters)
   - [Reverse mapping](#reverse-mapping)
   - [Records](#records)
   - [Works with `equatable`](#works-with-equatable)
@@ -748,8 +748,32 @@ you can use `reverse` option on `MapType`.
 Note that it's your responsibility to make sure those objects
 support normal and reverse mapping
 and to keep them in sync.
+
+When `Field`'s mapping with `from` parameter is used, in `reverse` mapping those properties are automatically switched too.
+
+For example
+
+```dart
+class A {
+  final String a;
+}
+
+class B {
+  final String b;
+}
+
+// Mapping
+MapType<A,B>(fields: [
+  Field('b', from: 'a')
+], reverse: true)
+
+// generated mapping
+A.a mapts to B.b
+B.b maps to A.a
+```
+
 Also note that reverse mapping might not work properly when additional configuration
-such as [whenSourceIsNull] or [constructor] is used.
+such as `whenSourceIsNull` or `constructor` is used.
 
 For more complicated scenarios two separate mappings are recommended instead.
 

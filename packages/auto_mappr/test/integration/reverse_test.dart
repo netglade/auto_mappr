@@ -93,4 +93,22 @@ void main() {
       );
     });
   });
+
+  group('Reverse mapping with custom fields', () {
+    test('AddressDto to SpecialAddress', () {
+      const dto = fixture.AddressDto(street: 'Street 14', city: 'Wakanda');
+
+      final converted = mappr.convert<fixture.AddressDto, fixture.SpecialAddress>(dto);
+
+      expect(converted, equals(const fixture.SpecialAddress(specialStreet: 'Street 14', specialCity: 'Wakanda')));
+    });
+
+    test('SpecialAddress to AddressDto', () {
+      const dto = fixture.SpecialAddress(specialStreet: 'Street 14', specialCity: 'Wakanda');
+
+      final converted = mappr.convert<fixture.SpecialAddress, fixture.AddressDto>(dto);
+
+      expect(converted, equals(const fixture.AddressDto(street: 'Street 14', city: 'Wakanda')));
+    });
+  });
 }
