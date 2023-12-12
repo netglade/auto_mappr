@@ -9,13 +9,14 @@ class ValueAssignmentBuilder {
   final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
   final SourceAssignment assignment;
-  final void Function(TypeMapping? mapping)? usedNullableMethodCallback;
+  // ignore: prefer-typedefs-for-callbacks, private API
+  final void Function(TypeMapping? mapping)? onUsedNullableMethodCallback;
 
   const ValueAssignmentBuilder({
     required this.mapperConfig,
     required this.mapping,
     required this.assignment,
-    required this.usedNullableMethodCallback,
+    required this.onUsedNullableMethodCallback,
   });
 
   Expression build() {
@@ -49,7 +50,7 @@ class ValueAssignmentBuilder {
         assignment: assignment,
         mapperConfig: mapperConfig,
         mapping: mapping,
-        usedNullableMethodCallback: usedNullableMethodCallback,
+        onUsedNullableMethodCallback: onUsedNullableMethodCallback,
         source: assignment.sourceType!,
         target: assignment.targetType,
         convertMethodArgument: rightSide,
@@ -59,28 +60,28 @@ class ValueAssignmentBuilder {
         assignment: assignment,
         mapperConfig: mapperConfig,
         mapping: mapping,
-        usedNullableMethodCallback: usedNullableMethodCallback,
+        onUsedNullableMethodCallback: onUsedNullableMethodCallback,
       ),
       // Map.
       MapAssignmentBuilder(
         assignment: assignment,
         mapperConfig: mapperConfig,
         mapping: mapping,
-        usedNullableMethodCallback: usedNullableMethodCallback,
+        onUsedNullableMethodCallback: onUsedNullableMethodCallback,
       ),
       // Record.
       RecordAssignmentBuilder(
         assignment: assignment,
         mapperConfig: mapperConfig,
         mapping: mapping,
-        usedNullableMethodCallback: usedNullableMethodCallback,
+        onUsedNullableMethodCallback: onUsedNullableMethodCallback,
       ),
       // Nested object.
       NestedObjectAssignmentBuilder(
         assignment: assignment,
         mapperConfig: mapperConfig,
         mapping: mapping,
-        usedNullableMethodCallback: usedNullableMethodCallback,
+        onUsedNullableMethodCallback: onUsedNullableMethodCallback,
         source: assignment.sourceType!,
         target: assignment.targetType,
         convertMethodArgument: rightSide,

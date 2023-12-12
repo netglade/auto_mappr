@@ -6,12 +6,13 @@ abstract class MapBodyBuilderBase {
   final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
 
-  final void Function(TypeMapping? mapping)? usedNullableMethodCallback;
+  // ignore: prefer-typedefs-for-callbacks, private API
+  final void Function(TypeMapping? mapping)? onUsedNullableMethodCallback;
 
   const MapBodyBuilderBase({
     required this.mapperConfig,
     required this.mapping,
-    required this.usedNullableMethodCallback,
+    required this.onUsedNullableMethodCallback,
   });
 
   Code build();

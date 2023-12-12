@@ -229,6 +229,7 @@ void main() {
         {_getUserDto(1), _getUserDto(2), _getUserDto(3)},
       );
 
+      // ignore: avoid-misused-test-matchers, checking list vs set
       expect(converted, equals({_getUser(1), _getUser(2), _getUser(3)}));
     });
 
@@ -237,6 +238,7 @@ void main() {
         {_getUserDto(1), _getUserDto(2), _getUserDto(3), null},
       );
 
+      // ignore: avoid-misused-test-matchers, checking list vs set
       expect(converted, equals({_getUser(1), _getUser(2), _getUser(3), null}));
     });
 

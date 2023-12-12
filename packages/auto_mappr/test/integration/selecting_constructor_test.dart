@@ -35,8 +35,8 @@ void main() {
       final converted = mappr.convert<fixture.TestAlphaDto, fixture.FinalTarget>(dto);
 
       expect(converted.a, equals(1));
-      expect(converted.b, equals(null));
-      expect(converted.c, equals(null));
+      expect(converted.b, isNull);
+      expect(converted.c, isNull);
     });
 
     test('with non final target', () {
@@ -54,9 +54,9 @@ void main() {
       const dto = fixture.TestBetaDto(1, 2, 3);
       final converted = mappr.convert<fixture.TestBetaDto, fixture.FinalTarget>(dto);
 
-      expect(converted.a, equals(null));
+      expect(converted.a, isNull);
       expect(converted.b, equals(2));
-      expect(converted.c, equals(null));
+      expect(converted.c, isNull);
     });
 
     test('with non final target', () {
@@ -74,8 +74,8 @@ void main() {
       const dto = fixture.TestGamaDto(1, 2, 3);
       final converted = mappr.convert<fixture.TestGamaDto, fixture.FinalTarget>(dto);
 
-      expect(converted.a, equals(null));
-      expect(converted.b, equals(null));
+      expect(converted.a, isNull);
+      expect(converted.b, isNull);
       expect(converted.c, equals(3));
     });
 

@@ -31,7 +31,7 @@ void main() {
     test('With<int, AlphaDto<num>> -> With<int, Alpha<num>>', () {
       const dto = fixture.With<int, fixture.AlphaDto<num>>(
         first: 69,
-        second: fixture.AlphaDto<num>(
+        second: fixture.AlphaDto(
           fixture.With<num, num>(first: 741, second: 852.666),
           123,
         ),
@@ -44,7 +44,7 @@ void main() {
         equals(
           const fixture.With<int, fixture.Alpha<num>>(
             first: 69,
-            second: fixture.Alpha<num>(
+            second: fixture.Alpha(
               fixture.With<num, num>(first: 741, second: 852.666),
               123,
             ),
@@ -93,22 +93,22 @@ void main() {
     });
 
     test('AlphaDto<int> -> Alpha<int>', () {
-      const dto = fixture.AlphaDto<int>(fixture.With<int, int>(first: 7771, second: 1472), 42);
+      const dto = fixture.AlphaDto<int>(fixture.With(first: 7771, second: 1472), 42);
       final converted = mappr.convert<fixture.AlphaDto<int>, fixture.Alpha<int>>(dto);
 
       expect(
         converted,
-        equals(const fixture.Alpha<int>(fixture.With<int, int>(first: 7771, second: 1472), 42)),
+        equals(const fixture.Alpha<int>(fixture.With(first: 7771, second: 1472), 42)),
       );
     });
 
     test('AlphaDto<String> -> Alpha<String>', () {
-      const dto = fixture.AlphaDto<String>(fixture.With<String, String>(first: 'test a', second: 'test b'), 42);
+      const dto = fixture.AlphaDto<String>(fixture.With(first: 'test a', second: 'test b'), 42);
       final converted = mappr.convert<fixture.AlphaDto<String>, fixture.Alpha<String>>(dto);
 
       expect(
         converted,
-        equals(const fixture.Alpha<String>(fixture.With<String, String>(first: 'test a', second: 'test b'), 42)),
+        equals(const fixture.Alpha<String>(fixture.With(first: 'test a', second: 'test b'), 42)),
       );
     });
   });

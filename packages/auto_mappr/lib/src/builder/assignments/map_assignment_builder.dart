@@ -14,7 +14,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     required super.assignment,
     required super.mapperConfig,
     required super.mapping,
-    required super.usedNullableMethodCallback,
+    required super.onUsedNullableMethodCallback,
   });
 
   @override

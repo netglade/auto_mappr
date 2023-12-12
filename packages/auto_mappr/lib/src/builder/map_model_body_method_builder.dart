@@ -8,12 +8,13 @@ class MapModelBodyMethodBuilder {
   final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
   final bool nullable;
-  final void Function(TypeMapping? mapping)? usedNullableMethodCallback;
+  // ignore: prefer-typedefs-for-callbacks, private API
+  final void Function(TypeMapping? mapping)? onUsedNullableMethodCallback;
 
   const MapModelBodyMethodBuilder({
     required this.mapperConfig,
     required this.mapping,
-    this.usedNullableMethodCallback,
+    this.onUsedNullableMethodCallback,
     this.nullable = false,
   });
 
@@ -29,7 +30,7 @@ class MapModelBodyMethodBuilder {
     final enumMapBodyBuilder = EnumBodyBuilder(
       mapperConfig: mapperConfig,
       mapping: mapping,
-      usedNullableMethodCallback: usedNullableMethodCallback,
+      onUsedNullableMethodCallback: onUsedNullableMethodCallback,
     );
     if (enumMapBodyBuilder.canProcess()) {
       block.statements.add(enumMapBodyBuilder.build());
@@ -40,7 +41,7 @@ class MapModelBodyMethodBuilder {
     final classMapBodyBuilder = ClassBodyBuilder(
       mapperConfig: mapperConfig,
       mapping: mapping,
-      usedNullableMethodCallback: usedNullableMethodCallback,
+      onUsedNullableMethodCallback: onUsedNullableMethodCallback,
     );
 
     // Return a constructor call

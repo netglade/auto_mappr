@@ -14,7 +14,7 @@ class TypeConverterBuilder extends AssignmentBuilderBase {
     required super.assignment,
     required super.mapperConfig,
     required super.mapping,
-    required super.usedNullableMethodCallback,
+    required super.onUsedNullableMethodCallback,
     required this.convertMethodArgument,
     required this.source,
     required this.target,

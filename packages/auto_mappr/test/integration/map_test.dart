@@ -233,7 +233,7 @@ void main() {
       expect(converted, equals(const fixture.NullableMap(data: {'Beta': 222})));
     });
 
-    test('non nullable to nullable', () {
+    test('non nullable to non nullable', () {
       const dto = fixture.NonNullableMap(data: {'Gama': 333});
       final converted = mappr.convert<fixture.NonNullableMap, fixture.NonNullableMap>(dto);
 

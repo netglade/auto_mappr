@@ -39,7 +39,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
       assignment: assignment,
       mapperConfig: mapperConfig,
       mapping: mapping,
-      usedNullableMethodCallback: null,
+      onUsedNullableMethodCallback: null,
       convertMethodArgument: convertMethodArgument,
       source: source,
       target: target,
@@ -102,7 +102,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
   /// When [convertMethodArgument] is null, then a tear off `_mapAlphaDto_to_Alpha` is generated.
   ///
   /// This function also marks nullable mapping to be generated
-  /// using the [usedNullableMethodCallback] callback.
+  /// using the [onUsedNullableMethodCallback] callback.
   Expression mappingCall({
     required DartType source,
     required DartType target,
@@ -133,7 +133,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     );
 
     if (useNullableMethod) {
-      usedNullableMethodCallback?.call(nestedMapping);
+      onUsedNullableMethodCallback?.call(nestedMapping);
     }
 
     return convertMethodArgument == null
