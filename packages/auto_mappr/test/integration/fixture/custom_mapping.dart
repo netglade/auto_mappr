@@ -59,6 +59,7 @@ import 'custom_mapping.auto_mappr.dart';
       Field.custom('listListValue', custom: Mappr.emptyToListListValue),
       Field.custom('setValue', custom: Mappr.emptyToSetValue),
       Field.custom('mapValue', custom: Mappr.emptyToMapValue),
+      Field.custom('dateValue', custom: Mappr.dateTimeFixed),
     ],
   ),
   // from value
@@ -107,6 +108,8 @@ class Mappr extends $Mappr {
   static String convertToNameAndIdPositional(CustomFunctionPositionalDto? dto) => '${dto?.name} #${dto?.id}';
 
   static String convertToNameAndIdNamed(CustomFunctionNamedDto? dto) => '${dto?.name} #${dto?.id}';
+
+  static DateTime dateTimeFixed() => DateTime(2023);
 }
 
 // custom type
@@ -203,6 +206,7 @@ class CustomFunctionFromEmpty extends Equatable {
   final List<List<Object?>> listListValue;
   final Set<int> setValue;
   final Map<String, int> mapValue;
+  final DateTime dateValue;
 
   @override
   List<Object?> get props => [
@@ -215,6 +219,7 @@ class CustomFunctionFromEmpty extends Equatable {
         listListValue,
         setValue,
         mapValue,
+        dateValue,
       ];
 
   const CustomFunctionFromEmpty(
@@ -227,6 +232,7 @@ class CustomFunctionFromEmpty extends Equatable {
     this.listListValue,
     this.setValue,
     this.mapValue,
+    this.dateValue,
   );
 }
 

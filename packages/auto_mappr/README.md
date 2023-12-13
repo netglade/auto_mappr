@@ -280,9 +280,11 @@ class Mappr extends $Mappr {}
 When you need to assign a custom function or a const value as a value for given target field,
 you can use the `custom` argument in a `Field` mapping.
 Alternatively, you can use the `Field.custom()` constructor
-which hides other then-invalid parameters.
+which hides other then-invalid parameters. Provide `const Target` value or custom mapping function.
 
-You can set up `Target Function(Source dto)` function or `const Target` value.
+Custom function has to follow one of these formals:
+-  has `Source` model argument -  `Target Function(Source dto)`
+-  has exactly zero arguments and returns `Target`
 
 ```dart
 @AutoMappr([
@@ -298,7 +300,8 @@ class Mappr extends $Mappr {
   static String mapName(UserDto dto) => dto.name.toUpperCase();
 }
 
-int mapAge(UserDto _) => 42;
+/// Return always 42
+int mapAge() => 42;
 ```
 
 ### Ignore mapping

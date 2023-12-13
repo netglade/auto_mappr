@@ -20,7 +20,7 @@ extension DartObjectExtension on DartObject {
     final asFunction = toFunctionValue();
     if (asFunction != null) {
       return EmitterHelper.current.refer(asFunction.referCallString, asFunction.library.identifier).call([
-        if (passModelArgument) refer('model'),
+        if (passModelArgument && asFunction.parameters.isNotEmpty) refer('model'),
       ]);
     }
 

@@ -14,6 +14,7 @@ import 'mappr.dart' as _i2;
 /// {@template asset:auto_mappr/example/lib/mappr.dart}
 /// Available mappings:
 /// - `UserDto` → `User`.
+/// - `UserDto` → `AnotherUser`.
 /// {@endtemplate}
 class $Mappr implements _i1.AutoMapprInterface {
   const $Mappr();
@@ -31,6 +32,12 @@ class $Mappr implements _i1.AutoMapprInterface {
             sourceTypeOf == _typeOf<_i2.UserDto?>()) &&
         (targetTypeOf == _typeOf<_i2.User>() ||
             targetTypeOf == _typeOf<_i2.User?>())) {
+      return true;
+    }
+    if ((sourceTypeOf == _typeOf<_i2.UserDto>() ||
+            sourceTypeOf == _typeOf<_i2.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.AnotherUser>() ||
+            targetTypeOf == _typeOf<_i2.AnotherUser?>())) {
       return true;
     }
     if (recursive) {
@@ -199,6 +206,16 @@ class $Mappr implements _i1.AutoMapprInterface {
       }
       return (_map__i2$UserDto_To__i2$User((model as _i2.UserDto?)) as TARGET);
     }
+    if ((sourceTypeOf == _typeOf<_i2.UserDto>() ||
+            sourceTypeOf == _typeOf<_i2.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i2.AnotherUser>() ||
+            targetTypeOf == _typeOf<_i2.AnotherUser?>())) {
+      if (canReturnNull && model == null) {
+        return null;
+      }
+      return (_map__i2$UserDto_To__i2$AnotherUser((model as _i2.UserDto?))
+          as TARGET);
+    }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
@@ -212,6 +229,22 @@ class $Mappr implements _i1.AutoMapprInterface {
     return _i2.User(
       id: model.id,
       name: model.xname,
+      born: _i2.Utils.mapDateTime(),
+    );
+  }
+
+  _i2.AnotherUser _map__i2$UserDto_To__i2$AnotherUser(_i2.UserDto? input) {
+    final model = input;
+    if (model == null) {
+      throw Exception(
+          r'Mapping UserDto → AnotherUser failed because UserDto was null, and no default value was provided. '
+          r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, AnotherUser> to handle null values during mapping.');
+    }
+    return _i2.AnotherUser(
+      id: model.id,
+      name: model.xname,
+      born: _i2.Utils.mapDateTime(),
+      special: _i2.Utils.mapSpecial(model),
     );
   }
 }
