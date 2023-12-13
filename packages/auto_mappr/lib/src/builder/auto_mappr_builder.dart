@@ -112,7 +112,7 @@ class AutoMapprBuilder {
         MappingMethodBuilder(
           config,
           mapping: mapping,
-          usedNullableMethodCallback: usedNullableMappingMethod,
+          onUsedNullableMethodCallback: usedNullableMappingMethod,
         ).buildMethod(),
 
       // Generates nullable mapping method only when nullable method is used.

@@ -27,7 +27,7 @@ void main() {
       expect(result.returns, equals(result.types.elementAtOrNull(1)));
       expect(result.optionalParameters, isEmpty);
       expect(
-        result.requiredParameters,
+        result.requiredParameters.toList(),
         equals([
           Parameter(
             (p) => p
@@ -55,7 +55,7 @@ void main() {
       expect(result.returns, equals(result.types.elementAtOrNull(1)?.nullabled()));
       expect(result.optionalParameters, isEmpty);
       expect(
-        result.requiredParameters,
+        result.requiredParameters.toList(),
         equals([
           Parameter(
             (p) => p
@@ -83,7 +83,7 @@ void main() {
       expect(result.returns, equals(result.types.elementAtOrNull(1)?.nullabled()));
       expect(result.optionalParameters.isEmpty, isFalse);
       expect(
-        result.requiredParameters,
+        result.requiredParameters.toList(),
         equals([
           Parameter(
             (p) => p

@@ -14,7 +14,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
     required super.assignment,
     required super.mapperConfig,
     required super.mapping,
-    required super.usedNullableMethodCallback,
+    required super.onUsedNullableMethodCallback,
   });
 
   @override

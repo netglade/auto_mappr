@@ -37,7 +37,7 @@ class Mappr extends $Mappr {
   }
 
   static Value<T> objectToValueObject<T extends Object>(T source) {
-    return Value<T>(source);
+    return Value(source);
   }
 
   static Value<Object> objectToValueObject2(Object source) {

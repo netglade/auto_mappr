@@ -15,7 +15,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
   const ClassBodyBuilder({
     required super.mapperConfig,
     required super.mapping,
-    required super.usedNullableMethodCallback,
+    required super.onUsedNullableMethodCallback,
   });
 
   @override
@@ -249,7 +249,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
                 targetField: targetField,
                 typeConverters: mapping.typeConverters,
               ),
-              usedNullableMethodCallback: usedNullableMethodCallback,
+              onUsedNullableMethodCallback: onUsedNullableMethodCallback,
             ).build(),
           );
     }
@@ -299,7 +299,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           mapperConfig: mapperConfig,
           mapping: mapping,
           assignment: assignment,
-          usedNullableMethodCallback: usedNullableMethodCallback,
+          onUsedNullableMethodCallback: onUsedNullableMethodCallback,
         ).build(),
       ),
       {
@@ -308,7 +308,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
             mapperConfig: mapperConfig,
             mapping: mapping,
             assignment: assignment,
-            usedNullableMethodCallback: usedNullableMethodCallback,
+            onUsedNullableMethodCallback: onUsedNullableMethodCallback,
           ).build(),
       },
     );

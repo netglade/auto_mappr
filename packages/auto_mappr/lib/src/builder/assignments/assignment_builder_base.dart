@@ -5,7 +5,8 @@ abstract class AssignmentBuilderBase {
   final SourceAssignment assignment;
   final AutoMapprConfig mapperConfig;
   final TypeMapping mapping;
-  final void Function(TypeMapping? mapping)? usedNullableMethodCallback;
+  // ignore: prefer-typedefs-for-callbacks, private API
+  final void Function(TypeMapping? mapping)? onUsedNullableMethodCallback;
 
   static const Reference modelReference = Reference('model');
 
@@ -13,7 +14,7 @@ abstract class AssignmentBuilderBase {
     required this.assignment,
     required this.mapperConfig,
     required this.mapping,
-    required this.usedNullableMethodCallback,
+    required this.onUsedNullableMethodCallback,
   });
 
   Expression buildAssignment();

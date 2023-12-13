@@ -473,11 +473,11 @@ void main() {
 
       expect(
         converted,
-        equals(const [
-          fixture_group.Group(1),
-          fixture_group.Group(2),
-          fixture_group.Group(3),
-        ]),
+        equals({
+          const fixture_group.Group(1),
+          const fixture_group.Group(2),
+          const fixture_group.Group(3),
+        }),
       );
     });
 
@@ -490,7 +490,7 @@ void main() {
 
       expect(
         converted,
-        equals(const [fixture_alpha.Alpha(4), fixture_alpha.Alpha(5)]),
+        equals({const fixture_alpha.Alpha(4), const fixture_alpha.Alpha(5)}),
       );
     });
 
@@ -504,11 +504,11 @@ void main() {
 
       expect(
         converted,
-        equals(const [
-          fixture_beta.Beta(6),
-          fixture_beta.Beta(7),
-          fixture_beta.Beta(8),
-        ]),
+        equals({
+          const fixture_beta.Beta(6),
+          const fixture_beta.Beta(7),
+          const fixture_beta.Beta(8),
+        }),
       );
     });
 
@@ -519,7 +519,7 @@ void main() {
       };
       final converted = mappr.convertSet<fixture_gama.GamaDto, fixture_gama.Gama>(dto);
 
-      expect(converted, equals(const [fixture_gama.Gama(9), fixture_gama.Gama(10)]));
+      expect(converted, equals({const fixture_gama.Gama(9), const fixture_gama.Gama(10)}));
     });
   });
 
@@ -534,11 +534,11 @@ void main() {
 
       expect(
         converted,
-        equals(const [
-          fixture_group.Group(1),
-          fixture_group.Group(2),
-          fixture_group.Group(3),
-        ]),
+        equals({
+          const fixture_group.Group(1),
+          const fixture_group.Group(2),
+          const fixture_group.Group(3),
+        }),
       );
     });
 
@@ -552,7 +552,7 @@ void main() {
 
       expect(
         converted,
-        equals(const [fixture_group.Group(1), null, fixture_group.Group(3)]),
+        equals({const fixture_group.Group(1), null, const fixture_group.Group(3)}),
       );
     });
 
@@ -565,7 +565,7 @@ void main() {
 
       expect(
         converted,
-        equals(const [fixture_alpha.Alpha(4), fixture_alpha.Alpha(5)]),
+        equals({const fixture_alpha.Alpha(4), const fixture_alpha.Alpha(5)}),
       );
     });
 
@@ -579,7 +579,7 @@ void main() {
 
       expect(
         converted,
-        equals(const [fixture_alpha.Alpha(4), fixture_alpha.Alpha(5), null]),
+        equals({const fixture_alpha.Alpha(4), const fixture_alpha.Alpha(5), null}),
       );
     });
 
@@ -593,11 +593,11 @@ void main() {
 
       expect(
         converted,
-        equals(const [
-          fixture_beta.Beta(6),
-          fixture_beta.Beta(7),
-          fixture_beta.Beta(8),
-        ]),
+        equals({
+          const fixture_beta.Beta(6),
+          const fixture_beta.Beta(7),
+          const fixture_beta.Beta(8),
+        }),
       );
     });
 
@@ -611,7 +611,7 @@ void main() {
 
       expect(
         converted,
-        equals(const [null, fixture_beta.Beta(7), fixture_beta.Beta(8)]),
+        equals({null, const fixture_beta.Beta(7), const fixture_beta.Beta(8)}),
       );
     });
 
@@ -622,7 +622,7 @@ void main() {
       };
       final converted = mappr.tryConvertSet<fixture_gama.GamaDto, fixture_gama.Gama>(dto);
 
-      expect(converted, equals(const [fixture_gama.Gama(9), fixture_gama.Gama(10)]));
+      expect(converted, equals({const fixture_gama.Gama(9), const fixture_gama.Gama(10)}));
     });
 
     test('gama w/ null', () {
@@ -635,7 +635,7 @@ void main() {
 
       expect(
         converted,
-        equals(const [null, fixture_gama.Gama(9), fixture_gama.Gama(10)]),
+        equals({null, const fixture_gama.Gama(9), const fixture_gama.Gama(10)}),
       );
     });
   });

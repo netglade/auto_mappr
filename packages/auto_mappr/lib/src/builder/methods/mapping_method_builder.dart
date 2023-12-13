@@ -8,13 +8,14 @@ import 'package:code_builder/code_builder.dart';
 class MappingMethodBuilder extends MethodBuilderBase {
   final TypeMapping mapping;
   final bool nullable;
-  final void Function(TypeMapping? mapping)? usedNullableMethodCallback;
+  // ignore: prefer-typedefs-for-callbacks, private API
+  final void Function(TypeMapping? mapping)? onUsedNullableMethodCallback;
 
   const MappingMethodBuilder(
     super.config, {
     required this.mapping,
     this.nullable = false,
-    this.usedNullableMethodCallback,
+    this.onUsedNullableMethodCallback,
   });
 
   @override
@@ -46,7 +47,7 @@ class MappingMethodBuilder extends MethodBuilderBase {
     return MapModelBodyMethodBuilder(
       mapping: mapping,
       mapperConfig: config,
-      usedNullableMethodCallback: usedNullableMethodCallback,
+      onUsedNullableMethodCallback: onUsedNullableMethodCallback,
       nullable: nullable,
     ).build();
   }

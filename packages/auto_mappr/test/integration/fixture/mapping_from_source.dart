@@ -38,7 +38,7 @@ class InstanceGetter {
 
   String get secondValue => 'test 2';
 
-  set value(int newValue) => _value = newValue;
+  set value(int value) => _value = value;
 }
 
 class StaticField {
@@ -54,5 +54,5 @@ class StaticGetter {
 
   static String get secondValue => 'test 4';
 
-  static set value(int newValue) => _value = newValue;
+  static set value(int value) => _value = value;
 }
