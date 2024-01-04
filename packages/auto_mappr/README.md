@@ -280,10 +280,11 @@ class Mappr extends $Mappr {}
 When you need to assign a custom function or a const value as a value for given target field,
 you can use the `custom` argument in a `Field` mapping.
 Alternatively, you can use the `Field.custom()` constructor
-which hides other then-invalid parameters. Provide `const Target` value or custom mapping function.
+which hides other then-invalid parameters.
+Provide `const Target` value or custom mapping function.
 
-Custom function has to follow one of these formals:
--  has `Source` model argument -  `Target Function(Source dto)`
+The custom function has to follow one of these formals:
+-  has `Source` model argument - `Target Function(Source dto)`
 -  has exactly zero arguments and returns `Target`
 
 ```dart
