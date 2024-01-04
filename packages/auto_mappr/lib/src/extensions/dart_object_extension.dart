@@ -11,7 +11,7 @@ extension DartObjectExtension on DartObject {
   /// If the top most object is a function, then return its code expression.
   ///
   /// Otherwise return code expression of literals or objects.
-  Expression? toCodeExpression({bool passModelArgument = false}) {
+  Expression? toCodeExpression({bool maybePassModelArgument = false}) {
     if (isNull) {
       return null;
     }
@@ -20,7 +20,7 @@ extension DartObjectExtension on DartObject {
     final asFunction = toFunctionValue();
     if (asFunction != null) {
       return EmitterHelper.current.refer(asFunction.referCallString, asFunction.library.identifier).call([
-        if (passModelArgument && asFunction.parameters.isNotEmpty) refer('model'),
+        if (maybePassModelArgument && asFunction.parameters.isNotEmpty) refer('model'),
       ]);
     }
 
