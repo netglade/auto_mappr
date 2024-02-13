@@ -1,9 +1,5 @@
-<a href="https://github.com/netglade">
-  <picture >
-    <source media="(prefers-color-scheme: dark)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr/doc/badge_light.png">
-    <source media="(prefers-color-scheme: light)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr/doc/badge_dark.png">
-    <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr/doc/badge_dark.png">
-  </picture>
+<a href="https://github.com/netglade">  
+  <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr/doc/badge.png">  
 </a>
 
 Developed with 💚 by [netglade][netglade_link]
