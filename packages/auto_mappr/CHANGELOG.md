@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.3.0
+- Support zero argument function in custom mapping  [#169](https://github.com/netglade/auto_mappr/pull/169) 
+
 ## 2.2.0
 - Improve error messages. [#147](https://github.com/netglade/auto_mappr/pull/147)
 - When the source is not null, `TypeConverter<Object, Object>` and `TypeConverter<Object, Object?>` now support mapping of source field `Object?` -> target field `Object?`. [#142](https://github.com/netglade/auto_mappr/pull/142)

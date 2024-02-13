@@ -26,6 +26,7 @@ class TryConvertIterableMethodBuilder extends MethodBuilderBase {
           '/// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into $wrapper.',
           '///',
           '/// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null',
+          // ignore: avoid-duplicate-collection-elements, doc comment.
           '///',
           config.availableMappingsDocComment,
         ])
@@ -35,12 +36,14 @@ class TryConvertIterableMethodBuilder extends MethodBuilderBase {
           Parameter(
             (p) => p
               ..name = 'model'
-              ..type =
-                  Reference('Iterable<${MethodBuilderBase.nullableSourceTypeReference.accept(EmitterHelper.current.emitter)}>'),
+              ..type = Reference(
+                'Iterable<${MethodBuilderBase.nullableSourceTypeReference.accept(EmitterHelper.current.emitter)}>',
+              ),
           ),
         )
-        ..returns =
-            Reference('$wrapper<${MethodBuilderBase.nullableTargetTypeReference.accept(EmitterHelper.current.emitter)}>')
+        ..returns = Reference(
+          '$wrapper<${MethodBuilderBase.nullableTargetTypeReference.accept(EmitterHelper.current.emitter)}>',
+        )
         ..body = buildBody(),
     );
   }
@@ -97,7 +100,11 @@ class TryConvertIterableMethodBuilder extends MethodBuilderBase {
         iterable: refer(MethodBuilderBase.delegatesField),
         body: ExpressionExtension.ifStatement(
           condition: CanConvertMethodBuilder(config).propertyCall(on: mapprReference),
-          ifBody: mapprReference.property('tryConvert$wrapper').call([MethodBuilderBase.modelReference], {}, []).returned.statement,
+          ifBody: mapprReference
+              .property('tryConvert$wrapper')
+              .call([MethodBuilderBase.modelReference], {}, [])
+              .returned
+              .statement,
         ),
       ).code,
     );

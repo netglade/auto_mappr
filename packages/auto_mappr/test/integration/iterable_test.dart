@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-duplicate-collection-elements
+
 import 'package:test/test.dart';
 
 import 'fixture/iterable.dart' as fixture;
