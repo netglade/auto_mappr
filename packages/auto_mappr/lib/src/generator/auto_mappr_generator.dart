@@ -145,7 +145,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
                   field: fieldMapping.getField(fieldFieldField)!.toStringValue()!,
                   ignore: fieldMapping.getField(fieldFieldIgnore)!.toBoolValue()!,
                   from: fieldMapping.getField(fieldFieldFrom)!.toStringValue(),
-                  customExpression: fieldMapping.getField(fieldFieldCustom)!.toCodeExpression(passModelArgument: true),
+                  customExpression:
+                      fieldMapping.getField(fieldFieldCustom)!.toCodeExpression(maybePassModelArgument: true),
                   whenNullExpression: fieldMapping.getField(fieldFieldWhenNull)!.toCodeExpression(),
                   ignoreNull: fieldMapping.getField(fieldFieldIgnoreNull)!.toBoolValue(),
                 ),

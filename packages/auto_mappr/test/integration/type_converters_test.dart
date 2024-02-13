@@ -24,7 +24,7 @@ void main() {
     const dto = fixture.NormalFieldDto(xInt: 5, xString: 'Command', normalBool: true);
     final converted = mappr.convert<fixture.NormalFieldDto, fixture.NormalField>(dto);
 
-    expect(converted, equals(const fixture.NormalField(fixture.Value<int>(5), fixture.Value('Command'), true)));
+    expect(converted, equals(const fixture.NormalField(fixture.Value(5), fixture.Value('Command'), true)));
   });
 
   test('list', () {

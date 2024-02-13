@@ -81,19 +81,20 @@ void main() {
       expect(
         converted,
         equals(
-          const fixture.CustomFunctionFromEmpty(
+          fixture.CustomFunctionFromEmpty(
             1.2,
             2,
             74.58,
             'some test',
             true,
-            [null, true, 3, 8.6],
-            [
+            const [null, true, 3, 8.6],
+            const [
               [null, 'xx'],
               [true, 3, 8.6],
             ],
-            {1, 2, 3, 4, 5},
-            {'one': 11, 'two': 22, 'three': 33},
+            const {1, 2, 3, 4, 5},
+            const {'one': 11, 'two': 22, 'three': 33},
+            DateTime(2023),
           ),
         ),
       );

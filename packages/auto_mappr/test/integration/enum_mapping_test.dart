@@ -48,7 +48,8 @@ void main() {
     test("Can't map source enum to target when target is not enum", () {
       runZonedAutoMappr(() {
         final generator = SuccessGenerator.fromBuilder(
-          'enum_mapping_not_enum',
+          ['enum_mapping_not_enum.dart'],
+          [],
           autoMapprBuilder,
           inputDir: 'test/integration/error_fixture',
           compareWithFixture: false,
@@ -70,7 +71,8 @@ void main() {
     test("Can't map source enum to target when target is not superset of source", () {
       runZonedAutoMappr(() {
         final generator = SuccessGenerator.fromBuilder(
-          'enum_mapping_subset',
+          ['enum_mapping_subset.dart'],
+          [],
           autoMapprBuilder,
           inputDir: 'test/integration/error_fixture',
           compareWithFixture: false,

@@ -1,9 +1,5 @@
-<a href="https://github.com/netglade">
-  <picture >
-    <source media="(prefers-color-scheme: dark)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr/doc/badge_light.png">
-    <source media="(prefers-color-scheme: light)" height='120px' srcset="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr/doc/badge_dark.png">
-    <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr/doc/badge_dark.png">
-  </picture>
+<a href="https://github.com/netglade">  
+  <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/auto_mappr/main/packages/auto_mappr/doc/badge.png">  
 </a>
 
 Developed with 💚 by [netglade][netglade_link]
@@ -281,8 +277,11 @@ When you need to assign a custom function or a const value as a value for given 
 you can use the `custom` argument in a `Field` mapping.
 Alternatively, you can use the `Field.custom()` constructor
 which hides other then-invalid parameters.
+Provide `const Target` value or custom mapping function.
 
-You can set up `Target Function(Source dto)` function or `const Target` value.
+The custom function has to follow one of these formals:
+-  has `Source` model argument - `Target Function(Source dto)`
+-  has exactly zero arguments and returns `Target`
 
 ```dart
 @AutoMappr([
@@ -298,7 +297,8 @@ class Mappr extends $Mappr {
   static String mapName(UserDto dto) => dto.name.toUpperCase();
 }
 
-int mapAge(UserDto _) => 42;
+/// Return always 42
+int mapAge() => 42;
 ```
 
 ### Ignore mapping
