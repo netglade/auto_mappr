@@ -17,7 +17,7 @@ class Utils {
     fields: [
       Field('name', from: 'xname'),
       Field('born', custom: Utils.mapDateTime),
-      Field('special', custom: Utils.mapSpecial)
+      Field('special', custom: Utils.mapSpecial),
     ],
   ),
 ])
