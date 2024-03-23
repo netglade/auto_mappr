@@ -23,9 +23,20 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     bool includeGenericTypes = false,
   }) {
     final sourceOnModel = AssignmentBuilderBase.modelReference.property(assignment.sourceField!.displayName);
-
+    final fieldMapping = mapping.tryGetFieldMapping(assignment.targetName);
     // Source and target is the same.
+
     if (source.isSame(target)) {
+      final shouldIgnoreNull = fieldMapping?.ignoreNull ??
+          mapping.ignoreFieldNull ??
+          mapperConfig.mapprOptions.ignoreNullableSourceField ??
+          false;
+
+      // if SOURCE nullable and TARGET not AND ignoreNull is used - use it.
+      if ((source.isNullable && target.isNotNullable) && shouldIgnoreNull) {
+        return sourceOnModel.nullChecked;
+      }
+
       return sourceOnModel;
     }
 
@@ -76,7 +87,6 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     );
 
     // If source == null and target not nullable -> use whenNullDefault if possible
-    final fieldMapping = mapping.tryGetFieldMapping(assignment.targetName);
     if (source.isNullable && (fieldMapping?.whenNullExpression != null)) {
       // Generates code like:
       //
