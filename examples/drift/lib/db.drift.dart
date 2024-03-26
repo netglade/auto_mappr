@@ -38,10 +38,9 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   @override
   List<GeneratedColumn> get $columns => [id, title, content, category];
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  String get aliasedName => _alias ?? 'todos';
   @override
-  String get actualTableName => $name;
-  static const String $name = 'todos';
+  String get actualTableName => 'todos';
   @override
   VerificationContext validateIntegrity(Insertable<Todo> instance,
       {bool isInserting = false}) {
@@ -279,10 +278,9 @@ class $CategoriesTable extends Categories
   @override
   List<GeneratedColumn> get $columns => [id, description];
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  String get aliasedName => _alias ?? 'categories';
   @override
-  String get actualTableName => $name;
-  static const String $name = 'categories';
+  String get actualTableName => 'categories';
   @override
   VerificationContext validateIntegrity(Insertable<Category> instance,
       {bool isInserting = false}) {

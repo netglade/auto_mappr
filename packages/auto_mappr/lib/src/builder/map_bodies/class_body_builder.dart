@@ -217,30 +217,60 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
   }) {
     final targetSetters = mapping.target.getAllSetters();
 
-    final potentialSetterFields = sourceFields.keys.where((field) => !alreadyMapped.contains(field)).toList();
-    final fields = potentialSetterFields
-        .map((key) => sourceFields[key])
+    // Select only those who has not been mapped yet.
+    final potentialSetterFields = sourceFields.keys.where((field) {
+      final fieldMapping = mapping.tryGetFieldMappingFromFrom(field);
+      final from = fieldMapping?.field;
+
+      // If the field has a rename, check that.
+      if (from != null) {
+        return !alreadyMapped.contains(from);
+      }
+
+      // Or check it direclty.
+      return !alreadyMapped.contains(field);
+    }).toList();
+
+    final notMappedSourceFields = potentialSetterFields
+        .map((sourceKey) => sourceFields[sourceKey])
         .whereNotNull()
         // Use only those that match.
-        .where((accessor) => targetSetters.any((targetAccessor) => targetAccessor.displayName == accessor.displayName))
+        .where((accessor) {
+          final fieldMapping = mapping.tryGetFieldMappingFromFrom(accessor.name);
+          final from = fieldMapping?.field;
+
+          return
+              // Contains rename.
+              from != null ||
+                  // Or matches directly.
+                  targetSetters.any((targetAccessor) => targetAccessor.displayName == accessor.displayName);
+        })
         // Skip ignored fields.
         .where((accessor) => !mapping.fieldShouldBeIgnored(accessor.displayName))
         .toList();
 
-    if (fields.isEmpty) {
+    if (notMappedSourceFields.isEmpty) {
       return constructorExpression;
     }
 
     final targetClassGetters = mapping.target.getAllGetters();
 
     var cascadedAssignments = constructorExpression;
-    for (final sourceField in fields) {
-      final targetField = targetClassGetters.firstWhereOrNull((field) => field.displayName == sourceField.displayName);
 
+    for (final sourceField in notMappedSourceFields) {
+      // Is there a rename?
+      final fieldMapping = mapping.tryGetFieldMappingFromFrom(sourceField.name);
+      final from = fieldMapping?.field;
+
+      // Rename or original field name.
+      final sourceFieldName = from ?? sourceField.name;
+      final targetField = targetClassGetters.firstWhereOrNull((field) => field.displayName == sourceFieldName);
+
+      // final targetField = targetClassSetters.firstWhereOrNull((field) => field.displayName == sourceField.displayName);
       if (targetField == null) continue;
 
       // Assign result.X = model.X
-      cascadedAssignments = cascadedAssignments.cascade(sourceField.displayName).assign(
+      cascadedAssignments = cascadedAssignments.cascade(sourceFieldName).assign(
             ValueAssignmentBuilder(
               mapperConfig: mapperConfig,
               mapping: mapping,
