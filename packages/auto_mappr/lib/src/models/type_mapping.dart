@@ -65,6 +65,8 @@ class TypeMapping extends Equatable {
 
   FieldMapping? tryGetFieldMapping(String field) => fieldMappings.firstWhereOrNull((x) => x.field == field);
 
+  FieldMapping? tryGetFieldMappingFromFrom(String from) => fieldMappings.firstWhereOrNull((x) => x.from == from);
+
   bool fieldShouldBeIgnored(String field) => hasFieldMapping(field) && (getFieldMapping(field)?.ignore ?? false);
 
   @override

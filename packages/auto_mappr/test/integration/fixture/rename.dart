@@ -57,6 +57,13 @@ import 'rename.auto_mappr.dart';
       Field.custom('nameAndId', custom: Mappr.convertToNameAndIdNamed),
     ],
   ),
+  // no constructor with late fields
+  MapType<NoConstructorWithLateDto, NoConstructorWithLate>(
+    fields: [
+      Field('alpha', from: 'value'),
+      Field('beta', from: 'secondValue'),
+    ],
+  ),
 ])
 class Mappr extends $Mappr {
   static String convertToNameAndIdPositional(CustomPositionalDto? dto) => '${dto?.name} #${dto?.id}';
@@ -303,4 +310,23 @@ class CustomNamedDto {
   final String name;
 
   const CustomNamedDto({required this.id, required this.name});
+}
+
+// No constructor with late fields.
+
+class NoConstructorWithLateDto {
+  final int value;
+  final String secondValue;
+
+  const NoConstructorWithLateDto({required this.value, required this.secondValue});
+}
+
+class NoConstructorWithLate with EquatableMixin {
+  // ignore: avoid-unassigned-late-fields, will be set using Mappr
+  late int alpha;
+  // ignore: avoid-unassigned-late-fields, will be set using Mappr
+  late String beta;
+
+  @override
+  List<Object?> get props => [alpha, beta];
 }

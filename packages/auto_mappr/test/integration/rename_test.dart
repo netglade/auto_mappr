@@ -128,4 +128,20 @@ void main() {
       expect(converted, equals(const fixture.CustomNamed(nameAndId: 'monitor #11')));
     });
   });
+
+  group('with no constructor and with late fields', () {
+    test('Renamed when using positional parameters', () {
+      const dto = fixture.NoConstructorWithLateDto(value: 42, secondValue: 'colosseum');
+      final converted = mappr.convert<fixture.NoConstructorWithLateDto, fixture.NoConstructorWithLate>(dto);
+
+      expect(
+        converted,
+        equals(
+          fixture.NoConstructorWithLate()
+            ..alpha = 42
+            ..beta = 'colosseum',
+        ),
+      );
+    });
+  });
 }
