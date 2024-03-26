@@ -1,7 +1,11 @@
 [//]: # (## Unreleased)
 
+## 2.4.0
+- Fix nested types ignores settings about null values (whenNull and ignoreNull). [#191](https://github.com/netglade/auto_mappr/pull/191)
+- Fix not considering renaming ("from") when mapping using setters. [#192](https://github.com/netglade/auto_mappr/pull/192)
+
 ## 2.3.0
-- Support zero argument function in custom mapping  [#169](https://github.com/netglade/auto_mappr/pull/169) 
+- Support zero argument function in custom mapping. [#169](https://github.com/netglade/auto_mappr/pull/169)
 
 ## 2.2.0
 - Improve error messages. [#147](https://github.com/netglade/auto_mappr/pull/147)
