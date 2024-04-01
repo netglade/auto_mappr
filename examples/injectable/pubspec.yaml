@@ -10,7 +10,7 @@ dependencies:
   auto_mappr_annotation: ^2.0.0
   equatable: ^2.0.5
   get_it: ^7.3.0
-  injectable: ^2.1.1
+  injectable: ^2.4.1
 
 dev_dependencies:
   auto_mappr: ^2.0.0
