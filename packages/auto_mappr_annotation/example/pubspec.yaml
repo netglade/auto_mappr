@@ -11,5 +11,5 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.0.0
-  netglade_analysis: ^8.0.0
+  netglade_analysis: ^9.0.0
   test: ^1.16.0
