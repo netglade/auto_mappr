@@ -21,8 +21,10 @@ abstract interface class AutoMapprInterface {
   /// Converts from SOURCE to TARGET if such mapping is configured.
   ///
   /// When source model is null, returns `whenSourceIsNull` if defined or null.
+  ///
+  /// If safeMapping is set to true and any exception is thrown during the mapping, the onMappingError callback is invoked.
   /// {@endtemplate}
-  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model);
+  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model, {OnMappingError<SOURCE>? onMappingError});
 
   /// {@template AutoMapprInterface:convertIterable}
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
@@ -35,8 +37,13 @@ abstract interface class AutoMapprInterface {
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Iterable.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null.
+  ///
+  /// If safeMapping is set to true and any exception is thrown during the mapping, the onMappingError callback is invoked.
   /// {@endtemplate}
-  Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model);
+  Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
+    Iterable<SOURCE?> model, {
+    OnMappingError<SOURCE>? onMappingError,
+  });
 
   /// {@template AutoMapprInterface:convertList}
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
@@ -49,8 +56,10 @@ abstract interface class AutoMapprInterface {
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into List.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null.
+  ///
+  /// If safeMapping is set to true and any exception is thrown during the mapping, the onMappingError callback is invoked.
   /// {@endtemplate}
-  List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model);
+  List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model, {OnMappingError<SOURCE>? onMappingError});
 
   /// {@template AutoMapprInterface:convertSet}
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
@@ -63,6 +72,17 @@ abstract interface class AutoMapprInterface {
   /// For iterable items, converts from SOURCE to TARGET if such mapping is configured, into Set.
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null.
+  ///
+  /// If safeMapping is set to true and any exception is thrown during the mapping, the onMappingError callback is invoked.
   /// {@endtemplate}
-  Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model);
+  Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model, {OnMappingError<SOURCE>? onMappingError});
+
+  /// {@template AutoMapprInterface:useSafeMapping}
+  /// Determines if safe mapping is used between the SOURCE and TARGET.
+  /// {@endtemplate}
+  // ignore: avoid-unused-generics, generics are used in method body
+  bool useSafeMapping<SOURCE, TARGET>();
 }
+
+/// Callback invoked when error in mapping.
+typedef OnMappingError<SOURCE> = void Function(Object e, StackTrace stackTrace, SOURCE? source);

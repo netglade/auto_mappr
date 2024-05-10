@@ -106,13 +106,14 @@ extension ExpressionExtension on Expression {
     required Spec condition,
     required Spec ifBody,
     Spec? elseBody,
+    bool negation = false,
   }) {
     final emitter = EmitterHelper.current.emitter;
 
     final ifBlock = '{ ${ifBody.accept(emitter)} }';
     final elseBlock = (elseBody != null) ? 'else { ${elseBody.accept(emitter)} }' : '';
 
-    return refer('''if ( ${condition.accept(emitter)} ) $ifBlock $elseBlock''');
+    return refer('''if ( ${negation ? '!' : ''}${condition.accept(emitter)} ) $ifBlock $elseBlock''');
   }
 
   Reference ifStatement2({required Spec ifBody, Spec? elseBody}) {
@@ -142,6 +143,17 @@ for (final ${item.accept(emitter)} in ${iterable.accept(emitter)}) {
 
   Reference nullabled() {
     return refer('${accept(EmitterHelper.current.emitter)}?');
+  }
+
+  Reference tryCatchWrapped({Spec? catchBody}) {
+    return refer('''
+    try {
+          ${accept(EmitterHelper.current.emitter)};
+        } catch(e, s) {
+          ${catchBody?.accept(EmitterHelper.current.emitter) ?? ''}
+          return null;
+        }
+        ''');
   }
 
   Expression equalToNull() => equalTo(literalNull);

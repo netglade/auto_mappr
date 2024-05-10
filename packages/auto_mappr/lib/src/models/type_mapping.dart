@@ -16,6 +16,7 @@ class TypeMapping extends Equatable {
   final Expression? whenSourceIsNullExpression;
   final String? constructor;
   final bool? ignoreFieldNull;
+  final bool? safeMapping;
 
   bool get isEnumMapping => source.element is EnumElement || target.element is EnumElement;
 
@@ -29,6 +30,7 @@ class TypeMapping extends Equatable {
       whenSourceIsNullExpression,
       constructor,
       ignoreFieldNull,
+      safeMapping,
     ];
   }
 
@@ -40,6 +42,7 @@ class TypeMapping extends Equatable {
     this.typeConverters = const [],
     this.whenSourceIsNullExpression,
     this.constructor,
+    this.safeMapping,
   });
 
   String mappingMethodName({required AutoMapprConfig config}) => MethodBuilderBase.constructConvertMethodName(

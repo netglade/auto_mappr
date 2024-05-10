@@ -20,7 +20,11 @@ void main() {
 
   group('convert', () {
     test('group', () {
-      const dto = fixture_group.GroupDto(fixture_alpha.AlphaDto(1), fixture_beta.BetaDto(2), fixture_gama.GamaDto(3));
+      const dto = fixture_group.GroupDto(
+        fixture_alpha.AlphaDto(1),
+        fixture_beta.BetaDto(2),
+        fixture_gama.GamaDto(3),
+      );
       final converted = mappr.convert<fixture_group.GroupDto, fixture_group.Group>(dto);
 
       expect(
@@ -97,6 +101,15 @@ void main() {
       expect(converted, isNull);
     });
 
+    test('beta w/ null value', () {
+      const dto = fixture_beta.BetaDto(null);
+
+      expect(
+        () => mappr.tryConvert<fixture_beta.BetaDto, fixture_beta.Beta>(dto),
+        throwsA(predicate((e) => e is TypeError)),
+      );
+    });
+
     test('gama', () {
       const dto = fixture_gama.GamaDto(4);
       final converted = mappr.tryConvert<fixture_gama.GamaDto, fixture_gama.Gama>(dto);
@@ -106,6 +119,13 @@ void main() {
 
     test('gama w/ null', () {
       const fixture_gama.GamaDto? dto = null;
+      final converted = mappr.tryConvert<fixture_gama.GamaDto, fixture_gama.Gama>(dto);
+
+      expect(converted, isNull);
+    });
+
+    test('gama w/ null value', () {
+      const dto = fixture_gama.GamaDto(null);
       final converted = mappr.tryConvert<fixture_gama.GamaDto, fixture_gama.Gama>(dto);
 
       expect(converted, isNull);
@@ -296,7 +316,7 @@ void main() {
 
   group('convertList', () {
     test('group', () {
-      const dto = <fixture_group.GroupDto>[
+      const dto = [
         fixture_group.GroupDto(fixture_alpha.AlphaDto(21), fixture_beta.BetaDto(22), fixture_gama.GamaDto(23)),
         fixture_group.GroupDto(fixture_alpha.AlphaDto(24), fixture_beta.BetaDto(25), fixture_gama.GamaDto(26)),
         fixture_group.GroupDto(fixture_alpha.AlphaDto(27), fixture_beta.BetaDto(28), fixture_gama.GamaDto(29)),
@@ -314,10 +334,7 @@ void main() {
     });
 
     test('alpha', () {
-      const dto = <fixture_alpha.AlphaDto>[
-        fixture_alpha.AlphaDto(4),
-        fixture_alpha.AlphaDto(5),
-      ];
+      const dto = [fixture_alpha.AlphaDto(4), fixture_alpha.AlphaDto(5)];
       final converted = mappr.convertList<fixture_alpha.AlphaDto, fixture_alpha.Alpha>(dto);
 
       expect(
@@ -327,7 +344,7 @@ void main() {
     });
 
     test('beta', () {
-      const dto = <fixture_beta.BetaDto>[
+      const dto = [
         fixture_beta.BetaDto(6),
         fixture_beta.BetaDto(7),
         fixture_beta.BetaDto(8),
@@ -345,10 +362,7 @@ void main() {
     });
 
     test('gama', () {
-      const dto = <fixture_gama.GamaDto>[
-        fixture_gama.GamaDto(9),
-        fixture_gama.GamaDto(10),
-      ];
+      const dto = [fixture_gama.GamaDto(9), fixture_gama.GamaDto(10)];
       final converted = mappr.convertList<fixture_gama.GamaDto, fixture_gama.Gama>(dto);
 
       expect(converted, equals(const [fixture_gama.Gama(9), fixture_gama.Gama(10)]));
@@ -478,7 +492,7 @@ void main() {
 
   group('convertSet', () {
     test('group', () {
-      const dto = <fixture_group.GroupDto>{
+      const dto = {
         fixture_group.GroupDto(fixture_alpha.AlphaDto(41), fixture_beta.BetaDto(42), fixture_gama.GamaDto(43)),
         fixture_group.GroupDto(fixture_alpha.AlphaDto(44), fixture_beta.BetaDto(45), fixture_gama.GamaDto(46)),
         fixture_group.GroupDto(fixture_alpha.AlphaDto(47), fixture_beta.BetaDto(48), fixture_gama.GamaDto(49)),
@@ -496,10 +510,7 @@ void main() {
     });
 
     test('alpha', () {
-      const dto = <fixture_alpha.AlphaDto>{
-        fixture_alpha.AlphaDto(4),
-        fixture_alpha.AlphaDto(5),
-      };
+      const dto = {fixture_alpha.AlphaDto(4), fixture_alpha.AlphaDto(5)};
       final converted = mappr.convertSet<fixture_alpha.AlphaDto, fixture_alpha.Alpha>(dto);
 
       expect(
@@ -509,7 +520,7 @@ void main() {
     });
 
     test('beta', () {
-      const dto = <fixture_beta.BetaDto>{
+      const dto = {
         fixture_beta.BetaDto(6),
         fixture_beta.BetaDto(7),
         fixture_beta.BetaDto(8),
@@ -527,10 +538,7 @@ void main() {
     });
 
     test('gama', () {
-      const dto = <fixture_gama.GamaDto>{
-        fixture_gama.GamaDto(9),
-        fixture_gama.GamaDto(10),
-      };
+      const dto = {fixture_gama.GamaDto(9), fixture_gama.GamaDto(10)};
       final converted = mappr.convertSet<fixture_gama.GamaDto, fixture_gama.Gama>(dto);
 
       expect(converted, equals({const fixture_gama.Gama(9), const fixture_gama.Gama(10)}));

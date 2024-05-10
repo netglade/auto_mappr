@@ -107,6 +107,12 @@ class AutoMapprBuilder {
       // Internal convert method.
       PrivateConvertMethodBuilder(config).buildMethod(),
 
+      // Internal safe convert method.
+      SafeConvertMethodBuilder(config).buildMethod(),
+
+      // Use safe mapping  method.
+      UseSafeMappingMethodBuilder(config).buildMethod(),
+
       // Generate non-nullable mapping method.
       for (final mapping in config.mappers)
         MappingMethodBuilder(

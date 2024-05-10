@@ -36,6 +36,10 @@ final class MapType<SOURCE, TARGET> {
   /// such as [whenSourceIsNull] or [constructor] is used.
   final bool reverse;
 
+  /// If set to true and any exception is thrown during the mapping using tryConvert/tryConvertIterable/tryConvertSet/tryConverlList methods, it is caught and methods return null.
+  /// The default is false.
+  final bool safeMapping;
+
   /// Constructs mapping between [SOURCE] and [TARGET] types.
   const MapType({
     this.fields = const [],
@@ -44,5 +48,6 @@ final class MapType<SOURCE, TARGET> {
     this.constructor,
     this.ignoreFieldNull,
     this.reverse = false,
+    this.safeMapping = false,
   });
 }

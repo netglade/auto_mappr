@@ -20,6 +20,7 @@ class $Mappr implements _i1.AutoMapprInterface {
   const $Mappr();
 
   Type _typeOf<T>() => T;
+
   List<_i1.AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
@@ -63,16 +64,23 @@ class $Mappr implements _i1.AutoMapprInterface {
   /// {@macro AutoMapprInterface:tryConvert}
   /// {@macro package:examples_drift/mappr.dart}
   @override
-  TARGET? tryConvert<SOURCE, TARGET>(SOURCE? model) {
+  TARGET? tryConvert<SOURCE, TARGET>(
+    SOURCE? model, {
+    void Function(Object error, StackTrace stackTrace, SOURCE? source)?
+        onMappingError,
+  }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
-      return _convert(
+      return _safeConvert(
         model,
-        canReturnNull: true,
+        onMappingError: onMappingError,
       );
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvert(model);
+        return mappr.tryConvert(
+          model,
+          onMappingError: onMappingError,
+        );
       }
     }
 
@@ -102,13 +110,20 @@ class $Mappr implements _i1.AutoMapprInterface {
   /// {@macro package:examples_drift/mappr.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
-      Iterable<SOURCE?> model) {
+    Iterable<SOURCE?> model, {
+    void Function(Object error, StackTrace stackTrace, SOURCE? source)?
+        onMappingError,
+  }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
-      return model.map<TARGET?>((item) => _convert(item, canReturnNull: true));
+      return model.map<TARGET?>(
+          (item) => _safeConvert(item, onMappingError: onMappingError));
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvertIterable(model);
+        return mappr.tryConvertIterable(
+          model,
+          onMappingError: onMappingError,
+        );
       }
     }
 
@@ -137,13 +152,23 @@ class $Mappr implements _i1.AutoMapprInterface {
   ///
   /// {@macro package:examples_drift/mappr.dart}
   @override
-  List<TARGET?> tryConvertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+  List<TARGET?> tryConvertList<SOURCE, TARGET>(
+    Iterable<SOURCE?> model, {
+    void Function(Object error, StackTrace stackTrace, SOURCE? source)?
+        onMappingError,
+  }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
-      return tryConvertIterable<SOURCE, TARGET>(model).toList();
+      return tryConvertIterable<SOURCE, TARGET>(
+        model,
+        onMappingError: onMappingError,
+      ).toList();
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvertList(model);
+        return mappr.tryConvertList(
+          model,
+          onMappingError: onMappingError,
+        );
       }
     }
 
@@ -172,13 +197,23 @@ class $Mappr implements _i1.AutoMapprInterface {
   ///
   /// {@macro package:examples_drift/mappr.dart}
   @override
-  Set<TARGET?> tryConvertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
+  Set<TARGET?> tryConvertSet<SOURCE, TARGET>(
+    Iterable<SOURCE?> model, {
+    void Function(Object error, StackTrace stackTrace, SOURCE? source)?
+        onMappingError,
+  }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
-      return tryConvertIterable<SOURCE, TARGET>(model).toSet();
+      return tryConvertIterable<SOURCE, TARGET>(
+        model,
+        onMappingError: onMappingError,
+      ).toSet();
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvertSet(model);
+        return mappr.tryConvertSet(
+          model,
+          onMappingError: onMappingError,
+        );
       }
     }
 
@@ -201,6 +236,35 @@ class $Mappr implements _i1.AutoMapprInterface {
       return (_map__i2$Todo_To__i3$TodoItem((model as _i2.Todo?)) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
+  }
+
+  TARGET? _safeConvert<SOURCE, TARGET>(
+    SOURCE? model, {
+    void Function(Object error, StackTrace stackTrace, SOURCE? source)?
+        onMappingError,
+  }) {
+    if (!useSafeMapping<SOURCE, TARGET>()) {
+      return _convert(
+        model,
+        canReturnNull: true,
+      );
+    }
+    try {
+      return _convert(
+        model,
+        canReturnNull: true,
+      );
+    } catch (e, s) {
+      onMappingError?.call(e, s, model);
+      return null;
+    }
+  }
+
+  /// {@macro AutoMapprInterface:useSafeMapping}
+  /// {@macro package:examples_drift/mappr.dart}
+  @override
+  bool useSafeMapping<SOURCE, TARGET>() {
+    return false;
   }
 
   _i3.TodoItem _map__i2$Todo_To__i3$TodoItem(_i2.Todo? input) {

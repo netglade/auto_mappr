@@ -17,7 +17,7 @@ void main() {
         AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
-          mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false),
+          mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false, safeMapping: false),
         ),
       ).buildMethod();
 
@@ -45,7 +45,7 @@ void main() {
         AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
-          mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false),
+          mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false, safeMapping: false),
         ),
       ).buildMethod();
 
@@ -53,7 +53,17 @@ void main() {
       expect(result.name, equals('tryConvert'));
       expect(result.types.length, equals(2));
       expect(result.returns, equals(result.types.elementAtOrNull(1)?.nullabled()));
-      expect(result.optionalParameters, isEmpty);
+      expect(
+        result.optionalParameters.toList(),
+        equals([
+          Parameter(
+            (p) => p
+              ..name = 'onMappingError'
+              ..named = true
+              ..type = refer('void Function(Object error, StackTrace stackTrace, SOURCE? source)?'),
+          ),
+        ]),
+      );
       expect(
         result.requiredParameters.toList(),
         equals([
@@ -73,7 +83,7 @@ void main() {
         AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
-          mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false),
+          mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false, safeMapping: false),
         ),
       ).buildMethod();
 
@@ -101,7 +111,7 @@ void main() {
         AutoMapprConfig(
           mappers: [],
           availableMappingsMacroId: 'test',
-          mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false),
+          mapprOptions: AutoMapprOptions(ignoreNullableSourceField: false, safeMapping: false),
         ),
       ).buildMethod();
 
