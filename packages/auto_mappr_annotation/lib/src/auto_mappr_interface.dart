@@ -80,7 +80,6 @@ abstract interface class AutoMapprInterface {
   /// {@template AutoMapprInterface:useSafeMapping}
   /// Determines if safe mapping is used between the SOURCE and TARGET.
   /// {@endtemplate}
-  // ignore: avoid-unused-generics, generics are used in method body
   bool useSafeMapping<SOURCE, TARGET>();
 }
 
