@@ -4,8 +4,6 @@ import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
-// modules OK
-// modules tests OK
 class TryConvertMethodBuilder extends MethodBuilderBase {
   const TryConvertMethodBuilder(super.config);
 

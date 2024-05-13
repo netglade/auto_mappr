@@ -490,11 +490,15 @@ This is by design and it is up to developer decide if bang operator is appropiat
 Precedense is `global configuration` -> `MapType` -> `Field` -> defaults to false.
 
 ### Safe mapping
-Sometimes it can happen that mapping goes wrong and exception is thrown. Typically it can be caused 
-by mapping from source with a nullable variable to a target with a corresponding non-nullable variable. 
-If you want to avoid propagating the exception through the app, auto_mappr can catch it and return null instead. In case you want to know
-that something went wrong during the mapping there is a `onMappingError` callback that is invoked each time error occurs. If you want enable
-safe mapping, it can be done either on the global level in `build.yaml` with `safeMapping` option
+Safe mapping is a auto_mapr feature that automatically handles exceptions thrown during the mapping. 
+Typically these exceptions can be caused by mapping from source with a nullable variable 
+to a target with a corresponding non-nullable variable. 
+If you want to avoid propagating the exception through the app, you can enable safe mapping and
+auto_mappr can catch the exception and return null as a result of mapping instead. 
+In case you want to know that something went wrong during the mapping 
+there is a `onMappingError` callback that is invoked each time error occurs. 
+Enabling safe mapping can be done 
+either on the global level in `build.yaml` with `safeMapping` option
 
   ```yaml
    $default:
@@ -504,7 +508,7 @@ safe mapping, it can be done either on the global level in `build.yaml` with `sa
           safeMapping: true
   ```
 
-or individually for each `MapType`:
+or individually for each `MapType` with `safeMapping` option:
 
 ```dart
 @AutoMappr([
@@ -514,10 +518,13 @@ or individually for each `MapType`:
 ])
 class Mappr extends $Mappr {}
 ```
-Note that global `safeMapping` has always the priority.
+Precedense is `global configuration` -> `MapType` -> defaults to false.
 
-Safe mapping can be done only through `tryConvert`, `tryConvertIterable`, `tryConvertList` or `tryConvertSet` methods. All of them have an optional parameter
-`void Function(Object error, StackTrace stackTrace, SOURCE? source)? onMappingError`, which is a callback function triggered whenever an exception occurs during the mapping process.
+Safe mapping can be done only through 
+`tryConvert`, `tryConvertIterable`, `tryConvertList` or `tryConvertSet` methods. 
+All of them have an optional parameter
+`void Function(Object error, StackTrace stackTrace, SOURCE? source)? onMappingError`, 
+that is a callback function triggered whenever an exception occurs during the mapping process.
 This can be used fo example for logging the error.
 
 ### Generics

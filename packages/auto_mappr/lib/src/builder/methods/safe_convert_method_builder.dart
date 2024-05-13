@@ -2,8 +2,6 @@ import 'package:auto_mappr/src/builder/methods/methods.dart';
 import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:code_builder/code_builder.dart';
 
-// modules OK
-// modules tests OK
 class SafeConvertMethodBuilder extends MethodBuilderBase {
   const SafeConvertMethodBuilder(super.config);
 
