@@ -7,6 +7,8 @@ export 'mapping_method_builder.dart';
 export 'method_builder_base.dart';
 export 'private_convert_method_builder.dart';
 export 'private_modules_method_builder.dart';
+export 'safe_convert_method_builder.dart';
 export 'try_convert_iterable_method_builder.dart';
 export 'try_convert_method_builder.dart';
 export 'type_of_method_builder.dart';
+export 'use_safe_mapping_method_builder.dart';

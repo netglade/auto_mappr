@@ -4,8 +4,6 @@ import 'package:auto_mappr/src/extensions/expression_extension.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 
-// modules OK
-// modules tests OK
 class TryConvertMethodBuilder extends MethodBuilderBase {
   const TryConvertMethodBuilder(super.config);
 
@@ -27,6 +25,14 @@ class TryConvertMethodBuilder extends MethodBuilderBase {
               ..type = MethodBuilderBase.nullableSourceTypeReference,
           ),
         )
+        ..optionalParameters.add(
+          Parameter(
+            (p) => p
+              ..name = 'onMappingError'
+              ..type = refer('void Function(Object error, StackTrace stackTrace, SOURCE? source)?')
+              ..named = true,
+          ),
+        )
         ..returns = MethodBuilderBase.nullableTargetTypeReference
         ..body = buildBody(),
     );
@@ -38,21 +44,24 @@ class TryConvertMethodBuilder extends MethodBuilderBase {
 
     // Generates code like:
     //
-    // if (canConvert(model)) {
-    //   return _convert(model)!;
+    // if (canConvert<SOURCE, TARGET>(recursive: false)) {
+    //   return _safeConvert(model, onMappingError: onMappingError);
     // }
     block.statements.add(
       ExpressionExtension.ifStatement(
         condition: CanConvertMethodBuilder(config).methodCall(namedArguments: {'recursive': literalFalse}),
-        ifBody: refer('_convert').call([refer('model')], {'canReturnNull': refer('true')}, []).returned.statement,
+        ifBody: refer('_safeConvert')
+            .call([refer('model')], {'onMappingError': refer('onMappingError')})
+            .returned
+            .statement,
       ).code,
     );
 
     // Generates code like:
     //
-    // for (final mappr in mappers) {
-    //   if (mappr.canConvert(model)) {
-    //     return mappr.convert(model)!;
+    // for (final mappr in _delegates) {
+    //   if (mappr.canConvert<SOURCE, TARGET>()) {
+    //     return mappr.tryConvert(model, onMappingError: onMappingError);
     //   }
     // }
     final mapprReference = refer('mappr');
@@ -62,7 +71,11 @@ class TryConvertMethodBuilder extends MethodBuilderBase {
         iterable: refer(MethodBuilderBase.delegatesField),
         body: ExpressionExtension.ifStatement(
           condition: CanConvertMethodBuilder(config).propertyCall(on: mapprReference),
-          ifBody: mapprReference.property('tryConvert').call([MethodBuilderBase.modelReference], {}, []).returned.statement,
+          ifBody: mapprReference
+              .property('tryConvert')
+              .call([MethodBuilderBase.modelReference], {'onMappingError': refer('onMappingError')}, [])
+              .returned
+              .statement,
         ),
       ).code,
     );

@@ -3,13 +3,13 @@ import 'package:equatable/equatable.dart';
 
 import 'module_gama.auto_mappr.dart';
 
-@AutoMappr([MapType<GamaDto, Gama>()])
+@AutoMappr([MapType<GamaDto, Gama>(safeMapping: true)])
 class MapprGama extends $MapprGama {
   const MapprGama();
 }
 
 class GamaDto {
-  final int value;
+  final int? value;
 
   const GamaDto(this.value);
 }

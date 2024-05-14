@@ -41,6 +41,7 @@ Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
   - [Mapping from source](#mapping-from-source)
   - [Nullability handling](#nullability-handling)
     - [Forced non-nullable field for nullable source](#forced-non-nullable-field-for-nullable-source)
+  - [Safe mapping](#safe-mapping)
   - [Generics](#generics)
   - [Library import aliases](#library-import-aliases)
   - [Modules](#modules)
@@ -479,7 +480,7 @@ This is by design and it is up to developer decide if bang operator is appropiat
   ```yaml
    $default:
     builders:
-      :auto_mappr:
+       auto_mappr:
         options:
           ignoreNullableSourceField: true
   ```
@@ -487,6 +488,44 @@ This is by design and it is up to developer decide if bang operator is appropiat
 - On `Field` level with `ignoreNull`
 
 Precedense is `global configuration` -> `MapType` -> `Field` -> defaults to false.
+
+### Safe mapping
+Safe mapping is a auto_mapr feature that automatically handles exceptions thrown during the mapping. 
+Typically these exceptions can be caused by mapping from source with a nullable variable 
+to a target with a corresponding non-nullable variable. 
+If you want to avoid propagating the exception through the app, you can enable safe mapping and
+auto_mappr can catch the exception and return null as a result of mapping instead. 
+In case you want to know that something went wrong during the mapping 
+there is a `onMappingError` callback that is invoked each time error occurs. 
+Enabling safe mapping can be done 
+either on the global level in `build.yaml` with `safeMapping` option
+
+  ```yaml
+   $default:
+    builders:
+      auto_mappr:
+        options:
+          safeMapping: true
+  ```
+
+or individually for each `MapType` with `safeMapping` option:
+
+```dart
+@AutoMappr([
+  MapType<UserDto, User>(
+    safeMapping: true,
+  ),
+])
+class Mappr extends $Mappr {}
+```
+Precedense is `global configuration` -> `MapType` -> defaults to false.
+
+Safe mapping can be done only through 
+`tryConvert`, `tryConvertIterable`, `tryConvertList` or `tryConvertSet` methods. 
+All of them have an optional parameter
+`void Function(Object error, StackTrace stackTrace, SOURCE? source)? onMappingError`, 
+that is a callback function triggered whenever an exception occurs during the mapping process.
+This can be used fo example for logging the error.
 
 ### Generics
 

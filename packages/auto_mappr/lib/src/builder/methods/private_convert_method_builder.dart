@@ -74,7 +74,8 @@ class PrivateConvertMethodBuilder extends MethodBuilderBase {
                 refer(mapping.mappingMethodName(config: config))
                     .call(
                       [
-                        MethodBuilderBase.modelReference.asA(EmitterHelper.current.typeRefer(type: mapping.source).nullabled()),
+                        MethodBuilderBase.modelReference
+                            .asA(EmitterHelper.current.typeRefer(type: mapping.source).nullabled()),
                       ],
                     )
                     .asA(MethodBuilderBase.targetTypeReference)

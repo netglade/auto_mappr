@@ -12,7 +12,7 @@ part of 'freezed_example.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$UserInfoUnion {
@@ -79,11 +79,11 @@ class _$UserInfoUnionCopyWithImpl<$Res, $Val extends UserInfoUnion>
 }
 
 /// @nodoc
-abstract class _$$UserInfoCopyWith<$Res>
+abstract class _$$UserInfoImplCopyWith<$Res>
     implements $UserInfoUnionCopyWith<$Res> {
-  factory _$$UserInfoCopyWith(
-          _$UserInfo value, $Res Function(_$UserInfo) then) =
-      __$$UserInfoCopyWithImpl<$Res>;
+  factory _$$UserInfoImplCopyWith(
+          _$UserInfoImpl value, $Res Function(_$UserInfoImpl) then) =
+      __$$UserInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -94,10 +94,11 @@ abstract class _$$UserInfoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$UserInfoCopyWithImpl<$Res>
-    extends _$UserInfoUnionCopyWithImpl<$Res, _$UserInfo>
-    implements _$$UserInfoCopyWith<$Res> {
-  __$$UserInfoCopyWithImpl(_$UserInfo _value, $Res Function(_$UserInfo) _then)
+class __$$UserInfoImplCopyWithImpl<$Res>
+    extends _$UserInfoUnionCopyWithImpl<$Res, _$UserInfoImpl>
+    implements _$$UserInfoImplCopyWith<$Res> {
+  __$$UserInfoImplCopyWithImpl(
+      _$UserInfoImpl _value, $Res Function(_$UserInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -108,7 +109,7 @@ class __$$UserInfoCopyWithImpl<$Res>
     Object? updatedAt = null,
     Object? primarySectionId = null,
   }) {
-    return _then(_$UserInfo(
+    return _then(_$UserInfoImpl(
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -131,8 +132,8 @@ class __$$UserInfoCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UserInfo implements UserInfo {
-  _$UserInfo(
+class _$UserInfoImpl implements UserInfo {
+  _$UserInfoImpl(
       {required this.email,
       required this.loginIdentifier,
       required this.updatedAt,
@@ -154,10 +155,10 @@ class _$UserInfo implements UserInfo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserInfo &&
+            other is _$UserInfoImpl &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.loginIdentifier, loginIdentifier) ||
                 other.loginIdentifier == loginIdentifier) &&
@@ -174,8 +175,8 @@ class _$UserInfo implements UserInfo {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UserInfoCopyWith<_$UserInfo> get copyWith =>
-      __$$UserInfoCopyWithImpl<_$UserInfo>(this, _$identity);
+  _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
+      __$$UserInfoImplCopyWithImpl<_$UserInfoImpl>(this, _$identity);
 }
 
 abstract class UserInfo implements UserInfoUnion {
@@ -183,7 +184,7 @@ abstract class UserInfo implements UserInfoUnion {
       {required final String email,
       required final String loginIdentifier,
       required final DateTime updatedAt,
-      final int primarySectionId}) = _$UserInfo;
+      final int primarySectionId}) = _$UserInfoImpl;
 
   @override
   String get email;
@@ -195,6 +196,6 @@ abstract class UserInfo implements UserInfoUnion {
   int get primarySectionId;
   @override
   @JsonKey(ignore: true)
-  _$$UserInfoCopyWith<_$UserInfo> get copyWith =>
+  _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

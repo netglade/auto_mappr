@@ -84,4 +84,15 @@ abstract class MethodBuilderBase {
 
     return ifConditionExpression.ifStatement2(ifBody: inIfExpression);
   }
+
+  Expression buildSourceAndTargetEquals({required TypeMapping mapping}) {
+    final sourceName = EmitterHelper.current.typeReferEmitted(type: mapping.source);
+    final targetName = EmitterHelper.current.typeReferEmitted(type: mapping.target);
+
+    final sourceEquation = refer('sourceTypeOf').equalTo(refer('_typeOf<$sourceName>()'));
+
+    final targetEquation = refer('targetTypeOf').equalTo(refer('_typeOf<$targetName>()'));
+
+    return sourceEquation.and(targetEquation);
+  }
 }

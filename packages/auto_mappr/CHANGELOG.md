@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.5.0
+- Add support for safe mapping (mapping exceptions handling). [#216](https://github.com/netglade/auto_mappr/pull/216)
+
 ## 2.4.0
 - Fix nested types ignores settings about null values (whenNull and ignoreNull). [#191](https://github.com/netglade/auto_mappr/pull/191)
 - Fix not considering renaming ("from") when mapping using setters. [#192](https://github.com/netglade/auto_mappr/pull/192)

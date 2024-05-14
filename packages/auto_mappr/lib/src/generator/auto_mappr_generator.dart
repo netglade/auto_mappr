@@ -34,6 +34,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
   static const String mapTypeFieldConstructor = 'constructor';
   static const String mapTypeFieldIgnoreFieldNull = 'ignoreFieldNull';
   static const String mapTypeFieldReverse = 'reverse';
+  static const String mapTypeSafeMapping = 'safeMapping';
 
   // Constants for Field.
   static const String fieldFieldField = 'field';
@@ -138,6 +139,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
           final constructor = mapper.getField(mapTypeFieldConstructor)?.toStringValue();
           final ignoreFieldNull = mapper.getField(mapTypeFieldIgnoreFieldNull)?.toBoolValue();
           final reverse = mapper.getField(mapTypeFieldReverse)?.toBoolValue();
+          final safeMapping = mapper.getField(mapTypeSafeMapping)?.toBoolValue();
 
           final fieldMappings = fields
               ?.map(
@@ -162,6 +164,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
               whenSourceIsNullExpression: whenSourceIsNull,
               constructor: constructor,
               ignoreFieldNull: ignoreFieldNull,
+              safeMapping: safeMapping,
             ),
             if (reverse ?? false)
               TypeMapping(
@@ -186,6 +189,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
                 whenSourceIsNullExpression: whenSourceIsNull,
                 constructor: constructor,
                 ignoreFieldNull: ignoreFieldNull,
+                safeMapping: safeMapping,
               ),
           ];
         })

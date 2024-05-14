@@ -41,6 +41,14 @@ class TryConvertIterableMethodBuilder extends MethodBuilderBase {
               ),
           ),
         )
+        ..optionalParameters.add(
+          Parameter(
+            (p) => p
+              ..name = 'onMappingError'
+              ..type = refer('void Function(Object error, StackTrace stackTrace, SOURCE? source)?')
+              ..named = true,
+          ),
+        )
         ..returns = Reference(
           '$wrapper<${MethodBuilderBase.nullableTargetTypeReference.accept(EmitterHelper.current.emitter)}>',
         )
@@ -61,14 +69,14 @@ class TryConvertIterableMethodBuilder extends MethodBuilderBase {
     // tryConvertIterable<SOURCE, TARGET>(model).toList()
     final convertIterableCall = iterableTransformer == null
         ? MethodBuilderBase.modelReference.property('map').call(
-            [refer('(item) => _convert(item, canReturnNull: true)')],
+            [refer('(item) => _safeConvert(item, onMappingError: onMappingError)')],
             {},
             [MethodBuilderBase.nullableTargetTypeReference],
           )
         : refer('tryConvertIterable')
             .call(
               [MethodBuilderBase.modelReference],
-              {},
+              {'onMappingError': refer('onMappingError')},
               [MethodBuilderBase.sourceTypeReference, MethodBuilderBase.targetTypeReference],
             )
             .property(iterableTransformer!)
@@ -102,7 +110,7 @@ class TryConvertIterableMethodBuilder extends MethodBuilderBase {
           condition: CanConvertMethodBuilder(config).propertyCall(on: mapprReference),
           ifBody: mapprReference
               .property('tryConvert$wrapper')
-              .call([MethodBuilderBase.modelReference], {}, [])
+              .call([MethodBuilderBase.modelReference], {'onMappingError': refer('onMappingError')}, [])
               .returned
               .statement,
         ),

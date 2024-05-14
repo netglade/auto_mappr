@@ -10,7 +10,7 @@ class MapprBeta extends $MapprBeta {
 }
 
 class BetaDto {
-  final int value;
+  final int? value;
 
   const BetaDto(this.value);
 }

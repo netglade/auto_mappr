@@ -1,5 +1,7 @@
 [//]: # (## Unreleased)
 
+## 2.2.0
+- Add `safeMapping` option to `MapType`. [#204](https://github.com/netglade/auto_mappr/pull/216)
 
 ## 2.1.0
 - Allow `TypeConverter` to have `<Object?, Object?>`. [#130](https://github.com/netglade/auto_mappr/pull/130)
