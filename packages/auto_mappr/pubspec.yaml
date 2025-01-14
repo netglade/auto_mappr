@@ -1,6 +1,6 @@
 name: auto_mappr
 description: Code generation for mapping between different objects with ease.
-version: 2.5.0
+version: 2.5.1
 repository: https://github.com/netglade/auto_mappr
 issue_tracker: https://github.com/netglade/auto_mappr/issues
 screenshots:
@@ -8,12 +8,15 @@ screenshots:
     path: doc/icon.png
 
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.6.0
+resolution: workspace
 
 dependencies:
   # TODO: Support analyzer same way as json_serializable https://github.com/google/json_serializable.dart/pull/1333
   analyzer: ">=5.4.0 <7.0.0"
-  auto_mappr_annotation: ^2.1.0
+  #auto_mappr_annotation: ^2.2.0
+  auto_mappr_annotation:
+    path: ../auto_mappr_annotation
   build: ^2.3.1
   built_collection: ^5.1.1
   code_builder: ^4.4.0
@@ -25,9 +28,9 @@ dependencies:
   source_gen: ^1.2.6
 
 dev_dependencies:
-  build_runner: ^2.0.0
+  build_runner: ^2.4.10
   generator_test: ^0.3.1
   mocktail: ^1.0.0
-  netglade_analysis: ^8.0.0
+  netglade_analysis: ^15.0.0
   source_gen_test: ^1.0.4
-  test: ^1.16.0
+  test: ^1.25.8

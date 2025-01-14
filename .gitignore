@@ -29,3 +29,6 @@ build/
 .settings
 .last_build_id
 *.iml
+
+# FVM Version Cache
+.fvm/
