@@ -4,6 +4,13 @@ publish_to: "none"
 workspace:
   - packages/auto_mappr
   - packages/auto_mappr_annotation
+  - packages/auto_mappr/example
+  - packages/auto_mappr_annotation/example
+  - examples/drift
+  - examples/example
+  - examples/freezed
+  - examples/injectable
+  - examples/json_serializable
 
 environment:
   sdk: ^3.6.0

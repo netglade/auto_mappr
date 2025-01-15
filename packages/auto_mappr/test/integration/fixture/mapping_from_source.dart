@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-abstract-final-static-class
+
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 
@@ -41,13 +43,13 @@ class InstanceGetter {
   set value(int value) => _value = value;
 }
 
-abstract final class StaticField {
+class StaticField {
   // ignore: avoid-global-state, for testing
   static int value = 666;
   static const String secondValue = 'test 3';
 }
 
-abstract final class StaticGetter {
+class StaticGetter {
   static int? _value;
 
   static int get value => _value ?? 0;

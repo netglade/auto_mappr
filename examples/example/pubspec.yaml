@@ -5,6 +5,7 @@ publish_to: none
 
 environment:
   sdk: ^3.6.0
+resolution: workspace
 
 dependencies:
   auto_mappr_annotation: ^2.3.0
