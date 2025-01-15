@@ -1,5 +1,5 @@
 /// AutoMappr Annotation.
-library auto_mappr_annotation;
+library;
 
 export 'src/auto_mappr.dart';
 export 'src/auto_mappr_interface.dart';

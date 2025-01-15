@@ -41,13 +41,13 @@ class InstanceGetter {
   set value(int value) => _value = value;
 }
 
-class StaticField {
+abstract final class StaticField {
   // ignore: avoid-global-state, for testing
   static int value = 666;
   static const String secondValue = 'test 3';
 }
 
-class StaticGetter {
+abstract final class StaticGetter {
   static int? _value;
 
   static int get value => _value ?? 0;

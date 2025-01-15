@@ -233,7 +233,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
     final notMappedSourceFields = potentialSetterFields
         .map((sourceKey) => sourceFields[sourceKey])
-        .whereNotNull()
+        .nonNulls
         // Use only those that match.
         .where((accessor) {
           final fieldMapping = mapping.tryGetFieldMappingFromFrom(accessor.name);

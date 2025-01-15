@@ -5,3 +5,6 @@ dart_code_metrics:
     - package:netglade_analysis/dcm.yaml
   pubspec-rules:
     prefer-publish-to-none: false
+  rules:
+    prefer-boolean-prefixes: false # TODO
+    prefer-named-parameters: false # TODO

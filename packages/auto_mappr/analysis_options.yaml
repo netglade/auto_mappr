@@ -18,3 +18,8 @@ dart_code_metrics:
         - test/integration/fixture/**
     avoid-non-null-assertion: false # TODO
     avoid-nullable-interpolation: false # TODO
+    prefer-boolean-prefixes: false # TODO
+    avoid-passing-default-values: false # TODO
+    avoid-commented-out-code: false # code examples in comments
+    prefer-single-declaration-per-file: false # TODO
+    prefer-named-parameters: false # TODO

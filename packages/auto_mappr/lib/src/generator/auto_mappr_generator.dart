@@ -193,6 +193,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
               ),
           ];
         })
+        // ignore: avoid-slow-collection-methods, fix dcm without refactoring
         .flattened
         .toList();
   }

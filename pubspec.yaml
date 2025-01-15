@@ -1,6 +1,10 @@
 name: auto_mappr_workspace
 publish_to: "none"
 
+workspace:
+  - packages/auto_mappr
+  - packages/auto_mappr_annotation
+
 environment:
   sdk: ^3.6.0
 

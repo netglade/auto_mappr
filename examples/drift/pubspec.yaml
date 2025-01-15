@@ -7,12 +7,12 @@ environment:
   sdk: ^3.6.0
 
 dependencies:
-  auto_mappr_annotation: ^2.2.1
+  auto_mappr_annotation: ^2.3.0
   drift: ^2.7.0
   equatable: ^2.0.5
 
 dev_dependencies:
-  auto_mappr: ^2.5.1
+  auto_mappr: ^2.6.0
   build_runner: ^2.0.0
   drift_dev: ^2.7.0
   netglade_analysis: ^15.0.0

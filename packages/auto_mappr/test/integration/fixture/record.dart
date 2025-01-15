@@ -68,6 +68,7 @@ class Named extends Equatable {
 }
 
 class NamedNullable extends Equatable {
+  // ignore: record-fields-ordering, greek alphabet
   final ({int alpha, bool beta, String gama, int? delta, bool? epsilon}) value;
 
   @override
