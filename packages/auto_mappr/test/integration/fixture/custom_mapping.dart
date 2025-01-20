@@ -105,9 +105,9 @@ class Mappr extends $Mappr {
 
   static Map<String, int> emptyToMapValue(CustomFunctionFromEmptyDto? _) => {'one': 11, 'two': 22, 'three': 33};
 
-  static String convertToNameAndIdPositional(CustomFunctionPositionalDto? dto) => '${dto?.name} #${dto?.id}';
+  static String convertToNameAndIdPositional(CustomFunctionPositionalDto dto) => '${dto.name} #${dto.id}';
 
-  static String convertToNameAndIdNamed(CustomFunctionNamedDto? dto) => '${dto?.name} #${dto?.id}';
+  static String convertToNameAndIdNamed(CustomFunctionNamedDto dto) => '${dto.name} #${dto.id}';
 
   static DateTime dateTimeFixed() => DateTime(2023);
 }

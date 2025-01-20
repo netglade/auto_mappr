@@ -75,8 +75,8 @@ class TypeMapping extends Equatable {
   @override
   String toString() {
     // Without import aliases, used to display errors to user.
-    final sourceAsString = source.getDisplayString(withNullability: true);
-    final targetAsString = target.getDisplayString(withNullability: true);
+    final sourceAsString = source.getDisplayString();
+    final targetAsString = target.getDisplayString();
 
     // ignore: avoid-non-ascii-symbols, it is ok
     return '$sourceAsString → $targetAsString';

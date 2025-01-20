@@ -196,7 +196,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
   }
 
   void _assertParamFieldCanBeIgnored(ParameterElement param, PropertyAccessorElement sourceField) {
-    final sourceFieldName = sourceField.getDisplayString(withNullability: true);
+    final sourceFieldName = sourceField.getDisplayString();
     if (param.isPositional && param.type.isNotNullable) {
       throw InvalidGenerationSourceError(
         "Can't ignore field '$sourceFieldName' as it is positional not-nullable parameter. ($mapping)",

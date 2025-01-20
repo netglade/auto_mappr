@@ -66,9 +66,9 @@ import 'rename.auto_mappr.dart';
   ),
 ])
 class Mappr extends $Mappr {
-  static String convertToNameAndIdPositional(CustomPositionalDto? dto) => '${dto?.name} #${dto?.id}';
+  static String convertToNameAndIdPositional(CustomPositionalDto dto) => '${dto.name} #${dto.id}';
 
-  static String convertToNameAndIdNamed(CustomNamedDto? dto) => '${dto?.name} #${dto?.id}';
+  static String convertToNameAndIdNamed(CustomNamedDto dto) => '${dto.name} #${dto.id}';
 }
 
 // same

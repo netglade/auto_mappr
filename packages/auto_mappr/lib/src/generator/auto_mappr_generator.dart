@@ -1,5 +1,4 @@
 //ignore_for_file: avoid-dynamic
-
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
@@ -193,7 +192,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
               ),
           ];
         })
-        // ignore: avoid-slow-collection-methods, fix dcm without refactoring
+        // ignore: avoid-slow-collection-methods, it's ok to use here
         .flattened
         .toList();
   }
