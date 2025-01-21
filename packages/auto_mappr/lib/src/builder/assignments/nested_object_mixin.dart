@@ -120,9 +120,9 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     Expression? convertMethodArgument,
     bool includeGenericTypes = false,
   }) {
-    final targetNullable = target.isNullable;
+    final isTargetNullable = target.isNullable;
 
-    final useNullableMethod = targetNullable && !mapping.hasWhenNullDefault();
+    final useNullableMethod = isTargetNullable && !mapping.hasWhenNullDefault();
 
     // When target is nullable, use nullable convert method.
     // But use non-nullable when the mapping has default value.

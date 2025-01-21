@@ -1,5 +1,5 @@
 {
-  "date": "2025-01-20 12:55:26.396096Z",
+  "date": "2025-01-21 09:08:40.977713Z",
   "version": "1.26.2",
   "paths": {
     "lib/src/models/type_converter.dart": {
@@ -15,9 +15,7 @@
       ]
     },
     "lib/src/models/field_mapping.dart": {
-      "avoid-non-null-assertion": [
-        "4e22d2815561f01ac60242562eb3d477"
-      ]
+      "avoid-non-null-assertion": ["4e22d2815561f01ac60242562eb3d477"]
     },
     "lib/src/models/source_assignment.dart": {
       "avoid-non-null-assertion": [
@@ -26,18 +24,14 @@
         "412aa7c321ce0580e16e5586de44ae45",
         "412aa7c321ce0580e16e5586de44ae45"
       ],
-      "avoid-nullable-interpolation": [
-        "165ee04eb4d55330435a841f09c3c6b1"
-      ]
+      "avoid-nullable-interpolation": ["165ee04eb4d55330435a841f09c3c6b1"]
     },
     "lib/src/extensions/dart_object_extension.dart": {
       "avoid-non-null-assertion": [
         "0839d20a589c74eb461adbed71774c0c",
         "18cabcff3de662dfb212c548a5a39c24"
       ],
-      "avoid-nullable-interpolation": [
-        "cf7dba3d85f84df468ec72f8b3744601"
-      ]
+      "avoid-nullable-interpolation": ["cf7dba3d85f84df468ec72f8b3744601"]
     },
     "lib/src/generator/auto_mappr_generator.dart": {
       "avoid-non-null-assertion": [
@@ -56,9 +50,7 @@
       ]
     },
     "lib/src/builder/methods/private_convert_method_builder.dart": {
-      "avoid-non-null-assertion": [
-        "a8022779055b7c4c7bf23042d14e613a"
-      ]
+      "avoid-non-null-assertion": ["a8022779055b7c4c7bf23042d14e613a"]
     },
     "lib/src/builder/assignments/record_assignment_builder.dart": {
       "avoid-non-null-assertion": [
@@ -122,9 +114,7 @@
       ]
     },
     "lib/src/builder/map_bodies/enum_body_builder.dart": {
-      "avoid-non-null-assertion": [
-        "a8022779055b7c4c7bf23042d14e613a"
-      ]
+      "avoid-non-null-assertion": ["a8022779055b7c4c7bf23042d14e613a"]
     }
   }
 }

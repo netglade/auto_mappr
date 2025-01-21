@@ -27,8 +27,8 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     final sourceType = assignment.sourceType!;
     final targetType = assignment.targetType;
 
-    final sourceNullable = sourceType.isNullable;
-    final targetNullable = targetType.isNullable;
+    final isSourceNullable = sourceType.isNullable;
+    final isTargetNullable = targetType.isNullable;
 
     final sourceKeyType = (sourceType as ParameterizedType).typeArguments.firstOrNull;
     final sourceValueType = sourceType.typeArguments.lastOrNull;
@@ -36,10 +36,10 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     final targetKeyType = (targetType as ParameterizedType).typeArguments.firstOrNull;
     final targetValueType = targetType.typeArguments.lastOrNull;
 
-    final sourceNullableKey = sourceKeyType?.isNullable ?? false;
-    final sourceNullableValue = sourceValueType?.isNullable ?? false;
-    final targetNullableKey = targetKeyType?.isNullable ?? false;
-    final targetNullableValue = targetValueType?.isNullable ?? false;
+    final isSourceNullableKey = sourceKeyType?.isNullable ?? false;
+    final isSourceNullableValue = sourceValueType?.isNullable ?? false;
+    final isTargetNullableKey = targetKeyType?.isNullable ?? false;
+    final isTargetNullableValue = targetValueType?.isNullable ?? false;
 
     if (targetKeyType == null || targetValueType == null) {
       final emittedTarget = EmitterHelper.current.typeReferEmitted(type: targetType);
@@ -62,11 +62,11 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
 
     // Keys: source is null, target is not null, and default value does not exist.
     final shouldRemoveNullsKey =
-        sourceNullableKey && !targetNullableKey && (!(keyMapping?.hasWhenNullDefault() ?? false));
+        isSourceNullableKey && !isTargetNullableKey && (!(keyMapping?.hasWhenNullDefault() ?? false));
 
     // Value: source is null, target is not null, and default value does not exist.
     final shouldRemoveNullsValue =
-        sourceNullableValue && !targetNullableValue && (!(valueMapping?.hasWhenNullDefault() ?? false));
+        isSourceNullableValue && !isTargetNullableValue && (!(valueMapping?.hasWhenNullDefault() ?? false));
 
     final sourceMapExpression = AssignmentBuilderBase.modelReference.property(assignment.sourceField!.name);
 
@@ -84,7 +84,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     return sourceMapExpression
         // Filter nulls when source key/value is nullable and target is not.
         .maybeWhereMapNotNull(
-      isOnNullable: sourceNullable,
+      isOnNullable: isSourceNullable,
       keyIsNullable: shouldRemoveNullsKey,
       valueIsNullable: shouldRemoveNullsValue,
       keyType: sourceKeyType,
@@ -92,7 +92,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     )
         .maybeCall(
       'map',
-      isOnNullable: sourceNullable,
+      isOnNullable: isSourceNullable,
       // Call map only when actually some mapping is required.
       condition: shouldDoMapCall,
       positionalArguments: [_map(assignment)],
@@ -102,7 +102,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
       ],
     )
         // When [sourceNullable], use default value.
-        .maybeIfNullThen(defaultMapValueExpression, isOnNullable: sourceNullable && !targetNullable);
+        .maybeIfNullThen(defaultMapValueExpression, isOnNullable: isSourceNullable && !isTargetNullable);
   }
 
   Expression _map(SourceAssignment assignment) {
@@ -128,8 +128,8 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     final assignNestedObjectKey = !targetKeyType.isPrimitiveType && (targetKeyType != sourceKeyType);
     final assignNestedObjectValue = !targetValueType.isPrimitiveType && (targetValueType != sourceValueType);
 
-    final keysAreSameType = sourceKeyType == targetKeyType;
-    final valuesAreSameType = sourceValueType == targetValueType;
+    final areKeysSameType = sourceKeyType == targetKeyType;
+    final areValuesSameType = sourceValueType == targetValueType;
 
     // Returns a tear off when no nested call is needed.
     if (!assignNestedObjectKey && !assignNestedObjectValue) {
@@ -144,7 +144,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
             assignment: assignment,
             source: sourceKeyType,
             target: targetKeyType,
-            convertMethodArgument: keysAreSameType ? null : sourceMapExpression,
+            convertMethodArgument: areKeysSameType ? null : sourceMapExpression,
           )
         : sourceMapExpression;
 
@@ -153,7 +153,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
             assignment: assignment,
             source: sourceValueType,
             target: targetValueType,
-            convertMethodArgument: valuesAreSameType ? null : targetMapExpression,
+            convertMethodArgument: areValuesSameType ? null : targetMapExpression,
           )
         : targetMapExpression;
 

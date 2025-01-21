@@ -102,8 +102,8 @@ class ValueAssignmentBuilder {
       return rightSide.ifNullThen(fieldMapping!.whenNullExpression!);
     }
 
-    final sourceNullable = assignment.sourceType!.isNullable;
-    final targetNullable = assignment.targetType.isNullable;
+    final isSourceNullable = assignment.sourceType!.isNullable;
+    final isTargetNullable = assignment.targetType.isNullable;
 
     // BANG operator when Source is nullable and Target not
     final shouldIgnoreNull = fieldMapping?.ignoreNull ??
@@ -111,7 +111,7 @@ class ValueAssignmentBuilder {
         mapperConfig.mapprOptions.ignoreNullableSourceField ??
         false;
 
-    if (shouldIgnoreNull && sourceNullable && !targetNullable) {
+    if (shouldIgnoreNull && isSourceNullable && !isTargetNullable) {
       return refer(sourceField.isStatic ? '${sourceField.enclosingElement.name}' : 'model')
           .property(sourceField.name)
           .nullChecked;

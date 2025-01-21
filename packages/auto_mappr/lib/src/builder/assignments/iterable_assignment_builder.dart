@@ -24,8 +24,8 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
     final sourceType = assignment.sourceType!;
     final targetType = assignment.targetType;
 
-    final sourceNullable = sourceType.isNullable;
-    final targetNullable = targetType.isNullable;
+    final isSourceNullable = sourceType.isNullable;
+    final isTargetNullable = targetType.isNullable;
 
     final sourceIterableType = sourceType.genericParameterTypeOrSelf;
     final targetIterableType = targetType.genericParameterTypeOrSelf;
@@ -38,7 +38,7 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
     // When [sourceIterableType] is nullable and [targetIterableType] is not, remove null values.
     final sourceIterableExpression = AssignmentBuilderBase.modelReference.property(assignment.sourceField!.name).maybeWhereIterableNotNull(
           condition: shouldFilterNullInSource,
-          isOnNullable: sourceNullable,
+              isOnNullable: isSourceNullable,
         );
 
     final defaultIterableValueExpression = targetType.defaultIterableExpression();
@@ -46,7 +46,7 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
     if (assignNestedObject) {
       return sourceIterableExpression
           // Map complex nested types.
-          .maybeNullSafeProperty('map', isOnNullable: sourceNullable)
+          .maybeNullSafeProperty('map', isOnNullable: isSourceNullable)
           .call(
             [_map(assignment)],
             {},
@@ -61,7 +61,7 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
             isOnNullable: false,
           )
           // When [sourceNullable], use default value.
-          .maybeIfNullThen(defaultIterableValueExpression, isOnNullable: sourceNullable && !targetNullable);
+          .maybeIfNullThen(defaultIterableValueExpression, isOnNullable: isSourceNullable && !isTargetNullable);
     }
 
     return sourceIterableExpression
@@ -69,11 +69,11 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
           source: sourceType,
           target: targetType,
           forceCast: shouldFilterNullInSource, // if whereNotNull was used -> we want to force toIterable() call
-          isOnNullable: !targetNullable && sourceNullable,
+          isOnNullable: !isTargetNullable && isSourceNullable,
         )
         .maybeIfNullThen(
           defaultIterableValueExpression,
-          isOnNullable: !targetNullable && sourceNullable,
+          isOnNullable: !isTargetNullable && isSourceNullable,
         );
   }
 

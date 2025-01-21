@@ -32,9 +32,9 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
     final sourceValues = sourceEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
     final targetValues = targetEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
 
-    final sourceIsSubset = targetValues.containsAll(sourceValues);
+    final isSourceSubset = targetValues.containsAll(sourceValues);
 
-    if (!sourceIsSubset && !mapping.hasWhenNullDefault()) {
+    if (!isSourceSubset && !mapping.hasWhenNullDefault()) {
       final sourceDisplay = mapping.source.getDisplayString();
       final targetDisplay = mapping.target.getDisplayString();
       throw InvalidGenerationSourceError(

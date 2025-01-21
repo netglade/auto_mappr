@@ -97,8 +97,8 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
   }) {
     if (source == null) return literalNull;
 
-    final valuesAreSameType = source.type == target.type;
-    final shouldAssignNestedObject = !target.type.isPrimitiveType && !valuesAreSameType;
+    final areValuesSameType = source.type == target.type;
+    final shouldAssignNestedObject = !target.type.isPrimitiveType && !areValuesSameType;
 
     final targetRecordExpression = refer(assignment.sourceField!.name);
 
@@ -110,7 +110,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
       assignment: assignment,
       source: source.type,
       target: target.type,
-      convertMethodArgument: valuesAreSameType ? null : targetRecordExpression,
+      convertMethodArgument: areValuesSameType ? null : targetRecordExpression,
     );
 
     return refer('${valueExpression.accept(EmitterHelper.current.emitter)})');
@@ -130,8 +130,8 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
   }) {
     if (source == null) return literalNull;
 
-    final valuesAreSameType = source.type == target.type;
-    final shouldAssignNestedObject = !target.type.isPrimitiveType && !valuesAreSameType;
+    final areValuesSameType = source.type == target.type;
+    final shouldAssignNestedObject = !target.type.isPrimitiveType && !areValuesSameType;
 
     final targetRecordExpression = refer(assignment.sourceField!.name);
 
@@ -143,7 +143,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
       assignment: assignment,
       source: source.type,
       target: target.type,
-      convertMethodArgument: valuesAreSameType ? null : targetRecordExpression,
+      convertMethodArgument: areValuesSameType ? null : targetRecordExpression,
     );
 
     return refer('${valueExpression.accept(EmitterHelper.current.emitter)})');

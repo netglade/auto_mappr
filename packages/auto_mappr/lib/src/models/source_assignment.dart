@@ -1,4 +1,5 @@
 //ignore_for_file: prefer-match-file-name
+// ignore_for_file: prefer-single-declaration-per-file
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';

@@ -136,9 +136,9 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
           final mapTypeConverters = mapper.getField(mapTypeFieldConverters)?.toListValue() ?? [];
           final whenSourceIsNull = mapper.getField(mapTypeFieldWhenSourceIsNull)?.toCodeExpression();
           final constructor = mapper.getField(mapTypeFieldConstructor)?.toStringValue();
-          final ignoreFieldNull = mapper.getField(mapTypeFieldIgnoreFieldNull)?.toBoolValue();
-          final reverse = mapper.getField(mapTypeFieldReverse)?.toBoolValue();
-          final safeMapping = mapper.getField(mapTypeSafeMapping)?.toBoolValue();
+          final willIgnoreFieldNull = mapper.getField(mapTypeFieldIgnoreFieldNull)?.toBoolValue();
+          final isReverse = mapper.getField(mapTypeFieldReverse)?.toBoolValue();
+          final hasSafeMapping = mapper.getField(mapTypeSafeMapping)?.toBoolValue();
 
           final fieldMappings = fields
               ?.map(
@@ -162,10 +162,10 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
               typeConverters: [..._toTypeConverters(mapTypeConverters), ...globalConverters],
               whenSourceIsNullExpression: whenSourceIsNull,
               constructor: constructor,
-              ignoreFieldNull: ignoreFieldNull,
-              safeMapping: safeMapping,
+              ignoreFieldNull: willIgnoreFieldNull,
+              safeMapping: hasSafeMapping,
             ),
-            if (reverse ?? false)
+            if (isReverse ?? false)
               TypeMapping(
                 source: targetType,
                 target: sourceType,
@@ -187,8 +187,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
                 typeConverters: [..._toTypeConverters(mapTypeConverters), ...globalConverters],
                 whenSourceIsNullExpression: whenSourceIsNull,
                 constructor: constructor,
-                ignoreFieldNull: ignoreFieldNull,
-                safeMapping: safeMapping,
+                ignoreFieldNull: willIgnoreFieldNull,
+                safeMapping: hasSafeMapping,
               ),
           ];
         })
