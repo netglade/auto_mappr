@@ -22,14 +22,14 @@ extension DartTypeExtension on DartType {
     return !isNullable;
   }
 
-  /// Is special variant of integer.
+  /// Is special variant of integer list.
   ///
   /// See `[Uint8List], [Uint16List], [Uint32List], [Uint64List]`.
-  bool get isSpecializedListType {
+  bool get isSpecializedIntListType {
     final thisType = this;
     if (thisType is! InterfaceType) return false;
 
-    return thisType.interfaces.any((i) => i.getDisplayString(withNullability: false) == 'List<int>');
+    return thisType.allSupertypes.any((i) => i.getDisplayString(withNullability: false) == 'List<int>');
   }
 
   DartType get genericParameterTypeOrSelf => (this as ParameterizedType).typeArguments.firstOrNull ?? this;

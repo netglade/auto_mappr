@@ -1,3 +1,26 @@
 {
-    "yaml.schemaStore.enable": false
+  "yaml.schemaStore.enable": false,
+  "dart.flutterSdkPath": ".fvm/versions/3.27.1",
+  "search.exclude": {
+    "**/.fvm": true
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    ".idea/**": true,
+    ".run/**": true
+  },
+  "files.watcherExclude": {
+    "**/.fvm": true
+  },
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [
+      120
+    ],
+    "editor.formatOnPaste": true,
+    "editor.defaultFormatter": "Dart-Code.dart-code"
+  },
+  "dart.lineLength": 120
 }

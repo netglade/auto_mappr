@@ -128,7 +128,7 @@ void main() {
 
       expect(
         converted,
-        equals(fixture.IterableHolder([1, 2, 3, 4, 5].where((_) => true))),
+        equals(const fixture.IterableHolder({1, 2, 3, 4, 5})),
       );
     });
   });
@@ -154,7 +154,7 @@ void main() {
 
       expect(
         converted,
-        equals(fixture.IterableHolder([1, 2, 3, 4, 5].where((_) => true))),
+        equals(const fixture.IterableHolder([1, 2, 3, 4, 5])),
       );
     });
   });

@@ -32,14 +32,15 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
 
     final shouldFilterNullInSource = sourceIterableType.isNullable && targetIterableType.isNotNullable;
 
-    final assignNestedObject = (!targetIterableType.isPrimitiveType && !targetIterableType.isSpecializedListType) &&
+    final assignNestedObject = (!targetIterableType.isPrimitiveType && !targetIterableType.isSpecializedIntListType) &&
         (!targetIterableType.isSame(sourceIterableType));
 
     // When [sourceIterableType] is nullable and [targetIterableType] is not, remove null values.
-    final sourceIterableExpression = AssignmentBuilderBase.modelReference.property(assignment.sourceField!.name).maybeWhereIterableNotNull(
-          condition: shouldFilterNullInSource,
+    final sourceIterableExpression =
+        AssignmentBuilderBase.modelReference.property(assignment.sourceField!.name).maybeWhereIterableNotNull(
+              condition: shouldFilterNullInSource,
               isOnNullable: isSourceNullable,
-        );
+            );
 
     final defaultIterableValueExpression = targetType.defaultIterableExpression();
 

@@ -9,7 +9,7 @@ resolution: workspace
 
 dependencies:
   auto_mappr_annotation: ^2.3.0
-  equatable: ^2.0.5
+  equatable: ^2.0.7
   freezed_annotation: ^2.2.0
 
 dev_dependencies:
