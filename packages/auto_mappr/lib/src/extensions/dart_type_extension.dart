@@ -29,6 +29,7 @@ extension DartTypeExtension on DartType {
     final thisType = this;
     if (thisType is! InterfaceType) return false;
 
+    // ignore: deprecated_member_use, for now use this - w/o this it fails
     return thisType.allSupertypes.any((i) => i.getDisplayString(withNullability: false) == 'List<int>');
   }
 
@@ -51,7 +52,9 @@ extension DartTypeExtension on DartType {
     // }
 
     // Name matches.
+    // ignore: deprecated_member_use, for now use this - w/o this it fails
     final thisName = getDisplayString(withNullability: withNullability);
+    // ignore: deprecated_member_use, for now use this - w/o this it fails
     final otherName = other.getDisplayString(withNullability: withNullability);
     final isSameName = thisName == otherName;
 
