@@ -22,20 +22,18 @@ jobs:
         run: melos run lint:dart
 
       - name: Install DCM
-        uses: CQLabs/setup-dcm@v1
+        uses: CQLabs/setup-dcm@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run DCM
-        uses: CQLabs/dcm-action@v1
+        uses: CQLabs/dcm-action@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          ci_key: oss
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          ci-key: oss
           email: oss
           folders: .
-          fatal_style: true
-          fatal_performance: true
-          fatal_warnings: true
+          fatal-found: true
 
       - name: Test
         run: melos run test

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-abstract-final-static-class
+
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
 

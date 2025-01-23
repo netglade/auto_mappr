@@ -16,5 +16,14 @@ dart_code_metrics:
     avoid-top-level-members-in-tests:
       exclude:
         - test/integration/fixture/**
-    avoid-non-null-assertion: false # TODO
-    avoid-nullable-interpolation: false # TODO
+    avoid-commented-out-code: false # code examples in comments
+    prefer-single-declaration-per-file:
+      exclude:
+        - test/integration/fixture/**
+    prefer-named-parameters: false # TODO: release new major version (breaking change)
+    prefer-boolean-prefixes: false # TODO: release new major version (breaking change)
+    # TODO: release new major version (breaking change) - uncomment lines below
+    # prefer-boolean-prefixes:
+    #   exclude:
+    #     - test/integration/fixture/**
+    #   prefixes: ['include' , 'use', 'are', 'assign', 'with', 'will', 'maybe']

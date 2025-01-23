@@ -1,5 +1,9 @@
 [//]: # (## Unreleased)
 
+## 2.6.0
+- Update dependencies
+- Update get_it dependency to ^8.0.0
+
 ## 2.5.0
 - Add support for safe mapping (mapping exceptions handling). [#216](https://github.com/netglade/auto_mappr/pull/216)
 

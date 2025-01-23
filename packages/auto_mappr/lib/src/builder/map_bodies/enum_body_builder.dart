@@ -18,8 +18,8 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
 
     // Check that both source and target enums are enums.
     if (!isSourceEnum || !isTargetEnum) {
-      final sourceDisplay = mapping.source.getDisplayString(withNullability: true);
-      final targetDisplay = mapping.target.getDisplayString(withNullability: true);
+      final sourceDisplay = mapping.source.getDisplayString();
+      final targetDisplay = mapping.target.getDisplayString();
 
       throw InvalidGenerationSourceError(
         'Failed to map $mapping because ${isSourceEnum ? 'target $targetDisplay' : 'source $sourceDisplay'} is not an enum.',
@@ -32,11 +32,11 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
     final sourceValues = sourceEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
     final targetValues = targetEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
 
-    final sourceIsSubset = targetValues.containsAll(sourceValues);
+    final isSourceSubset = targetValues.containsAll(sourceValues);
 
-    if (!sourceIsSubset && !mapping.hasWhenNullDefault()) {
-      final sourceDisplay = mapping.source.getDisplayString(withNullability: true);
-      final targetDisplay = mapping.target.getDisplayString(withNullability: true);
+    if (!isSourceSubset && !mapping.hasWhenNullDefault()) {
+      final sourceDisplay = mapping.source.getDisplayString();
+      final targetDisplay = mapping.target.getDisplayString();
       throw InvalidGenerationSourceError(
         "Can't map enum $sourceDisplay into $targetDisplay. Target enum is not superset of source enum. ($mapping)",
       );

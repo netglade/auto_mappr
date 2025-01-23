@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.3.0
+- Update dependencies
+
 ## 2.2.0
 - Add `safeMapping` option to `MapType`. [#204](https://github.com/netglade/auto_mappr/pull/216)
 

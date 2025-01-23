@@ -1,5 +1,4 @@
 //ignore_for_file: avoid-dynamic
-
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
@@ -107,94 +106,92 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
     required List<TypeConverter> globalConverters,
     required ClassElement element,
   }) {
-    return mappers
-        .map((mapper) {
-          final mapperType = mapper.type! as ParameterizedType;
+    final res = mappers.map((mapper) {
+      final mapperType = mapper.type! as ParameterizedType;
 
-          final sourceType = mapperType.typeArguments.firstOrNull;
-          final targetType = mapperType.typeArguments.lastOrNull;
+      final sourceType = mapperType.typeArguments.firstOrNull;
+      final targetType = mapperType.typeArguments.lastOrNull;
 
-          if (sourceType is! InterfaceType) {
-            final emittedSource = EmitterHelper.current.typeReferEmitted(type: sourceType);
+      if (sourceType is! InterfaceType) {
+        final emittedSource = EmitterHelper.current.typeReferEmitted(type: sourceType);
 
-            throw InvalidGenerationSourceError(
-              '$emittedSource is not a class and cannot be mapped from',
-              element: element,
-              todo: 'Use a class',
-            );
-          }
-          if (targetType is! InterfaceType) {
-            final emittedTarget = EmitterHelper.current.typeReferEmitted(type: targetType);
+        throw InvalidGenerationSourceError(
+          '$emittedSource is not a class and cannot be mapped from',
+          element: element,
+          todo: 'Use a class',
+        );
+      }
+      if (targetType is! InterfaceType) {
+        final emittedTarget = EmitterHelper.current.typeReferEmitted(type: targetType);
 
-            throw InvalidGenerationSourceError(
-              '$emittedTarget is not a class and cannot be mapped to',
-              element: element,
-              todo: 'Use a class',
-            );
-          }
+        throw InvalidGenerationSourceError(
+          '$emittedTarget is not a class and cannot be mapped to',
+          element: element,
+          todo: 'Use a class',
+        );
+      }
 
-          final fields = mapper.getField(mapTypeFieldFields)?.toListValue();
-          final mapTypeConverters = mapper.getField(mapTypeFieldConverters)?.toListValue() ?? [];
-          final whenSourceIsNull = mapper.getField(mapTypeFieldWhenSourceIsNull)?.toCodeExpression();
-          final constructor = mapper.getField(mapTypeFieldConstructor)?.toStringValue();
-          final ignoreFieldNull = mapper.getField(mapTypeFieldIgnoreFieldNull)?.toBoolValue();
-          final reverse = mapper.getField(mapTypeFieldReverse)?.toBoolValue();
-          final safeMapping = mapper.getField(mapTypeSafeMapping)?.toBoolValue();
+      final fields = mapper.getField(mapTypeFieldFields)?.toListValue();
+      final mapTypeConverters = mapper.getField(mapTypeFieldConverters)?.toListValue() ?? [];
+      final whenSourceIsNull = mapper.getField(mapTypeFieldWhenSourceIsNull)?.toCodeExpression();
+      final constructor = mapper.getField(mapTypeFieldConstructor)?.toStringValue();
+      final willIgnoreFieldNull = mapper.getField(mapTypeFieldIgnoreFieldNull)?.toBoolValue();
+      final isReverse = mapper.getField(mapTypeFieldReverse)?.toBoolValue();
+      final hasSafeMapping = mapper.getField(mapTypeSafeMapping)?.toBoolValue();
 
-          final fieldMappings = fields
-              ?.map(
-                (fieldMapping) => FieldMapping(
-                  field: fieldMapping.getField(fieldFieldField)!.toStringValue()!,
-                  ignore: fieldMapping.getField(fieldFieldIgnore)!.toBoolValue()!,
-                  from: fieldMapping.getField(fieldFieldFrom)!.toStringValue(),
-                  customExpression:
-                      fieldMapping.getField(fieldFieldCustom)!.toCodeExpression(maybePassModelArgument: true),
-                  whenNullExpression: fieldMapping.getField(fieldFieldWhenNull)!.toCodeExpression(),
-                  ignoreNull: fieldMapping.getField(fieldFieldIgnoreNull)!.toBoolValue(),
-                ),
-              )
-              .toList();
-
-          return [
-            TypeMapping(
-              source: sourceType,
-              target: targetType,
-              fieldMappings: fieldMappings ?? [],
-              typeConverters: [..._toTypeConverters(mapTypeConverters), ...globalConverters],
-              whenSourceIsNullExpression: whenSourceIsNull,
-              constructor: constructor,
-              ignoreFieldNull: ignoreFieldNull,
-              safeMapping: safeMapping,
+      final fieldMappings = fields
+          ?.map(
+            (fieldMapping) => FieldMapping(
+              field: fieldMapping.getField(fieldFieldField)!.toStringValue()!,
+              ignore: fieldMapping.getField(fieldFieldIgnore)!.toBoolValue()!,
+              from: fieldMapping.getField(fieldFieldFrom)!.toStringValue(),
+              customExpression: fieldMapping.getField(fieldFieldCustom)!.toCodeExpression(maybePassModelArgument: true),
+              whenNullExpression: fieldMapping.getField(fieldFieldWhenNull)!.toCodeExpression(),
+              ignoreNull: fieldMapping.getField(fieldFieldIgnoreNull)!.toBoolValue(),
             ),
-            if (reverse ?? false)
-              TypeMapping(
-                source: targetType,
-                target: sourceType,
-                fieldMappings: fieldMappings
-                        ?.map(
-                          (f) => f.from != null
-                              ? FieldMapping(
-                                  field: f.from!,
-                                  from: f.field,
-                                  customExpression: f.customExpression,
-                                  whenNullExpression: f.whenNullExpression,
-                                  ignore: f.ignore,
-                                  ignoreNull: f.ignoreNull,
-                                )
-                              : f,
-                        )
-                        .toList() ??
-                    [],
-                typeConverters: [..._toTypeConverters(mapTypeConverters), ...globalConverters],
-                whenSourceIsNullExpression: whenSourceIsNull,
-                constructor: constructor,
-                ignoreFieldNull: ignoreFieldNull,
-                safeMapping: safeMapping,
-              ),
-          ];
-        })
-        .flattened
-        .toList();
+          )
+          .toList();
+
+      return [
+        TypeMapping(
+          source: sourceType,
+          target: targetType,
+          fieldMappings: fieldMappings ?? [],
+          typeConverters: [..._toTypeConverters(mapTypeConverters), ...globalConverters],
+          whenSourceIsNullExpression: whenSourceIsNull,
+          constructor: constructor,
+          ignoreFieldNull: willIgnoreFieldNull,
+          safeMapping: hasSafeMapping,
+        ),
+        if (isReverse ?? false)
+          TypeMapping(
+            source: targetType,
+            target: sourceType,
+            fieldMappings: fieldMappings
+                    ?.map(
+                      (f) => f.from != null
+                          ? FieldMapping(
+                              field: f.from!,
+                              from: f.field,
+                              customExpression: f.customExpression,
+                              whenNullExpression: f.whenNullExpression,
+                              ignore: f.ignore,
+                              ignoreNull: f.ignoreNull,
+                            )
+                          : f,
+                    )
+                    .toList() ??
+                [],
+            typeConverters: [..._toTypeConverters(mapTypeConverters), ...globalConverters],
+            whenSourceIsNullExpression: whenSourceIsNull,
+            constructor: constructor,
+            ignoreFieldNull: willIgnoreFieldNull,
+            safeMapping: hasSafeMapping,
+          ),
+      ];
+    });
+
+    return res.flattened.toList();
   }
 
   /// Recursively returns all mappings from includes.

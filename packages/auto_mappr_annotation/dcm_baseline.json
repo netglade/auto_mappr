@@ -1,0 +1,28 @@
+{
+  "date": "2025-01-20 11:07:26.586363Z",
+  "version": "1.26.2",
+  "paths": {
+    "lib/src/auto_mappr_interface.dart": {
+      "prefer-boolean-prefixes": [
+        "f8e45531a3ea3d5c1247b004985175a4",
+        "9696113cbf65a7d0a20c3b28984795f6"
+      ],
+      "prefer-named-parameters": [
+        "d2eb52ce2ae9079bc52e9a13a6a44c1e"
+      ]
+    },
+    "lib/src/map_type.dart": {
+      "prefer-boolean-prefixes": [
+        "2d42e74f6260722660851c540faa9b08",
+        "4d9c2073afa3c2abb817dceb22c34de6",
+        "cdf1cce8a80c3ed282b32d792e2d6a76"
+      ]
+    },
+    "lib/src/field.dart": {
+      "prefer-boolean-prefixes": [
+        "567bc1d268f135496de3d5b946b691f3",
+        "1d93a811b1cf660fbae038a0f6ea19cb"
+      ]
+    }
+  }
+}

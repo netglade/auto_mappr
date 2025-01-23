@@ -22,6 +22,7 @@ class PrivateConvertMethodBuilder extends MethodBuilderBase {
         ..optionalParameters.add(
           Parameter(
             (p) => p
+              // ignore: avoid-late-final-reassignment, false positive
               ..name = 'canReturnNull'
               ..type = refer('bool')
               ..named = true

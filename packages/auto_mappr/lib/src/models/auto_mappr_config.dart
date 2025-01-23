@@ -80,8 +80,8 @@ class AutoMapprConfig {
   String _getTypeMappingDocs(TypeMapping typeMapping) {
     final trailingPart = typeMapping.hasWhenNullDefault() ? ' -- With default value.' : '.';
     // Display without import aliases.
-    final emittedSource = typeMapping.source.getDisplayString(withNullability: true);
-    final emittedTarget = typeMapping.target.getDisplayString(withNullability: true);
+    final emittedSource = typeMapping.source.getDisplayString();
+    final emittedTarget = typeMapping.target.getDisplayString();
 
     // ignore: avoid-non-ascii-symbols, it is ok
     return '/// - `$emittedSource` → `$emittedTarget`$trailingPart';

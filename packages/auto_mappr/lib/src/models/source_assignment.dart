@@ -1,4 +1,4 @@
-//ignore_for_file: prefer-match-file-name
+// ignore_for_file: prefer-match-file-name, prefer-single-declaration-per-file
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
@@ -47,8 +47,12 @@ class SourceAssignment {
   });
 
   bool canAssignIterable() {
+    final isCoreIterable = _isCoreIterable(targetType);
+    final isSpecializedIntList = targetType.isSpecializedIntListType;
+    final isMappableIterable = _isMappableIterable(sourceType!);
+
     // The source can be mapped to the target, if the source is mappable object and the target is an iterable.
-    return (_isCoreIterable(targetType) || targetType.isSpecializedListType) && _isMappableIterable(sourceType!);
+    return (isCoreIterable || isSpecializedIntList) && isMappableIterable;
   }
 
   bool canAssignMap() {

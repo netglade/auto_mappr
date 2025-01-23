@@ -1,0 +1,120 @@
+{
+  "date": "2025-01-21 09:08:40.977713Z",
+  "version": "1.26.2",
+  "paths": {
+    "lib/src/models/type_converter.dart": {
+      "avoid-non-null-assertion": [
+        "49d6910256d6a9925f1f305647170175",
+        "3e2fb62702f0d6d976c0ef4838e256f3",
+        "37d7521d3b9436994de3d46bfec19156",
+        "37d560854197d3d451fa40ebda978adf",
+        "6002ec186df142e2eeabc594fb05b0cd",
+        "32d05f2391dfd5a054110f0cf5b00edb",
+        "2bde3d2541dbd52f427522d8859dddbc",
+        "4901e165d9d77551c2b961387d8f709b"
+      ]
+    },
+    "lib/src/models/field_mapping.dart": {
+      "avoid-non-null-assertion": ["4e22d2815561f01ac60242562eb3d477"]
+    },
+    "lib/src/models/source_assignment.dart": {
+      "avoid-non-null-assertion": [
+        "8f0912f968e86ab46d0dd647c5d322e9",
+        "8f0912f968e86ab46d0dd647c5d322e9",
+        "412aa7c321ce0580e16e5586de44ae45",
+        "412aa7c321ce0580e16e5586de44ae45"
+      ],
+      "avoid-nullable-interpolation": ["165ee04eb4d55330435a841f09c3c6b1"]
+    },
+    "lib/src/extensions/dart_object_extension.dart": {
+      "avoid-non-null-assertion": [
+        "0839d20a589c74eb461adbed71774c0c",
+        "18cabcff3de662dfb212c548a5a39c24"
+      ],
+      "avoid-nullable-interpolation": ["cf7dba3d85f84df468ec72f8b3744601"]
+    },
+    "lib/src/generator/auto_mappr_generator.dart": {
+      "avoid-non-null-assertion": [
+        "7a50c2efb20fe138dc37e6550e009160",
+        "b877c976f457e163c51a7c84f5777069",
+        "695248e6e85f1fecba6bf6c344ea8187",
+        "9825f25ed373f63c6d3efc8caffaaef1",
+        "25851cd74f03edbac9719dacc76c4bcc",
+        "acd1213c9abd408fac46b00b6631d6a2",
+        "43019f988cd8e5f2b155f1375dc99da2",
+        "05fe4fffcb9159fd5c0dd62f0e6fb7c5",
+        "bc359bcc3ec98cd8aada89ff9b0046e9",
+        "f3c3ceea53e478439edd662d2793cf00",
+        "ac37c4c51b2a4b1187b271e1f71cde2e",
+        "48e33839a8de547d03f16d3b4f023b1e"
+      ]
+    },
+    "lib/src/builder/methods/private_convert_method_builder.dart": {
+      "avoid-non-null-assertion": ["a8022779055b7c4c7bf23042d14e613a"]
+    },
+    "lib/src/builder/assignments/record_assignment_builder.dart": {
+      "avoid-non-null-assertion": [
+        "0bd202edba38880d347468eaa934da83",
+        "3cb7b9402c27519c759bb527c0bf7693",
+        "3cb7b9402c27519c759bb527c0bf7693"
+      ]
+    },
+    "lib/src/builder/assignments/map_assignment_builder.dart": {
+      "avoid-non-null-assertion": [
+        "0bd202edba38880d347468eaa934da83",
+        "3cb7b9402c27519c759bb527c0bf7693",
+        "0bd202edba38880d347468eaa934da83",
+        "0bd202edba38880d347468eaa934da83"
+      ]
+    },
+    "lib/src/builder/assignments/iterable_assignment_builder.dart": {
+      "avoid-non-null-assertion": [
+        "0bd202edba38880d347468eaa934da83",
+        "3cb7b9402c27519c759bb527c0bf7693",
+        "0bd202edba38880d347468eaa934da83"
+      ]
+    },
+    "lib/src/builder/assignments/nested_object_mixin.dart": {
+      "avoid-non-null-assertion": [
+        "3cb7b9402c27519c759bb527c0bf7693",
+        "02b8861952b1d31c7e3fc701a1196ef3",
+        "1e8062cd91c977990ce8a7e9808b7a30"
+      ],
+      "avoid-nullable-interpolation": [
+        "48d7effa328cb38d0a736b2496a897b0",
+        "20d7c588ba9f39a442116c71149ea3b8"
+      ]
+    },
+    "lib/src/builder/map_model_body_method_builder.dart": {
+      "avoid-non-null-assertion": [
+        "a8022779055b7c4c7bf23042d14e613a",
+        "a8022779055b7c4c7bf23042d14e613a"
+      ]
+    },
+    "lib/src/builder/value_assignment_builder.dart": {
+      "avoid-non-null-assertion": [
+        "da5b0598f70c2b82fb9db2510920be2c",
+        "0bd202edba38880d347468eaa934da83",
+        "0bd202edba38880d347468eaa934da83",
+        "02b8861952b1d31c7e3fc701a1196ef3",
+        "1e8062cd91c977990ce8a7e9808b7a30",
+        "0bd202edba38880d347468eaa934da83"
+      ],
+      "avoid-nullable-interpolation": [
+        "019cf3c46b0e37f0339187e7f06d9984",
+        "019cf3c46b0e37f0339187e7f06d9984"
+      ]
+    },
+    "lib/src/builder/map_bodies/class_body_builder.dart": {
+      "avoid-non-null-assertion": [
+        "374cdacb7c32728a88ad32f9ec5821ff",
+        "dfda47d1f6044e6fcb565ff03e9721e3",
+        "927919a5768cf07ec40df0aca3c14e73",
+        "24f4441455b612dc6d0d29bf53d82f03"
+      ]
+    },
+    "lib/src/builder/map_bodies/enum_body_builder.dart": {
+      "avoid-non-null-assertion": ["a8022779055b7c4c7bf23042d14e613a"]
+    }
+  }
+}

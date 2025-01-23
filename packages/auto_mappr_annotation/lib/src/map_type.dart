@@ -2,6 +2,7 @@ import 'package:auto_mappr_annotation/src/field.dart';
 import 'package:auto_mappr_annotation/src/type_converter.dart';
 
 /// Configured mapping from [SOURCE] to [TARGET].
+// ignore: avoid-unused-generics, generic are used later in code
 final class MapType<SOURCE, TARGET> {
   /// Configuration for [TARGET]'s fields.
   final List<Field> fields;

@@ -50,6 +50,7 @@ class FinalTarget with EquatableMixin {
         b = null;
 }
 
+// ignore: must_be_immutable, ok in tests
 class NonFinalTarget with EquatableMixin {
   int? a;
   int? b;

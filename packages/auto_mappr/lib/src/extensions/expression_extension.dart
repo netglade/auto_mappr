@@ -10,7 +10,7 @@ extension ExpressionExtension on Expression {
     required bool forceCast,
     required bool isOnNullable,
   }) {
-    if (((!source.isDartCoreList && !source.isSpecializedListType) || forceCast) && target.isDartCoreList) {
+    if (((!source.isDartCoreList && !source.isSpecializedIntListType) || forceCast) && target.isDartCoreList) {
       return maybeProperty('toList', isOnNullable: isOnNullable).call([]);
     }
 
@@ -18,7 +18,7 @@ extension ExpressionExtension on Expression {
       return maybeProperty('toSet', isOnNullable: isOnNullable).call([]);
     }
 
-    if ((source.isDartCoreList || forceCast) && target.isSpecializedListType) {
+    if ((source.isDartCoreList || forceCast) && target.isSpecializedIntListType) {
       return EmitterHelper.current
           .typeRefer(type: target, withNullabilitySuffix: false)
           .property('fromList')

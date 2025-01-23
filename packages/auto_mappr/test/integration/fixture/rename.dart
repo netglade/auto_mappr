@@ -66,9 +66,9 @@ import 'rename.auto_mappr.dart';
   ),
 ])
 class Mappr extends $Mappr {
-  static String convertToNameAndIdPositional(CustomPositionalDto? dto) => '${dto?.name} #${dto?.id}';
+  static String convertToNameAndIdPositional(CustomPositionalDto dto) => '${dto.name} #${dto.id}';
 
-  static String convertToNameAndIdNamed(CustomNamedDto? dto) => '${dto?.name} #${dto?.id}';
+  static String convertToNameAndIdNamed(CustomNamedDto dto) => '${dto.name} #${dto.id}';
 }
 
 // same
@@ -321,6 +321,7 @@ class NoConstructorWithLateDto {
   const NoConstructorWithLateDto({required this.value, required this.secondValue});
 }
 
+// ignore: must_be_immutable, ok in tests
 class NoConstructorWithLate with EquatableMixin {
   // ignore: avoid-unassigned-late-fields, will be set using Mappr
   late int alpha;

@@ -39,9 +39,11 @@ class ValueAssignmentBuilder {
     final rightSide = (sourceField.isStatic
             // Static field.
             ? EmitterHelper.current
-                .refer(sourceField.enclosingElement.name!, sourceField.enclosingElement.library?.identifier)
+                // ignore: avoid-non-null-assertion, should be ok
+                .refer(sourceField.enclosingElement3.name!, sourceField.enclosingElement3.library?.identifier)
             // Non static field.
-            : refer(sourceField.isStatic ? '${sourceField.enclosingElement.name}' : 'model'))
+            // ignore: avoid-nullable-interpolation, should be ok
+            : refer(sourceField.isStatic ? '${sourceField.enclosingElement3.name}' : 'model'))
         .property(sourceField.name);
 
     final assignmentBuilders = [
@@ -102,8 +104,8 @@ class ValueAssignmentBuilder {
       return rightSide.ifNullThen(fieldMapping!.whenNullExpression!);
     }
 
-    final sourceNullable = assignment.sourceType!.isNullable;
-    final targetNullable = assignment.targetType.isNullable;
+    final isSourceNullable = assignment.sourceType!.isNullable;
+    final isTargetNullable = assignment.targetType.isNullable;
 
     // BANG operator when Source is nullable and Target not
     final shouldIgnoreNull = fieldMapping?.ignoreNull ??
@@ -111,8 +113,9 @@ class ValueAssignmentBuilder {
         mapperConfig.mapprOptions.ignoreNullableSourceField ??
         false;
 
-    if (shouldIgnoreNull && sourceNullable && !targetNullable) {
-      return refer(sourceField.isStatic ? '${sourceField.enclosingElement.name}' : 'model')
+    if (shouldIgnoreNull && isSourceNullable && !isTargetNullable) {
+      // ignore: avoid-nullable-interpolation, should be ok
+      return refer(sourceField.isStatic ? '${sourceField.enclosingElement3.name}' : 'model')
           .property(sourceField.name)
           .nullChecked;
     }

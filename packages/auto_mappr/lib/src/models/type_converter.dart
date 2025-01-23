@@ -19,8 +19,8 @@ class TypeConverter extends Equatable {
 
   @override
   String toString() {
-    final sourceX = source.getDisplayString(withNullability: true);
-    final targetX = target.getDisplayString(withNullability: true);
+    final sourceX = source.getDisplayString();
+    final targetX = target.getDisplayString();
 
     return 'typeConverter $sourceX -> $targetX';
   }
