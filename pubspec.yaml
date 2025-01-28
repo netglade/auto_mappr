@@ -74,5 +74,3 @@ melos:
       packageFilters:
         dirExists: test
       description: Run all Dart tests.
-
-

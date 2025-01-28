@@ -11,7 +11,7 @@ import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
 
 import 'mappr.dart' as _i2;
 
-/// {@template package:auto_mappr_example/mappr.dart}
+/// {@template asset:auto_mappr/example/lib/mappr.dart}
 /// Available mappings:
 /// - `UserDto` → `User`.
 /// - `UserDto` → `AnotherUser`.
@@ -24,7 +24,7 @@ class $Mappr implements _i1.AutoMapprInterface {
   List<_i1.AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
@@ -52,7 +52,7 @@ class $Mappr implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -68,7 +68,7 @@ class $Mappr implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(
     SOURCE? model, {
@@ -94,7 +94,7 @@ class $Mappr implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -113,7 +113,7 @@ class $Mappr implements _i1.AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
@@ -137,7 +137,7 @@ class $Mappr implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -156,7 +156,7 @@ class $Mappr implements _i1.AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
@@ -182,7 +182,7 @@ class $Mappr implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -201,7 +201,7 @@ class $Mappr implements _i1.AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
@@ -277,7 +277,7 @@ class $Mappr implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:useSafeMapping}
-  /// {@macro package:auto_mappr_example/mappr.dart}
+  /// {@macro asset:auto_mappr/example/lib/mappr.dart}
   @override
   bool useSafeMapping<SOURCE, TARGET>() {
     return false;
