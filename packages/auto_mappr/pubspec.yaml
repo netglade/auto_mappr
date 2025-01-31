@@ -18,7 +18,7 @@ dependencies:
   build: ^2.4.2
   built_collection: ^5.1.1
   code_builder: ^4.10.1
-  collection: ^1.19.1
+  collection: ^1.19.0
   equatable: ^2.0.7
   get_it: ^8.0.3
   meta: ^1.15.0
