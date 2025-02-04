@@ -1,11 +1,14 @@
 [//]: # (## Unreleased)
 
+## 2.8.0
+- Bump `source_gen` version to `^2.0.0`
+
 ## 2.7.0
-- Bump `analyzer` dependency to `>=6.5.0 <8.0.0`
+- Bump `analyzer` version to `>=6.5.0 <8.0.0`
 
 ## 2.6.0
 - Update dependencies
-- Update `get_it` dependency to `^8.0.0`
+- Update `get_it` version to `^8.0.0`
 
 ## 2.5.0
 - Add support for safe mapping (mapping exceptions handling). [#216](https://github.com/netglade/auto_mappr/pull/216)
