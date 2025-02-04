@@ -26,14 +26,9 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run DCM
-        uses: CQLabs/dcm-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          ci-key: oss
-          email: oss
-          folders: .
-          fatal-found: true
+      - name: Run DCM (shell)
+        run: dcm analyze . --fatal-style --fatal-performance --fatal-warnings
+        shell: bash
 
       - name: Test
         run: melos run test

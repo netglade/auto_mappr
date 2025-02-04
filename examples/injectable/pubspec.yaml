@@ -9,13 +9,19 @@ resolution: workspace
 
 dependencies:
   auto_mappr_annotation: ^2.3.0
-  equatable: ^2.0.7
-  get_it: ^8.0.0
+  equatable: '>=2.0.0 <3.0.0'
+  get_it: '>=8.0.0 <9.0.0'
   injectable: ^2.5.0
 
 dev_dependencies:
-  auto_mappr: ^2.6.0
+  auto_mappr: ^2.7.0
   build_runner: ^2.0.0
-  injectable_generator: ^2.6.2
+  injectable_generator: ^2.7.0
   netglade_analysis: ^15.0.0
-  test: ^1.25.8
+  test: '>=1.25.0 <2.0.0'
+
+dependency_overrides:
+  # current generator_test using dart_style ^2.2.1 and it makes a conflict
+  # once this PR merged it will fix this conflict
+  # https://github.com/mrgnhnt96/generator_test/pull/1
+  dart_style: ^3.0.1
