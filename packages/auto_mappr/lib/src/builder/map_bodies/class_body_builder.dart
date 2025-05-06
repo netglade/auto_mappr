@@ -89,12 +89,18 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     for (var i = 0; i < targetConstructor.parameters.length; i++) {
       final param = targetConstructor.parameters.elementAtOrNull(i);
 
+      print('Processing param: $param');
+
       if (param == null) continue;
 
       final paramPosition = param.isPositional ? i : null;
       final constructorAssignment = ConstructorAssignment(param: param, position: paramPosition);
+      final constructorParamCorrespondsWithClassField =
+          targetClassGetters.any((field) => field.displayName == param.displayName);
 
       final fieldMapping = mapping.tryGetFieldMapping(param.name);
+
+      print('${param.name} - ${fieldMapping?.from} - ${fieldMapping?.field}');
 
       // Handles renaming.
       final from = fieldMapping?.from;
@@ -104,7 +110,24 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
       if (fieldMapping?.hasCustomMapping() ?? false) {
         final targetField = targetClassGetters.firstWhereOrNull((f) => f.displayName == fieldMapping?.field);
 
-        if (targetField == null) continue;
+        if (!constructorParamCorrespondsWithClassField && param.displayName == fieldMapping?.field) {
+          final sourceAssignment = SourceAssignment(
+            sourceField: sourceFields[sourceFieldName],
+            targetField: null,
+            targetConstructorParam: constructorAssignment,
+            fieldMapping: fieldMapping,
+            typeConverters: mapping.typeConverters,
+          );
+
+          mappedTargetConstructorParams.add(sourceAssignment);
+          mappedSourceFieldNames.add(param.name);
+
+          continue;
+        }
+
+        if (targetField == null) {
+          continue;
+        }
 
         if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
           _assertParamFieldCanBeIgnored(param, targetField);
@@ -114,7 +137,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           sourceField: null,
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
-          fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
+          fieldMapping: fieldMapping,
           typeConverters: mapping.typeConverters,
         );
 
@@ -124,6 +147,21 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
       // Source field has the same name as target parameter or is renamed using [from].
       else if (sourceFields.containsKey(sourceFieldName)) {
         final sourceField = sourceFields[sourceFieldName]!;
+
+        if (!constructorParamCorrespondsWithClassField && param.displayName == fieldMapping?.field) {
+          final sourceAssignment = SourceAssignment(
+            sourceField: sourceFields[sourceFieldName],
+            targetField: null,
+            targetConstructorParam: constructorAssignment,
+            fieldMapping: fieldMapping,
+            typeConverters: mapping.typeConverters,
+          );
+
+          mappedTargetConstructorParams.add(sourceAssignment);
+          mappedSourceFieldNames.add(param.name);
+
+          continue;
+        }
 
         final targetField = from == null
             // find target field based on matching source field
@@ -141,7 +179,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           sourceField: sourceFields[sourceFieldName],
           targetField: targetField,
           targetConstructorParam: constructorAssignment,
-          fieldMapping: mapping.tryGetFieldMapping(targetField.displayName),
+          fieldMapping: fieldMapping,
           typeConverters: mapping.typeConverters,
         );
 
