@@ -89,8 +89,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     for (var i = 0; i < targetConstructor.parameters.length; i++) {
       final param = targetConstructor.parameters.elementAtOrNull(i);
 
-      print('Processing param: $param');
-
       if (param == null) continue;
 
       final paramPosition = param.isPositional ? i : null;
@@ -99,8 +97,6 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           targetClassGetters.any((field) => field.displayName == param.displayName);
 
       final fieldMapping = mapping.tryGetFieldMapping(param.name);
-
-      print('${param.name} - ${fieldMapping?.from} - ${fieldMapping?.field}');
 
       // Handles renaming.
       final from = fieldMapping?.from;
