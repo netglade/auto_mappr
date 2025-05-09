@@ -28,7 +28,6 @@ class TryConvertMethodBuilder extends MethodBuilderBase {
         ..optionalParameters.add(
           Parameter(
             (p) => p
-              // ignore: avoid-late-final-reassignment, false positive
               ..name = 'onMappingError'
               ..type = refer('void Function(Object error, StackTrace stackTrace, SOURCE? source)?')
               ..named = true,
