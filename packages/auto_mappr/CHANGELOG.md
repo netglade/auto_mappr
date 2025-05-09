@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.8.1
+- Fix constructor selection when parameter does not corresponds with class's field [#234](https://github.com/netglade/auto_mappr/pull/234)
+
 ## 2.8.0
 - Bump `source_gen` version to `^2.0.0`
 
