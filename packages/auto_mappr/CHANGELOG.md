@@ -1,7 +1,8 @@
 [//]: # (## Unreleased)
 
 ## 2.9.0
-- Migrate to 7.4 Element model https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+- Migrate to 7.4 Element model https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md [#237](https://github.com/netglade/auto_mappr/pull/237)
+- Bump to netglade_analysis 16.1.0
 
 ## 2.8.1
 - Fix constructor selection when parameter does not corresponds with class's field [#234](https://github.com/netglade/auto_mappr/pull/234)
