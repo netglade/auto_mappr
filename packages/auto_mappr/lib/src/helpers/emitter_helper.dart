@@ -59,14 +59,14 @@ class EmitterHelper {
     required DartType type,
     bool withNullabilitySuffix = true,
   }) {
-    final libraryPath = type.element?.library?.identifier;
+    final libraryPath = type.element3?.library2?.identifier;
     final importUrl = type.isPrimitiveType || type.isDartCoreObject
         ? _resolveAssetImport(libraryPath)
         : _relative(libraryPath, fileWithAnnotation);
 
     return cb.TypeReference((reference) {
       reference
-        ..symbol = type.element?.name
+        ..symbol = type.element3?.name3
         ..url = importUrl
         ..isNullable = withNullabilitySuffix && type.isNullable;
 

@@ -11,6 +11,7 @@ import 'package:code_builder/code_builder.dart';
 /// Entrypoint for mappr class generation.
 class AutoMapprBuilder {
   final AutoMapprConfig config;
+  // ignore: deprecated_member_use, source_gen requires this
   final ClassElement mapperClassElement;
 
   static const List<String> fileIgnores = [

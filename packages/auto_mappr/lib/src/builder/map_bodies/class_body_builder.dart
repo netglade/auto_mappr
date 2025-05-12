@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/map_bodies/map_body_builder_base.dart';
 import 'package:auto_mappr/src/builder/value_assignment_builder.dart';
@@ -60,17 +60,18 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
   }
 
   /// Returns all public fields (instance or static) that have a getter.
-  Map<String, PropertyAccessorElement> _getAllReadableFields({
+  Map<String, PropertyAccessorElement2> _getAllReadableFields({
     required InterfaceType classType,
   }) {
     final fieldsWithGetter = classType.getAllGetters();
 
-    return {for (final field in fieldsWithGetter) field.name: field};
+    // ignore: avoid-non-null-assertion, must not be empty
+    return {for (final field in fieldsWithGetter) field.name3!: field};
   }
 
   Expression _processConstructorMapping({
     required List<String> mappedSourceFieldNames,
-    required Map<String, PropertyAccessorElement> sourceFields,
+    required Map<String, PropertyAccessorElement2> sourceFields,
   }) {
     final mappedTargetConstructorParams = <SourceAssignment>[];
     final notMappedTargetParameters = <SourceAssignment>[];
@@ -86,8 +87,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     final targetClassGetters = mapping.target.getAllGetters();
 
     // Map constructor parameters
-    for (var i = 0; i < targetConstructor.parameters.length; i++) {
-      final param = targetConstructor.parameters.elementAtOrNull(i);
+    for (var i = 0; i < targetConstructor.formalParameters.length; i++) {
+      final param = targetConstructor.formalParameters.elementAtOrNull(i);
 
       if (param == null) continue;
 
@@ -96,11 +97,12 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
       final constructorParamCorrespondsWithClassField =
           targetClassGetters.any((field) => field.displayName == param.displayName);
 
-      final fieldMapping = mapping.tryGetFieldMapping(param.name);
+      // ignore: avoid-non-null-assertion, must not be empty
+      final fieldMapping = mapping.tryGetFieldMapping(param.name3!);
 
       // Handles renaming.
       final from = fieldMapping?.from;
-      final sourceFieldName = from ?? param.name;
+      final sourceFieldName = from ?? param.name3;
 
       // Custom mapping has precedence.
       if (fieldMapping?.hasCustomMapping() ?? false) {
@@ -116,7 +118,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           );
 
           mappedTargetConstructorParams.add(sourceAssignment);
-          mappedSourceFieldNames.add(param.name);
+          // ignore: avoid-non-null-assertion, must not be empty
+          mappedSourceFieldNames.add(param.name3!);
 
           continue;
         }
@@ -138,7 +141,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
-        mappedSourceFieldNames.add(param.name);
+        // ignore: avoid-non-null-assertion, must not be empty
+        mappedSourceFieldNames.add(param.name3!);
       }
       // Source field has the same name as target parameter or is renamed using [from].
       else if (sourceFields.containsKey(sourceFieldName)) {
@@ -154,7 +158,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           );
 
           mappedTargetConstructorParams.add(sourceAssignment);
-          mappedSourceFieldNames.add(param.name);
+          // ignore: avoid-non-null-assertion, must not be empty
+          mappedSourceFieldNames.add(param.name3!);
 
           continue;
         }
@@ -180,7 +185,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
-        mappedSourceFieldNames.add(param.name);
+        // ignore: avoid-non-null-assertion, must not be empty
+        mappedSourceFieldNames.add(param.name3!);
       } else {
         // If not mapped constructor param is optional - skip it
         if (param.isOptional) continue;
@@ -229,8 +235,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     );
   }
 
-  void _assertParamFieldCanBeIgnored(ParameterElement param, PropertyAccessorElement sourceField) {
-    final sourceFieldName = sourceField.getDisplayString();
+  void _assertParamFieldCanBeIgnored(FormalParameterElement param, PropertyAccessorElement2 sourceField) {
+    final sourceFieldName = sourceField.displayString2();
     if (param.isPositional && param.type.isNotNullable) {
       throw InvalidGenerationSourceError(
         "Can't ignore field '$sourceFieldName' as it is positional not-nullable parameter. ($mapping)",
@@ -246,7 +252,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
   Expression _mapSetterFields({
     required List<String> alreadyMapped,
-    required Map<String, PropertyAccessorElement> sourceFields,
+    required Map<String, PropertyAccessorElement2> sourceFields,
     required Expression constructorExpression,
   }) {
     final targetSetters = mapping.target.getAllSetters();
@@ -270,7 +276,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
         .nonNulls
         // Use only those that match.
         .where((accessor) {
-          final fieldMapping = mapping.tryGetFieldMappingFromFrom(accessor.name);
+          // ignore: avoid-non-null-assertion, must not be empty
+          final fieldMapping = mapping.tryGetFieldMappingFromFrom(accessor.name3!);
           final from = fieldMapping?.field;
 
           return
@@ -293,11 +300,13 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
     for (final sourceField in notMappedSourceFields) {
       // Is there a rename?
-      final fieldMapping = mapping.tryGetFieldMappingFromFrom(sourceField.name);
+      // ignore: avoid-non-null-assertion, must not be empty
+      final fieldMapping = mapping.tryGetFieldMappingFromFrom(sourceField.name3!);
       final from = fieldMapping?.field;
 
       // Rename or original field name.
-      final sourceFieldName = from ?? sourceField.name;
+      // ignore: avoid-non-null-assertion, must not be empty
+      final sourceFieldName = from ?? sourceField.name3!;
       final targetField = targetClassGetters.firstWhereOrNull((field) => field.displayName == sourceFieldName);
 
       // final targetField = targetClassSetters.firstWhereOrNull((field) => field.displayName == sourceField.displayName);
@@ -325,9 +334,9 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
   ///
   /// Returns a constructor with the most parameter count.
   /// Prefer non factory constructors over factory ones.
-  ConstructorElement? _findBestConstructor(InterfaceType classType, {String? forcedConstructor}) {
+  ConstructorElement2? _findBestConstructor(InterfaceType classType, {String? forcedConstructor}) {
     if (forcedConstructor != null) {
-      final selectedConstructor = classType.constructors.firstWhereOrNull((c) => c.name == forcedConstructor);
+      final selectedConstructor = classType.constructors2.firstWhereOrNull((c) => c.name3 == forcedConstructor);
       if (selectedConstructor != null) return selectedConstructor;
 
       log.warning(
@@ -335,29 +344,29 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
       );
     }
 
-    final allConstructors = classType.constructors.where((c) => !c.isPrivate);
+    final allConstructors = classType.constructors2.where((c) => !c.isPrivate);
 
     // Sort constructors by number of parameters, descending.
     // ignore: avoid-local-functions, better to keep local here
-    int sortConstructors(ConstructorElement a, ConstructorElement b) =>
-        -a.parameters.length.compareTo(b.parameters.length);
+    int sortConstructors(ConstructorElement2 a, ConstructorElement2 b) =>
+        -a.formalParameters.length.compareTo(b.formalParameters.length);
 
     final nonFactoryConstructors = allConstructors.where((c) => !c.isFactory).sorted(sortConstructors);
     final factoryConstructors =
-        allConstructors.where((c) => c.isFactory && c.name != 'fromJson').sorted(sortConstructors);
+        allConstructors.where((c) => c.isFactory && c.name3 != 'fromJson').sorted(sortConstructors);
 
     // Prefers non factory constructors over factory ones.
     return [...nonFactoryConstructors, ...factoryConstructors].firstOrNull;
   }
 
   Expression _mapConstructor(
-    ConstructorElement targetConstructor, {
+    ConstructorElement2 targetConstructor, {
     required List<SourceAssignment> positional,
     required List<SourceAssignment> named,
   }) {
     final constructorName = targetConstructor.displayName;
 
-    return EmitterHelper.current.refer(constructorName, targetConstructor.library.identifier).newInstance(
+    return EmitterHelper.current.refer(constructorName, targetConstructor.library2.identifier).newInstance(
       positional.map(
         (assignment) => ValueAssignmentBuilder(
           mapperConfig: mapperConfig,
@@ -368,7 +377,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
       ),
       {
         for (final assignment in named)
-          assignment.targetConstructorParam!.param.name: ValueAssignmentBuilder(
+          // ignore: avoid-non-null-assertion, must not be empty
+          assignment.targetConstructorParam!.param.name3!: ValueAssignmentBuilder(
             mapperConfig: mapperConfig,
             mapping: mapping,
             assignment: assignment,
@@ -378,7 +388,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     );
   }
 
-  void _assertNotMappedConstructorParameters(Iterable<ParameterElement> notMapped) {
+  void _assertNotMappedConstructorParameters(Iterable<FormalParameterElement> notMapped) {
     for (final param in notMapped) {
       if (param.isPositional && param.type.isNotNullable) {
         throw InvalidGenerationSourceError(
