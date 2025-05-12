@@ -1,8 +1,6 @@
 include: package:netglade_analysis/lints.yaml
 
 analyzer:
-  errors:
-    deprecated_member_use: ignore # TODO: Fix https://github.com/netglade/auto_mappr/issues/235
   exclude:
     - test/integration/error_fixture/**
 

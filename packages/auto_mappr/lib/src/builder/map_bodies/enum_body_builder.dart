@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:auto_mappr/src/builder/map_bodies/map_body_builder_base.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:code_builder/code_builder.dart';
@@ -13,8 +13,8 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
 
   @override
   Code build() {
-    final isSourceEnum = mapping.source.element is EnumElement;
-    final isTargetEnum = mapping.target.element is EnumElement;
+    final isSourceEnum = mapping.source.element3 is EnumElement2;
+    final isTargetEnum = mapping.target.element3 is EnumElement2;
 
     // Check that both source and target enums are enums.
     if (!isSourceEnum || !isTargetEnum) {
@@ -26,11 +26,11 @@ class EnumBodyBuilder extends MapBodyBuilderBase {
       );
     }
 
-    final sourceEnum = mapping.source.element as EnumElement;
-    final targetEnum = mapping.target.element as EnumElement;
+    final sourceEnum = mapping.source.element3 as EnumElement2;
+    final targetEnum = mapping.target.element3 as EnumElement2;
 
-    final sourceValues = sourceEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
-    final targetValues = targetEnum.fields.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name).toSet();
+    final sourceValues = sourceEnum.fields2.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name3).toSet();
+    final targetValues = targetEnum.fields2.where((e) => e.isEnumConstant && e.isPublic).map((e) => e.name3).toSet();
 
     final isSourceSubset = targetValues.containsAll(sourceValues);
 

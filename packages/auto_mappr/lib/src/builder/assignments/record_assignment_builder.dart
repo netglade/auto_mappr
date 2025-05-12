@@ -100,7 +100,8 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
     final areValuesSameType = source.type == target.type;
     final shouldAssignNestedObject = !target.type.isPrimitiveType && !areValuesSameType;
 
-    final targetRecordExpression = refer(assignment.sourceField!.name);
+    // ignore: avoid-non-null-assertion, ok for now
+    final targetRecordExpression = refer(assignment.sourceField!.name3!);
 
     if (!shouldAssignNestedObject) {
       return refer('model.${targetRecordExpression.accept(EmitterHelper.current.emitter)}.${source.name}');
@@ -133,7 +134,8 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
     final areValuesSameType = source.type == target.type;
     final shouldAssignNestedObject = !target.type.isPrimitiveType && !areValuesSameType;
 
-    final targetRecordExpression = refer(assignment.sourceField!.name);
+    // ignore: avoid-non-null-assertion, ok for now
+    final targetRecordExpression = refer(assignment.sourceField!.name3!);
 
     if (!shouldAssignNestedObject) {
       return refer('model.${targetRecordExpression.accept(EmitterHelper.current.emitter)}.\$$index');

@@ -61,8 +61,8 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
 
     // Unknown mapping.
     if (nestedMapping == null) {
-      final sourceParentClass = assignment.sourceField?.enclosingElement3.name;
-      final targetParentClass = assignment.targetField?.enclosingElement3.name;
+      final sourceParentClass = assignment.sourceField?.enclosingElement2.name3;
+      final targetParentClass = assignment.targetField?.enclosingElement2.name3;
       final enclosingMappingMessage = "Parent mapping holding this is '$sourceParentClass' -> '$targetParentClass'";
 
       if (target.isNullable) {

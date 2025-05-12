@@ -40,11 +40,12 @@ class ValueAssignmentBuilder {
             // Static field.
             ? EmitterHelper.current
                 // ignore: avoid-non-null-assertion, should be ok
-                .refer(sourceField.enclosingElement3.name!, sourceField.enclosingElement3.library?.identifier)
+                .refer(sourceField.enclosingElement2.name3!, sourceField.enclosingElement2.library2?.identifier)
             // Non static field.
             // ignore: avoid-nullable-interpolation, should be ok
-            : refer(sourceField.isStatic ? '${sourceField.enclosingElement3.name}' : 'model'))
-        .property(sourceField.name);
+            : refer(sourceField.isStatic ? '${sourceField.enclosingElement2.name3}' : 'model'))
+        // ignore: avoid-non-null-assertion, must not be empty
+        .property(sourceField.name3!);
 
     final assignmentBuilders = [
       // Type converter.
@@ -115,8 +116,9 @@ class ValueAssignmentBuilder {
 
     if (shouldIgnoreNull && isSourceNullable && !isTargetNullable) {
       // ignore: avoid-nullable-interpolation, should be ok
-      return refer(sourceField.isStatic ? '${sourceField.enclosingElement3.name}' : 'model')
-          .property(sourceField.name)
+      return refer(sourceField.isStatic ? '${sourceField.enclosingElement2.name3}' : 'model')
+          // ignore: avoid-non-null-assertion, must not be empty
+          .property(sourceField.name3!)
           .nullChecked;
     }
 

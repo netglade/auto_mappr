@@ -59,8 +59,8 @@ extension DartTypeExtension on DartType {
     final isSameName = thisName == otherName;
 
     // Library matches.
-    final thisLibrary = element?.library?.identifier;
-    final otherLibrary = other.element?.library?.identifier;
+    final thisLibrary = element3?.library2?.identifier;
+    final otherLibrary = other.element3?.library2?.identifier;
     final isSameLibrary = thisLibrary == otherLibrary;
 
     final isSameExceptNullability = isSameName && isSameLibrary;

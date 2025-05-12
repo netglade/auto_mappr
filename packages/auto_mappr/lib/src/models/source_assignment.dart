@@ -1,6 +1,6 @@
 // ignore_for_file: prefer-match-file-name, prefer-single-declaration-per-file
 
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
@@ -9,7 +9,7 @@ import 'package:auto_mappr/src/models/type_converter.dart';
 import 'package:code_builder/code_builder.dart' show Expression, literalList, literalMap, literalNull, literalSet;
 
 class ConstructorAssignment {
-  final ParameterElement param;
+  final FormalParameterElement param;
   final int? position;
 
   bool get isNamed => param.isNamed;
@@ -18,10 +18,10 @@ class ConstructorAssignment {
 }
 
 class SourceAssignment {
-  final PropertyAccessorElement? sourceField;
+  final PropertyAccessorElement2? sourceField;
 
   final ConstructorAssignment? targetConstructorParam;
-  final PropertyAccessorElement? targetField;
+  final PropertyAccessorElement2? targetField;
 
   final List<TypeConverter> typeConverters;
 
