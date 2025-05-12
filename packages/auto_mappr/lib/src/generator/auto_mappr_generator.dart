@@ -253,7 +253,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
 
     for (final include in includesList) {
       final x = include.type?.element3;
-      if (x is! LibraryElement2) {
+      if (x is! InstanceElement2) {
         continue;
       }
 

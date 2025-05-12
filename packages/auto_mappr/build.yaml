@@ -5,7 +5,7 @@ targets:
         enabled: true
         generate_for:
           # include:
-          #   - test/integration/fixture/rename.dart
+            # - test/integration/fixture/type_converters.dart
           exclude:
             - test/integration/error_fixture/**
         options:

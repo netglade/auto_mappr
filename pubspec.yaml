@@ -74,3 +74,16 @@ melos:
       packageFilters:
         dirExists: test
       description: Run all Dart tests.
+
+    # CLEANING
+
+    clean:
+      description: Cleanups generated files
+      packageFilters:
+        dependsOn: build_runner
+      run: |
+        melos exec -- "rm -rf "./lib/generated" 2>/dev/null" && \
+        melos exec -- "find . -type f -name '*.drift.dart' -delete" && \
+        melos exec -- "find . -type f -name '*.g.dart' -delete" && \
+        melos exec -- "find . -type f -name '*.freezed.dart' -delete" && \
+        melos exec -- "find . -type f -name '*.auto_mappr.dart' -delete"
