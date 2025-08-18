@@ -1,6 +1,6 @@
 {
   "yaml.schemaStore.enable": false,
-  "dart.flutterSdkPath": ".fvm/versions/3.29.3",
+  "dart.flutterSdkPath": ".fvm/versions/3.35.0",
   "search.exclude": {
     "**/.fvm": true
   },
