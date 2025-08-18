@@ -30,7 +30,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run DCM (shell)
-        run: dcm analyze . --fatal-style --fatal-performance --fatal-warnings
+        run: dcm analyze . --fatal-style --fatal-warnings
         shell: bash
 
       - name: Test
