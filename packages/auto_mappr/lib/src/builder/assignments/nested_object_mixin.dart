@@ -133,12 +133,10 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
           ? MethodBuilderBase.constructNullableConvertMethodName(
               source: source,
               target: target,
-              config: mapperConfig,
             )
           : MethodBuilderBase.constructConvertMethodName(
               source: source,
               target: target,
-              config: mapperConfig,
             ),
     );
 

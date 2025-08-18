@@ -71,7 +71,7 @@ class PrivateConvertMethodBuilder extends MethodBuilderBase {
         inIfExpression: (BlockBuilder()
               ..statements.add(ifCheckForNull.code)
               ..addExpression(
-                refer(mapping.mappingMethodName(config: config))
+                refer(mapping.mappingMethodName())
                     .call(
                       [
                         MethodBuilderBase.modelReference

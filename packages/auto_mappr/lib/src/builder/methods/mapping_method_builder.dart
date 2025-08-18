@@ -29,7 +29,7 @@ class MappingMethodBuilder extends MethodBuilderBase {
     return Method(
       (b) => b
         ..name =
-            nullable ? mapping.nullableMappingMethodName(config: config) : mapping.mappingMethodName(config: config)
+            nullable ? mapping.nullableMappingMethodName() : mapping.mappingMethodName()
         ..requiredParameters.addAll([
           Parameter(
             (p) => p
