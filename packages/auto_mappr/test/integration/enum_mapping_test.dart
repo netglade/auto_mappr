@@ -1,6 +1,3 @@
-import 'package:auto_mappr/auto_mappr.dart';
-import 'package:auto_mappr/src/helpers/run_zoned_auto_mappr.dart';
-import 'package:source_gen/source_gen.dart';
 import 'package:test/test.dart';
 
 import 'fixture/enum_mapping.dart' as fixture;

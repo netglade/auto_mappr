@@ -82,7 +82,7 @@ class _$UserInfoUnionCopyWithImpl<$Res>
     Object? updatedAt = null,
     Object? primarySectionId = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(UserInfoUnion(
       email: null == email
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -118,14 +118,11 @@ extension UserInfoUnionPatterns on UserInfoUnion {
   /// ```
 
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(UserInfo value)? $default, {
+  TResult maybeMap<TResult extends Object?>({
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case UserInfo() when $default != null:
-        return $default(_that);
       case _:
         return orElse();
     }
@@ -145,13 +142,9 @@ extension UserInfoUnionPatterns on UserInfoUnion {
   /// ```
 
   @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(UserInfo value) $default,
-  ) {
+  TResult map<TResult extends Object?>() {
     final _that = this;
     switch (_that) {
-      case UserInfo():
-        return $default(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -170,13 +163,9 @@ extension UserInfoUnionPatterns on UserInfoUnion {
   /// ```
 
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(UserInfo value)? $default,
-  ) {
+  TResult? mapOrNull<TResult extends Object?>() {
     final _that = this;
     switch (_that) {
-      case UserInfo() when $default != null:
-        return $default(_that);
       case _:
         return null;
     }
@@ -195,17 +184,11 @@ extension UserInfoUnionPatterns on UserInfoUnion {
   /// ```
 
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String email, String loginIdentifier, DateTime updatedAt,
-            int primarySectionId)?
-        $default, {
+  TResult maybeWhen<TResult extends Object?>({
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case UserInfo() when $default != null:
-        return $default(_that.email, _that.loginIdentifier, _that.updatedAt,
-            _that.primarySectionId);
       case _:
         return orElse();
     }
@@ -225,16 +208,9 @@ extension UserInfoUnionPatterns on UserInfoUnion {
   /// ```
 
   @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(String email, String loginIdentifier, DateTime updatedAt,
-            int primarySectionId)
-        $default,
-  ) {
+  TResult when<TResult extends Object?>() {
     final _that = this;
     switch (_that) {
-      case UserInfo():
-        return $default(_that.email, _that.loginIdentifier, _that.updatedAt,
-            _that.primarySectionId);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -253,122 +229,12 @@ extension UserInfoUnionPatterns on UserInfoUnion {
   /// ```
 
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String email, String loginIdentifier, DateTime updatedAt,
-            int primarySectionId)?
-        $default,
-  ) {
+  TResult? whenOrNull<TResult extends Object?>() {
     final _that = this;
     switch (_that) {
-      case UserInfo() when $default != null:
-        return $default(_that.email, _that.loginIdentifier, _that.updatedAt,
-            _that.primarySectionId);
       case _:
         return null;
     }
-  }
-}
-
-/// @nodoc
-
-class UserInfo implements UserInfoUnion {
-  UserInfo(
-      {required this.email,
-      required this.loginIdentifier,
-      required this.updatedAt,
-      this.primarySectionId = 0});
-
-  @override
-  final String email;
-  @override
-  final String loginIdentifier;
-  @override
-  final DateTime updatedAt;
-  @override
-  @JsonKey()
-  final int primarySectionId;
-
-  /// Create a copy of UserInfoUnion
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $UserInfoCopyWith<UserInfo> get copyWith =>
-      _$UserInfoCopyWithImpl<UserInfo>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is UserInfo &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.loginIdentifier, loginIdentifier) ||
-                other.loginIdentifier == loginIdentifier) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
-            (identical(other.primarySectionId, primarySectionId) ||
-                other.primarySectionId == primarySectionId));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, email, loginIdentifier, updatedAt, primarySectionId);
-
-  @override
-  String toString() {
-    return 'UserInfoUnion(email: $email, loginIdentifier: $loginIdentifier, updatedAt: $updatedAt, primarySectionId: $primarySectionId)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $UserInfoCopyWith<$Res>
-    implements $UserInfoUnionCopyWith<$Res> {
-  factory $UserInfoCopyWith(UserInfo value, $Res Function(UserInfo) _then) =
-      _$UserInfoCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String email,
-      String loginIdentifier,
-      DateTime updatedAt,
-      int primarySectionId});
-}
-
-/// @nodoc
-class _$UserInfoCopyWithImpl<$Res> implements $UserInfoCopyWith<$Res> {
-  _$UserInfoCopyWithImpl(this._self, this._then);
-
-  final UserInfo _self;
-  final $Res Function(UserInfo) _then;
-
-  /// Create a copy of UserInfoUnion
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? email = null,
-    Object? loginIdentifier = null,
-    Object? updatedAt = null,
-    Object? primarySectionId = null,
-  }) {
-    return _then(UserInfo(
-      email: null == email
-          ? _self.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      loginIdentifier: null == loginIdentifier
-          ? _self.loginIdentifier
-          : loginIdentifier // ignore: cast_nullable_to_non_nullable
-              as String,
-      updatedAt: null == updatedAt
-          ? _self.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      primarySectionId: null == primarySectionId
-          ? _self.primarySectionId
-          : primarySectionId // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
   }
 }
 

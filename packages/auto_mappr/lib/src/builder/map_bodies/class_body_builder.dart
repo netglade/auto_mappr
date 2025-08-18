@@ -377,7 +377,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
   }) {
     final constructorName = targetConstructor.displayName;
 
-    return EmitterHelper.current.refer(constructorName, targetConstructor.library2.identifier).newInstance(
+    return EmitterHelper.current.refer(constructorName, targetConstructor.library2.uri.toString()).newInstance(
       positional.map(
         (assignment) => ValueAssignmentBuilder(
           mapperConfig: mapperConfig,

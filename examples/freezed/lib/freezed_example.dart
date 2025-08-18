@@ -6,12 +6,21 @@ part 'freezed_example.freezed.dart';
 
 @freezed
 class UserInfoUnion with _$UserInfoUnion {
-  factory UserInfoUnion({
-    required String email,
-    required String loginIdentifier,
-    required DateTime updatedAt,
-    @Default(0) int primarySectionId,
-  }) = UserInfo;
+  UserInfoUnion({
+    required this.email,
+    required this.loginIdentifier,
+    required this.updatedAt,
+    this.primarySectionId = 0,
+  });
+
+  @override
+  final String email;
+  @override
+  final String loginIdentifier;
+  @override
+  final DateTime updatedAt;
+  @override
+  final int primarySectionId;
 }
 
 class UserInfoCompanion {
@@ -27,6 +36,6 @@ class UserInfoCompanion {
 }
 
 @AutoMappr([
-  MapType<UserInfo, UserInfoCompanion>(),
+  MapType<UserInfoUnion, UserInfoCompanion>(),
 ])
 class Mappr extends $Mappr {}
