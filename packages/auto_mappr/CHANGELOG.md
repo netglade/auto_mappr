@@ -1,7 +1,7 @@
 [//]: # (## Unreleased)
 
 ## 2.10.0
-- Fix overridden fields not being mapped when using `whenSourceIsNull`. [#243](https://github.com/netglade/auto_mappr/pull/243)
+- Fix overridden fields not being mapped in some cases. [#243](https://github.com/netglade/auto_mappr/pull/243)
 
 ## 2.9.0
 - Migrate to 7.4 Element model https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md [#237](https://github.com/netglade/auto_mappr/pull/237)
