@@ -12,16 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
-      
-      - name: Configure FVM
-        uses: kuhnroyal/flutter-fvm-config-action@v2
-        id: fvm-config-action
-
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
+      - uses: dart-lang/setup-dart@v1
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          sdk: 3.9.0
 
       - uses: bluefireteam/melos-action@v3
 

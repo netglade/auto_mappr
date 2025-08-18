@@ -37,7 +37,7 @@ melos:
     # GENERATION
 
     gen:build-all:
-      run: melos run gen:example:build && melos run gen:test:build
+      run: melos exec -- dart run build_runner build --delete-conflicting-outputs --verbose
       description: Generate everything.
 
     gen:example:
@@ -50,7 +50,6 @@ melos:
       run: melos exec -- dart run build_runner build --delete-conflicting-outputs --verbose
       packageFilters:
         scope: "*example*"
-
       description: Generate example mappers once.
 
     gen:test:
