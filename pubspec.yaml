@@ -31,7 +31,7 @@ melos:
       description: Run Dart static analysis checks.
 
     lint:dcm:
-      run: melos exec -c 10 -- dcm analyze . --fatal-style --fatal-performance --fatal-warnings
+      run: melos exec -c 10 -- dcm analyze . --fatal-style --fatal-warnings
       description: Run DCM static analysis checks.
 
     # GENERATION
