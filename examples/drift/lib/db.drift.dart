@@ -10,32 +10,51 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 32),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _contentMeta =
-      const VerificationMeta('content');
+    'title',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 6,
+      maxTextLength: 32,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentMeta = const VerificationMeta(
+    'content',
+  );
   @override
   late final GeneratedColumn<String> content = GeneratedColumn<String>(
-      'body', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _categoryMeta =
-      const VerificationMeta('category');
+    'body',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
   @override
   late final GeneratedColumn<int> category = GeneratedColumn<int>(
-      'category', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+    'category',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [id, title, content, category];
   @override
@@ -44,8 +63,10 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   String get actualTableName => $name;
   static const String $name = 'todos';
   @override
-  VerificationContext validateIntegrity(Insertable<Todo> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<Todo> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -53,19 +74,25 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
     }
     if (data.containsKey('title')) {
       context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('body')) {
-      context.handle(_contentMeta,
-          content.isAcceptableOrUnknown(data['body']!, _contentMeta));
+      context.handle(
+        _contentMeta,
+        content.isAcceptableOrUnknown(data['body']!, _contentMeta),
+      );
     } else if (isInserting) {
       context.missing(_contentMeta);
     }
     if (data.containsKey('category')) {
-      context.handle(_categoryMeta,
-          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
     }
     return context;
   }
@@ -76,14 +103,22 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   Todo map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Todo(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      content: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}body'])!,
-      category: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}category']),
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      content: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}body'],
+      )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}category'],
+      ),
     );
   }
 
@@ -98,11 +133,12 @@ class Todo extends DataClass implements Insertable<Todo> {
   final String title;
   final String content;
   final int? category;
-  const Todo(
-      {required this.id,
-      required this.title,
-      required this.content,
-      this.category});
+  const Todo({
+    required this.id,
+    required this.title,
+    required this.content,
+    this.category,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -126,8 +162,10 @@ class Todo extends DataClass implements Insertable<Todo> {
     );
   }
 
-  factory Todo.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory Todo.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Todo(
       id: serializer.fromJson<int>(json['id']),
@@ -147,17 +185,17 @@ class Todo extends DataClass implements Insertable<Todo> {
     };
   }
 
-  Todo copyWith(
-          {int? id,
-          String? title,
-          String? content,
-          Value<int?> category = const Value.absent()}) =>
-      Todo(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        content: content ?? this.content,
-        category: category.present ? category.value : this.category,
-      );
+  Todo copyWith({
+    int? id,
+    String? title,
+    String? content,
+    Value<int?> category = const Value.absent(),
+  }) => Todo(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    content: content ?? this.content,
+    category: category.present ? category.value : this.category,
+  );
   Todo copyWithCompanion(TodosCompanion data) {
     return Todo(
       id: data.id.present ? data.id.value : this.id,
@@ -206,8 +244,8 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     required String title,
     required String content,
     this.category = const Value.absent(),
-  })  : title = Value(title),
-        content = Value(content);
+  }) : title = Value(title),
+       content = Value(content);
   static Insertable<Todo> custom({
     Expression<int>? id,
     Expression<String>? title,
@@ -222,11 +260,12 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     });
   }
 
-  TodosCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? title,
-      Value<String>? content,
-      Value<int?>? category}) {
+  TodosCompanion copyWith({
+    Value<int>? id,
+    Value<String>? title,
+    Value<String>? content,
+    Value<int?>? category,
+  }) {
     return TodosCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -274,18 +313,27 @@ class $CategoriesTable extends Categories
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
   @override
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [id, description];
   @override
@@ -294,8 +342,10 @@ class $CategoriesTable extends Categories
   String get actualTableName => $name;
   static const String $name = 'categories';
   @override
-  VerificationContext validateIntegrity(Insertable<Category> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<Category> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -303,9 +353,12 @@ class $CategoriesTable extends Categories
     }
     if (data.containsKey('description')) {
       context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
           _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_descriptionMeta);
     }
@@ -318,10 +371,14 @@ class $CategoriesTable extends Categories
   Category map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Category(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
     );
   }
 
@@ -344,14 +401,13 @@ class Category extends DataClass implements Insertable<Category> {
   }
 
   CategoriesCompanion toCompanion(bool nullToAbsent) {
-    return CategoriesCompanion(
-      id: Value(id),
-      description: Value(description),
-    );
+    return CategoriesCompanion(id: Value(id), description: Value(description));
   }
 
-  factory Category.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory Category.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Category(
       id: serializer.fromJson<int>(json['id']),
@@ -367,15 +423,14 @@ class Category extends DataClass implements Insertable<Category> {
     };
   }
 
-  Category copyWith({int? id, String? description}) => Category(
-        id: id ?? this.id,
-        description: description ?? this.description,
-      );
+  Category copyWith({int? id, String? description}) =>
+      Category(id: id ?? this.id, description: description ?? this.description);
   Category copyWithCompanion(CategoriesCompanion data) {
     return Category(
       id: data.id.present ? data.id.value : this.id,
-      description:
-          data.description.present ? data.description.value : this.description,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
     );
   }
 
@@ -460,18 +515,20 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [todos, categories];
 }
 
-typedef $$TodosTableCreateCompanionBuilder = TodosCompanion Function({
-  Value<int> id,
-  required String title,
-  required String content,
-  Value<int?> category,
-});
-typedef $$TodosTableUpdateCompanionBuilder = TodosCompanion Function({
-  Value<int> id,
-  Value<String> title,
-  Value<String> content,
-  Value<int?> category,
-});
+typedef $$TodosTableCreateCompanionBuilder =
+    TodosCompanion Function({
+      Value<int> id,
+      required String title,
+      required String content,
+      Value<int?> category,
+    });
+typedef $$TodosTableUpdateCompanionBuilder =
+    TodosCompanion Function({
+      Value<int> id,
+      Value<String> title,
+      Value<String> content,
+      Value<int?> category,
+    });
 
 class $$TodosTableFilterComposer extends Composer<_$MyDatabase, $TodosTable> {
   $$TodosTableFilterComposer({
@@ -482,16 +539,24 @@ class $$TodosTableFilterComposer extends Composer<_$MyDatabase, $TodosTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnFilters(column));
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get content => $composableBuilder(
-      column: $table.content, builder: (column) => ColumnFilters(column));
+    column: $table.content,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get category => $composableBuilder(
-      column: $table.category, builder: (column) => ColumnFilters(column));
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$TodosTableOrderingComposer extends Composer<_$MyDatabase, $TodosTable> {
@@ -503,16 +568,24 @@ class $$TodosTableOrderingComposer extends Composer<_$MyDatabase, $TodosTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnOrderings(column));
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get content => $composableBuilder(
-      column: $table.content, builder: (column) => ColumnOrderings(column));
+    column: $table.content,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get category => $composableBuilder(
-      column: $table.category, builder: (column) => ColumnOrderings(column));
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$TodosTableAnnotationComposer
@@ -537,20 +610,24 @@ class $$TodosTableAnnotationComposer
       $composableBuilder(column: $table.category, builder: (column) => column);
 }
 
-class $$TodosTableTableManager extends RootTableManager<
-    _$MyDatabase,
-    $TodosTable,
-    Todo,
-    $$TodosTableFilterComposer,
-    $$TodosTableOrderingComposer,
-    $$TodosTableAnnotationComposer,
-    $$TodosTableCreateCompanionBuilder,
-    $$TodosTableUpdateCompanionBuilder,
-    (Todo, BaseReferences<_$MyDatabase, $TodosTable, Todo>),
-    Todo,
-    PrefetchHooks Function()> {
+class $$TodosTableTableManager
+    extends
+        RootTableManager<
+          _$MyDatabase,
+          $TodosTable,
+          Todo,
+          $$TodosTableFilterComposer,
+          $$TodosTableOrderingComposer,
+          $$TodosTableAnnotationComposer,
+          $$TodosTableCreateCompanionBuilder,
+          $$TodosTableUpdateCompanionBuilder,
+          (Todo, BaseReferences<_$MyDatabase, $TodosTable, Todo>),
+          Todo,
+          PrefetchHooks Function()
+        > {
   $$TodosTableTableManager(_$MyDatabase db, $TodosTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -559,57 +636,56 @@ class $$TodosTableTableManager extends RootTableManager<
               $$TodosTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$TodosTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> title = const Value.absent(),
-            Value<String> content = const Value.absent(),
-            Value<int?> category = const Value.absent(),
-          }) =>
-              TodosCompanion(
-            id: id,
-            title: title,
-            content: content,
-            category: category,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required String title,
-            required String content,
-            Value<int?> category = const Value.absent(),
-          }) =>
-              TodosCompanion.insert(
-            id: id,
-            title: title,
-            content: content,
-            category: category,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> content = const Value.absent(),
+                Value<int?> category = const Value.absent(),
+              }) => TodosCompanion(
+                id: id,
+                title: title,
+                content: content,
+                category: category,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String title,
+                required String content,
+                Value<int?> category = const Value.absent(),
+              }) => TodosCompanion.insert(
+                id: id,
+                title: title,
+                content: content,
+                category: category,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$TodosTableProcessedTableManager = ProcessedTableManager<
-    _$MyDatabase,
-    $TodosTable,
-    Todo,
-    $$TodosTableFilterComposer,
-    $$TodosTableOrderingComposer,
-    $$TodosTableAnnotationComposer,
-    $$TodosTableCreateCompanionBuilder,
-    $$TodosTableUpdateCompanionBuilder,
-    (Todo, BaseReferences<_$MyDatabase, $TodosTable, Todo>),
-    Todo,
-    PrefetchHooks Function()>;
-typedef $$CategoriesTableCreateCompanionBuilder = CategoriesCompanion Function({
-  Value<int> id,
-  required String description,
-});
-typedef $$CategoriesTableUpdateCompanionBuilder = CategoriesCompanion Function({
-  Value<int> id,
-  Value<String> description,
-});
+typedef $$TodosTableProcessedTableManager =
+    ProcessedTableManager<
+      _$MyDatabase,
+      $TodosTable,
+      Todo,
+      $$TodosTableFilterComposer,
+      $$TodosTableOrderingComposer,
+      $$TodosTableAnnotationComposer,
+      $$TodosTableCreateCompanionBuilder,
+      $$TodosTableUpdateCompanionBuilder,
+      (Todo, BaseReferences<_$MyDatabase, $TodosTable, Todo>),
+      Todo,
+      PrefetchHooks Function()
+    >;
+typedef $$CategoriesTableCreateCompanionBuilder =
+    CategoriesCompanion Function({Value<int> id, required String description});
+typedef $$CategoriesTableUpdateCompanionBuilder =
+    CategoriesCompanion Function({Value<int> id, Value<String> description});
 
 class $$CategoriesTableFilterComposer
     extends Composer<_$MyDatabase, $CategoriesTable> {
@@ -621,10 +697,14 @@ class $$CategoriesTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnFilters(column));
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$CategoriesTableOrderingComposer
@@ -637,10 +717,14 @@ class $$CategoriesTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnOrderings(column));
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$CategoriesTableAnnotationComposer
@@ -656,23 +740,29 @@ class $$CategoriesTableAnnotationComposer
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => column);
+    column: $table.description,
+    builder: (column) => column,
+  );
 }
 
-class $$CategoriesTableTableManager extends RootTableManager<
-    _$MyDatabase,
-    $CategoriesTable,
-    Category,
-    $$CategoriesTableFilterComposer,
-    $$CategoriesTableOrderingComposer,
-    $$CategoriesTableAnnotationComposer,
-    $$CategoriesTableCreateCompanionBuilder,
-    $$CategoriesTableUpdateCompanionBuilder,
-    (Category, BaseReferences<_$MyDatabase, $CategoriesTable, Category>),
-    Category,
-    PrefetchHooks Function()> {
+class $$CategoriesTableTableManager
+    extends
+        RootTableManager<
+          _$MyDatabase,
+          $CategoriesTable,
+          Category,
+          $$CategoriesTableFilterComposer,
+          $$CategoriesTableOrderingComposer,
+          $$CategoriesTableAnnotationComposer,
+          $$CategoriesTableCreateCompanionBuilder,
+          $$CategoriesTableUpdateCompanionBuilder,
+          (Category, BaseReferences<_$MyDatabase, $CategoriesTable, Category>),
+          Category,
+          PrefetchHooks Function()
+        > {
   $$CategoriesTableTableManager(_$MyDatabase db, $CategoriesTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -681,41 +771,39 @@ class $$CategoriesTableTableManager extends RootTableManager<
               $$CategoriesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$CategoriesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> description = const Value.absent(),
-          }) =>
-              CategoriesCompanion(
-            id: id,
-            description: description,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required String description,
-          }) =>
-              CategoriesCompanion.insert(
-            id: id,
-            description: description,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> description = const Value.absent(),
+              }) => CategoriesCompanion(id: id, description: description),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String description,
+              }) =>
+                  CategoriesCompanion.insert(id: id, description: description),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$CategoriesTableProcessedTableManager = ProcessedTableManager<
-    _$MyDatabase,
-    $CategoriesTable,
-    Category,
-    $$CategoriesTableFilterComposer,
-    $$CategoriesTableOrderingComposer,
-    $$CategoriesTableAnnotationComposer,
-    $$CategoriesTableCreateCompanionBuilder,
-    $$CategoriesTableUpdateCompanionBuilder,
-    (Category, BaseReferences<_$MyDatabase, $CategoriesTable, Category>),
-    Category,
-    PrefetchHooks Function()>;
+typedef $$CategoriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$MyDatabase,
+      $CategoriesTable,
+      Category,
+      $$CategoriesTableFilterComposer,
+      $$CategoriesTableOrderingComposer,
+      $$CategoriesTableAnnotationComposer,
+      $$CategoriesTableCreateCompanionBuilder,
+      $$CategoriesTableUpdateCompanionBuilder,
+      (Category, BaseReferences<_$MyDatabase, $CategoriesTable, Category>),
+      Category,
+      PrefetchHooks Function()
+    >;
 
 class $MyDatabaseManager {
   final _$MyDatabase _db;

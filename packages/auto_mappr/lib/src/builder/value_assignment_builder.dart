@@ -42,8 +42,7 @@ class ValueAssignmentBuilder {
                 // ignore: avoid-non-null-assertion, should be ok
                 .refer(sourceField.enclosingElement2.name3!, sourceField.enclosingElement2.library2?.uri.toString())
             // Non static field.
-            // ignore: avoid-nullable-interpolation, should be ok
-            : refer(sourceField.isStatic ? '${sourceField.enclosingElement2.name3}' : 'model'))
+            : refer('model'))
         // ignore: avoid-non-null-assertion, must not be empty
         .property(sourceField.name3!);
 
