@@ -65,8 +65,19 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
   }) {
     final fieldsWithGetter = classType.getAllGetters();
 
-    // ignore: avoid-non-null-assertion, must not be empty
-    return {for (final field in fieldsWithGetter) field.name3!: field};
+    // Preserve only the *first* occurrence of a field with the same name.
+    // This ensures we always keep the most specific (subclass) getter,
+    // instead of overwriting it with a version coming from a superclass.
+    final result = <String, PropertyAccessorElement2>{};
+    for (final field in fieldsWithGetter) {
+      // ignore: avoid-non-null-assertion, has name
+      final name = field.name3!;
+      if (!result.containsKey(name)) {
+        result[name] = field;
+      }
+    }
+
+    return result;
   }
 
   Expression _processConstructorMapping({
@@ -392,14 +403,14 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     for (final param in notMapped) {
       if (param.isPositional && param.type.isNotNullable) {
         throw InvalidGenerationSourceError(
-          "Can't generate mapping $mapping as there is non mapped not-nullable positional parameter ${param.displayName}. ($mapping)",
+          "Can't generate mapping $mapping as there is non mapped not-nullable positional parameter '${param.displayName}'. ($mapping)",
         );
       }
 
       if (param.isRequiredNamed && param.type.isNotNullable) {
         if (param.type.isDartCoreList) return;
         throw InvalidGenerationSourceError(
-          "Can't generate mapping $mapping as there is non mapped not-nullable required named parameter ${param.displayName}. ($mapping)",
+          "Can't generate mapping $mapping as there is non mapped not-nullable required named parameter '${param.displayName}'. ($mapping)",
         );
       }
     }

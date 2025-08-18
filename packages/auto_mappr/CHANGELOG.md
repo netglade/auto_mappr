@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.10.0
+- Fix overriden fields not beign mapped when using `whenSourceIsNull`. [#243](https://github.com/netglade/auto_mappr/pull/243)
+
 ## 2.9.0
 - Migrate to 7.4 Element model https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md [#237](https://github.com/netglade/auto_mappr/pull/237)
 - Bump to netglade_analysis 16.1.0
