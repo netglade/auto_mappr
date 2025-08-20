@@ -33,20 +33,14 @@ abstract class MethodBuilderBase {
   static String constructConvertMethodName({
     required DartType source,
     required DartType target,
-    required AutoMapprConfig config,
   }) =>
       '_map_${source.toConvertMethodName()}_To_${target.toConvertMethodName()}';
 
   static String constructNullableConvertMethodName({
     required DartType source,
     required DartType target,
-    required AutoMapprConfig config,
   }) =>
-      '${constructConvertMethodName(
-        source: source,
-        target: target,
-        config: config,
-      )}_Nullable';
+      '${constructConvertMethodName(source: source, target: target)}_Nullable';
 
   Method buildMethod();
 

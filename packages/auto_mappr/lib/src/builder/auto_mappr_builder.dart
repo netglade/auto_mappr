@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:auto_mappr/src/builder/methods/methods.dart';
 import 'package:auto_mappr/src/helpers/urls.dart';
 import 'package:auto_mappr/src/models/auto_mappr_config.dart';
@@ -12,7 +12,7 @@ import 'package:code_builder/code_builder.dart';
 class AutoMapprBuilder {
   final AutoMapprConfig config;
   // ignore: deprecated_member_use, source_gen requires this
-  final ClassElement mapperClassElement;
+  final ClassElement2 mapperClassElement;
 
   static const List<String> fileIgnores = [
     // ignore everything

@@ -7,21 +7,17 @@ part of 'json_serializable.dart';
 // **************************************************************************
 
 UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
-    );
+  firstName: json['firstName'] as String,
+  lastName: json['lastName'] as String,
+);
 
 Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{
-      'firstName': instance.firstName,
-      'lastName': instance.lastName,
-    };
+  'firstName': instance.firstName,
+  'lastName': instance.lastName,
+};
 
 ValueHolderDto _$ValueHolderDtoFromJson(Map<String, dynamic> json) =>
-    ValueHolderDto(
-      json['json'] as Map<String, dynamic>,
-    );
+    ValueHolderDto(json['json'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$ValueHolderDtoToJson(ValueHolderDto instance) =>
-    <String, dynamic>{
-      'json': instance.json,
-    };
+    <String, dynamic>{'json': instance.json};

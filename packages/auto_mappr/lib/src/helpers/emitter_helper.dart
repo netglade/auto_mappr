@@ -59,7 +59,7 @@ class EmitterHelper {
     required DartType type,
     bool withNullabilitySuffix = true,
   }) {
-    final libraryPath = type.element3?.library2?.identifier;
+    final libraryPath = type.element3?.library2?.uri.toString();
     final importUrl = type.isPrimitiveType || type.isDartCoreObject
         ? _resolveAssetImport(libraryPath)
         : _relative(libraryPath, fileWithAnnotation);

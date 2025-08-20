@@ -1,6 +1,5 @@
 //ignore_for_file: avoid-dynamic
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/auto_mappr_builder.dart';
@@ -51,14 +50,14 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
 
   @override
   // ignore: deprecated_member_use, source_gen requires this
-  dynamic generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
+  dynamic generateForAnnotatedElement(Element2 element, ConstantReader annotation, BuildStep buildStep) {
     // ignore: deprecated_member_use, source_gen requires this
-    final filePath = element.library?.identifier;
+    final filePath = element.library2?.identifier;
     final fileUri = filePath != null ? Uri.parse(filePath) : null;
 
     return runZonedAutoMappr(libraryUri: fileUri, () {
       // ignore: deprecated_member_use, source_gen requires this
-      if (element is! ClassElement) {
+      if (element is! ClassElement2) {
         throw InvalidGenerationSourceError(
           '${element.displayName} is not a class and cannot be annotated with @AutoMappr.',
           element: element,
@@ -92,7 +91,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
       final config = AutoMapprConfig(
         mappers: mappers,
         // ignore: deprecated_member_use, source_gen requires this
-        availableMappingsMacroId: element.library.identifier,
+        availableMappingsMacroId: element.library2.identifier,
         modulesCode: delegatesExpression,
         delegatesList: delegatesList,
         mapprOptions: mapprOptions,
@@ -110,7 +109,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
     required List<DartObject> mappers,
     required List<TypeConverter> globalConverters,
     // ignore: deprecated_member_use, source_gen requires this
-    required ClassElement element,
+    required ClassElement2 element,
   }) {
     final res = mappers.map((mapper) {
       final mapperType = mapper.type! as ParameterizedType;

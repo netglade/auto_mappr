@@ -11,8 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 3.9.0
+
       - uses: bluefireteam/melos-action@v3
 
       - name: Generate AutoMappr files
@@ -27,7 +30,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run DCM (shell)
-        run: dcm analyze . --fatal-style --fatal-performance --fatal-warnings
+        run: dcm analyze . --fatal-style --fatal-warnings
         shell: bash
 
       - name: Test

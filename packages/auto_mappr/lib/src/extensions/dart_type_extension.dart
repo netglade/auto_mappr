@@ -45,12 +45,6 @@ extension DartTypeExtension on DartType {
       return false;
     }
 
-    // TODO(generics): somehow compare if generics are the same?
-    // if (this is InterfaceType) {
-    //   // Same types, not considering the type arguments.
-    //   return element!.thisOrAncestorMatching((p0) => p0 == other.element) != null;
-    // }
-
     // Name matches.
     // ignore: deprecated_member_use, for now use this - w/o this it fails
     final thisName = getDisplayString(withNullability: withNullability);
@@ -59,8 +53,8 @@ extension DartTypeExtension on DartType {
     final isSameName = thisName == otherName;
 
     // Library matches.
-    final thisLibrary = element3?.library2?.identifier;
-    final otherLibrary = other.element3?.library2?.identifier;
+    final thisLibrary = element3?.library2?.uri.toString();
+    final otherLibrary = other.element3?.library2?.uri.toString();
     final isSameLibrary = thisLibrary == otherLibrary;
 
     final isSameExceptNullability = isSameName && isSameLibrary;

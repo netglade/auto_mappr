@@ -1,5 +1,13 @@
 [//]: # (## Unreleased)
 
+## 2.10.0
+- Fix overridden fields not being mapped in some cases. [#243](https://github.com/netglade/auto_mappr/pull/243)
+- Bump dependencies:
+  - `analyzer` to `>=7.4.0 <8.0.0` (same as `freezed`)
+  - `build` to `^3.0.0`
+  - `source_gen` to `^3.0.0`
+  - `build_runner` to `^2.7.0`
+
 ## 2.9.0
 - Migrate to 7.4 Element model https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md [#237](https://github.com/netglade/auto_mappr/pull/237)
 - Bump to netglade_analysis 16.1.0

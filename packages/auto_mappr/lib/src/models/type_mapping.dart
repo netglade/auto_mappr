@@ -1,7 +1,6 @@
 import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
-import 'package:auto_mappr/src/models/auto_mappr_config.dart';
 import 'package:auto_mappr/src/models/field_mapping.dart';
 import 'package:auto_mappr/src/models/type_converter.dart';
 import 'package:code_builder/code_builder.dart';
@@ -45,17 +44,14 @@ class TypeMapping extends Equatable {
     this.safeMapping,
   });
 
-  String mappingMethodName({required AutoMapprConfig config}) => MethodBuilderBase.constructConvertMethodName(
+  String mappingMethodName() => MethodBuilderBase.constructConvertMethodName(
         source: source,
         target: target,
-        config: config,
       );
 
-  String nullableMappingMethodName({required AutoMapprConfig config}) =>
-      MethodBuilderBase.constructNullableConvertMethodName(
+  String nullableMappingMethodName() => MethodBuilderBase.constructNullableConvertMethodName(
         source: source,
         target: target,
-        config: config,
       );
 
   bool hasWhenNullDefault() {
