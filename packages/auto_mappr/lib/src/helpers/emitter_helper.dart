@@ -85,19 +85,22 @@ class EmitterHelper {
     }
 
     final fileUri = Uri.parse(path);
-    final libName = to.pathSegments.firstOrNull;
 
     if (fileUri.scheme == 'dart') {
-      return 'dart:${fileUri.path}';
+      return 'dart:${'${fileUri.path}'}';
     }
 
-    if ((to.scheme == 'package' && fileUri.scheme == 'package' && fileUri.pathSegments.firstOrNull == libName) ||
-        (to.scheme == 'asset' && fileUri.scheme != 'package')) {
-      if (fileUri.path == to.path) {
-        return fileUri.pathSegments.lastOrNull;
-      }
+    if (fileUri.scheme == 'package') {
+      return path;
+    }
 
-      return p.posix.relative(fileUri.path, from: to.path).replaceFirst('../', '');
+    if (fileUri.scheme == 'asset') {
+      final pathSegments = fileUri.pathSegments;
+      if (pathSegments.length > 1 && pathSegments[1] == 'lib') {
+        final packageName = pathSegments[0];
+        final filePath = pathSegments.sublist(2).join('/');
+        return 'package:$packageName/$filePath';
+      }
     }
 
     return path;
