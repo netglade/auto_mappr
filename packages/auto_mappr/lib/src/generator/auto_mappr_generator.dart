@@ -75,16 +75,16 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
       final includesList = constant.getField(annotationFieldIncludes)?.toListValue() ?? <DartObject>[];
 
       final allMappers = [...mappersList, ..._mappersFromRecursiveIncludes(includesList: includesList)];
-      final allConverters =
-          _toTypeConverters([...convertersList, ..._convertersFromRecursiveIncludes(includesList: includesList)]);
+      final allConverters = _toTypeConverters([
+        ...convertersList,
+        ..._convertersFromRecursiveIncludes(includesList: includesList),
+      ]);
       final mappers = _processMappers(mappers: allMappers, globalConverters: allConverters, element: element);
 
       final duplicates = mappers.duplicates;
       if (duplicates.isNotEmpty) {
         throw InvalidGenerationSourceError(
-          '@AutoMappr has configured duplicated mappings:\n\t${duplicates.map(
-                (e) => e.toString(),
-              ).join('\n\t')}',
+          '@AutoMappr has configured duplicated mappings:\n\t${duplicates.map((e) => e.toString()).join('\n\t')}',
         );
       }
 
@@ -172,7 +172,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
           TypeMapping(
             source: targetType,
             target: sourceType,
-            fieldMappings: fieldMappings
+            fieldMappings:
+                fieldMappings
                     ?.map(
                       (f) => f.from != null
                           ? FieldMapping(
@@ -206,7 +207,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
     for (final include in includesList) {
       // For each include locate AutoMappr annotation.
       // ignore: deprecated_member_use, source_gen requires this
-      if (include.type?.element?.metadata
+      if (include.type?.element?.metadata.annotations
               // ignore: deprecated_member_use, source_gen requires this
               .firstWhereOrNull((data) => data.element?.displayName == annotationAutoMappr)
               ?.computeConstantValue()

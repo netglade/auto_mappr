@@ -95,8 +95,11 @@ class EmitterHelper {
       // Something like ['auto_mappr', 'lib', 'src', 'models', 'model.dart']
       final pathSegments = fileUri.pathSegments;
 
-      // * LIB
-      // It aims to lib folder, we can convert to package uri.
+      // * In lib/
+      // If it points to lib folder,
+      // we can convert to package uri.
+      // ? We want to do this, because package imports are preferred for files in lib/,
+      // ? since people can configure to build generated files to different places.
       if (pathSegments.elementAtOrNull(1) == 'lib') {
         // ignore: avoid-unsafe-collection-methods, it's guaranteed to have at least 2 elements,
         final packageName = pathSegments.first;
@@ -104,27 +107,28 @@ class EmitterHelper {
 
         return 'package:$packageName/$filePath';
       }
-      // * TEST
-      // If it points to test folder within the same package, we can convert to package uri.
-      else if (pathSegments.elementAtOrNull(1) == 'test') {
-        // ignore: avoid-unsafe-collection-methods, it's guaranteed to have at least 2 elements,
-        final packageName = pathSegments.first;
-        final toPackageName = to.pathSegments.firstOrNull;
 
-        if (packageName == toPackageName) {
-          final relativePath = p.posix.relative(fileUri.path, from: to.path).replaceFirst('../', '');
+      // * Not in lib/
+      // If it points to other directory than lib/,
+      // we cannot safely use package import.
+      //
+      // In such cases,
+      // use relative imports from the file with annotation.
+      //
+      // ? This might happen in test/, bin/, example/ folders.
+      final packageName = pathSegments.firstOrNull;
+      final toPackageName = to.pathSegments.firstOrNull;
 
-          // If it is the same file, return only the file name.
-          if (relativePath == '.') {
-            return pathSegments.lastOrNull;
-          }
+      if (packageName == toPackageName) {
+        final relativePath = p.posix.relative(fileUri.path, from: to.path).replaceFirst('../', '');
 
-          return relativePath;
+        // If it is the same file, return only the file name.
+        if (relativePath == '.') {
+          return pathSegments.lastOrNull;
         }
-      }
 
-      // * Rest assets.
-      // Asset path does not point to lib nor test folder, cannot convert to package uri.
+        return relativePath;
+      }
     }
 
     return path;
