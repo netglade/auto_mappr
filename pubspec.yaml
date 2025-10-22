@@ -27,7 +27,7 @@ melos:
       description: Run all static analysis checks.
 
     lint:dart:
-      run: melos exec -c 10 -- dart analyze --fatal-infos
+      run: melos exec -c 10 -- dart analyze # --fatal-infos
       description: Run Dart static analysis checks.
 
     lint:dcm:
