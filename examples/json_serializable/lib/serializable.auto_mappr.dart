@@ -9,8 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
-
-import 'serializable.dart' as _i2;
+import 'package:examples_json_serializable/serializable.dart' as _i2;
 
 /// {@template package:examples_json_serializable/serializable.dart}
 /// Available mappings:

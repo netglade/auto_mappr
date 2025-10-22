@@ -55,10 +55,7 @@ class EmitterHelper {
   /// When [fileWithAnnotation] is also set, import is relative.
   ///
   /// Inspired by injectable.
-  cb.Reference typeRefer({
-    required DartType type,
-    bool withNullabilitySuffix = true,
-  }) {
+  cb.Reference typeRefer({required DartType type, bool withNullabilitySuffix = true}) {
     final libraryPath = type.element3?.library2?.uri.toString();
     final importUrl = type.isPrimitiveType || type.isDartCoreObject
         ? _resolveAssetImport(libraryPath)
@@ -87,7 +84,7 @@ class EmitterHelper {
     final fileUri = Uri.parse(path);
 
     if (fileUri.scheme == 'dart') {
-      return 'dart:${'${fileUri.path}'}';
+      return 'dart:${fileUri.path}';
     }
 
     if (fileUri.scheme == 'package') {
@@ -95,12 +92,39 @@ class EmitterHelper {
     }
 
     if (fileUri.scheme == 'asset') {
+      // Something like ['auto_mappr', 'lib', 'src', 'models', 'model.dart']
       final pathSegments = fileUri.pathSegments;
-      if (pathSegments.length > 1 && pathSegments[1] == 'lib') {
-        final packageName = pathSegments[0];
+
+      // * LIB
+      // It aims to lib folder, we can convert to package uri.
+      if (pathSegments.elementAtOrNull(1) == 'lib') {
+        // ignore: avoid-unsafe-collection-methods, it's guaranteed to have at least 2 elements,
+        final packageName = pathSegments.first;
         final filePath = pathSegments.sublist(2).join('/');
+
         return 'package:$packageName/$filePath';
       }
+      // * TEST
+      // If it points to test folder within the same package, we can convert to package uri.
+      else if (pathSegments.elementAtOrNull(1) == 'test') {
+        // ignore: avoid-unsafe-collection-methods, it's guaranteed to have at least 2 elements,
+        final packageName = pathSegments.first;
+        final toPackageName = to.pathSegments.firstOrNull;
+
+        if (packageName == toPackageName) {
+          final relativePath = p.posix.relative(fileUri.path, from: to.path).replaceFirst('../', '');
+
+          // If it is the same file, return only the file name.
+          if (relativePath == '.') {
+            return pathSegments.lastOrNull;
+          }
+
+          return relativePath;
+        }
+      }
+
+      // * Rest assets.
+      // Asset path does not point to lib nor test folder, cannot convert to package uri.
     }
 
     return path;
