@@ -55,10 +55,7 @@ class EmitterHelper {
   /// When [fileWithAnnotation] is also set, import is relative.
   ///
   /// Inspired by injectable.
-  cb.Reference typeRefer({
-    required DartType type,
-    bool withNullabilitySuffix = true,
-  }) {
+  cb.Reference typeRefer({required DartType type, bool withNullabilitySuffix = true}) {
     final libraryPath = type.element3?.library2?.uri.toString();
     final importUrl = type.isPrimitiveType || type.isDartCoreObject
         ? _resolveAssetImport(libraryPath)
@@ -85,19 +82,53 @@ class EmitterHelper {
     }
 
     final fileUri = Uri.parse(path);
-    final libName = to.pathSegments.firstOrNull;
 
     if (fileUri.scheme == 'dart') {
       return 'dart:${fileUri.path}';
     }
 
-    if ((to.scheme == 'package' && fileUri.scheme == 'package' && fileUri.pathSegments.firstOrNull == libName) ||
-        (to.scheme == 'asset' && fileUri.scheme != 'package')) {
-      if (fileUri.path == to.path) {
-        return fileUri.pathSegments.lastOrNull;
+    if (fileUri.scheme == 'package') {
+      return path;
+    }
+
+    if (fileUri.scheme == 'asset') {
+      // Something like ['auto_mappr', 'lib', 'src', 'models', 'model.dart']
+      final pathSegments = fileUri.pathSegments;
+
+      // * In lib/
+      // If it points to lib folder,
+      // we can convert to package uri.
+      // ? We want to do this, because package imports are preferred for files in lib/,
+      // ? since people can configure to build generated files to different places.
+      if (pathSegments.elementAtOrNull(1) == 'lib') {
+        // ignore: avoid-unsafe-collection-methods, it's guaranteed to have at least 2 elements,
+        final packageName = pathSegments.first;
+        final filePath = pathSegments.sublist(2).join('/');
+
+        return 'package:$packageName/$filePath';
       }
 
-      return p.posix.relative(fileUri.path, from: to.path).replaceFirst('../', '');
+      // * Not in lib/
+      // If it points to other directory than lib/,
+      // we cannot safely use package import.
+      //
+      // In such cases,
+      // use relative imports from the file with annotation.
+      //
+      // ? This might happen in test/, bin/, example/ folders.
+      final packageName = pathSegments.firstOrNull;
+      final toPackageName = to.pathSegments.firstOrNull;
+
+      if (packageName == toPackageName) {
+        final relativePath = p.posix.relative(fileUri.path, from: to.path).replaceFirst('../', '');
+
+        // If it is the same file, return only the file name.
+        if (relativePath == '.') {
+          return pathSegments.lastOrNull;
+        }
+
+        return relativePath;
+      }
     }
 
     return path;

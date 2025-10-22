@@ -6,6 +6,7 @@
   - `build` to `^4.0.0`
   - `source_gen` to `^4.0.0`
   - `analyzer` to `>=8.1.1 <9.0.0`
+- Update asset resolution function to support targets outside of the current working directory. [#244](https://github.com/netglade/auto_mappr/pull/244)
 
 ## 2.10.0
 - Fix overridden fields not being mapped in some cases. [#243](https://github.com/netglade/auto_mappr/pull/243)
