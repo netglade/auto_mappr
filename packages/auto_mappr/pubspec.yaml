@@ -1,6 +1,6 @@
 name: auto_mappr
 description: Code generation for mapping between different objects with ease.
-version: 2.11.0
+version: 2.12.0
 repository: https://github.com/netglade/auto_mappr
 issue_tracker: https://github.com/netglade/auto_mappr/issues
 screenshots:
@@ -19,7 +19,6 @@ dependencies:
   code_builder: ^4.10.1
   collection: ^1.18.0
   equatable: ^2.0.0
-  get_it: ^8.0.0
   meta: ^1.8.0
   path: ^1.8.0
   source_gen: ^4.0.0
