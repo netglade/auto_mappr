@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.12.0
+- Removed (unused) dependency on `get_it` package.
+
 ## 2.11.0
 - Fix `firstWhereOrNull` isn't defined for the type `Metadata`. [#246](https://github.com/netglade/auto_mappr/pull/246)
 - Bump dependencies:
