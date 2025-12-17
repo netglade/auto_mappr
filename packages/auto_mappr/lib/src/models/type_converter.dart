@@ -51,6 +51,9 @@ class TypeConverter extends Equatable {
   }
 
   bool _isConverterSubtype(DartType converterType, DartType fieldType, _ConversionRole role) {
+    // Either type is dynamic.
+    if (converterType is DynamicType || fieldType is DynamicType) return false;
+    
     // Same type.
     if (converterType == fieldType) return true;
 
