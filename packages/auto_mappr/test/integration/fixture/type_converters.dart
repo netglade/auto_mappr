@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_positional_boolean_parameters
+// ignore_for_file: avoid_positional_boolean_parameters, avoid-dynamic, prefer-static-class
 
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -8,17 +8,16 @@ import 'type_converters/module_alpha.dart';
 
 @AutoMappr(
   [
-    MapType<PrimitivesDto, Primitives>(
-      converters: [TypeConverter<Object, String>(Mappr.objectToString)],
-    ),
-    MapType<NormalFieldDto, NormalField>(
-      converters: [TypeConverter<int, Value<int>>(Mappr.intToValueInt)],
-    ),
+    MapType<PrimitivesDto, Primitives>(converters: [TypeConverter<Object, String>(Mappr.objectToString)]),
+    MapType<NormalFieldDto, NormalField>(converters: [TypeConverter<int, Value<int>>(Mappr.intToValueInt)]),
     MapType<InListDto, InList>(),
     MapType<InMapDto, InMap>(),
     MapType<IncludesDto, Includes>(),
     // Post w/ reverse.
     MapType<PostDto, Post>(reverse: true),
+    MapType<DynamicDto, Int>(converters: [dynamicToIntConverter]),
+    MapType<Int, Dynamic>(converters: [intToDynamicConverter]),
+    MapType<DynamicDto, Dynamic>(),
   ],
   converters: [
     TypeConverter<String, Value<String>>(Mappr.stringToValueString),
@@ -83,11 +82,7 @@ class NormalFieldDto {
   final String xString;
   final bool normalBool;
 
-  const NormalFieldDto({
-    required this.xInt,
-    required this.xString,
-    required this.normalBool,
-  });
+  const NormalFieldDto({required this.xInt, required this.xString, required this.normalBool});
 }
 
 class NormalField with EquatableMixin {
@@ -108,11 +103,7 @@ class InListDto {
   final String xString;
   final bool normalBool;
 
-  const InListDto({
-    required this.xInt,
-    required this.xString,
-    required this.normalBool,
-  });
+  const InListDto({required this.xInt, required this.xString, required this.normalBool});
 }
 
 class InList with EquatableMixin {
@@ -248,3 +239,32 @@ class NullableOutput with EquatableMixin {
   List<Object?> get props => [xString];
   const NullableOutput(this.xString);
 }
+
+// Dynamic
+
+class Dynamic {
+  final dynamic value;
+
+  const Dynamic({this.value});
+}
+
+class DynamicDto {
+  final dynamic value;
+
+  const DynamicDto({this.value});
+}
+
+class Int {
+  final int value;
+
+  const Int({required this.value});
+}
+
+const dynamicToIntConverter = TypeConverter(dynamicToInt);
+const intToDynamicConverter = TypeConverter(intToDynamic);
+dynamic intToDynamic(int source) => source < 50 ? source : source.toString();
+int dynamicToInt(dynamic source) => switch (source) {
+  int() => source,
+  String() => int.parse(source),
+  _ => 0,
+};
