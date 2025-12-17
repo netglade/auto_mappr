@@ -323,9 +323,7 @@ class NoConstructorWithLateDto {
 
 // ignore: must_be_immutable, ok in tests
 class NoConstructorWithLate with EquatableMixin {
-  // ignore: avoid-unassigned-late-fields, will be set using Mappr
   late int alpha;
-  // ignore: avoid-unassigned-late-fields, will be set using Mappr
   late String beta;
 
   @override
