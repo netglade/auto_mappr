@@ -15,9 +15,6 @@ import 'type_converters/module_alpha.dart';
     MapType<IncludesDto, Includes>(),
     // Post w/ reverse.
     MapType<PostDto, Post>(reverse: true),
-    MapType<DynamicDto, Int>(converters: [dynamicToIntConverter]),
-    MapType<Int, Dynamic>(converters: [intToDynamicConverter]),
-    MapType<DynamicDto, Dynamic>(),
   ],
   converters: [
     TypeConverter<String, Value<String>>(Mappr.stringToValueString),
@@ -239,32 +236,3 @@ class NullableOutput with EquatableMixin {
   List<Object?> get props => [xString];
   const NullableOutput(this.xString);
 }
-
-// Dynamic
-
-class Dynamic {
-  final dynamic value;
-
-  const Dynamic({this.value});
-}
-
-class DynamicDto {
-  final dynamic value;
-
-  const DynamicDto({this.value});
-}
-
-class Int {
-  final int value;
-
-  const Int({required this.value});
-}
-
-const dynamicToIntConverter = TypeConverter(dynamicToInt);
-const intToDynamicConverter = TypeConverter(intToDynamic);
-dynamic intToDynamic(int source) => source < 50 ? source : source.toString();
-int dynamicToInt(dynamic source) => switch (source) {
-  int() => source,
-  String() => int.parse(source),
-  _ => 0,
-};

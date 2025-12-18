@@ -2,6 +2,7 @@ import 'package:auto_mappr/src/builder/assignments/assignments.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/models.dart';
+import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 
 /// Decides how values are assigned.
@@ -119,6 +120,12 @@ class ValueAssignmentBuilder {
           // ignore: avoid-non-null-assertion, must not be empty
           .property(sourceField.name3!)
           .nullChecked;
+    }
+
+    if (assignment.sourceType!.isDynamic && !assignment.targetType.isDynamic) {
+      log.warning("Casting dynamic source field '$assignment' when mapping '$mapping'. Consider providing a type converter or a custom mapping to avoid runtime casts.");
+
+      return rightSide.asA(refer(assignment.targetType.getDisplayString()));
     }
 
     return rightSide;

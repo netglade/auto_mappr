@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'fixture/type_converters.dart' as fixture;
+import 'fixture/dynamic.dart' as fixture;
 
 void main() {
   late final fixture.Mappr mappr;
@@ -9,7 +9,7 @@ void main() {
     mappr = const fixture.Mappr();
   });
 
-  group('convert', () {
+  group('using converter', () {
     group('from dynamic to int', () {
       test('string to int', () {
         const source = fixture.DynamicDto(value: '5');
@@ -59,6 +59,42 @@ void main() {
 
       expect(converted, isA<fixture.Dynamic>());
       expect(converted.value, equals('test'));
+    });
+
+    test('from iterable dynamic', () {
+      const source = [fixture.DynamicDto(value: 5), fixture.DynamicDto(value: 1)];
+      final converted = mappr.convertIterable<fixture.DynamicDto, fixture.Int>(source);
+
+      expect(converted, isA<Iterable<fixture.Int>>());
+      expect(converted.length, equals(2));
+    });
+  });
+
+  group('without converter', () {
+    test('from dynamic to int', () {
+      const source = fixture.DynamicNoConverter(value: 5);
+      final converted = mappr.convert<fixture.DynamicNoConverter, fixture.IntNoConverter>(source);
+
+      expect(converted, isA<fixture.IntNoConverter>());
+      expect(converted.value, isA<int>());
+      expect(converted.value, equals(5));
+    });
+
+    test('from int to dynamic', () {
+      const source = fixture.IntNoConverter(value: 5);
+      final converted = mappr.convert<fixture.IntNoConverter, fixture.DynamicNoConverter>(source);
+
+      expect(converted, isA<fixture.DynamicNoConverter>());
+      expect(converted.value, isA<int>());
+      expect(converted.value, equals(5));
+    });
+
+    test('from iterable dynamic', () {
+      const source = [fixture.DynamicNoConverter(value: 5), fixture.DynamicNoConverter(value: 1)];
+      final converted = mappr.convertIterable<fixture.DynamicNoConverter, fixture.IntNoConverter>(source);
+
+      expect(converted, isA<Iterable<fixture.IntNoConverter>>());
+      expect(converted.length, equals(2));
     });
   });
 }
