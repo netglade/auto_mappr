@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_positional_boolean_parameters, avoid-dynamic, prefer-static-class
+// ignore_for_file: avoid_positional_boolean_parameters
 
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
