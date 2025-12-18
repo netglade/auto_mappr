@@ -26,8 +26,9 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     final fieldMapping = mapping.tryGetFieldMapping(assignment.targetName);
     // Source and target is the same.
 
-    if (source.isSame(target)) {
-      final shouldIgnoreNull = fieldMapping?.ignoreNull ??
+    if (source.isSame(target) || source.isDynamic || target.isDynamic) {
+      final shouldIgnoreNull =
+          fieldMapping?.ignoreNull ??
           mapping.ignoreFieldNull ??
           mapperConfig.mapprOptions.ignoreNullableSourceField ??
           false;
@@ -40,10 +41,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
       return sourceOnModel;
     }
 
-    final nestedMapping = mapperConfig.findMapping(
-      source: source,
-      target: target,
-    );
+    final nestedMapping = mapperConfig.findMapping(source: source, target: target);
 
     // Type converters.
     final typeConvertersBuilder = TypeConverterBuilder(
@@ -96,10 +94,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
       //         name: 'test',
       //       )
       //     : _map_NestedDto_To_Nested(model.name),
-      return sourceOnModel.equalTo(literalNull).conditional(
-            fieldMapping!.whenNullExpression!,
-            convertCallExpression,
-          );
+      return sourceOnModel.equalTo(literalNull).conditional(fieldMapping!.whenNullExpression!, convertCallExpression);
     }
 
     // Generates code like:
@@ -130,14 +125,8 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
     // Otherwise use non-nullable.
     final convertMethod = refer(
       useNullableMethod
-          ? MethodBuilderBase.constructNullableConvertMethodName(
-              source: source,
-              target: target,
-            )
-          : MethodBuilderBase.constructConvertMethodName(
-              source: source,
-              target: target,
-            ),
+          ? MethodBuilderBase.constructNullableConvertMethodName(source: source, target: target)
+          : MethodBuilderBase.constructConvertMethodName(source: source, target: target),
     );
 
     if (useNullableMethod) {
@@ -150,10 +139,7 @@ mixin NestedObjectMixin on AssignmentBuilderBase {
             [convertMethodArgument],
             {},
             includeGenericTypes
-                ? [
-                    EmitterHelper.current.typeRefer(type: source),
-                    EmitterHelper.current.typeRefer(type: target),
-                  ]
+                ? [EmitterHelper.current.typeRefer(type: source), EmitterHelper.current.typeRefer(type: target)]
                 : [],
           );
   }

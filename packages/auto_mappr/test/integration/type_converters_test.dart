@@ -34,11 +34,7 @@ void main() {
     expect(
       converted,
       equals(
-        const fixture.InList(
-          [fixture.Value<int>(789), fixture.Value<int>(5), fixture.Value<int>(1)],
-          fixture.Value('Dunno'),
-          false,
-        ),
+        const fixture.InList([fixture.Value(789), fixture.Value(5), fixture.Value(1)], fixture.Value('Dunno'), false),
       ),
     );
   });

@@ -11,11 +11,7 @@ class TypeConverter extends Equatable {
   @override
   List<Object?> get props => [source, target, converter];
 
-  const TypeConverter({
-    required this.source,
-    required this.target,
-    required this.converter,
-  });
+  const TypeConverter({required this.source, required this.target, required this.converter});
 
   @override
   String toString() {
@@ -25,18 +21,12 @@ class TypeConverter extends Equatable {
     return 'typeConverter $sourceX -> $targetX';
   }
 
-  bool canBeUsed({
-    required DartType mappingSource,
-    required DartType mappingTarget,
-  }) {
+  bool canBeUsed({required DartType mappingSource, required DartType mappingTarget}) {
     return _isConverterSubtype(source, mappingSource, _ConversionRole.source) &&
         _isConverterSubtype(target, mappingTarget, _ConversionRole.target);
   }
 
-  bool canBeUsedNullable({
-    required DartType mappingSource,
-    required DartType mappingTarget,
-  }) {
+  bool canBeUsedNullable({required DartType mappingSource, required DartType mappingTarget}) {
     // ignore: avoid-inverted-boolean-checks, this is better
     if (!(mappingSource.isNullable && mappingTarget.isNullable)) return false;
 
@@ -51,7 +41,13 @@ class TypeConverter extends Equatable {
   }
 
   bool _isConverterSubtype(DartType converterType, DartType fieldType, _ConversionRole role) {
-    // Same type.
+    // Both types are dynamic, allow.
+    if (converterType.isDynamic && fieldType.isDynamic) return true;
+
+    // One of the types is dynamic, deny.
+    if (converterType.isDynamic != fieldType.isDynamic) return false;
+
+    // Same type, allow.
     if (converterType == fieldType) return true;
 
     // A TypeConverter with a non-nullable source converterType cannot handle a nullable source field
@@ -73,7 +69,4 @@ class TypeConverter extends Equatable {
   }
 }
 
-enum _ConversionRole {
-  source,
-  target,
-}
+enum _ConversionRole { source, target }

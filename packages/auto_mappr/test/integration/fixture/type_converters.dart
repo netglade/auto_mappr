@@ -8,12 +8,8 @@ import 'type_converters/module_alpha.dart';
 
 @AutoMappr(
   [
-    MapType<PrimitivesDto, Primitives>(
-      converters: [TypeConverter<Object, String>(Mappr.objectToString)],
-    ),
-    MapType<NormalFieldDto, NormalField>(
-      converters: [TypeConverter<int, Value<int>>(Mappr.intToValueInt)],
-    ),
+    MapType<PrimitivesDto, Primitives>(converters: [TypeConverter<Object, String>(Mappr.objectToString)]),
+    MapType<NormalFieldDto, NormalField>(converters: [TypeConverter<int, Value<int>>(Mappr.intToValueInt)]),
     MapType<InListDto, InList>(),
     MapType<InMapDto, InMap>(),
     MapType<IncludesDto, Includes>(),
@@ -42,6 +38,7 @@ class Mappr extends $Mappr {
 
   static Value<Object> objectToValueObject2(Object source) {
     if (source is int) {
+      // ignore: avoid-inferrable-type-arguments, ok here
       return Value<int>(source);
     }
 
@@ -83,11 +80,7 @@ class NormalFieldDto {
   final String xString;
   final bool normalBool;
 
-  const NormalFieldDto({
-    required this.xInt,
-    required this.xString,
-    required this.normalBool,
-  });
+  const NormalFieldDto({required this.xInt, required this.xString, required this.normalBool});
 }
 
 class NormalField with EquatableMixin {
@@ -108,11 +101,7 @@ class InListDto {
   final String xString;
   final bool normalBool;
 
-  const InListDto({
-    required this.xInt,
-    required this.xString,
-    required this.normalBool,
-  });
+  const InListDto({required this.xInt, required this.xString, required this.normalBool});
 }
 
 class InList with EquatableMixin {

@@ -1,5 +1,9 @@
 [//]: # (## Unreleased)
 
+## 2.13.0
+- Added handling for classes with dynamic nested types.
+- Added warning when mapping dynamic types without defined type converter. [#252](https://github.com/netglade/auto_mappr/pull/252)
+
 ## 2.12.0
 - Removed (unused) dependency on `get_it` package.
 

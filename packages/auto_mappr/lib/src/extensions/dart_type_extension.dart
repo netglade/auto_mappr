@@ -22,6 +22,10 @@ extension DartTypeExtension on DartType {
     return !isNullable;
   }
 
+  bool get isDynamic {
+    return this is DynamicType;
+  }
+
   /// Is special variant of integer list.
   ///
   /// See `[Uint8List], [Uint16List], [Uint32List], [Uint64List]`.
