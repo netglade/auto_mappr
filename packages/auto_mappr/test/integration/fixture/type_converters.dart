@@ -37,9 +37,9 @@ class Mappr extends $Mappr {
   }
 
   static Value<Object> objectToValueObject2(Object source) {
-    // ignore: avoid-unnecessary-if, ok here
     if (source is int) {
-      return Value(source);
+      // ignore: avoid-inferrable-type-arguments, ok here
+      return Value<int>(source);
     }
 
     return Value(source);
