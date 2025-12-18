@@ -42,10 +42,10 @@ class TypeConverter extends Equatable {
 
   bool _isConverterSubtype(DartType converterType, DartType fieldType, _ConversionRole role) {
     // Both types are dynamic, allow.
-    if (converterType is DynamicType && fieldType is DynamicType) return true;
+    if (converterType.isDynamic && fieldType.isDynamic) return true;
 
     // One of the types is dynamic, deny.
-    if (converterType is DynamicType != fieldType is DynamicType) return false;
+    if (converterType.isDynamic != fieldType.isDynamic) return false;
 
     // Same type, allow.
     if (converterType == fieldType) return true;
