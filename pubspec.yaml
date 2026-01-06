@@ -13,10 +13,10 @@ workspace:
   - examples/json_serializable
 
 environment:
-  sdk: ^3.8.0
+  sdk: ^3.9.0
 
 dev_dependencies:
-  melos: ^7.0.0-dev.7
+  melos: ^7.3.0
 
 melos:
   scripts:

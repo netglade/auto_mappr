@@ -22,6 +22,7 @@ class PrivateModulesMethodBuilder extends MethodBuilderBase {
 
   @override
   Code buildBody() {
+    // ignore: avoid-default-tostring, should be ok
     return refer('const ${(config.modulesCode ?? literalList([])).accept(EmitterHelper.current.emitter)}').code;
   }
 }

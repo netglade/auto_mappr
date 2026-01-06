@@ -35,6 +35,7 @@ class EmitterHelper {
 
   /// `refer` that is emitted to String using [emitter].
   String referEmitted(String symbol, [String? url]) {
+    // ignore: avoid-default-tostring, should be ok
     return refer(symbol, url).accept(emitter).toString();
   }
 
@@ -48,6 +49,7 @@ class EmitterHelper {
       return '???';
     }
 
+    // ignore: avoid-default-tostring, should be ok
     return '${typeRefer(type: type, withNullabilitySuffix: withNullabilitySuffix).accept(emitter)}';
   }
 
@@ -56,14 +58,14 @@ class EmitterHelper {
   ///
   /// Inspired by injectable.
   cb.Reference typeRefer({required DartType type, bool withNullabilitySuffix = true}) {
-    final libraryPath = type.element3?.library2?.uri.toString();
+    final libraryPath = type.element?.library?.uri.toString();
     final importUrl = type.isPrimitiveType || type.isDartCoreObject
         ? _resolveAssetImport(libraryPath)
         : _relative(libraryPath, fileWithAnnotation);
 
     return cb.TypeReference((reference) {
       reference
-        ..symbol = type.element3?.name3
+        ..symbol = type.element?.name
         ..url = importUrl
         ..isNullable = withNullabilitySuffix && type.isNullable;
 

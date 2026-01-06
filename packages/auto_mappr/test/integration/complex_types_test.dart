@@ -10,13 +10,17 @@ void main() {
   });
 
   test('converting nested objects', () {
+    // arrange
     const dto = fixture.UserDto(
       id: 123,
       tag: fixture.NestedTagDto(),
       name: fixture.NestedDto(78, name: 'Test', tag: fixture.NestedTagDto()),
     );
+
+    // act
     final converted = mappr.convert<fixture.UserDto, fixture.User>(dto);
 
+    // assert
     expect(
       converted,
       equals(
@@ -30,13 +34,17 @@ void main() {
   });
 
   test("converting nested objects doesn't omit optional parameters", () {
+    // arrange
     const dto = fixture.UserDto(
       id: 123,
       tag: fixture.NestedTagDto(),
       name: fixture.NestedDto(78, name: 'Test', tag: fixture.NestedTagDto()),
     );
+
+    // act
     final converted = mappr.convert<fixture.UserDto, fixture.User>(dto);
 
+    // assert
     expect(
       converted,
       isNot(

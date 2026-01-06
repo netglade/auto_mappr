@@ -14,23 +14,35 @@ void main() {
   });
 
   test('primitives', () {
-    const dto = fixture.PrimitivesDto(alpha: 123456, beta: false);
+    // arrange
+    const dto = fixture.PrimitivesDto(alpha: 123_456, beta: false);
+
+    // act
     final converted = mappr.convert<fixture.PrimitivesDto, fixture.Primitives>(dto);
 
+    // assert
     expect(converted, equals(const fixture.Primitives('--- 123456 ---', '--- false ---')));
   });
 
   test('fields', () {
+    // arrange
     const dto = fixture.NormalFieldDto(xInt: 5, xString: 'Command', normalBool: true);
+
+    // act
     final converted = mappr.convert<fixture.NormalFieldDto, fixture.NormalField>(dto);
 
+    // assert
     expect(converted, equals(const fixture.NormalField(fixture.Value(5), fixture.Value('Command'), true)));
   });
 
   test('list', () {
+    // arrange
     const dto = fixture.InListDto(xInt: [789, 5, 1], xString: 'Dunno', normalBool: false);
+
+    // act
     final converted = mappr.convert<fixture.InListDto, fixture.InList>(dto);
 
+    // assert
     expect(
       converted,
       equals(
@@ -40,13 +52,17 @@ void main() {
   });
 
   test('map', () {
+    // arrange
     const dto = fixture.InMapDto(
       alpha: {'aaa': 123, 'bbb': 456},
       beta: {'ccc': 789, 'ddd': 741},
       gama: {'eee': 852, 'fff': 963},
     );
+
+    // act
     final converted = mappr.convert<fixture.InMapDto, fixture.InMap>(dto);
 
+    // assert
     expect(
       converted,
       equals(
@@ -60,31 +76,47 @@ void main() {
   });
 
   test('includes', () {
+    // arrange
     const dto = fixture.IncludesDto(alpha: 1);
+
+    // act
     final converted = mappr.convert<fixture.IncludesDto, fixture.Includes>(dto);
 
+    // assert
     expect(converted, equals(const fixture.Includes(true)));
   });
 
   test('includes 2', () {
+    // arrange
     const dto = fixture.IncludesDto(alpha: 2);
+
+    // act
     final converted = mappr.convert<fixture.IncludesDto, fixture.Includes>(dto);
 
+    // assert
     expect(converted, equals(const fixture.Includes(false)));
   });
 
   group('with reverse', () {
     test('Dto to entity', () {
+      // arrange
       const dto = fixture.PostDto(user: fixture.UserDto(id: 'alpha123'));
+
+      // act
       final converted = mappr.convert<fixture.PostDto, fixture.Post>(dto);
 
+      // assert
       expect(converted, equals(const fixture.Post(user: fixture.User(id: 'alpha123'))));
     });
 
     test('Entity to dto', () {
+      // arrange
       const dto = fixture.Post(user: fixture.User(id: 'beta123'));
+
+      // act
       final converted = mappr.convert<fixture.Post, fixture.PostDto>(dto);
 
+      // assert
       expect(converted, equals(const fixture.PostDto(user: fixture.UserDto(id: 'beta123'))));
     });
   });
@@ -97,23 +129,35 @@ void main() {
     });
 
     test('Object -> Object', () {
+      // arrange
       const input = fixture.RequiredInput('aaa');
+
+      // act
       final converted = mapprX.convert<fixture.RequiredInput, fixture.RequiredOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.RequiredOutput(fixture.Value('aaa'))));
     });
 
     test('Object -> Object?', () {
+      // arrange
       const input = fixture.RequiredInput('aaa');
+
+      // act
       final converted = mapprX.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object?, when source is not null', () {
+      // arrange
       const input = fixture.NullableInput('aaa');
+
+      // act
       final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
   });
@@ -126,16 +170,24 @@ void main() {
     });
 
     test('Object -> Object?', () {
+      // arrange
       const input = fixture.RequiredInput('aaa');
+
+      // act
       final converted = mapprX.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object?, when source is not null', () {
+      // arrange
       const input = fixture.NullableInput('aaa');
+
+      // act
       final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
   });
@@ -148,44 +200,68 @@ void main() {
     });
 
     test('Object -> Object', () {
+      // arrange
       const input = fixture.RequiredInput('aaa');
+
+      // act
       final converted = mapprX.convert<fixture.RequiredInput, fixture.RequiredOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.RequiredOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object', () {
+      // arrange
       const input = fixture.NullableInput('aaa');
+
+      // act
       final converted = mapprX.convert<fixture.NullableInput, fixture.RequiredOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.RequiredOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object (null input)', () {
+      // arrange
       const input = fixture.NullableInput(null);
+
+      // act
       final converted = mapprX.convert<fixture.NullableInput, fixture.RequiredOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.RequiredOutput(fixture.Value(''))));
     });
 
     test('Object -> Object?', () {
+      // arrange
       const input = fixture.RequiredInput('aaa');
+
+      // act
       final converted = mapprX.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object?', () {
+      // arrange
       const input = fixture.NullableInput('aaa');
+
+      // act
       final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object? (null input)', () {
+      // arrange
       const input = fixture.NullableInput(null);
+
+      // act
       final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.NullableOutput(fixture.Value(''))));
     });
   });
@@ -198,23 +274,35 @@ void main() {
     });
 
     test('Object -> Object?', () {
+      // arrange
       const input = fixture.RequiredInput('aaa');
+
+      // act
       final converted = mapprX.convert<fixture.RequiredInput, fixture.NullableOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object?', () {
+      // arrange
       const input = fixture.NullableInput('aaa');
+
+      // act
       final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.NullableOutput(fixture.Value('aaa'))));
     });
 
     test('Object? -> Object? (null input)', () {
+      // arrange
       const input = fixture.NullableInput(null);
+
+      // act
       final converted = mapprX.convert<fixture.NullableInput, fixture.NullableOutput>(input);
 
+      // assert
       expect(converted, equals(const fixture.NullableOutput(null)));
     });
   });

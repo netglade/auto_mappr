@@ -11,12 +11,16 @@ void main() {
 
   group('converting primitives', () {
     test('PrimitiveDto to Primitive', () {
+      // arrange
       const dto = fixture.PrimitiveDto(
         number: 111,
         string: 'Uzumaki Naruto',
       );
+
+      // act
       final converted = mappr.convert<fixture.PrimitiveDto, fixture.Primitive>(dto);
 
+      // assert
       expect(
         converted,
         equals(
@@ -26,9 +30,13 @@ void main() {
     });
 
     test('Primitive to PrimitiveDto', () {
+      // arrange
       const dto = fixture.Primitive(number: 111, string: 'Uzumaki Naruto');
+
+      // act
       final converted = mappr.convert<fixture.Primitive, fixture.PrimitiveDto>(dto);
 
+      // assert
       expect(
         converted,
         equals(
@@ -40,9 +48,13 @@ void main() {
 
   group('converting nested objects', () {
     test('AddressDto to Address', () {
+      // arrange
       const dto = fixture.AddressDto(street: 'Alpha', city: 'Beta');
+
+      // act
       final converted = mappr.convert<fixture.AddressDto, fixture.Address>(dto);
 
+      // assert
       expect(
         converted,
         equals(const fixture.Address(street: 'Alpha', city: 'Beta')),
@@ -50,9 +62,13 @@ void main() {
     });
 
     test('Address to AddressDto', () {
+      // arrange
       const dto = fixture.Address(street: 'Gama', city: 'Delta');
+
+      // act
       final converted = mappr.convert<fixture.Address, fixture.AddressDto>(dto);
 
+      // assert
       expect(
         converted,
         equals(const fixture.AddressDto(street: 'Gama', city: 'Delta')),
@@ -60,10 +76,17 @@ void main() {
     });
 
     test('UserDto to User', () {
-      const dto =
-          fixture.UserDto(1, name: 'Xxx 1', address: fixture.AddressDto(street: 'test street 1', city: 'test city 1'));
+      // arrange
+      const dto = fixture.UserDto(
+        1,
+        name: 'Xxx 1',
+        address: fixture.AddressDto(street: 'test street 1', city: 'test city 1'),
+      );
+
+      // act
       final converted = mappr.convert<fixture.UserDto, fixture.User>(dto);
 
+      // assert
       expect(
         converted,
         equals(
@@ -77,10 +100,17 @@ void main() {
     });
 
     test('User to UserDto', () {
-      const dto =
-          fixture.User(id: 2, name: 'Xxx 2', address: fixture.Address(street: 'test street 2', city: 'test city 2'));
+      // arrange
+      const dto = fixture.User(
+        id: 2,
+        name: 'Xxx 2',
+        address: fixture.Address(street: 'test street 2', city: 'test city 2'),
+      );
+
+      // act
       final converted = mappr.convert<fixture.User, fixture.UserDto>(dto);
 
+      // assert
       expect(
         converted,
         equals(
@@ -96,18 +126,24 @@ void main() {
 
   group('Reverse mapping with custom fields', () {
     test('AddressDto to SpecialAddress', () {
+      // arrange
       const dto = fixture.AddressDto(street: 'Street 14', city: 'Wakanda');
 
+      // act
       final converted = mappr.convert<fixture.AddressDto, fixture.SpecialAddress>(dto);
 
+      // assert
       expect(converted, equals(const fixture.SpecialAddress(specialStreet: 'Street 14', specialCity: 'Wakanda')));
     });
 
     test('SpecialAddress to AddressDto', () {
+      // arrange
       const dto = fixture.SpecialAddress(specialStreet: 'Street 14', specialCity: 'Wakanda');
 
+      // act
       final converted = mappr.convert<fixture.SpecialAddress, fixture.AddressDto>(dto);
 
+      // assert
       expect(converted, equals(const fixture.AddressDto(street: 'Street 14', city: 'Wakanda')));
     });
   });

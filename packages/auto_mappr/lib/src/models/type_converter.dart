@@ -1,12 +1,12 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:equatable/equatable.dart';
 
-class TypeConverter extends Equatable {
+class TypeConverter with EquatableMixin {
   final DartType source;
   final DartType target;
-  final ExecutableElement2 converter;
+  final ExecutableElement converter;
 
   @override
   List<Object?> get props => [source, target, converter];
@@ -32,11 +32,11 @@ class TypeConverter extends Equatable {
 
     return canBeUsed(
       // ignore: avoid-non-null-assertion, we expect this to be non-null
-      mappingSource: mappingSource.element3!.library2!.typeSystem.promoteToNonNull(mappingSource),
+      mappingSource: mappingSource.element!.library!.typeSystem.promoteToNonNull(mappingSource),
       mappingTarget: target.isNullable
           ? mappingTarget
           // ignore: avoid-non-null-assertion, we expect this to be non-null
-          : mappingTarget.element3!.library2!.typeSystem.promoteToNonNull(mappingTarget),
+          : mappingTarget.element!.library!.typeSystem.promoteToNonNull(mappingTarget),
     );
   }
 
@@ -60,11 +60,11 @@ class TypeConverter extends Equatable {
     //
     // When [converterType] is Object, it is always success.
     // ignore: avoid-non-null-assertion, we expect this to be non-null
-    final nonNullConverterType = converterType.element3!.library2!.typeSystem.promoteToNonNull(converterType);
+    final nonNullConverterType = converterType.element!.library!.typeSystem.promoteToNonNull(converterType);
     // ignore: avoid-non-null-assertion, we expect this to be non-null
-    final nonNullFieldType = fieldType.element3!.library2!.typeSystem.promoteToNonNull(fieldType);
+    final nonNullFieldType = fieldType.element!.library!.typeSystem.promoteToNonNull(fieldType);
 
-    return converterType.element3?.library2?.typeSystem.leastUpperBound(nonNullConverterType, nonNullFieldType) ==
+    return converterType.element?.library?.typeSystem.leastUpperBound(nonNullConverterType, nonNullFieldType) ==
         nonNullConverterType;
   }
 }

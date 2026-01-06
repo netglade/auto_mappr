@@ -8,7 +8,7 @@ class Mappr extends $Mappr {
   const Mappr();
 }
 
-class Target extends Equatable {
+class Target with EquatableMixin {
   final int value;
 
   bool get secondValue => false;
@@ -19,7 +19,7 @@ class Target extends Equatable {
   const Target(this.value);
 }
 
-class Source extends Equatable {
+class Source with EquatableMixin {
   final int value;
 
   bool get secondValue => true;

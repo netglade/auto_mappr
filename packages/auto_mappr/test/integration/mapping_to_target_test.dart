@@ -10,6 +10,7 @@ void main() {
   });
 
   test('Target fields are correctly assigned using constructor arguments or setters', () {
+    // arrange
     const dto = fixture.OneDto(
       usingConstructor1: 42,
       usingConstructor2: 'Heya',
@@ -17,8 +18,11 @@ void main() {
       withoutConstructor2: 9.42,
       withoutConstructor3: 666,
     );
+
+    // act
     final converted = mappr.convert<fixture.OneDto, fixture.One>(dto);
 
+    // assert
     expect(
       converted,
       equals(

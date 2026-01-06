@@ -16,7 +16,7 @@ class Mappr extends $Mappr {
 }
 
 // ignore: must_be_immutable, for testing
-class ValueHolder extends Equatable {
+class ValueHolder with EquatableMixin {
   final int value;
   String? secondValue;
 

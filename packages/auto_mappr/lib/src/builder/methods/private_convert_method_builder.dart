@@ -91,6 +91,7 @@ class PrivateConvertMethodBuilder extends MethodBuilderBase {
       refer('Exception').newInstance(
         [
           refer(
+            // ignore: avoid-default-tostring, should be ok
             "'No \${model.runtimeType} -> \$${targetTypeOfReference.accept(EmitterHelper.current.emitter)} mapping.'",
           ),
         ],

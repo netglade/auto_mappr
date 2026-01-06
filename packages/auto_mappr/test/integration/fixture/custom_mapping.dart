@@ -97,9 +97,9 @@ class Mappr extends $Mappr {
   static List<Object?> emptyToListValue(CustomFunctionFromEmptyDto? _) => [null, true, 3, 8.6];
 
   static List<List<Object?>> emptyToListListValue(CustomFunctionFromEmptyDto? _) => [
-        [null, 'xx'],
-        [true, 3, 8.6],
-      ];
+    [null, 'xx'],
+    [true, 3, 8.6],
+  ];
 
   static Set<int> emptyToSetValue(CustomFunctionFromEmptyDto? _) => {1, 2, 3, 4, 5};
 
@@ -114,7 +114,7 @@ class Mappr extends $Mappr {
 
 // custom type
 
-class CustomValue extends Equatable {
+class CustomValue with EquatableMixin {
   final int id;
   final int xxx;
 
@@ -126,7 +126,7 @@ class CustomValue extends Equatable {
   const CustomValue.named(this.id, {required this.xxx});
 }
 
-class CustomListValue extends Equatable {
+class CustomListValue with EquatableMixin {
   final List<Object> list;
 
   @override
@@ -135,7 +135,7 @@ class CustomListValue extends Equatable {
   const CustomListValue(this.list);
 }
 
-class CustomValueHolder extends Equatable {
+class CustomValueHolder with EquatableMixin {
   final CustomValue value;
 
   @override
@@ -144,7 +144,7 @@ class CustomValueHolder extends Equatable {
   const CustomValueHolder(this.value);
 }
 
-class CustomValueHolderNamed extends Equatable {
+class CustomValueHolderNamed with EquatableMixin {
   final CustomValue value;
 
   @override
@@ -155,7 +155,7 @@ class CustomValueHolderNamed extends Equatable {
 
 // empty
 
-class CustomValueFromEmpty extends Equatable {
+class CustomValueFromEmpty with EquatableMixin {
   final num numValue;
   final int intValue;
   final double doubleValue;
@@ -168,16 +168,16 @@ class CustomValueFromEmpty extends Equatable {
 
   @override
   List<Object?> get props => [
-        numValue,
-        intValue,
-        doubleValue,
-        stringValue,
-        boolValue,
-        listValue,
-        listListValue,
-        setValue,
-        mapValue,
-      ];
+    numValue,
+    intValue,
+    doubleValue,
+    stringValue,
+    boolValue,
+    listValue,
+    listListValue,
+    setValue,
+    mapValue,
+  ];
 
   const CustomValueFromEmpty(
     this.numValue,
@@ -196,7 +196,7 @@ class CustomValueFromEmptyDto {
   const CustomValueFromEmptyDto();
 }
 
-class CustomFunctionFromEmpty extends Equatable {
+class CustomFunctionFromEmpty with EquatableMixin {
   final num numValue;
   final int intValue;
   final double doubleValue;
@@ -210,17 +210,17 @@ class CustomFunctionFromEmpty extends Equatable {
 
   @override
   List<Object?> get props => [
-        numValue,
-        intValue,
-        doubleValue,
-        stringValue,
-        boolValue,
-        listValue,
-        listListValue,
-        setValue,
-        mapValue,
-        dateValue,
-      ];
+    numValue,
+    intValue,
+    doubleValue,
+    stringValue,
+    boolValue,
+    listValue,
+    listListValue,
+    setValue,
+    mapValue,
+    dateValue,
+  ];
 
   const CustomFunctionFromEmpty(
     this.numValue,
@@ -242,7 +242,7 @@ class CustomFunctionFromEmptyDto {
 
 // positional and named
 
-class CustomValuePositional extends Equatable {
+class CustomValuePositional with EquatableMixin {
   final String nameAndId;
 
   @override
@@ -258,7 +258,7 @@ class CustomValuePositionalDto {
   const CustomValuePositionalDto(this.id, this.name);
 }
 
-class CustomValueNamed extends Equatable {
+class CustomValueNamed with EquatableMixin {
   final String nameAndId;
 
   @override
@@ -274,7 +274,7 @@ class CustomValueNamedDto {
   const CustomValueNamedDto({required this.id, required this.name});
 }
 
-class CustomFunctionPositional extends Equatable {
+class CustomFunctionPositional with EquatableMixin {
   final String nameAndId;
 
   @override
@@ -290,7 +290,7 @@ class CustomFunctionPositionalDto {
   const CustomFunctionPositionalDto(this.id, this.name);
 }
 
-class CustomFunctionNamed extends Equatable {
+class CustomFunctionNamed with EquatableMixin {
   final String nameAndId;
 
   @override

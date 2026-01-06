@@ -38,7 +38,7 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
     // When [sourceIterableType] is nullable and [targetIterableType] is not, remove null values.
     final sourceIterableExpression =
         // ignore: avoid-non-null-assertion, ok for now
-        AssignmentBuilderBase.modelReference.property(assignment.sourceField!.name3!).maybeWhereIterableNotNull(
+        AssignmentBuilderBase.modelReference.property(assignment.sourceField!.name!).maybeWhereIterableNotNull(
               condition: shouldFilterNullInSource,
               isOnNullable: isSourceNullable,
             );
@@ -90,6 +90,7 @@ class IterableAssignmentBuilder extends AssignmentBuilderBase with NestedObjectM
       convertMethodArgument: refer('value'),
     );
 
+    // ignore: avoid-default-tostring, should be ok
     return refer('(value) => ${body.accept(EmitterHelper.current.emitter)}');
   }
 }

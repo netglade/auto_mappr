@@ -10,10 +10,13 @@ void main() {
   });
 
   test('Source with nullable fields are forced to non-null values', () {
+    // arrange
     const source = fixture.Source(id: 'a', name: 'name');
 
+    // act
     final target = mappr.convert<fixture.Source, fixture.Target>(source);
 
+    // assert
     expect(target.id, equals('a'));
     expect(target.name, equals('name'));
   });

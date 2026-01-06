@@ -10,9 +10,13 @@ void main() {
   });
 
   test('Equatable.props and only-setter fields are not mapped', () {
+    // arrange
     const dto = fixture.Source(123);
+
+    // act
     final converted = mappr.convert<fixture.Source, fixture.Target>(dto);
 
+    // assert
     expect(converted, equals(const fixture.Target(123)));
   });
 }
