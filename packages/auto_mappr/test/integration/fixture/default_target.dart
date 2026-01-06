@@ -58,7 +58,7 @@ class Mappr extends $Mappr {
 
 // Nested object
 
-class Nested extends Equatable {
+class Nested with EquatableMixin {
   final int id;
   final String name;
 
@@ -79,7 +79,7 @@ class NestedDto {
 
 // Complex
 
-class ComplexPositionalValue extends Equatable {
+class ComplexPositionalValue with EquatableMixin {
   final int age;
   final Nested name;
 
@@ -96,7 +96,7 @@ class ComplexPositionalValueDto {
   const ComplexPositionalValueDto(this.age, this.name);
 }
 
-class ComplexNamedValue extends Equatable {
+class ComplexNamedValue with EquatableMixin {
   final int age;
   final Nested name;
 
@@ -115,7 +115,7 @@ class ComplexNamedValueDto {
 
 // Primitive
 
-class PrimitivePositionalValue extends Equatable {
+class PrimitivePositionalValue with EquatableMixin {
   final int age;
   final String name;
 
@@ -132,7 +132,7 @@ class PrimitivePositionalValueDto {
   const PrimitivePositionalValueDto(this.age, this.name);
 }
 
-class PrimitiveNamedValue extends Equatable {
+class PrimitiveNamedValue with EquatableMixin {
   final int age;
   final String name;
 
@@ -153,7 +153,7 @@ class PrimitiveNamedValueDto {
 
 // Complex
 
-class ComplexPositionalFunction extends Equatable {
+class ComplexPositionalFunction with EquatableMixin {
   final int age;
   final Nested name;
 
@@ -170,7 +170,7 @@ class ComplexPositionalFunctionDto {
   const ComplexPositionalFunctionDto(this.age, this.name);
 }
 
-class ComplexNamedFunction extends Equatable {
+class ComplexNamedFunction with EquatableMixin {
   final int age;
   final Nested name;
 
@@ -189,7 +189,7 @@ class ComplexNamedFunctionDto {
 
 // Primitive
 
-class PrimitivePositionalFunction extends Equatable {
+class PrimitivePositionalFunction with EquatableMixin {
   final int age;
   final String name;
 
@@ -206,7 +206,7 @@ class PrimitivePositionalFunctionDto {
   const PrimitivePositionalFunctionDto(this.age, this.name);
 }
 
-class PrimitiveNamedFunction extends Equatable {
+class PrimitiveNamedFunction with EquatableMixin {
   final int age;
   final String name;
 

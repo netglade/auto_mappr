@@ -69,7 +69,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
         isSourceNullableValue && !isTargetNullableValue && (!(valueMapping?.hasWhenNullDefault() ?? false));
 
     // ignore: avoid-non-null-assertion, ok for now
-    final sourceMapExpression = AssignmentBuilderBase.modelReference.property(assignment.sourceField!.name3!);
+    final sourceMapExpression = AssignmentBuilderBase.modelReference.property(assignment.sourceField!.name!);
 
     final defaultMapValueExpression = literalMap(
       {},
@@ -159,6 +159,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
         : targetMapExpression;
 
     return refer(
+      // ignore: avoid-default-tostring, should be ok
       '(key, value) => MapEntry(${keyExpression.accept(EmitterHelper.current.emitter)}, ${valueExpression.accept(EmitterHelper.current.emitter)})',
     );
   }

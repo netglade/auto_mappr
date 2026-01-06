@@ -1,0 +1,31 @@
+{
+  "date": "2026-01-06 14:56:23.190514Z",
+  "version": "1.35.0",
+  "sensitivity": "exact",
+  "commands": {
+    "unused-code": {
+      "lib/freezed_example.dart": {
+        "unused-code-issue": [
+          "97f01b07354309ecb21604db5933d10f",
+          "282520067103357432d96e9fd14e3010",
+          "246519331b6de0432b66cf6bfd019f2b"
+        ]
+      }
+    },
+    "dependencies": {
+      "pubspec.yaml": {
+        "unused-dependency-issue": [
+          "86b44239b427d178ac7e66105a02bf5f",
+          "098f6bcd4621d373cade4e832627b4f6"
+        ]
+      }
+    },
+    "parameters": {
+      "lib/freezed_example.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      }
+    }
+  }
+}

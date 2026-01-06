@@ -9,7 +9,7 @@ class Mappr extends $Mappr {
 }
 
 // ignore: must_be_immutable, for testing
-class One extends Equatable {
+class One with EquatableMixin {
   final int usingConstructor1;
   final String usingConstructor2;
   bool withoutConstructor1 = false;
@@ -18,12 +18,12 @@ class One extends Equatable {
 
   @override
   List<Object?> get props => [
-        usingConstructor1,
-        usingConstructor2,
-        withoutConstructor1,
-        withoutConstructor2,
-        withoutConstructor3,
-      ];
+    usingConstructor1,
+    usingConstructor2,
+    withoutConstructor1,
+    withoutConstructor2,
+    withoutConstructor3,
+  ];
 
   One({required this.usingConstructor1, required this.usingConstructor2});
 }

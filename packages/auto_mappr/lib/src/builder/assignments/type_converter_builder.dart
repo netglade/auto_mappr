@@ -58,7 +58,7 @@ class TypeConverterBuilder extends AssignmentBuilderBase {
         return EmitterHelper.current
             .refer(
           converter.converter.referCallString,
-          converter.converter.library2.uri.toString(),
+          converter.converter.library.uri.toString(),
         )
             .call([methodArgument]).asA(targetRefer);
       }
@@ -69,7 +69,7 @@ class TypeConverterBuilder extends AssignmentBuilderBase {
             EmitterHelper.current
                 .refer(
               converter.converter.referCallString,
-              converter.converter.library2.uri.toString(),
+              converter.converter.library.uri.toString(),
             )
                 .call([methodArgument.nullChecked]).asA(targetRefer),
           );
@@ -82,7 +82,7 @@ class TypeConverterBuilder extends AssignmentBuilderBase {
     return EmitterHelper.current
         .refer(
           converter.converter.referCallString,
-          converter.converter.library2.uri.toString(),
+          converter.converter.library.uri.toString(),
         )
         .asA(refer('$targetEmitted Function($sourceEmitted)'));
   }

@@ -13,9 +13,13 @@ void main() {
     test(
       'Renamed fields with the same name when using positional parameters',
       () {
+        // arrange
         const dto = fixture.SamePositionalDto(123, 'test');
+
+        // act
         final converted = mappr.convert<fixture.SamePositionalDto, fixture.SamePositional>(dto);
 
+        // assert
         expect(converted, equals(const fixture.SamePositional(123, 'test')));
       },
     );
@@ -23,9 +27,13 @@ void main() {
     test(
       'Renamed fields with the same name when using named parameters',
       () {
+        // arrange
         const dto = fixture.SameNamedDto(id: 123, name: 'test');
+
+        // act
         final converted = mappr.convert<fixture.SameNamedDto, fixture.SameNamed>(dto);
 
+        // assert
         expect(converted, equals(const fixture.SameNamed(id: 123, name: 'test')));
       },
     );
@@ -33,25 +41,37 @@ void main() {
 
   group('primitive', () {
     test('Renamed when using positional parameters', () {
+      // arrange
       const dto = fixture.PrimitivePositionalDto(456);
+
+      // act
       final converted = mappr.convert<fixture.PrimitivePositionalDto, fixture.PrimitivePositional>(dto);
 
+      // assert
       expect(converted, equals(const fixture.PrimitivePositional(456)));
     });
 
     test('Renamed when using named parameters', () {
+      // arrange
       const dto = fixture.PrimitiveNamedDto(idx: 456);
+
+      // act
       final converted = mappr.convert<fixture.PrimitiveNamedDto, fixture.PrimitiveNamed>(dto);
 
+      // assert
       expect(converted, equals(const fixture.PrimitiveNamed(id: 456)));
     });
   });
 
   group('primitive reversed', () {
     test('Renamed when using positional parameters', () {
+      // arrange
       const dto = fixture.PrimitivePositionalReversedDto('test123', 789);
+
+      // act
       final converted = mappr.convert<fixture.PrimitivePositionalReversedDto, fixture.PrimitivePositionalReversed>(dto);
 
+      // assert
       expect(
         converted,
         equals(const fixture.PrimitivePositionalReversed(789, 'test123')),
@@ -59,9 +79,13 @@ void main() {
     });
 
     test('Renamed when using named parameters', () {
+      // arrange
       const dto = fixture.PrimitiveNamedReversedDto(alpha: 'test741', beta: 258);
+
+      // act
       final converted = mappr.convert<fixture.PrimitiveNamedReversedDto, fixture.PrimitiveNamedReversed>(dto);
 
+      // assert
       expect(
         converted,
         equals(const fixture.PrimitiveNamedReversed(alpha: 258, beta: 'test741')),
@@ -71,9 +95,13 @@ void main() {
 
   group('complex', () {
     test('Renamed when using positional parameters', () {
+      // arrange
       const dto = fixture.ComplexPositionalDto(fixture.NestedDto(13, namex: 'testtest3'));
+
+      // act
       final converted = mappr.convert<fixture.ComplexPositionalDto, fixture.ComplexPositional>(dto);
 
+      // assert
       expect(
         converted,
         equals(const fixture.ComplexPositional(fixture.Nested(id: 13, name: 'testtest3'))),
@@ -81,21 +109,29 @@ void main() {
     });
 
     test('Renamed when using named parameters', () {
-      const dto = fixture.ComplexNamedDto(datax: fixture.NestedDto(789123, namex: 'xyz'));
+      // arrange
+      const dto = fixture.ComplexNamedDto(datax: fixture.NestedDto(789_123, namex: 'xyz'));
+
+      // act
       final converted = mappr.convert<fixture.ComplexNamedDto, fixture.ComplexNamed>(dto);
 
+      // assert
       expect(
         converted,
-        equals(const fixture.ComplexNamed(data: fixture.Nested(id: 789123, name: 'xyz'))),
+        equals(const fixture.ComplexNamed(data: fixture.Nested(id: 789_123, name: 'xyz'))),
       );
     });
   });
 
   group('complex reversed', () {
     test('Renamed when using positional parameters', () {
+      // arrange
       const dto = fixture.ComplexPositionalReversedDto(fixture.NestedReversedDto('testtest3', namex: 13), 951);
+
+      // act
       final converted = mappr.convert<fixture.ComplexPositionalReversedDto, fixture.ComplexPositionalReversed>(dto);
 
+      // assert
       expect(
         converted,
         equals(const fixture.ComplexPositionalReversed(951, fixture.NestedReversed(id: 13, name: 'testtest3'))),
@@ -103,9 +139,13 @@ void main() {
     });
 
     test('Renamed when using named parameters', () {
+      // arrange
       const dto = fixture.ComplexNamedReversedDto(first: fixture.NestedReversedDto('hello', namex: 666), second: 18);
+
+      // act
       final converted = mappr.convert<fixture.ComplexNamedReversedDto, fixture.ComplexNamedReversed>(dto);
 
+      // assert
       expect(
         converted,
         equals(const fixture.ComplexNamedReversed(first: 18, second: fixture.NestedReversed(id: 666, name: 'hello'))),
@@ -115,25 +155,37 @@ void main() {
 
   group('custom', () {
     test('Renamed when using positional parameters', () {
+      // arrange
       const dto = fixture.CustomPositionalDto(1, 'computer');
+
+      // act
       final converted = mappr.convert<fixture.CustomPositionalDto, fixture.CustomPositional>(dto);
 
+      // assert
       expect(converted, equals(const fixture.CustomPositional('computer #1')));
     });
 
     test('Renamed when using named parameters', () {
+      // arrange
       const dto = fixture.CustomNamedDto(id: 11, name: 'monitor');
+
+      // act
       final converted = mappr.convert<fixture.CustomNamedDto, fixture.CustomNamed>(dto);
 
+      // assert
       expect(converted, equals(const fixture.CustomNamed(nameAndId: 'monitor #11')));
     });
   });
 
   group('with no constructor and with late fields', () {
     test('Renamed when using positional parameters', () {
+      // arrange
       const dto = fixture.NoConstructorWithLateDto(value: 42, secondValue: 'colosseum');
+
+      // act
       final converted = mappr.convert<fixture.NoConstructorWithLateDto, fixture.NoConstructorWithLate>(dto);
 
+      // assert
       expect(
         converted,
         equals(

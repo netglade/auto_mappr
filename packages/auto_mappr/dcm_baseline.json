@@ -1,120 +1,681 @@
 {
-  "date": "2025-01-21 09:08:40.977713Z",
-  "version": "1.26.2",
-  "paths": {
-    "lib/src/models/type_converter.dart": {
-      "avoid-non-null-assertion": [
-        "49d6910256d6a9925f1f305647170175",
-        "3e2fb62702f0d6d976c0ef4838e256f3",
-        "37d7521d3b9436994de3d46bfec19156",
-        "37d560854197d3d451fa40ebda978adf",
-        "6002ec186df142e2eeabc594fb05b0cd",
-        "32d05f2391dfd5a054110f0cf5b00edb",
-        "2bde3d2541dbd52f427522d8859dddbc",
-        "4901e165d9d77551c2b961387d8f709b"
-      ]
+  "date": "2026-01-06 14:56:23.189162Z",
+  "version": "1.35.0",
+  "sensitivity": "exact",
+  "commands": {
+    "analyze": {
+      "lib/src/builder/assignments/iterable_assignment_builder.dart": {
+        "avoid-non-null-assertion": [
+          "0bd202edba38880d347468eaa934da83",
+          "0bd202edba38880d347468eaa934da83"
+        ]
+      },
+      "lib/src/builder/assignments/map_assignment_builder.dart": {
+        "avoid-non-null-assertion": [
+          "0bd202edba38880d347468eaa934da83",
+          "0bd202edba38880d347468eaa934da83",
+          "0bd202edba38880d347468eaa934da83"
+        ]
+      },
+      "lib/src/builder/assignments/nested_object_mixin.dart": {
+        "avoid-non-null-assertion": [
+          "3cb7b9402c27519c759bb527c0bf7693",
+          "02b8861952b1d31c7e3fc701a1196ef3",
+          "1e8062cd91c977990ce8a7e9808b7a30"
+        ],
+        "avoid-nullable-interpolation": [
+          "48d7effa328cb38d0a736b2496a897b0",
+          "20d7c588ba9f39a442116c71149ea3b8"
+        ]
+      },
+      "lib/src/builder/assignments/record_assignment_builder.dart": {
+        "avoid-non-null-assertion": [
+          "0bd202edba38880d347468eaa934da83"
+        ]
+      },
+      "lib/src/builder/map_bodies/class_body_builder.dart": {
+        "avoid-non-null-assertion": [
+          "374cdacb7c32728a88ad32f9ec5821ff",
+          "dfda47d1f6044e6fcb565ff03e9721e3",
+          "927919a5768cf07ec40df0aca3c14e73"
+        ]
+      },
+      "lib/src/builder/map_bodies/enum_body_builder.dart": {
+        "avoid-non-null-assertion": [
+          "a8022779055b7c4c7bf23042d14e613a"
+        ]
+      },
+      "lib/src/builder/map_model_body_method_builder.dart": {
+        "avoid-non-null-assertion": [
+          "a8022779055b7c4c7bf23042d14e613a",
+          "a8022779055b7c4c7bf23042d14e613a"
+        ]
+      },
+      "lib/src/builder/methods/private_convert_method_builder.dart": {
+        "avoid-non-null-assertion": [
+          "a8022779055b7c4c7bf23042d14e613a"
+        ]
+      },
+      "lib/src/builder/value_assignment_builder.dart": {
+        "avoid-non-null-assertion": [
+          "0bd202edba38880d347468eaa934da83",
+          "0bd202edba38880d347468eaa934da83",
+          "02b8861952b1d31c7e3fc701a1196ef3",
+          "1e8062cd91c977990ce8a7e9808b7a30",
+          "0bd202edba38880d347468eaa934da83",
+          "0bd202edba38880d347468eaa934da83"
+        ]
+      },
+      "lib/src/extensions/dart_object_extension.dart": {
+        "avoid-non-null-assertion": [
+          "0839d20a589c74eb461adbed71774c0c",
+          "18cabcff3de662dfb212c548a5a39c24"
+        ],
+        "avoid-nullable-interpolation": [
+          "cf7dba3d85f84df468ec72f8b3744601"
+        ]
+      },
+      "lib/src/generator/auto_mappr_generator.dart": {
+        "avoid-non-null-assertion": [
+          "7a50c2efb20fe138dc37e6550e009160",
+          "b877c976f457e163c51a7c84f5777069",
+          "695248e6e85f1fecba6bf6c344ea8187",
+          "9825f25ed373f63c6d3efc8caffaaef1",
+          "25851cd74f03edbac9719dacc76c4bcc",
+          "acd1213c9abd408fac46b00b6631d6a2",
+          "43019f988cd8e5f2b155f1375dc99da2",
+          "05fe4fffcb9159fd5c0dd62f0e6fb7c5",
+          "bc359bcc3ec98cd8aada89ff9b0046e9",
+          "f3c3ceea53e478439edd662d2793cf00"
+        ]
+      },
+      "lib/src/models/field_mapping.dart": {
+        "avoid-non-null-assertion": [
+          "4e22d2815561f01ac60242562eb3d477"
+        ]
+      },
+      "lib/src/models/source_assignment.dart": {
+        "avoid-non-null-assertion": [
+          "8f0912f968e86ab46d0dd647c5d322e9",
+          "8f0912f968e86ab46d0dd647c5d322e9",
+          "412aa7c321ce0580e16e5586de44ae45",
+          "412aa7c321ce0580e16e5586de44ae45"
+        ],
+        "avoid-nullable-interpolation": [
+          "165ee04eb4d55330435a841f09c3c6b1"
+        ]
+      }
     },
-    "lib/src/models/field_mapping.dart": {
-      "avoid-non-null-assertion": ["4e22d2815561f01ac60242562eb3d477"]
+    "unused-code": {
+      "lib/auto_mappr.dart": {
+        "unused-code-issue": [
+          "2b39c10a8786a62c6906865b6ac1be6b"
+        ]
+      },
+      "test/integration/fixture/complex_types.dart": {
+        "unused-code-issue": [
+          "13ab7c58774283d76eb03c40fb3cfb35"
+        ]
+      },
+      "test/integration/fixture/custom_mapping.dart": {
+        "unused-code-issue": [
+          "58409aa9dc1107e6ea8989a7719c254b",
+          "fd95321f1ed8a76e53ca4a25c53f0642",
+          "58409aa9dc1107e6ea8989a7719c254b",
+          "fd95321f1ed8a76e53ca4a25c53f0642"
+        ]
+      },
+      "test/integration/fixture/enum_mapping.dart": {
+        "unused-code-issue": [
+          "743865a08e9e79b4cd369b9fddf80d5d",
+          "7c08d05a7a902c26cdc04a1b06da0ea9",
+          "d4a4c7f00525c819bafd5f38a6fc532f",
+          "743865a08e9e79b4cd369b9fddf80d5d",
+          "bf4902fa293c548c75c3f349f925080d",
+          "47cbe271bd677c2294f4a360a3ef937f",
+          "5937c9fcdbff49cb7bd796bd9a4c4696",
+          "7ca02d1a33fef64b6209be35034ac6dc",
+          "a2717bc2d3e3042c4b69405ed433ec02",
+          "5937c9fcdbff49cb7bd796bd9a4c4696",
+          "7ca02d1a33fef64b6209be35034ac6dc",
+          "11de3ca1628402b0e7464aa45304ca10",
+          "a2717bc2d3e3042c4b69405ed433ec02",
+          "ace32dfa6549549d333004ca77bd08ff",
+          "5937c9fcdbff49cb7bd796bd9a4c4696"
+        ]
+      },
+      "test/integration/fixture/forced_null_source_field.dart": {
+        "unused-code-issue": [
+          "d5767ddc47cb958684a56971580db872",
+          "b56f478686aefb89ea393384698e295f",
+          "fd95321f1ed8a76e53ca4a25c53f0642",
+          "3e62de47dd8041efb868cb25d7de6c9b",
+          "ce5dc1892058a7071a3f7eac9efaae33",
+          "fd95321f1ed8a76e53ca4a25c53f0642",
+          "da6632be9a892490d48e8c1278387402",
+          "b56f478686aefb89ea393384698e295f",
+          "fd95321f1ed8a76e53ca4a25c53f0642",
+          "c1dd2c34bd6f7ea65755704947d001e3",
+          "ce5dc1892058a7071a3f7eac9efaae33",
+          "fd95321f1ed8a76e53ca4a25c53f0642",
+          "c7be52f8c8bc2e4f9395ebbb8fe1a0bf",
+          "b56f478686aefb89ea393384698e295f",
+          "fd95321f1ed8a76e53ca4a25c53f0642",
+          "d7c29b2d5f61cf734681b2f1a5d85d55"
+        ]
+      },
+      "test/integration/fixture/import_alias/import_alias_1.dart": {
+        "unused-code-issue": [
+          "292327a648e08fbeb7a7e46e2dabe1ff",
+          "b69ae67b5d49059de7294b6eba3a2f5c"
+        ]
+      },
+      "test/integration/fixture/import_alias/import_alias_module.dart": {
+        "unused-code-issue": [
+          "d364ada00e0d0c864396bf8aac78540d"
+        ]
+      },
+      "test/integration/fixture/selecting_constructor.dart": {
+        "unused-code-issue": [
+          "f366bc35d516e3e15767624c0dfcbe34",
+          "5716a0d4dc8cb9dd0c570c4b64150277",
+          "12baeece9a957c2eaac7e829e1bef8f9",
+          "06bc31aace94f737f9eb4500381bf134",
+          "ca30b5afddeea43c307ecc639106d832",
+          "30c0064eb9f2163343d2f29783e74504"
+        ]
+      },
+      "test/integration/fixture/type_converters.dart": {
+        "unused-code-issue": [
+          "86aa2f7cea7d055854c20ccddb53340d"
+        ]
+      }
     },
-    "lib/src/models/source_assignment.dart": {
-      "avoid-non-null-assertion": [
-        "8f0912f968e86ab46d0dd647c5d322e9",
-        "8f0912f968e86ab46d0dd647c5d322e9",
-        "412aa7c321ce0580e16e5586de44ae45",
-        "412aa7c321ce0580e16e5586de44ae45"
-      ],
-      "avoid-nullable-interpolation": ["165ee04eb4d55330435a841f09c3c6b1"]
+    "dependencies": {
+      "pubspec.yaml": {
+        "unused-dependency-issue": [
+          "6541e4fa35254c527906c4e393a3b42c",
+          "e21256e8b5ac263f83b2a3331b64aba2"
+        ]
+      }
     },
-    "lib/src/extensions/dart_object_extension.dart": {
-      "avoid-non-null-assertion": [
-        "0839d20a589c74eb461adbed71774c0c",
-        "18cabcff3de662dfb212c548a5a39c24"
-      ],
-      "avoid-nullable-interpolation": ["cf7dba3d85f84df468ec72f8b3744601"]
+    "unused-files": {
+      "lib/auto_mappr.dart": {
+        "unused-file-issue": [
+          "e42b99b884115666146c153e24a6a839"
+        ]
+      }
     },
-    "lib/src/generator/auto_mappr_generator.dart": {
-      "avoid-non-null-assertion": [
-        "7a50c2efb20fe138dc37e6550e009160",
-        "b877c976f457e163c51a7c84f5777069",
-        "695248e6e85f1fecba6bf6c344ea8187",
-        "9825f25ed373f63c6d3efc8caffaaef1",
-        "25851cd74f03edbac9719dacc76c4bcc",
-        "acd1213c9abd408fac46b00b6631d6a2",
-        "43019f988cd8e5f2b155f1375dc99da2",
-        "05fe4fffcb9159fd5c0dd62f0e6fb7c5",
-        "bc359bcc3ec98cd8aada89ff9b0046e9",
-        "f3c3ceea53e478439edd662d2793cf00",
-        "ac37c4c51b2a4b1187b271e1f71cde2e",
-        "48e33839a8de547d03f16d3b4f023b1e"
-      ]
+    "code-duplications": {
+      "test/integration/delegates_test.dart": {
+        "duplication-issue": [
+          "23eea8e4cc8a28e07446503b1484cb7d",
+          "b5c3b1c015d978d4ae542b20db0dc6ec",
+          "f91fb4bd41fb87007abda8fb6959c303",
+          "991460be03aaf72c049877106f3172f5",
+          "024c9ea72dec23db4473a646b99cbb26",
+          "475a80cf24629c9e84d0ba6a37444039",
+          "20d97fc8b767e309ea282f23a3ba1f6e",
+          "229422471f971ea23809b2f933a04437",
+          "a6f84b4225cf8ca39fc99eec3e057d93",
+          "991c27568188ba688bd57438cc88bc99",
+          "50281d8d8398a3af49b6bfdffea428bc",
+          "08b12a3b903a8127357bb7f57b28a120",
+          "ca3309e5888c76197ed9b887b3f82613",
+          "e66f11381158932511a5f0f4131fd750",
+          "06e01cdaccddb84ed43d57d488fdaab3",
+          "daaaeec7cbff6ae859f9c5a1be64ed0b",
+          "9c0a1e803c723c4200c7f559ea4fda18",
+          "2bbf68eaa94efb513755abff98af5336",
+          "bb60843c7e59ac53a48ed878fd6ebc4d",
+          "1e3aafff88e6789bef62081ff125bbcc",
+          "afcab7e7dd1da3806592b6687de43316",
+          "7d6f2e9874e51e044459cdbd3f1be8b9",
+          "70601c050012195c76bad2dc42335b6c",
+          "629389fc80d73d71e7ebb628692a5ee1",
+          "8774310e0b6a6558f76395e1587ab6dc",
+          "e447718f5093b1c6a403ad1fe7f6d059",
+          "719c057fe09209bd26237eae51044ca2",
+          "94915a5f646be720006bd499a88546bd",
+          "792fc1893b89b29e41ec871fb94b7dc7",
+          "0819acc29ffd90bb4304be973962878e",
+          "521e26e408ba3b627355bf15d6d0e231",
+          "f27720934b8724411dd62ac17e55a67a",
+          "51056101f2fbfd7a0450749227c9aff3",
+          "e209ace299a9a04a6514cf5b9b26d7bc",
+          "8ae309b97dd9a47c62c6951feec76b7d",
+          "4e992b1ae60c32a0c279367c549d43ca"
+        ]
+      },
+      "test/integration/dynamic_test.dart": {
+        "duplication-issue": [
+          "886efabe0b9d373d33b41106a710584a"
+        ]
+      },
+      "test/integration/fixture/constructor_rename.auto_mappr.dart": {
+        "duplication-issue": [
+          "f77da8bc750d7be11571e7d5845655a4",
+          "a31ac612c93265b757c0f22652b07e83"
+        ]
+      },
+      "test/integration/fixture/default_field.auto_mappr.dart": {
+        "duplication-issue": [
+          "87c6dca2fb45065af43ee55e9fb899bc"
+        ]
+      },
+      "test/integration/fixture/delegates/module_alpha.auto_mappr.dart": {
+        "duplication-issue": [
+          "d36b195c8870fb5798e01edaea59d8d2"
+        ]
+      },
+      "test/integration/fixture/delegates/module_beta.auto_mappr.dart": {
+        "duplication-issue": [
+          "0157334861e53c14ba64318f4ffae553"
+        ]
+      },
+      "test/integration/fixture/delegates/module_gama.auto_mappr.dart": {
+        "duplication-issue": [
+          "58e2da68ffda96f4e88c40d17ab861cb",
+          "ae585d2b1ed6582a7d332f8384737996",
+          "d78fc8379b5f9445c44eb443023b2adb",
+          "1a31db205173a0dcdd39c6057b26e668"
+        ]
+      },
+      "test/integration/fixture/import_alias.auto_mappr.dart": {
+        "duplication-issue": [
+          "4eca5088bc25e31f320ebe16a89b70ce"
+        ]
+      },
+      "test/integration/fixture/iterable.auto_mappr.dart": {
+        "duplication-issue": [
+          "2ba1551d94d0c111e762d7b18f5f05e2",
+          "5b1c10222f2b64fa6ba6ea2eabeef0fb"
+        ]
+      },
+      "test/integration/fixture/type_converters/nullabe_to_nullable.auto_mappr.dart": {
+        "duplication-issue": [
+          "79f947432014536c3bee516759d0fdb1",
+          "6c0cb8d549aee446ddebd193afa23abc"
+        ]
+      },
+      "test/integration/import_alias_test.dart": {
+        "duplication-issue": [
+          "60d36514e42e9f145247f98acd22a227"
+        ]
+      },
+      "test/integration/type_converters_test.dart": {
+        "duplication-issue": [
+          "ee51fda7fa093ce92c8746bcbae7eac2",
+          "099fe1124cf8a05fbaf3a11490ee8950",
+          "5d0964a06cdf3291fa6a28166e0ca89a"
+        ]
+      }
     },
-    "lib/src/builder/methods/private_convert_method_builder.dart": {
-      "avoid-non-null-assertion": ["a8022779055b7c4c7bf23042d14e613a"]
-    },
-    "lib/src/builder/assignments/record_assignment_builder.dart": {
-      "avoid-non-null-assertion": [
-        "0bd202edba38880d347468eaa934da83",
-        "3cb7b9402c27519c759bb527c0bf7693",
-        "3cb7b9402c27519c759bb527c0bf7693"
-      ]
-    },
-    "lib/src/builder/assignments/map_assignment_builder.dart": {
-      "avoid-non-null-assertion": [
-        "0bd202edba38880d347468eaa934da83",
-        "3cb7b9402c27519c759bb527c0bf7693",
-        "0bd202edba38880d347468eaa934da83",
-        "0bd202edba38880d347468eaa934da83"
-      ]
-    },
-    "lib/src/builder/assignments/iterable_assignment_builder.dart": {
-      "avoid-non-null-assertion": [
-        "0bd202edba38880d347468eaa934da83",
-        "3cb7b9402c27519c759bb527c0bf7693",
-        "0bd202edba38880d347468eaa934da83"
-      ]
-    },
-    "lib/src/builder/assignments/nested_object_mixin.dart": {
-      "avoid-non-null-assertion": [
-        "3cb7b9402c27519c759bb527c0bf7693",
-        "02b8861952b1d31c7e3fc701a1196ef3",
-        "1e8062cd91c977990ce8a7e9808b7a30"
-      ],
-      "avoid-nullable-interpolation": [
-        "48d7effa328cb38d0a736b2496a897b0",
-        "20d7c588ba9f39a442116c71149ea3b8"
-      ]
-    },
-    "lib/src/builder/map_model_body_method_builder.dart": {
-      "avoid-non-null-assertion": [
-        "a8022779055b7c4c7bf23042d14e613a",
-        "a8022779055b7c4c7bf23042d14e613a"
-      ]
-    },
-    "lib/src/builder/value_assignment_builder.dart": {
-      "avoid-non-null-assertion": [
-        "da5b0598f70c2b82fb9db2510920be2c",
-        "0bd202edba38880d347468eaa934da83",
-        "0bd202edba38880d347468eaa934da83",
-        "02b8861952b1d31c7e3fc701a1196ef3",
-        "1e8062cd91c977990ce8a7e9808b7a30",
-        "0bd202edba38880d347468eaa934da83"
-      ],
-      "avoid-nullable-interpolation": [
-        "019cf3c46b0e37f0339187e7f06d9984",
-        "019cf3c46b0e37f0339187e7f06d9984"
-      ]
-    },
-    "lib/src/builder/map_bodies/class_body_builder.dart": {
-      "avoid-non-null-assertion": [
-        "374cdacb7c32728a88ad32f9ec5821ff",
-        "dfda47d1f6044e6fcb565ff03e9721e3",
-        "927919a5768cf07ec40df0aca3c14e73",
-        "24f4441455b612dc6d0d29bf53d82f03"
-      ]
-    },
-    "lib/src/builder/map_bodies/enum_body_builder.dart": {
-      "avoid-non-null-assertion": ["a8022779055b7c4c7bf23042d14e613a"]
+    "parameters": {
+      "lib/src/builder/assignments/nested_object_assignment_builder.dart": {
+        "unnecessary-nullable-parameter-issue": [
+          "dcc66e4fd62e154bf969238b94896a33"
+        ],
+        "never-passed-parameter-issue": [
+          "81aace51e1c80aa327811f5fa5251f4d"
+        ],
+        "unnecessary-optional-parameter-issue": [
+          "dcc66e4fd62e154bf969238b94896a33"
+        ]
+      },
+      "lib/src/builder/assignments/nested_object_mixin.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "ba3429a4ebabfe6fee429235cc9cb1ce",
+          "ba3429a4ebabfe6fee429235cc9cb1ce",
+          "f9b67c7092ac658ae6bf81af896043c8"
+        ]
+      },
+      "lib/src/builder/map_bodies/class_body_builder.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "0f2345f907bdd50cf7c10d3a5bd84199"
+        ]
+      },
+      "lib/src/builder/map_model_body_method_builder.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "7bdb9d0efd2c3c167dee175be7324825",
+          "eee526e05b552fbeb67cddee59fd270e"
+        ]
+      },
+      "lib/src/extensions/expression_extension.dart": {
+        "never-passed-parameter-issue": [
+          "192fc297919a666a0a9d31f6328e703d",
+          "4832bf0cd2e29cbf68a344775161bfcc",
+          "c713a24271bdde5c871866aa223d4499",
+          "c713a24271bdde5c871866aa223d4499"
+        ],
+        "unnecessary-optional-parameter-issue": [
+          "e8be24f079326a0ff52bbca9d51d979c",
+          "0e62ddfa5c7b99e14e02609952975ef7",
+          "aed125269cbc66ea0b99c2cd1a2e00d7",
+          "0f747bfa28e24f11f4448297076b0874"
+        ],
+        "unnecessary-nullable-parameter-issue": [
+          "0f747bfa28e24f11f4448297076b0874"
+        ]
+      },
+      "lib/src/helpers/emitter_helper.dart": {
+        "unnecessary-nullable-parameter-issue": [
+          "7ae0d35e4ae4273c5a77cbc596602d68"
+        ],
+        "unnecessary-optional-parameter-issue": [
+          "7ae0d35e4ae4273c5a77cbc596602d68"
+        ],
+        "never-passed-parameter-issue": [
+          "f5a55a5920349782a9a8c9469573d3ee"
+        ]
+      },
+      "lib/src/models/auto_mappr_config.dart": {
+        "never-passed-parameter-issue": [
+          "0d62528abd416e56dce72ce3161aad36"
+        ],
+        "unnecessary-nullable-parameter-issue": [
+          "3ec62f4d1c77baad5f34328469f7df5a",
+          "748891118a5265910751f6010b161a0c"
+        ]
+      },
+      "lib/src/models/auto_mappr_options.dart": {
+        "unnecessary-nullable-parameter-issue": [
+          "572e8dda6653915f9a09ba35c19359fc",
+          "2aff8188765125991e085b03f2461371"
+        ]
+      },
+      "lib/src/models/field_mapping.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "fa5b86c615e094114559d4b7685e0a7f",
+          "fbf8633f7e392942591b32210fed6edc",
+          "9b1eabf097d6cfc987614b403b196b76"
+        ]
+      },
+      "lib/src/models/source_assignment.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "b7105faacf75f7b06ffe27cf4b1a520c",
+          "f55b18c4a4763448ab2c9330f4c94c59"
+        ]
+      },
+      "lib/src/models/type_mapping.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "9a137c8aed4d0b57f0c6bed9b7459254",
+          "f55b18c4a4763448ab2c9330f4c94c59",
+          "fb468a39565cd5f15faf2d738903a230",
+          "dd8aceeae5864e337e6292c4d89d7f99",
+          "fb60120487bf4568d440fd3511ddb284"
+        ]
+      },
+      "test/integration/fixture/complex_types.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ],
+        "unnecessary-nullable-parameter-issue": [
+          "3ae9527c6d2dbb8da7f770ad3afbec86"
+        ]
+      },
+      "test/integration/fixture/constructor_parameters.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/constructor_rename.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/convert_iterable.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/custom_mapping.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/default_field.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/default_target.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/default_target.dart": {
+        "unnecessary-nullable-parameter-issue": [
+          "8907059128b09e56d153a60e936922cc",
+          "a65a3db342025b2d2ba90e130d688f24",
+          "8907059128b09e56d153a60e936922cc",
+          "a65a3db342025b2d2ba90e130d688f24"
+        ]
+      },
+      "test/integration/fixture/delegates.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/delegates/module_alpha.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/delegates/module_beta.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/delegates/module_gama.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/dynamic.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/dynamic.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "ba12f6d323945424b7a4eac0c07e7b2c",
+          "ba12f6d323945424b7a4eac0c07e7b2c"
+        ]
+      },
+      "test/integration/fixture/enum_mapping.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/equatable.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/field_override.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/forced_null_source_field.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/forced_null_source_field.dart": {
+        "unnecessary-nullable-parameter-issue": [
+          "48014c6303c040fe8a897906c6f21185",
+          "8907059128b09e56d153a60e936922cc"
+        ],
+        "unnecessary-optional-parameter-issue": [
+          "48014c6303c040fe8a897906c6f21185",
+          "8907059128b09e56d153a60e936922cc"
+        ]
+      },
+      "test/integration/fixture/generics.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/import_alias.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/import_alias/import_alias_module.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/includes.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/includes/module_alpha.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/includes/module_beta.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/includes/module_gama.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/iterable.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/list.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/list.dart": {
+        "unnecessary-nullable-parameter-issue": [
+          "ba12f6d323945424b7a4eac0c07e7b2c"
+        ]
+      },
+      "test/integration/fixture/map.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/mapping_from_source.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/mapping_to_target.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/multiple_annotations.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/primitive_types.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/record.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/regression/uint8_issue_77.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/rename.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/reverse.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/selecting_constructor.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/set.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/special_characters.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/super_class.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/try_convert.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/try_convert.dart": {
+        "never-passed-parameter-issue": [
+          "48014c6303c040fe8a897906c6f21185"
+        ],
+        "unnecessary-nullable-parameter-issue": [
+          "8907059128b09e56d153a60e936922cc"
+        ]
+      },
+      "test/integration/fixture/type_converters.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/type_converters/module_alpha.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/type_converters/nullabe_to_nullable.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/type_converters/nullable_to_required.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/type_converters/required_to_nullable.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/type_converters/required_to_required.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/integration/fixture/when_source_is_null.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      }
     }
   }
 }

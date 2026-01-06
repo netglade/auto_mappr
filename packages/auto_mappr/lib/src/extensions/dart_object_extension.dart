@@ -17,15 +17,16 @@ extension DartObjectExtension on DartObject {
     }
 
     // If the top most object is function, call it.
-    final asFunction = toFunctionValue2();
+    final asFunction = toFunctionValue();
     if (asFunction != null) {
-      return EmitterHelper.current.refer(asFunction.referCallString, asFunction.library2.uri.toString()).call([
+      return EmitterHelper.current.refer(asFunction.referCallString, asFunction.library.uri.toString()).call([
         if (maybePassModelArgument && asFunction.formalParameters.isNotEmpty) refer('model'),
       ]);
     }
 
     final output = const _ToCodeExpressionConverter().convert(this).accept(EmitterHelper.current.emitter);
 
+    // ignore: avoid-default-tostring, should be ok
     return CodeExpression(Code('$output'));
   }
 }
@@ -84,7 +85,7 @@ class _ToCodeExpressionConverter {
     final revived = ConstantReader(dartObject).revive();
 
     final location = revived.source.toString().split('#');
-    final libraryUrl = dartObject.type?.element3?.library2?.uri.toString();
+    final libraryUrl = dartObject.type?.element?.library?.uri.toString();
 
     // Getters, Setters, Methods can't be declared as constants so this
     // literal must either be a top-level constant or a static constant and

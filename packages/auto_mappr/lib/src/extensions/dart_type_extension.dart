@@ -33,15 +33,13 @@ extension DartTypeExtension on DartType {
     final thisType = this;
     if (thisType is! InterfaceType) return false;
 
-    // ignore: deprecated_member_use, for now use this - w/o this it fails
-    return thisType.allSupertypes.any((i) => i.getDisplayString(withNullability: false) == 'List<int>');
+    return thisType.allSupertypes.any((i) => i.getDisplayString() == 'List<int>');
   }
 
   DartType get genericParameterTypeOrSelf => (this as ParameterizedType).typeArguments.firstOrNull ?? this;
 
-  /// Checks name, generics, library
-  /// and nullability if [withNullability] is not set.
-  bool isSame(DartType? other, {bool withNullability = false}) {
+  /// Checks name, generics, library.
+  bool isSame(DartType? other) {
     if (other == null) return false;
 
     // Not the same type of type.
@@ -50,29 +48,18 @@ extension DartTypeExtension on DartType {
     }
 
     // Name matches.
-    // ignore: deprecated_member_use, for now use this - w/o this it fails
-    final thisName = getDisplayString(withNullability: withNullability);
-    // ignore: deprecated_member_use, for now use this - w/o this it fails
-    final otherName = other.getDisplayString(withNullability: withNullability);
+    // ignore: deprecated_member_use, avoid-deprecated-usage, without this it does not work - we have to fix this later
+    final thisName = getDisplayString(withNullability: false);
+    // ignore: deprecated_member_use, avoid-deprecated-usage, without this it does not work - we have to fix this later
+    final otherName = other.getDisplayString(withNullability: false);
     final isSameName = thisName == otherName;
 
     // Library matches.
-    final thisLibrary = element3?.library2?.uri.toString();
-    final otherLibrary = other.element3?.library2?.uri.toString();
+    final thisLibrary = element?.library?.uri.toString();
+    final otherLibrary = other.element?.library?.uri.toString();
     final isSameLibrary = thisLibrary == otherLibrary;
 
-    final isSameExceptNullability = isSameName && isSameLibrary;
-
-    if (!withNullability) {
-      return isSameExceptNullability;
-    }
-
-    // Nullability matches.
-    final thisNullability = isNullable;
-    final otherNullability = other.isNullable;
-    final isSameNullability = thisNullability == otherNullability;
-
-    return isSameExceptNullability && isSameNullability;
+    return isSameName && isSameLibrary;
   }
 
   Expression defaultIterableExpression() {

@@ -12,6 +12,7 @@ void main() {
   });
 
   test('Converts Uint8List to List<int> and vice-versa', () {
+    // arrange
     final dto = fixture.Source(
       int8List: Uint8List.fromList([1, 2, 3]),
       int16List: Uint16List.fromList([1, 2, 3]),
@@ -22,8 +23,11 @@ void main() {
       listData32: [1, 2, 3],
       listData64: [1, 2, 3],
     );
+
+    // act
     final converted = mappr.convert<fixture.Source, fixture.Destination>(dto);
 
+    // assert
     expect(
       converted,
       equals(

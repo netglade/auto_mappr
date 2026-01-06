@@ -14,7 +14,7 @@ class Mappr extends $Mappr {
   const Mappr();
 }
 
-class NestedTag extends Equatable {
+class NestedTag with EquatableMixin {
   @override
   List<Object?> get props => [];
 
@@ -25,7 +25,7 @@ class NestedTagDto {
   const NestedTagDto();
 }
 
-class Nested extends Equatable {
+class Nested with EquatableMixin {
   final int id;
   final String name;
   final NestedTag tag;
@@ -52,7 +52,7 @@ class UserDto {
   const UserDto({required this.id, required this.name, required this.tag});
 }
 
-class User extends Equatable {
+class User with EquatableMixin {
   final int id;
   final Nested name;
   final NestedTag? tag;

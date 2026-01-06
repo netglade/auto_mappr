@@ -38,7 +38,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
       final sourceField = sourcePositional.elementAtOrNull(index);
       if (sourceField == null && targetField.type.nullabilitySuffix == NullabilitySuffix.none) {
         throw InvalidGenerationSourceError(
-          'Cannot map positional source field to non-nullable target field for source $sourceType and target $targetType. ($mapping)',
+          'Cannot map positional source field to non-nullable target field for source ${sourceType.getDisplayString()} and target ${targetType.getDisplayString()}. ($mapping)',
         );
       }
     }
@@ -50,13 +50,14 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
       if (!sourceNamed.any((sourceField) => sourceField.name == targetField.name) &&
           targetField.type.nullabilitySuffix == NullabilitySuffix.none) {
         throw InvalidGenerationSourceError(
-          "Cannot find mapping to non-nullable target record's named field $targetField. ($mapping)",
+          "Cannot find mapping to non-nullable target record's named field ${targetField.name}. ($mapping)",
         );
       }
     }
 
     final positionalFields = <String>[
       for (final (index, targetField) in targetPositional.indexed)
+        // ignore: avoid-default-tostring, should be ok
         _mapPositionalField(
           assignment: assignment,
           source: sourcePositional.elementAtOrNull(index),
@@ -69,6 +70,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
       for (final targetField in targetNamed)
         (
           key: targetField.name,
+          // ignore: avoid-default-tostring, should be ok
           value: _mapNamedField(
             assignment: assignment,
             source: sourceNamed.firstWhereOrNull((sourceField) => sourceField.name == targetField.name),
@@ -101,9 +103,10 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
     final shouldAssignNestedObject = !target.type.isPrimitiveType && !areValuesSameType;
 
     // ignore: avoid-non-null-assertion, ok for now
-    final targetRecordExpression = refer(assignment.sourceField!.name3!);
+    final targetRecordExpression = refer(assignment.sourceField!.name!);
 
     if (!shouldAssignNestedObject) {
+      // ignore: avoid-default-tostring, should be ok
       return refer('model.${targetRecordExpression.accept(EmitterHelper.current.emitter)}.${source.name}');
     }
 
@@ -114,6 +117,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
       convertMethodArgument: areValuesSameType ? null : targetRecordExpression,
     );
 
+    // ignore: avoid-default-tostring, should be ok
     return refer('${valueExpression.accept(EmitterHelper.current.emitter)})');
   }
 
@@ -135,9 +139,10 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
     final shouldAssignNestedObject = !target.type.isPrimitiveType && !areValuesSameType;
 
     // ignore: avoid-non-null-assertion, ok for now
-    final targetRecordExpression = refer(assignment.sourceField!.name3!);
+    final targetRecordExpression = refer(assignment.sourceField!.name!);
 
     if (!shouldAssignNestedObject) {
+      // ignore: avoid-default-tostring, should be ok
       return refer('model.${targetRecordExpression.accept(EmitterHelper.current.emitter)}.\$$index');
     }
 
@@ -148,6 +153,7 @@ class RecordAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMix
       convertMethodArgument: areValuesSameType ? null : targetRecordExpression,
     );
 
+    // ignore: avoid-default-tostring, should be ok
     return refer('${valueExpression.accept(EmitterHelper.current.emitter)})');
   }
 }

@@ -32,7 +32,7 @@ class AlphaDto<T> {
   const AlphaDto(this.first, this.second);
 }
 
-class Alpha<T> extends Equatable {
+class Alpha<T> with EquatableMixin {
   final With<T, T> first;
   final int second;
 
@@ -42,7 +42,7 @@ class Alpha<T> extends Equatable {
   const Alpha(this.first, this.second);
 }
 
-class With<A, B> extends Equatable {
+class With<A, B> with EquatableMixin {
   final A first;
   final B second;
 
@@ -52,7 +52,7 @@ class With<A, B> extends Equatable {
   const With({required this.first, required this.second});
 }
 
-class Without extends Equatable {
+class Without with EquatableMixin {
   final String first;
   final int second;
 
@@ -64,7 +64,7 @@ class Without extends Equatable {
 
 // collections
 
-class ListHolder<A, B> extends Equatable {
+class ListHolder<A, B> with EquatableMixin {
   final List<With<A, B>> values;
 
   @override
@@ -73,7 +73,7 @@ class ListHolder<A, B> extends Equatable {
   const ListHolder(this.values);
 }
 
-class SetHolder<A> extends Equatable {
+class SetHolder<A> with EquatableMixin {
   final Set<With<A, A>> values;
 
   @override
@@ -82,7 +82,7 @@ class SetHolder<A> extends Equatable {
   const SetHolder(this.values);
 }
 
-class IterableHolder<A, B> extends Equatable {
+class IterableHolder<A, B> with EquatableMixin {
   final Iterable<With<A, B>> values;
 
   @override
@@ -91,7 +91,7 @@ class IterableHolder<A, B> extends Equatable {
   const IterableHolder(this.values);
 }
 
-class MapHolder<A, B, C> extends Equatable {
+class MapHolder<A, B, C> with EquatableMixin {
   final Map<A, With<B, C>> values;
 
   @override

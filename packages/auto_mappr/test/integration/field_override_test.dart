@@ -10,16 +10,24 @@ void main() {
   });
 
   test('converting from source to target with overridden field works', () {
+    // arrange
     const dto = fixture.Source(value: 123);
+
+    // act
     final converted = mappr.convert<fixture.Source, fixture.Target>(dto);
 
+    // assert
     expect(converted, equals(const fixture.Target(value: 123)));
   });
 
   test('converting from source to target with overridden nested field using interface works', () {
+    // arrange
     const dto = fixture.NestedSource(value: fixture.SourceData(value: 123));
+
+    // act
     final converted = mappr.convert<fixture.NestedSource, fixture.NestedTarget>(dto);
 
+    // assert
     expect(converted, equals(const fixture.NestedTarget(value: fixture.TargetData(value: 123))));
   });
 }

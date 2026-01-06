@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-default-tostring
+
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
@@ -19,10 +21,9 @@ extension ExpressionExtension on Expression {
     }
 
     if ((source.isDartCoreList || forceCast) && target.isSpecializedIntListType) {
-      return EmitterHelper.current
-          .typeRefer(type: target, withNullabilitySuffix: false)
-          .property('fromList')
-          .call([this]);
+      return EmitterHelper.current.typeRefer(type: target, withNullabilitySuffix: false).property('fromList').call([
+        this,
+      ]);
     }
 
     // Keep iterable as is.
@@ -59,8 +60,10 @@ extension ExpressionExtension on Expression {
     List<Reference> typeArguments = const [],
   }) {
     return condition
-        ? maybeNullSafeProperty(name, isOnNullable: isOnNullable)
-            .call(positionalArguments, namedArguments, typeArguments)
+        ? maybeNullSafeProperty(
+            name,
+            isOnNullable: isOnNullable, // ignore: unnecessary-trailing-comma, false positive
+          ).call(positionalArguments, namedArguments, typeArguments)
         : this;
   }
 

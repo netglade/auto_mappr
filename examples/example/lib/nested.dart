@@ -2,7 +2,6 @@
 
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:equatable/equatable.dart';
-
 import 'package:examples_example/nested.auto_mappr.dart';
 
 @AutoMappr([
@@ -12,7 +11,7 @@ import 'package:examples_example/nested.auto_mappr.dart';
 ])
 class Mappr extends $Mappr {}
 
-class User extends Equatable {
+class User with EquatableMixin {
   final int id;
   final Nested name;
   final NestedTag? tag;

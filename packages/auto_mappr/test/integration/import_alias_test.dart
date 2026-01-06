@@ -13,97 +13,145 @@ void main() {
 
   group('Mapping between objects with the same name from different libraries', () {
     test('UserDto to User works', () {
+      // arrange
       const dto = fixture.UserDto(name: 'John Wick', age: 42);
+
+      // act
       final converted = mappr.convert<fixture.UserDto, fixture.User>(dto);
 
+      // assert
       expect(converted, equals(const fixture.User(name: 'John Wick', age: 42)));
     });
 
     test('UserDto to a1.User works', () {
+      // arrange
       const dto = fixture.UserDto(name: 'John Wick', age: 42);
+
+      // act
       final converted = mappr.convert<fixture.UserDto, fixture_a1.User>(dto);
 
+      // assert
       expect(converted, equals(const fixture_a1.User(name: 'John Wick', age: 42)));
     });
 
     test('UserDto to a2.User works', () {
+      // arrange
       const dto = fixture.UserDto(name: 'John Wick', age: 42);
+
+      // act
       final converted = mappr.convert<fixture.UserDto, fixture_a2.User>(dto);
 
+      // assert
       expect(converted, equals(const fixture_a2.User(name: 'John Wick', age: 42)));
     });
 
     test('a1.UserDto to User works', () {
+      // arrange
       const dto = fixture_a1.UserDto(name: 'John Wick', age: 42);
+
+      // act
       final converted = mappr.convert<fixture_a1.UserDto, fixture.User>(dto);
 
+      // assert
       expect(converted, equals(const fixture.User(name: 'John Wick', age: 42)));
     });
 
     test('a1.UserDto to a1.User works', () {
+      // arrange
       const dto = fixture_a1.UserDto(name: 'John Wick', age: 42);
+
+      // act
       final converted = mappr.convert<fixture_a1.UserDto, fixture_a1.User>(dto);
 
+      // assert
       expect(converted, equals(const fixture_a1.User(name: 'John Wick', age: 42)));
     });
 
     test('a1.UserDto to a2.User works', () {
+      // arrange
       const dto = fixture_a1.UserDto(name: 'John Wick', age: 42);
+
+      // act
       final converted = mappr.convert<fixture_a1.UserDto, fixture_a2.User>(dto);
 
+      // assert
       expect(converted, equals(const fixture_a2.User(name: 'John Wick', age: 42)));
     });
 
     test('a2.UserDto to User works', () {
+      // arrange
       const dto = fixture_a2.UserDto(name: 'John Wick', age: 42);
+
+      // act
       final converted = mappr.convert<fixture_a2.UserDto, fixture.User>(dto);
 
+      // assert
       expect(converted, equals(const fixture.User(name: 'John Wick', age: 42)));
     });
 
     test('a2.UserDto to a1.User works', () {
+      // arrange
       const dto = fixture_a2.UserDto(name: 'John Wick', age: 42);
+
+      // act
       final converted = mappr.convert<fixture_a2.UserDto, fixture_a1.User>(dto);
 
+      // assert
       expect(converted, equals(const fixture_a1.User(name: 'John Wick', age: 42)));
     });
 
     test('a2.UserDto to a2.User works', () {
+      // arrange
       const dto = fixture_a2.UserDto(name: 'John Wick', age: 42);
+
+      // act
       final converted = mappr.convert<fixture_a2.UserDto, fixture_a2.User>(dto);
 
+      // assert
       expect(converted, equals(const fixture_a2.User(name: 'John Wick', age: 42)));
     });
   });
 
   group('Aliasing import with exports inside works correctly', () {
     test('XxxDto to Xxx works', () {
+      // arrange
       const dto = fixture_a1.XxxDto(name: 'Neo', age: 69);
+
+      // act
       final converted = mappr.convert<fixture_a1.XxxDto, fixture_a1.Xxx>(dto);
 
+      // assert
       expect(converted, equals(const fixture_a1.Xxx(name: 'Neo', age: 69)));
     });
 
     test('YyyDto to Yyy works', () {
+      // arrange
       const dto = fixture_a1.YyyDto(name: 'Trinity', age: 70);
+
+      // act
       final converted = mappr.convert<fixture_a1.YyyDto, fixture_a1.Yyy>(dto);
 
+      // assert
       expect(converted, equals(const fixture_a1.Yyy(name: 'Trinity', age: 70)));
     });
   });
 
   group('generics', () {
     test('Holder<a1.UserDto, a2.UserDto> to a2.Holder<a1.User, a2.User> works', () {
+      // arrange
       const dto = fixture.Holder(
         first: fixture_a1.UserDto(name: 'John Wick', age: 42),
         second: fixture_a2.UserDto(name: 'Obi-wan Kenobi', age: 69),
       );
+
+      // act
       final converted = mappr
           .convert<
             fixture.Holder<fixture_a1.UserDto, fixture_a2.UserDto>,
             fixture_a2.Holder<fixture_a1.User, fixture_a2.User>
           >(dto);
 
+      // assert
       expect(
         converted,
         equals(
@@ -118,12 +166,16 @@ void main() {
 
   group('iterables', () {
     test('list works', () {
+      // arrange
       const dto = fixture.ListHolder([
         fixture.UserDto(name: 'John Wick', age: 42),
         fixture.UserDto(name: 'Obi-wan Kenobi', age: 69),
       ]);
+
+      // act
       final converted = mappr.convert<fixture.ListHolder<fixture.UserDto>, fixture.ListHolder<fixture_a1.User>>(dto);
 
+      // assert
       expect(
         converted,
         equals(
@@ -136,12 +188,16 @@ void main() {
     });
 
     test('map works', () {
+      // arrange
       const dto = fixture.MapHolder({
         'alpha': fixture.UserDto(name: 'John Wick', age: 42),
         'beta': fixture.UserDto(name: 'Obi-wan Kenobi', age: 69),
       });
+
+      // act
       final converted = mappr.convert<fixture.MapHolder<fixture.UserDto>, fixture.MapHolder<fixture_a2.User>>(dto);
 
+      // assert
       expect(
         converted,
         equals(

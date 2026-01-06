@@ -33,9 +33,11 @@ class ConvertIterableMethodBuilder extends MethodBuilderBase {
             (p) => p
               ..name = 'model'
               ..type =
+                  // ignore: avoid-default-tostring, should be ok
                   Reference('Iterable<${MethodBuilderBase.nullableSourceTypeReference.accept(EmitterHelper.current.emitter)}>'),
           ),
         )
+        // ignore: avoid-default-tostring, should be ok
         ..returns = Reference('$wrapper<${MethodBuilderBase.targetTypeReference.accept(EmitterHelper.current.emitter)}>')
         ..body = buildBody(),
     );

@@ -1,6 +1,6 @@
 // ignore_for_file: prefer-match-file-name, prefer-single-declaration-per-file
 
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
@@ -18,10 +18,10 @@ class ConstructorAssignment {
 }
 
 class SourceAssignment {
-  final PropertyAccessorElement2? sourceField;
+  final PropertyAccessorElement? sourceField;
 
   final ConstructorAssignment? targetConstructorParam;
-  final PropertyAccessorElement2? targetField;
+  final PropertyAccessorElement? targetField;
 
   final List<TypeConverter> typeConverters;
 

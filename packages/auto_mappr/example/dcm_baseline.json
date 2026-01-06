@@ -1,0 +1,40 @@
+{
+  "date": "2026-01-06 14:56:23.190808Z",
+  "version": "1.35.0",
+  "sensitivity": "exact",
+  "commands": {
+    "unused-code": {
+      "lib/mappr.dart": {
+        "unused-code-issue": [
+          "58409aa9dc1107e6ea8989a7719c254b",
+          "fd95321f1ed8a76e53ca4a25c53f0642",
+          "b002d320db6d2305a609290d10858a42",
+          "58409aa9dc1107e6ea8989a7719c254b",
+          "fd95321f1ed8a76e53ca4a25c53f0642",
+          "b002d320db6d2305a609290d10858a42",
+          "fd9593ef8538dcdc0ab2f7fefa95769a"
+        ]
+      }
+    },
+    "dependencies": {
+      "pubspec.yaml": {
+        "unused-dependency-issue": [
+          "86b44239b427d178ac7e66105a02bf5f",
+          "098f6bcd4621d373cade4e832627b4f6"
+        ]
+      }
+    },
+    "parameters": {
+      "lib/mappr.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "lib/mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "13e81591112f7d6bb40a14cc9f24b3f0"
+        ]
+      }
+    }
+  }
+}

@@ -23,12 +23,20 @@ void main() {
 
   group('convert', () {
     test('Throws when no default is configured', () {
+      // act
+      // assert
       expect(() => mappr.convert<fixture.NestedDto, fixture.Nested>(null), throwsA(predicate((e) => e is Exception)));
     });
 
     test('Returns default when configured', () {
+      // arrange
+
+      // act
+      final converted = mappr.convert<fixture.ComplexValueDto, fixture.ComplexValue>(null);
+
+      // assert
       expect(
-        mappr.convert<fixture.ComplexValueDto, fixture.ComplexValue>(null),
+        converted,
         equals(const fixture.ComplexValue(99, fixture.Nested(id: 123, name: 'test qwerty'), 'male')),
       );
     });
@@ -36,27 +44,40 @@ void main() {
 
   group('tryConvert', () {
     test('Return null when no default is configured', () {
-      expect(mappr.tryConvert<fixture.NestedDto, fixture.Nested>(null), isNull);
+      // arrange
+
+      // act
+      final converted = mappr.tryConvert<fixture.NestedDto, fixture.Nested>(null);
+
+      // assert
+      expect(converted, isNull);
     });
 
     test('Returns default when configured', () {
+      // arrange
+
+      // act
+      final converted = mappr.tryConvert<fixture.ComplexValueDto, fixture.ComplexValue>(null);
+
+      // assert
       expect(
-        mappr.tryConvert<fixture.ComplexValueDto, fixture.ComplexValue>(null),
+        converted,
         equals(const fixture.ComplexValue(99, fixture.Nested(id: 123, name: 'test qwerty'), 'male')),
       );
     });
 
     test('Source gender is null with safe mapping', () {
+      // arrange
       const dto = fixture.ComplexValueDto(99, fixture.NestedDto(1, name: 'Joe'), null);
 
-      expect(
-        mappr.tryConvert<fixture.ComplexValueDto, fixture.ComplexValue>(
-          dto,
-          onMappingError: (error, stacktrace, source) => logService.log<fixture.ComplexValueDto>(error, source),
-        ),
-        isNull,
+      // act
+      final converted = mappr.tryConvert<fixture.ComplexValueDto, fixture.ComplexValue>(
+        dto,
+        onMappingError: (error, stacktrace, source) => logService.log<fixture.ComplexValueDto>(error, source),
       );
 
+      // assert
+      expect(converted, isNull);
       final captured = verify(() => logService.log<fixture.ComplexValueDto>(any(), captureAny()))..called(1);
       expect(captured.captured.firstOrNull, equals(dto));
     });

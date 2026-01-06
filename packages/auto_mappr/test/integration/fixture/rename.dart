@@ -6,17 +6,29 @@ import 'rename.auto_mappr.dart';
 @AutoMappr([
   // nested
   MapType<NestedDto, Nested>(
-    fields: [Field('id', from: 'idx'), Field('name', from: 'namex')],
+    fields: [
+      Field('id', from: 'idx'),
+      Field('name', from: 'namex'), // ignore: unnecessary-trailing-comma, false positive
+    ],
   ),
   MapType<NestedReversedDto, NestedReversed>(
-    fields: [Field('id', from: 'namex'), Field('name', from: 'idx')],
+    fields: [
+      Field('id', from: 'namex'),
+      Field('name', from: 'idx'), // ignore: unnecessary-trailing-comma, false positive
+    ],
   ),
   // same
   MapType<SamePositionalDto, SamePositional>(
-    fields: [Field('id', from: 'id'), Field('name', from: 'name')],
+    fields: [
+      Field('id', from: 'id'),
+      Field('name', from: 'name'), // ignore: unnecessary-trailing-comma, false positive
+    ],
   ),
   MapType<SameNamedDto, SameNamed>(
-    fields: [Field('id', from: 'id'), Field('name', from: 'name')],
+    fields: [
+      Field('id', from: 'id'),
+      Field('name', from: 'name'), // ignore: unnecessary-trailing-comma, false positive
+    ],
   ),
   // primitive
   MapType<PrimitivePositionalDto, PrimitivePositional>(
@@ -27,10 +39,16 @@ import 'rename.auto_mappr.dart';
   ),
   // primitive reversed
   MapType<PrimitivePositionalReversedDto, PrimitivePositionalReversed>(
-    fields: [Field('alpha', from: 'beta'), Field('beta', from: 'alpha')],
+    fields: [
+      Field('alpha', from: 'beta'),
+      Field('beta', from: 'alpha'), // ignore: unnecessary-trailing-comma, false positive
+    ],
   ),
   MapType<PrimitiveNamedReversedDto, PrimitiveNamedReversed>(
-    fields: [Field('alpha', from: 'beta'), Field('beta', from: 'alpha')],
+    fields: [
+      Field('alpha', from: 'beta'),
+      Field('beta', from: 'alpha'), // ignore: unnecessary-trailing-comma, false positive
+    ],
   ),
   // complex
   MapType<ComplexPositionalDto, ComplexPositional>(
@@ -41,10 +59,16 @@ import 'rename.auto_mappr.dart';
   ),
   // complex reversed
   MapType<ComplexPositionalReversedDto, ComplexPositionalReversed>(
-    fields: [Field('first', from: 'second'), Field('second', from: 'first')],
+    fields: [
+      Field('first', from: 'second'),
+      Field('second', from: 'first'), // ignore: unnecessary-trailing-comma, false positive
+    ],
   ),
   MapType<ComplexNamedReversedDto, ComplexNamedReversed>(
-    fields: [Field('first', from: 'second'), Field('second', from: 'first')],
+    fields: [
+      Field('first', from: 'second'),
+      Field('second', from: 'first'), // ignore: unnecessary-trailing-comma, false positive
+    ],
   ),
   // custom
   MapType<CustomPositionalDto, CustomPositional>(
@@ -73,7 +97,7 @@ class Mappr extends $Mappr {
 
 // same
 
-class SamePositional extends Equatable {
+class SamePositional with EquatableMixin {
   final int id;
   final String name;
 
@@ -90,7 +114,7 @@ class SamePositionalDto {
   const SamePositionalDto(this.id, this.name);
 }
 
-class SameNamed extends Equatable {
+class SameNamed with EquatableMixin {
   final int id;
   final String name;
 
@@ -109,7 +133,7 @@ class SameNamedDto {
 
 // primitive
 
-class PrimitivePositional extends Equatable {
+class PrimitivePositional with EquatableMixin {
   final int id;
 
   @override
@@ -124,7 +148,7 @@ class PrimitivePositionalDto {
   const PrimitivePositionalDto(this.idx);
 }
 
-class PrimitiveNamed extends Equatable {
+class PrimitiveNamed with EquatableMixin {
   final int id;
 
   @override
@@ -141,7 +165,7 @@ class PrimitiveNamedDto {
 
 // primitive reversed
 
-class PrimitivePositionalReversed extends Equatable {
+class PrimitivePositionalReversed with EquatableMixin {
   final int alpha;
   final String beta;
 
@@ -158,7 +182,7 @@ class PrimitivePositionalReversedDto {
   const PrimitivePositionalReversedDto(this.alpha, this.beta);
 }
 
-class PrimitiveNamedReversed extends Equatable {
+class PrimitiveNamedReversed with EquatableMixin {
   final int alpha;
   final String beta;
 
@@ -177,7 +201,7 @@ class PrimitiveNamedReversedDto {
 
 // complex
 
-class Nested extends Equatable {
+class Nested with EquatableMixin {
   final int id;
   final String name;
 
@@ -195,7 +219,7 @@ class NestedDto {
   const NestedDto(this.idx, {required this.namex});
 }
 
-class ComplexPositional extends Equatable {
+class ComplexPositional with EquatableMixin {
   final Nested data;
 
   @override
@@ -210,7 +234,7 @@ class ComplexPositionalDto {
   const ComplexPositionalDto(this.datax);
 }
 
-class ComplexNamed extends Equatable {
+class ComplexNamed with EquatableMixin {
   final Nested data;
 
   @override
@@ -227,7 +251,7 @@ class ComplexNamedDto {
 
 // complex reversed
 
-class NestedReversed extends Equatable {
+class NestedReversed with EquatableMixin {
   final int id;
   final String name;
 
@@ -244,7 +268,7 @@ class NestedReversedDto {
   const NestedReversedDto(this.idx, {required this.namex});
 }
 
-class ComplexPositionalReversed extends Equatable {
+class ComplexPositionalReversed with EquatableMixin {
   final int first;
   final NestedReversed second;
 
@@ -261,7 +285,7 @@ class ComplexPositionalReversedDto {
   const ComplexPositionalReversedDto(this.first, this.second);
 }
 
-class ComplexNamedReversed extends Equatable {
+class ComplexNamedReversed with EquatableMixin {
   final int first;
   final NestedReversed second;
 
@@ -280,7 +304,7 @@ class ComplexNamedReversedDto {
 
 // custom
 
-class CustomPositional extends Equatable {
+class CustomPositional with EquatableMixin {
   final String nameAndId;
 
   @override
@@ -296,7 +320,7 @@ class CustomPositionalDto {
   const CustomPositionalDto(this.id, this.name);
 }
 
-class CustomNamed extends Equatable {
+class CustomNamed with EquatableMixin {
   final String nameAndId;
 
   @override

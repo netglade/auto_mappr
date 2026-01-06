@@ -13,32 +13,41 @@ void main() {
 
   group('Iterable', () {
     test('convertIterable w/o null', () {
-      final converted = mappr.convertIterable<fixture.UserDto, fixture.User>(
-        [_getUserDto(1), _getUserDto(2), _getUserDto(3)].where((_) => true),
-      );
+      // arrange
+      final data = [_getUserDto(1), _getUserDto(2), _getUserDto(3)].where((_) => true);
 
+      // act
+      final converted = mappr.convertIterable<fixture.UserDto, fixture.User>(data);
+
+      // assert
       expect(converted, equals([_getUser(1), _getUser(2), _getUser(3)]));
     });
 
     test('convertIterable with null throws', () {
+      // arrange
+      final data = [_getUserDto(1), _getUserDto(2), _getUserDto(3), null].where((_) => true);
+
+      // act
+      // assert
       expect(
-        () => mappr.convertIterable<fixture.UserDto, fixture.User>(
-          [_getUserDto(1), _getUserDto(2), _getUserDto(3), null].where((_) => true),
-        ),
+        () => mappr.convertIterable<fixture.UserDto, fixture.User>(data),
         throwsA(isA<Exception>()),
       );
     });
 
     test('convertIterable with null and default value does not throw', () {
-      final converted = mappr.convertIterable<fixture.UserWithDefaultDto, fixture.User>(
-        [
-          _getUserWithDefaultDto(1),
-          _getUserWithDefaultDto(2),
-          _getUserWithDefaultDto(3),
-          null,
-        ].where((_) => true),
-      );
+      // arrange
+      final data = [
+        _getUserWithDefaultDto(1),
+        _getUserWithDefaultDto(2),
+        _getUserWithDefaultDto(3),
+        null,
+      ].where((_) => true);
 
+      // act
+      final converted = mappr.convertIterable<fixture.UserWithDefaultDto, fixture.User>(data);
+
+      // assert
       expect(
         converted,
         equals([
@@ -55,31 +64,40 @@ void main() {
     });
 
     test('tryConvertIterable w/o null', () {
-      final converted = mappr.tryConvertIterable<fixture.UserDto, fixture.User>(
-        [_getUserDto(1), _getUserDto(2), _getUserDto(3)].where((_) => true),
-      );
+      // arrange
+      final data = [_getUserDto(1), _getUserDto(2), _getUserDto(3)].where((_) => true);
 
+      // act
+      final converted = mappr.tryConvertIterable<fixture.UserDto, fixture.User>(data);
+
+      // assert
       expect(converted, equals([_getUser(1), _getUser(2), _getUser(3)]));
     });
 
     test('tryConvertIterable with null', () {
-      final converted = mappr.tryConvertIterable<fixture.UserDto, fixture.User>(
-        [_getUserDto(1), _getUserDto(2), _getUserDto(3), null].where((_) => true),
-      );
+      // arrange
+      final data = [_getUserDto(1), _getUserDto(2), _getUserDto(3), null].where((_) => true);
 
+      // act
+      final converted = mappr.tryConvertIterable<fixture.UserDto, fixture.User>(data);
+
+      // assert
       expect(converted, equals([_getUser(1), _getUser(2), _getUser(3), null]));
     });
 
     test('tryConvertIterable with null and default value', () {
-      final converted = mappr.tryConvertIterable<fixture.UserWithDefaultDto, fixture.User>(
-        [
-          _getUserWithDefaultDto(1),
-          _getUserWithDefaultDto(2),
-          _getUserWithDefaultDto(3),
-          null,
-        ].where((_) => true),
-      );
+      // arrange
+      final data = [
+        _getUserWithDefaultDto(1),
+        _getUserWithDefaultDto(2),
+        _getUserWithDefaultDto(3),
+        null,
+      ].where((_) => true);
 
+      // act
+      final converted = mappr.tryConvertIterable<fixture.UserWithDefaultDto, fixture.User>(data);
+
+      // assert
       expect(
         converted,
         equals([
@@ -98,32 +116,41 @@ void main() {
 
   group('List', () {
     test('convertList w/o null', () {
-      final converted = mappr.convertList<fixture.UserDto, fixture.User>(
-        [_getUserDto(1), _getUserDto(2), _getUserDto(3)],
-      );
+      // arrange
+      final data = [_getUserDto(1), _getUserDto(2), _getUserDto(3)];
 
+      // act
+      final converted = mappr.convertList<fixture.UserDto, fixture.User>(data);
+
+      // assert
       expect(converted, equals([_getUser(1), _getUser(2), _getUser(3)]));
     });
 
     test('convertList with null throws', () {
+      // arrange
+      final data = [_getUserDto(1), _getUserDto(2), _getUserDto(3), null];
+
+      // act
+      // assert
       expect(
-        () => mappr.convertList<fixture.UserDto, fixture.User>(
-          [_getUserDto(1), _getUserDto(2), _getUserDto(3), null],
-        ),
+        () => mappr.convertList<fixture.UserDto, fixture.User>(data),
         throwsA(isA<Exception>()),
       );
     });
 
     test('convertList with null and default value does not throw', () {
-      final converted = mappr.convertList<fixture.UserWithDefaultDto, fixture.User>(
-        [
-          _getUserWithDefaultDto(1),
-          _getUserWithDefaultDto(2),
-          _getUserWithDefaultDto(3),
-          null,
-        ],
-      );
+      // arrange
+      final data = [
+        _getUserWithDefaultDto(1),
+        _getUserWithDefaultDto(2),
+        _getUserWithDefaultDto(3),
+        null,
+      ];
 
+      // act
+      final converted = mappr.convertList<fixture.UserWithDefaultDto, fixture.User>(data);
+
+      // assert
       expect(
         converted,
         equals([
@@ -140,31 +167,40 @@ void main() {
     });
 
     test('tryConvertList w/o null', () {
-      final converted = mappr.tryConvertList<fixture.UserDto, fixture.User>(
-        [_getUserDto(1), _getUserDto(2), _getUserDto(3)],
-      );
+      // arrange
+      final data = [_getUserDto(1), _getUserDto(2), _getUserDto(3)];
 
+      // act
+      final converted = mappr.tryConvertList<fixture.UserDto, fixture.User>(data);
+
+      // assert
       expect(converted, equals([_getUser(1), _getUser(2), _getUser(3)]));
     });
 
     test('tryConvertList with null', () {
-      final converted = mappr.tryConvertList<fixture.UserDto, fixture.User>(
-        [_getUserDto(1), _getUserDto(2), _getUserDto(3), null],
-      );
+      // arrange
+      final data = [_getUserDto(1), _getUserDto(2), _getUserDto(3), null];
 
+      // act
+      final converted = mappr.tryConvertList<fixture.UserDto, fixture.User>(data);
+
+      // assert
       expect(converted, equals([_getUser(1), _getUser(2), _getUser(3), null]));
     });
 
     test('tryConvertList with null and default value', () {
-      final converted = mappr.tryConvertList<fixture.UserWithDefaultDto, fixture.User>(
-        [
-          _getUserWithDefaultDto(1),
-          _getUserWithDefaultDto(2),
-          _getUserWithDefaultDto(3),
-          null,
-        ],
-      );
+      // arrange
+      final data = [
+        _getUserWithDefaultDto(1),
+        _getUserWithDefaultDto(2),
+        _getUserWithDefaultDto(3),
+        null,
+      ];
 
+      // act
+      final converted = mappr.tryConvertList<fixture.UserWithDefaultDto, fixture.User>(data);
+
+      // assert
       expect(
         converted,
         equals([
@@ -183,23 +219,30 @@ void main() {
 
   group('Set', () {
     test('convertSet w/o null', () {
-      final converted = mappr.convertSet<fixture.UserDto, fixture.User>(
-        {_getUserDto(1), _getUserDto(2), _getUserDto(3)},
-      );
+      // arrange
+      final data = {_getUserDto(1), _getUserDto(2), _getUserDto(3)};
 
+      // act
+      final converted = mappr.convertSet<fixture.UserDto, fixture.User>(data);
+
+      // assert
       expect(converted, equals({_getUser(1), _getUser(2), _getUser(3)}));
     });
 
     test('convertSet with null throws', () {
+      // arrange
+      final data = {_getUserDto(1), _getUserDto(2), _getUserDto(3), null};
+
+      // act
+      // assert
       expect(
-        () => mappr.convertSet<fixture.UserDto, fixture.User>(
-          {_getUserDto(1), _getUserDto(2), _getUserDto(3), null},
-        ),
+        () => mappr.convertSet<fixture.UserDto, fixture.User>(data),
         throwsA(isA<Exception>()),
       );
     });
 
     test('convertSet with null and default value does not throw', () {
+      // arrange
       final converted = mappr.convertSet<fixture.UserWithDefaultDto, fixture.User>(
         {
           _getUserWithDefaultDto(1),
@@ -209,6 +252,8 @@ void main() {
         }.where((_) => true),
       );
 
+      // act
+      // assert
       expect(
         converted,
         equals({
@@ -225,22 +270,29 @@ void main() {
     });
 
     test('tryConvertList w/o null', () {
+      // arrange
       final converted = mappr.tryConvertList<fixture.UserDto, fixture.User>(
         {_getUserDto(1), _getUserDto(2), _getUserDto(3)},
       );
 
+      // act
+      // assert
       expect(converted, equals({_getUser(1), _getUser(2), _getUser(3)}));
     });
 
     test('tryConvertList with null', () {
+      // arrange
       final converted = mappr.tryConvertList<fixture.UserDto, fixture.User>(
         {_getUserDto(1), _getUserDto(2), _getUserDto(3), null},
       );
 
+      // act
+      // assert
       expect(converted, equals({_getUser(1), _getUser(2), _getUser(3), null}));
     });
 
     test('tryConvertSet with null and default value', () {
+      // arrange
       final converted = mappr.tryConvertSet<fixture.UserWithDefaultDto, fixture.User>(
         {
           _getUserWithDefaultDto(1),
@@ -250,6 +302,8 @@ void main() {
         }.where((_) => true),
       );
 
+      // act
+      // assert
       expect(
         converted,
         equals({

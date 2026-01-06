@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
 import 'package:auto_mappr/src/models/field_mapping.dart';
@@ -7,7 +7,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
-class TypeMapping extends Equatable {
+class TypeMapping with EquatableMixin {
   final InterfaceType source;
   final InterfaceType target;
   final List<FieldMapping> fieldMappings;
@@ -17,7 +17,7 @@ class TypeMapping extends Equatable {
   final bool? ignoreFieldNull;
   final bool? safeMapping;
 
-  bool get isEnumMapping => source.element3 is EnumElement2 || target.element3 is EnumElement2;
+  bool get isEnumMapping => source.element is EnumElement || target.element is EnumElement;
 
   @override
   List<Object?> get props {

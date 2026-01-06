@@ -17,7 +17,7 @@ class User with EquatableMixin {
   const User({required this.name, required this.age});
 }
 
-class Holder<A, B> extends Equatable {
+class Holder<A, B> with EquatableMixin {
   final A first;
   final B second;
 
