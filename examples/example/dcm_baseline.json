@@ -1,0 +1,169 @@
+{
+  "date": "2026-01-06 14:56:23.189774Z",
+  "version": "1.35.0",
+  "sensitivity": "exact",
+  "commands": {
+    "unused-code": {
+      "lib/enum.dart": {
+        "unused-code-issue": [
+          "47cbe271bd677c2294f4a360a3ef937f",
+          "631c5ea091c0a6aa1b8d13eb627f3e75",
+          "33b2fa010f5a4dc0ace68c94fd643259",
+          "4ba37585859c500c64354795d6652252",
+          "0b608955fa5fe7d7945db59f5a1b0f68",
+          "2158e477e51050533ad3a16142a6eb1a",
+          "4ba37585859c500c64354795d6652252",
+          "d96cc0fe76599ec334db074499fe8551",
+          "e3a2c29c65a00f8f97b53f24ebd16614"
+        ]
+      },
+      "lib/equatable.dart": {
+        "unused-code-issue": [
+          "13ab7c58774283d76eb03c40fb3cfb35",
+          "ca5098d3485274b5ce4d9cc02da291a0"
+        ]
+      },
+      "lib/nested.dart": {
+        "unused-code-issue": [
+          "df98fde7190de91cd61467b302db7289",
+          "6a2c0ffa05a3a1b58045a21194ca3ba2",
+          "24baf3041fda6ab763a43bb9d2a5d100",
+          "b5106212cd8c99ce272922c0f4ab1862",
+          "8fdde178d062b28124495cf2eea171fd",
+          "255d936895f5e058bce9d4c17ecd902b",
+          "13ab7c58774283d76eb03c40fb3cfb35",
+          "58409aa9dc1107e6ea8989a7719c254b",
+          "fd95321f1ed8a76e53ca4a25c53f0642",
+          "be109539c5f8986a6d0c9ddb374036ca",
+          "ca5098d3485274b5ce4d9cc02da291a0",
+          "05c6d675b90003c92845dcb5e23c9821",
+          "efd794f565ddaa6d5638312de5e0a2f0"
+        ]
+      },
+      "lib/nullable.dart": {
+        "unused-code-issue": [
+          "58409aa9dc1107e6ea8989a7719c254b",
+          "fd95321f1ed8a76e53ca4a25c53f0642",
+          "ee9b58370d62fac6d4239dabf778a754",
+          "aeddc4b81c170a6025df1a5c028883a5"
+        ]
+      },
+      "lib/rename.dart": {
+        "unused-code-issue": [
+          "a0e936bd78630c33b3b82993d9cb49f8",
+          "58409aa9dc1107e6ea8989a7719c254b",
+          "fd95321f1ed8a76e53ca4a25c53f0642",
+          "2a8824c0f7b611480ee52a298c2a9975"
+        ]
+      }
+    },
+    "dependencies": {
+      "pubspec.yaml": {
+        "unused-dependency-issue": [
+          "098f6bcd4621d373cade4e832627b4f6"
+        ]
+      }
+    },
+    "unused-files": {
+      "lib/enum.auto_mappr.dart": {
+        "unused-file-issue": [
+          "ff7603d4fb8711e0efe476243b0b70e0"
+        ]
+      },
+      "lib/enum.dart": {
+        "unused-file-issue": [
+          "5c3b9e0a603457c7b7918de674f3045f"
+        ]
+      },
+      "lib/nested.auto_mappr.dart": {
+        "unused-file-issue": [
+          "27fa6b068d0579810a2e8330537ac028"
+        ]
+      },
+      "lib/nested.dart": {
+        "unused-file-issue": [
+          "099e0624c2e0c281527cd482df2ad3f2"
+        ]
+      },
+      "lib/nullable.auto_mappr.dart": {
+        "unused-file-issue": [
+          "54307e1351ff405ac9c5a983de6752b2"
+        ]
+      },
+      "lib/nullable.dart": {
+        "unused-file-issue": [
+          "c7ba168037cf1cece3b42e3f3ba4e030"
+        ]
+      },
+      "lib/rename.auto_mappr.dart": {
+        "unused-file-issue": [
+          "2fd71cb7a4e06b6d3de74cf51d765689"
+        ]
+      },
+      "lib/rename.dart": {
+        "unused-file-issue": [
+          "107c9b065b350753c6d1804cff1abc6b"
+        ]
+      }
+    },
+    "code-duplications": {
+      "lib/equatable.auto_mappr.dart": {
+        "duplication-issue": [
+          "b2392d2c35a2243bb1de8f735b3fd1ef",
+          "acc114d248d3f64cce72752ec784becd"
+        ]
+      },
+      "lib/nested.auto_mappr.dart": {
+        "duplication-issue": [
+          "49da437999796d8dd3b8dd782697f360",
+          "d763d37bc3b09a2b38d5b03f38d273df",
+          "57a6bc04ac2e49e646dba8efe237bb7e",
+          "935dec98b88fb0a4051e8de649090217"
+        ]
+      },
+      "lib/nullable.auto_mappr.dart": {
+        "duplication-issue": [
+          "188702c6730f7c168feac3a50c432fe8"
+        ]
+      }
+    },
+    "parameters": {
+      "lib/enum.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "lib/equatable.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "lib/nested.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ],
+        "unnecessary-nullable-parameter-issue": [
+          "6bf29d988c4bf292564735aba41c4a95"
+        ]
+      },
+      "lib/nested.dart": {
+        "unnecessary-nullable-parameter-issue": [
+          "c4a86436f877f11bfc1c49cabedd3033"
+        ],
+        "unnecessary-optional-parameter-issue": [
+          "c4a86436f877f11bfc1c49cabedd3033"
+        ]
+      },
+      "lib/nullable.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "lib/rename.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      }
+    }
+  }
+}

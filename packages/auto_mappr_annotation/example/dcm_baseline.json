@@ -1,0 +1,28 @@
+{
+  "date": "2026-01-06 14:56:23.190657Z",
+  "version": "1.35.0",
+  "sensitivity": "exact",
+  "commands": {
+    "unused-code": {
+      "lib/main.dart": {
+        "unused-code-issue": [
+          "cae8e22500fdd007b1271980402800c2",
+          "ca5098d3485274b5ce4d9cc02da291a0",
+          "2d1d52189d0fe4a6fd48ce1d5d328df1",
+          "b4cb95c83282800cfbf0b756efa360c7",
+          "ca5098d3485274b5ce4d9cc02da291a0",
+          "2d1d52189d0fe4a6fd48ce1d5d328df1",
+          "a438be0906a86e2f5eec2afe7a5cd25b"
+        ]
+      }
+    },
+    "dependencies": {
+      "pubspec.yaml": {
+        "unused-dependency-issue": [
+          "6541e4fa35254c527906c4e393a3b42c",
+          "098f6bcd4621d373cade4e832627b4f6"
+        ]
+      }
+    }
+  }
+}

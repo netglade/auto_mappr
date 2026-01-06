@@ -145,7 +145,8 @@ void main() {
       // arrange
       const dto = fixture_beta.BetaDto(null);
 
-      // act & assert
+      // act
+      // assert
       expect(
         () => mappr.tryConvert<fixture_beta.BetaDto, fixture_beta.Beta>(dto),
         throwsA(predicate((e) => e is TypeError)),

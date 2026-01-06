@@ -23,11 +23,14 @@ void main() {
 
   group('convert', () {
     test('Throws when no default is configured', () {
-      // act & assert
+      // act
+      // assert
       expect(() => mappr.convert<fixture.NestedDto, fixture.Nested>(null), throwsA(predicate((e) => e is Exception)));
     });
 
     test('Returns default when configured', () {
+      // arrange
+
       // act
       final converted = mappr.convert<fixture.ComplexValueDto, fixture.ComplexValue>(null);
 
@@ -41,6 +44,8 @@ void main() {
 
   group('tryConvert', () {
     test('Return null when no default is configured', () {
+      // arrange
+
       // act
       final converted = mappr.tryConvert<fixture.NestedDto, fixture.Nested>(null);
 
@@ -49,6 +54,8 @@ void main() {
     });
 
     test('Returns default when configured', () {
+      // arrange
+
       // act
       final converted = mappr.tryConvert<fixture.ComplexValueDto, fixture.ComplexValue>(null);
 

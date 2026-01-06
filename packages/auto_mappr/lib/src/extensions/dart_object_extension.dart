@@ -50,12 +50,10 @@ class _ToCodeExpressionConverter {
     // Special literals
 
     if (constant.isSymbol) {
-      // ignore: avoid-default-tostring, should be ok
       return Code('Symbol(${constant.symbolValue})');
     }
 
     if (constant.isType) {
-      // ignore: avoid-default-tostring, should be ok
       return Code('Symbol(${constant.symbolValue})');
     }
 

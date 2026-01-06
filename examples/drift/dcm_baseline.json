@@ -1,0 +1,103 @@
+{
+  "date": "2026-01-06 14:56:23.190275Z",
+  "version": "1.35.0",
+  "sensitivity": "exact",
+  "commands": {
+    "unused-code": {
+      "lib/db.dart": {
+        "unused-code-issue": [
+          "e67a3f04760893451505cd7bb3620bbe",
+          "f00f5a1aa6eb66d9543b13d16c09c764"
+        ]
+      },
+      "lib/db.drift.dart": {
+        "unused-code-issue": [
+          "897a98122ad24ea712e919e83a07a126",
+          "175fa0ea09cdd2d45151b228bc2903fc",
+          "e0e7641a8eac4484574bf8e6d48451db",
+          "60e77987ac6d9db04db42676d7cf0546",
+          "ca23e0b89b8c0a6e6b604ee44005217e",
+          "3e3cabfd48f69e80dc2ac4995ba1549a",
+          "9bdab4ec339ee92799c3ed8069dfcd73",
+          "a88256e8b1f923a552decbbcb7a6860f",
+          "4d3cd93e2ede71d48aaddc96d085c77a",
+          "d119feaef5f800cb839a0b01caa1c78f",
+          "b2567a9ccefcf6192aa0fcd71348111b",
+          "520e3f3df51e5c40aeaa5abc34c9d071",
+          "40dce778acbbef830e070490cd6d0f25",
+          "9cd9dca2c88a43e5bcf4583acde5ddc4",
+          "9fb5cf1a55e119952de5138338d76447",
+          "4eac76f75056a5318cf66887d1b6212d",
+          "28d4118989fb6209fd58596066a71be6",
+          "ede104c88fc4335fb8787641346dff3c",
+          "e35a788d1e178072d0d86435948bfe7b",
+          "efafd18530f2bc63c04ddbde89206b33",
+          "073d1238b624304bb44516224ceae0cb",
+          "b8a06f4d57953679f2c1a7b7d70cfe8f",
+          "9962e88d8492ca831bece0f15509f4a7",
+          "f209120b9e44f2d81c54ed9c0958c4d9",
+          "8ee2772587866e86159cc72c8bb33770",
+          "aeaf824f9874f297173f29e69cee81ee",
+          "9cd9dca2c88a43e5bcf4583acde5ddc4",
+          "a11aafadda73598055145919ca2a1988",
+          "ede104c88fc4335fb8787641346dff3c",
+          "98459d11041fdadfe8c2393b7695c860",
+          "b8a06f4d57953679f2c1a7b7d70cfe8f",
+          "b353829aeac765519d4da1b3d0b57831",
+          "1624002903b92fe2b5e2f44f5330ed67",
+          "5f02faf64bc0b7933a4a380964a06ca5",
+          "6a1563a23ca6c9221dc9292da0292800"
+        ]
+      },
+      "lib/mappr.dart": {
+        "unused-code-issue": [
+          "58409aa9dc1107e6ea8989a7719c254b",
+          "cc81a3865ac4667d67ae41a80dd4cddd"
+        ]
+      }
+    },
+    "dependencies": {
+      "pubspec.yaml": {
+        "unused-dependency-issue": [
+          "86b44239b427d178ac7e66105a02bf5f",
+          "098f6bcd4621d373cade4e832627b4f6"
+        ]
+      }
+    },
+    "code-duplications": {
+      "lib/mappr.auto_mappr.dart": {
+        "duplication-issue": [
+          "95e71713ea5069796959cdeaef0db939",
+          "5dcb5d4c6229dcaa059d611946738edf",
+          "3c3d3f71d795e975262e61a990187f89",
+          "68fe053a0531a94caf7af00d74875fde",
+          "221373a87ea426d760567971f64e0524",
+          "cfa52515e6889bac2d8dd1e2e4e87455",
+          "983958519c35c66a3a0201373137722b",
+          "2d8054655acd5b85e1310cfab63ae65b",
+          "ebad37c5ccbf7991f4ddc386b7ff58a1"
+        ]
+      }
+    },
+    "parameters": {
+      "lib/db.drift.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "7cbda0f66104d219153d60d38f72d98e",
+          "7419b5e48f419ab80172df5942f6c238",
+          "048d641694f6714d67fde9a26f5d3370",
+          "a819875d989c1e7e63d623c1a0882af8",
+          "7cbda0f66104d219153d60d38f72d98e",
+          "a819875d989c1e7e63d623c1a0882af8",
+          "7cbda0f66104d219153d60d38f72d98e",
+          "9aaeaa339843bf8495e8ce362b01c6b7",
+          "7cbda0f66104d219153d60d38f72d98e"
+        ]
+      },
+      "lib/mappr.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      }
+    }
+  }
+}

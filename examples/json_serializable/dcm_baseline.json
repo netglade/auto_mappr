@@ -1,0 +1,50 @@
+{
+  "date": "2026-01-06 14:56:23.189617Z",
+  "version": "1.35.0",
+  "sensitivity": "exact",
+  "commands": {
+    "unused-code": {
+      "lib/serializable.dart": {
+        "unused-code-issue": [
+          "600658f7610715c59e3431e5aff95b24",
+          "3331d2ddd87eaf3a3f64e9dff3a0738c",
+          "c99865c553e587d80695adec259c9f5e",
+          "2e2724d36e851024c847163201b94e98",
+          "81dde347394a4eba6c74548d8f38328a",
+          "0f9338d1d09c5647d1ea3950cd000f60",
+          "7966586161fec4acdcc57ff6a4bbd3c5"
+        ]
+      },
+      "test/fixture/json_serializable.dart": {
+        "unused-code-issue": [
+          "c99865c553e587d80695adec259c9f5e",
+          "2e2724d36e851024c847163201b94e98",
+          "0f9338d1d09c5647d1ea3950cd000f60",
+          "7966586161fec4acdcc57ff6a4bbd3c5"
+        ]
+      }
+    },
+    "code-duplications": {
+      "lib/serializable.auto_mappr.dart": {
+        "duplication-issue": [
+          "33b7bb16c885d3fa6913d59ce980c6c7",
+          "c22ee9ace26d3b29148e0c0bc0ebf78f",
+          "4fe6520978758672876624f16f70f7d9",
+          "82e0f443a227f1c8a9b83dabe87612d8"
+        ]
+      }
+    },
+    "parameters": {
+      "lib/serializable.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      },
+      "test/fixture/json_serializable.auto_mappr.dart": {
+        "unnecessary-optional-parameter-issue": [
+          "cb92a9b3d517821fbbfdaec53a097814"
+        ]
+      }
+    }
+  }
+}
