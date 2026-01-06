@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.14.0
+- Bump `analyzer` version to `>=9.0.0 <10.0.0`.
+
 ## 2.13.0
 - Added handling for classes with dynamic nested types.
 - Added warning when mapping dynamic types without defined type converter. [#252](https://github.com/netglade/auto_mappr/pull/252)
