@@ -1,7 +1,7 @@
 name: auto_mappr
 resolution: workspace
 description: Code generation for mapping between different objects with ease.
-version: 2.15.0
+version: 2.15.1
 repository: https://github.com/netglade/auto_mappr
 issue_tracker: https://github.com/netglade/auto_mappr/issues
 

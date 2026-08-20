@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.15.1
+- Fix generation failing when the same mappr is included multiple times in the includes hierarchy. [#256](https://github.com/netglade/auto_mappr/issues/256)
+
 ## 2.15.0
 - Bump `analyzer` version to `>=9.0.0 <11.0.0`. [#255](https://github.com/netglade/auto_mappr/pull/255)
 

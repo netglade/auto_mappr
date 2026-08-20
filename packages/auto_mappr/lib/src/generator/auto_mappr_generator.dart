@@ -197,6 +197,9 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
   }
 
   /// Recursively returns all mappings from includes.
+  ///
+  /// Identical mappings are collapsed,
+  /// so that a mappr reachable through multiple paths of the includes hierarchy is absorbed only once.
   Iterable<DartObject> _mappersFromRecursiveIncludes({required List<DartObject> includesList}) {
     final mappings = <DartObject>[];
 
@@ -221,7 +224,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
       }
     }
 
-    return mappings;
+    return mappings.toSet();
   }
 
   List<TypeConverter> _toTypeConverters(List<DartObject> source) {
@@ -242,6 +245,9 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
   }
 
   /// Recursively returns all type converters from includes.
+  ///
+  /// Identical converters are collapsed,
+  /// so that a mappr reachable through multiple paths of the includes hierarchy is absorbed only once.
   Iterable<DartObject> _convertersFromRecursiveIncludes({required List<DartObject> includesList}) {
     final mappings = <DartObject>[];
 
@@ -271,6 +277,6 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
       }
     }
 
-    return mappings;
+    return mappings.toSet();
   }
 }
