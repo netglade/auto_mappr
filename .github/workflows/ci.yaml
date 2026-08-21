@@ -27,7 +27,11 @@ jobs:
       - name: Get DCM version
         id: dcm-version
         run: |
-          dcmVersion=$(cat dcm_global.yaml | grep version | cut -d' ' -f2 | sed -r 's/"//g')
+          dcmVersion=$(grep '^version:' packages/auto_mappr/dcm_global.yaml | cut -d'"' -f2)
+          if [ -z "$dcmVersion" ]; then
+            echo "Could not read version from packages/auto_mappr/dcm_global.yaml" >&2
+            exit 1
+          fi
           echo "DCM_VERSION=$dcmVersion" >> "$GITHUB_OUTPUT"
 
       - name: Install DCM

@@ -22,7 +22,7 @@ class Mappr extends $Mappr {
 
 // positional
 
-class Positional with EquatableMixin {
+class Positional with Equatable {
   final (int, bool, String) value;
 
   @override
@@ -31,7 +31,7 @@ class Positional with EquatableMixin {
   const Positional(this.value);
 }
 
-class PositionalDto with EquatableMixin {
+class PositionalDto with Equatable {
   final (int, bool, String) value;
 
   @override
@@ -40,7 +40,7 @@ class PositionalDto with EquatableMixin {
   const PositionalDto(this.value);
 }
 
-class PositionalNullable with EquatableMixin {
+class PositionalNullable with Equatable {
   final (int?, bool?, String?, int?, bool?) value;
 
   @override
@@ -49,7 +49,7 @@ class PositionalNullable with EquatableMixin {
   const PositionalNullable(this.value);
 }
 
-class PositionalNullableDto with EquatableMixin {
+class PositionalNullableDto with Equatable {
   final (int?, bool?, String?) value;
 
   @override
@@ -58,7 +58,7 @@ class PositionalNullableDto with EquatableMixin {
   const PositionalNullableDto(this.value);
 }
 
-class Named with EquatableMixin {
+class Named with Equatable {
   final ({int alpha, bool beta, String gama}) value;
 
   @override
@@ -67,7 +67,7 @@ class Named with EquatableMixin {
   const Named(this.value);
 }
 
-class NamedNullable with EquatableMixin {
+class NamedNullable with Equatable {
   // ignore: record-fields-ordering, greek alphabet
   final ({int alpha, bool beta, String gama, int? delta, bool? epsilon}) value;
 
@@ -77,7 +77,7 @@ class NamedNullable with EquatableMixin {
   const NamedNullable(this.value);
 }
 
-class NamedDto with EquatableMixin {
+class NamedDto with Equatable {
   final ({int alpha, bool beta, String gama}) value;
 
   @override
@@ -88,7 +88,7 @@ class NamedDto with EquatableMixin {
 
 // complex
 
-class ComplexPositional with EquatableMixin {
+class ComplexPositional with Equatable {
   final List<Positional> value;
 
   @override
@@ -97,7 +97,7 @@ class ComplexPositional with EquatableMixin {
   const ComplexPositional(this.value);
 }
 
-class ComplexPositionalDto with EquatableMixin {
+class ComplexPositionalDto with Equatable {
   final List<PositionalDto> value;
 
   @override
@@ -106,7 +106,7 @@ class ComplexPositionalDto with EquatableMixin {
   const ComplexPositionalDto(this.value);
 }
 
-class ComplexNamed with EquatableMixin {
+class ComplexNamed with Equatable {
   final List<Named> value;
 
   @override
@@ -115,7 +115,7 @@ class ComplexNamed with EquatableMixin {
   const ComplexNamed(this.value);
 }
 
-class ComplexNamedDto with EquatableMixin {
+class ComplexNamedDto with Equatable {
   final List<NamedDto> value;
 
   @override

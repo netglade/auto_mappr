@@ -3,7 +3,7 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:equatable/equatable.dart';
 
-class TypeConverter with EquatableMixin {
+class TypeConverter with Equatable {
   final DartType source;
   final DartType target;
   final ExecutableElement converter;

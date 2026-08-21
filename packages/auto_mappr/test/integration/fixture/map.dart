@@ -32,7 +32,7 @@ class Mappr extends $Mappr {
   const Mappr();
 }
 
-class NestedTag with EquatableMixin {
+class NestedTag with Equatable {
   final bool flag;
 
   @override
@@ -47,7 +47,7 @@ class NestedTagDto {
   const NestedTagDto({required this.flag});
 }
 
-class Nested with EquatableMixin {
+class Nested with Equatable {
   final int id;
   final String name;
   final NestedTag tag;
@@ -68,7 +68,7 @@ class NestedDto {
 
 // Primitive primitive
 
-class PrimitivePrimitive with EquatableMixin {
+class PrimitivePrimitive with Equatable {
   final Map<String, int> value;
 
   @override
@@ -77,7 +77,7 @@ class PrimitivePrimitive with EquatableMixin {
   const PrimitivePrimitive(this.value);
 }
 
-class PrimitivePrimitiveDto with EquatableMixin {
+class PrimitivePrimitiveDto with Equatable {
   final Map<String, int> value;
 
   @override
@@ -86,7 +86,7 @@ class PrimitivePrimitiveDto with EquatableMixin {
   const PrimitivePrimitiveDto(this.value);
 }
 
-class PrimitivePrimitiveNullableKeyDto with EquatableMixin {
+class PrimitivePrimitiveNullableKeyDto with Equatable {
   final Map<String?, int> value;
 
   @override
@@ -95,7 +95,7 @@ class PrimitivePrimitiveNullableKeyDto with EquatableMixin {
   const PrimitivePrimitiveNullableKeyDto(this.value);
 }
 
-class PrimitivePrimitiveNullableValueDto with EquatableMixin {
+class PrimitivePrimitiveNullableValueDto with Equatable {
   final Map<String, int?> value;
 
   @override
@@ -104,7 +104,7 @@ class PrimitivePrimitiveNullableValueDto with EquatableMixin {
   const PrimitivePrimitiveNullableValueDto(this.value);
 }
 
-class PrimitivePrimitiveNullableBothDto with EquatableMixin {
+class PrimitivePrimitiveNullableBothDto with Equatable {
   final Map<String?, int?> value;
 
   @override
@@ -115,7 +115,7 @@ class PrimitivePrimitiveNullableBothDto with EquatableMixin {
 
 // Primitive complex
 
-class PrimitiveComplex with EquatableMixin {
+class PrimitiveComplex with Equatable {
   final Map<String, Nested> value;
 
   @override
@@ -124,7 +124,7 @@ class PrimitiveComplex with EquatableMixin {
   const PrimitiveComplex(this.value);
 }
 
-class PrimitiveComplexDto with EquatableMixin {
+class PrimitiveComplexDto with Equatable {
   final Map<String, NestedDto> value;
 
   @override
@@ -135,7 +135,7 @@ class PrimitiveComplexDto with EquatableMixin {
 
 // Complex primitive
 
-class ComplexPrimitive with EquatableMixin {
+class ComplexPrimitive with Equatable {
   final Map<Nested, int> value;
 
   @override
@@ -144,7 +144,7 @@ class ComplexPrimitive with EquatableMixin {
   const ComplexPrimitive(this.value);
 }
 
-class ComplexPrimitiveDto with EquatableMixin {
+class ComplexPrimitiveDto with Equatable {
   final Map<NestedDto, int> value;
 
   @override
@@ -155,7 +155,7 @@ class ComplexPrimitiveDto with EquatableMixin {
 
 // Complex complex
 
-class ComplexComplex with EquatableMixin {
+class ComplexComplex with Equatable {
   final Map<Nested, Nested> value;
 
   @override
@@ -164,7 +164,7 @@ class ComplexComplex with EquatableMixin {
   const ComplexComplex(this.value);
 }
 
-class ComplexComplexDto with EquatableMixin {
+class ComplexComplexDto with Equatable {
   final Map<NestedDto, NestedDto> value;
 
   @override
@@ -173,7 +173,7 @@ class ComplexComplexDto with EquatableMixin {
   const ComplexComplexDto(this.value);
 }
 
-class ComplexComplexNullableKeyDto with EquatableMixin {
+class ComplexComplexNullableKeyDto with Equatable {
   final Map<NestedDto?, NestedDto> value;
 
   @override
@@ -182,7 +182,7 @@ class ComplexComplexNullableKeyDto with EquatableMixin {
   const ComplexComplexNullableKeyDto(this.value);
 }
 
-class ComplexComplexNullableValueDto with EquatableMixin {
+class ComplexComplexNullableValueDto with Equatable {
   final Map<NestedDto, NestedDto?> value;
 
   @override
@@ -191,7 +191,7 @@ class ComplexComplexNullableValueDto with EquatableMixin {
   const ComplexComplexNullableValueDto(this.value);
 }
 
-class ComplexComplexNullableBothDto with EquatableMixin {
+class ComplexComplexNullableBothDto with Equatable {
   final Map<NestedDto?, NestedDto?> value;
 
   @override
@@ -202,7 +202,7 @@ class ComplexComplexNullableBothDto with EquatableMixin {
 
 // nullable and non nullable
 
-class NullableMap with EquatableMixin {
+class NullableMap with Equatable {
   final Map<String, Object?>? data;
 
   @override
@@ -211,7 +211,7 @@ class NullableMap with EquatableMixin {
   const NullableMap({this.data});
 }
 
-class NonNullableMap with EquatableMixin {
+class NonNullableMap with Equatable {
   final Map<String, Object?> data;
 
   @override

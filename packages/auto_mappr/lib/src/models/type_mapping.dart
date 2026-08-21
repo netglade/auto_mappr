@@ -7,7 +7,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
-class TypeMapping with EquatableMixin {
+class TypeMapping with Equatable {
   final InterfaceType source;
   final InterfaceType target;
   final List<FieldMapping> fieldMappings;
@@ -45,14 +45,14 @@ class TypeMapping with EquatableMixin {
   });
 
   String mappingMethodName() => MethodBuilderBase.constructConvertMethodName(
-        source: source,
-        target: target,
-      );
+    source: source,
+    target: target,
+  );
 
   String nullableMappingMethodName() => MethodBuilderBase.constructNullableConvertMethodName(
-        source: source,
-        target: target,
-      );
+    source: source,
+    target: target,
+  );
 
   bool hasWhenNullDefault() {
     return whenSourceIsNullExpression != null;

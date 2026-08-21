@@ -27,7 +27,7 @@ class Mappr extends $Mappr {
   const Mappr();
 }
 
-class FinalTarget with EquatableMixin {
+class FinalTarget with Equatable {
   final int? a;
   final int? b;
   final int? c;
@@ -37,21 +37,15 @@ class FinalTarget with EquatableMixin {
 
   const FinalTarget(this.a, this.b, this.c);
 
-  const FinalTarget.alpha(this.a)
-      : b = null,
-        c = null;
+  const FinalTarget.alpha(this.a) : b = null, c = null;
 
-  const FinalTarget.beta(this.b)
-      : a = null,
-        c = null;
+  const FinalTarget.beta(this.b) : a = null, c = null;
 
-  const FinalTarget.gama(this.c)
-      : a = null,
-        b = null;
+  const FinalTarget.gama(this.c) : a = null, b = null;
 }
 
 // ignore: must_be_immutable, ok in tests
-class NonFinalTarget with EquatableMixin {
+class NonFinalTarget with Equatable {
   int? a;
   int? b;
   int? c;
@@ -61,17 +55,11 @@ class NonFinalTarget with EquatableMixin {
 
   NonFinalTarget(this.a, this.b, this.c);
 
-  NonFinalTarget.alpha(this.a)
-      : b = null,
-        c = null;
+  NonFinalTarget.alpha(this.a) : b = null, c = null;
 
-  NonFinalTarget.beta(this.b)
-      : a = null,
-        c = null;
+  NonFinalTarget.beta(this.b) : a = null, c = null;
 
-  NonFinalTarget.gama(this.c)
-      : a = null,
-        b = null;
+  NonFinalTarget.gama(this.c) : a = null, b = null;
 }
 
 class TestEmptyDto {
@@ -116,7 +104,7 @@ class TestNonsenseDto {
 
 // Factory selection
 
-class TestFactoryNotSelected with EquatableMixin {
+class TestFactoryNotSelected with Equatable {
   final int a;
   final int b;
   final int c;
@@ -124,14 +112,9 @@ class TestFactoryNotSelected with EquatableMixin {
   @override
   List<Object?> get props => [a, b, c];
 
-  TestFactoryNotSelected()
-      : a = 1,
-        b = 2,
-        c = 3;
+  TestFactoryNotSelected() : a = 1, b = 2, c = 3;
 
-  TestFactoryNotSelected.one({required this.a})
-      : b = 4,
-        c = 5;
+  TestFactoryNotSelected.one({required this.a}) : b = 4, c = 5;
 
   TestFactoryNotSelected.two({required this.a, required this.b}) : c = 5;
 
@@ -149,11 +132,10 @@ class TestFactoryNotSelected with EquatableMixin {
     required int d,
     // ignore: avoid_unused_constructor_parameters, for test
     required int e,
-  }) =>
-      TestFactoryNotSelected.three(a: a, b: b, c: c);
+  }) => TestFactoryNotSelected.three(a: a, b: b, c: c);
 }
 
-class TestFactorySelected with EquatableMixin {
+class TestFactorySelected with Equatable {
   final int a;
   final int b;
   final int c;
@@ -186,8 +168,7 @@ class TestFactorySelected with EquatableMixin {
     required int c,
     // ignore: avoid_unused_constructor_parameters, for test
     required int d,
-  }) =>
-      TestFactorySelected._one(a: a, b: b, c: c);
+  }) => TestFactorySelected._one(a: a, b: b, c: c);
 
   factory TestFactorySelected.fromJson({
     required int a,
@@ -197,15 +178,13 @@ class TestFactorySelected with EquatableMixin {
     required int d,
     // ignore: avoid_unused_constructor_parameters, for test
     required int e,
-  }) =>
-      TestFactorySelected._three(a: a, b: b, c: c);
+  }) => TestFactorySelected._three(a: a, b: b, c: c);
 
   factory TestFactorySelected.beta({
     required int a,
     required int b,
     required int c,
-  }) =>
-      TestFactorySelected._two(a: a, b: b, c: c);
+  }) => TestFactorySelected._two(a: a, b: b, c: c);
 }
 
 class TestFactoryDto {

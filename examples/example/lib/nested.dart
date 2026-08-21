@@ -11,7 +11,7 @@ import 'package:examples_example/nested.auto_mappr.dart';
 ])
 class Mappr extends $Mappr {}
 
-class User with EquatableMixin {
+class User with Equatable {
   final int id;
   final Nested name;
   final NestedTag? tag;

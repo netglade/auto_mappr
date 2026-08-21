@@ -15,7 +15,7 @@ class Mappr extends $Mappr {
   const Mappr();
 }
 
-class NestedTag with EquatableMixin {
+class NestedTag with Equatable {
   final bool flag;
 
   @override
@@ -30,7 +30,7 @@ class NestedTagDto {
   NestedTagDto({required this.flag});
 }
 
-class Nested with EquatableMixin {
+class Nested with Equatable {
   final int id;
   final String name;
   final NestedTag tag;
@@ -51,7 +51,7 @@ class NestedDto {
 
 // primitive
 
-class Primitive with EquatableMixin {
+class Primitive with Equatable {
   final Set<int> value;
 
   @override
@@ -60,7 +60,7 @@ class Primitive with EquatableMixin {
   const Primitive(this.value);
 }
 
-class PrimitiveDto with EquatableMixin {
+class PrimitiveDto with Equatable {
   final Set<int> value;
 
   @override
@@ -69,7 +69,7 @@ class PrimitiveDto with EquatableMixin {
   const PrimitiveDto(this.value);
 }
 
-class PrimitiveNullableDto with EquatableMixin {
+class PrimitiveNullableDto with Equatable {
   final Set<int?> value;
 
   @override
@@ -80,7 +80,7 @@ class PrimitiveNullableDto with EquatableMixin {
 
 // complex
 
-class Complex with EquatableMixin {
+class Complex with Equatable {
   final Set<Nested> value;
 
   @override
@@ -89,7 +89,7 @@ class Complex with EquatableMixin {
   const Complex(this.value);
 }
 
-class ComplexDto with EquatableMixin {
+class ComplexDto with Equatable {
   final Set<NestedDto> value;
 
   @override
@@ -98,7 +98,7 @@ class ComplexDto with EquatableMixin {
   const ComplexDto(this.value);
 }
 
-class ComplexNullableDto with EquatableMixin {
+class ComplexNullableDto with Equatable {
   final Set<NestedDto?> value;
 
   @override
