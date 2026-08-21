@@ -24,16 +24,14 @@ jobs:
       - name: Analyze
         run: melos run lint:dart
 
-      # DCM is temporarily skipped in CI.
-      # Run `melos run lint:dcm` locally instead. Uncomment to re-enable.
-      # - name: Install DCM
-      #   uses: CQLabs/setup-dcm@v2
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #
-      # - name: Run DCM (shell)
-      #   run: dcm analyze . --fatal-style --fatal-warnings
-      #   shell: bash
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run DCM (shell)
+        run: dcm analyze . --fatal-style --fatal-warnings
+        shell: bash
 
       - name: Test
         run: melos run test
