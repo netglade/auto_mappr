@@ -20,7 +20,7 @@ class SharedSource {
   const SharedSource(this.number);
 }
 
-class SharedTarget with EquatableMixin {
+class SharedTarget with Equatable {
   final String number;
 
   @override

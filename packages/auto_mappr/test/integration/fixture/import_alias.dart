@@ -39,7 +39,7 @@ class UserDto {
   const UserDto({required this.name, required this.age});
 }
 
-class User with EquatableMixin {
+class User with Equatable {
   final String name;
   final int age;
 
@@ -49,7 +49,7 @@ class User with EquatableMixin {
   const User({required this.name, required this.age});
 }
 
-class Holder<A, B> with EquatableMixin {
+class Holder<A, B> with Equatable {
   final A first;
   final B second;
 
@@ -61,7 +61,7 @@ class Holder<A, B> with EquatableMixin {
 
 // iterables
 
-class ListHolder<T> with EquatableMixin {
+class ListHolder<T> with Equatable {
   final List<T> list;
 
   @override
@@ -70,7 +70,7 @@ class ListHolder<T> with EquatableMixin {
   const ListHolder(this.list);
 }
 
-class MapHolder<T> with EquatableMixin {
+class MapHolder<T> with Equatable {
   final Map<String, T> map;
 
   @override

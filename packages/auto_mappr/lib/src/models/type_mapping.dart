@@ -7,7 +7,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
-class TypeMapping with EquatableMixin {
+class TypeMapping with Equatable {
   final InterfaceType source;
   final InterfaceType target;
   final List<FieldMapping> fieldMappings;

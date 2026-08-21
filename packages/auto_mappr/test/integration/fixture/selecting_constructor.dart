@@ -27,7 +27,7 @@ class Mappr extends $Mappr {
   const Mappr();
 }
 
-class FinalTarget with EquatableMixin {
+class FinalTarget with Equatable {
   final int? a;
   final int? b;
   final int? c;
@@ -51,7 +51,7 @@ class FinalTarget with EquatableMixin {
 }
 
 // ignore: must_be_immutable, ok in tests
-class NonFinalTarget with EquatableMixin {
+class NonFinalTarget with Equatable {
   int? a;
   int? b;
   int? c;
@@ -116,7 +116,7 @@ class TestNonsenseDto {
 
 // Factory selection
 
-class TestFactoryNotSelected with EquatableMixin {
+class TestFactoryNotSelected with Equatable {
   final int a;
   final int b;
   final int c;
@@ -153,7 +153,7 @@ class TestFactoryNotSelected with EquatableMixin {
       TestFactoryNotSelected.three(a: a, b: b, c: c);
 }
 
-class TestFactorySelected with EquatableMixin {
+class TestFactorySelected with Equatable {
   final int a;
   final int b;
   final int c;

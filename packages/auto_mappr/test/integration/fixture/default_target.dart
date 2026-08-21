@@ -58,7 +58,7 @@ class Mappr extends $Mappr {
 
 // Nested object
 
-class Nested with EquatableMixin {
+class Nested with Equatable {
   final int id;
   final String name;
 
@@ -79,7 +79,7 @@ class NestedDto {
 
 // Complex
 
-class ComplexPositionalValue with EquatableMixin {
+class ComplexPositionalValue with Equatable {
   final int age;
   final Nested name;
 
@@ -96,7 +96,7 @@ class ComplexPositionalValueDto {
   const ComplexPositionalValueDto(this.age, this.name);
 }
 
-class ComplexNamedValue with EquatableMixin {
+class ComplexNamedValue with Equatable {
   final int age;
   final Nested name;
 
@@ -115,7 +115,7 @@ class ComplexNamedValueDto {
 
 // Primitive
 
-class PrimitivePositionalValue with EquatableMixin {
+class PrimitivePositionalValue with Equatable {
   final int age;
   final String name;
 
@@ -132,7 +132,7 @@ class PrimitivePositionalValueDto {
   const PrimitivePositionalValueDto(this.age, this.name);
 }
 
-class PrimitiveNamedValue with EquatableMixin {
+class PrimitiveNamedValue with Equatable {
   final int age;
   final String name;
 
@@ -153,7 +153,7 @@ class PrimitiveNamedValueDto {
 
 // Complex
 
-class ComplexPositionalFunction with EquatableMixin {
+class ComplexPositionalFunction with Equatable {
   final int age;
   final Nested name;
 
@@ -170,7 +170,7 @@ class ComplexPositionalFunctionDto {
   const ComplexPositionalFunctionDto(this.age, this.name);
 }
 
-class ComplexNamedFunction with EquatableMixin {
+class ComplexNamedFunction with Equatable {
   final int age;
   final Nested name;
 
@@ -189,7 +189,7 @@ class ComplexNamedFunctionDto {
 
 // Primitive
 
-class PrimitivePositionalFunction with EquatableMixin {
+class PrimitivePositionalFunction with Equatable {
   final int age;
   final String name;
 
@@ -206,7 +206,7 @@ class PrimitivePositionalFunctionDto {
   const PrimitivePositionalFunctionDto(this.age, this.name);
 }
 
-class PrimitiveNamedFunction with EquatableMixin {
+class PrimitiveNamedFunction with Equatable {
   final int age;
   final String name;
 

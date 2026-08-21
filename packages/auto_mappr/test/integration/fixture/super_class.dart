@@ -17,7 +17,7 @@ class SuperClass {
   const SuperClass({required this.first});
 }
 
-class SubClass extends SuperClass with EquatableMixin {
+class SubClass extends SuperClass with Equatable {
   final int second;
 
   @override
@@ -26,7 +26,7 @@ class SubClass extends SuperClass with EquatableMixin {
   const SubClass({required this.second, required super.first});
 }
 
-class FlattenedClass with EquatableMixin {
+class FlattenedClass with Equatable {
   final int first;
   final int second;
 

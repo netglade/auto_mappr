@@ -15,7 +15,7 @@ class UserDto {
   const UserDto({required this.name, required this.age});
 }
 
-class User with EquatableMixin {
+class User with Equatable {
   final String name;
   final int age;
 

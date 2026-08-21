@@ -6,7 +6,7 @@ repository: https://github.com/netglade/auto_mappr
 issue_tracker: https://github.com/netglade/auto_mappr/issues
 
 environment:
-  sdk: ^3.9.0
+  sdk: ^3.12.0
 
 dependencies:
   analyzer: '>=9.0.0 <11.0.0' # Same as freezed
@@ -15,7 +15,7 @@ dependencies:
   built_collection: ^5.1.1
   code_builder: ^4.10.1
   collection: ^1.18.0
-  equatable: 2.0.7
+  equatable: ^2.1.0
   meta: ^1.8.0
   path: ^1.8.0
   source_gen: ^4.0.0

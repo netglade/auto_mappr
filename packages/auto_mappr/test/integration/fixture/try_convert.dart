@@ -18,7 +18,7 @@ class Mappr extends $Mappr {
 
 // Other object
 
-class Example with EquatableMixin {
+class Example with Equatable {
   final int id;
 
   @override
@@ -35,7 +35,7 @@ class ExampleDto {
 
 // Nested object
 
-class Nested with EquatableMixin {
+class Nested with Equatable {
   final int id;
   final String name;
 
@@ -56,7 +56,7 @@ class NestedDto {
 
 // Complex
 
-class ComplexValue with EquatableMixin {
+class ComplexValue with Equatable {
   final int age;
   final String gender;
   final Nested name;
