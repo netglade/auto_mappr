@@ -16,7 +16,7 @@ class Mappr extends $Mappr {
   const Mappr();
 }
 
-class NestedTag with Equatable {
+class NestedTag with EquatableMixin {
   final bool flag;
 
   @override
@@ -31,7 +31,7 @@ class NestedTagDto {
   NestedTagDto({required this.flag});
 }
 
-class Nested with Equatable {
+class Nested with EquatableMixin {
   final int id;
   final String name;
   final NestedTag tag;
@@ -52,7 +52,7 @@ class NestedDto {
 
 // primitive
 
-class Primitive with Equatable {
+class Primitive with EquatableMixin {
   final List<int> value;
 
   @override
@@ -61,7 +61,7 @@ class Primitive with Equatable {
   const Primitive(this.value);
 }
 
-class PrimitiveDto with Equatable {
+class PrimitiveDto with EquatableMixin {
   final List<int> value;
 
   @override
@@ -70,7 +70,7 @@ class PrimitiveDto with Equatable {
   const PrimitiveDto(this.value);
 }
 
-class PrimitiveNullableDto with Equatable {
+class PrimitiveNullableDto with EquatableMixin {
   final List<int?> value;
 
   @override
@@ -81,7 +81,7 @@ class PrimitiveNullableDto with Equatable {
 
 // complex
 
-class Complex with Equatable {
+class Complex with EquatableMixin {
   final List<Nested> value;
 
   @override
@@ -90,7 +90,7 @@ class Complex with Equatable {
   const Complex(this.value);
 }
 
-class ComplexWithNullList with Equatable {
+class ComplexWithNullList with EquatableMixin {
   final List<Nested>? value;
 
   @override
@@ -99,7 +99,7 @@ class ComplexWithNullList with Equatable {
   const ComplexWithNullList(this.value);
 }
 
-class ComplexDto with Equatable {
+class ComplexDto with EquatableMixin {
   final List<NestedDto> value;
 
   @override
@@ -108,7 +108,7 @@ class ComplexDto with Equatable {
   const ComplexDto(this.value);
 }
 
-class ComplexDtoWithNullList with Equatable {
+class ComplexDtoWithNullList with EquatableMixin {
   final List<NestedDto>? value;
 
   @override
@@ -117,7 +117,7 @@ class ComplexDtoWithNullList with Equatable {
   const ComplexDtoWithNullList(this.value);
 }
 
-class ComplexNullableDto with Equatable {
+class ComplexNullableDto with EquatableMixin {
   final List<NestedDto?> value;
 
   @override

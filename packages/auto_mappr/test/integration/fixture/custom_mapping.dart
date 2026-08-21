@@ -114,7 +114,7 @@ class Mappr extends $Mappr {
 
 // custom type
 
-class CustomValue with Equatable {
+class CustomValue with EquatableMixin {
   final int id;
   final int xxx;
 
@@ -126,7 +126,7 @@ class CustomValue with Equatable {
   const CustomValue.named(this.id, {required this.xxx});
 }
 
-class CustomListValue with Equatable {
+class CustomListValue with EquatableMixin {
   final List<Object> list;
 
   @override
@@ -135,7 +135,7 @@ class CustomListValue with Equatable {
   const CustomListValue(this.list);
 }
 
-class CustomValueHolder with Equatable {
+class CustomValueHolder with EquatableMixin {
   final CustomValue value;
 
   @override
@@ -144,7 +144,7 @@ class CustomValueHolder with Equatable {
   const CustomValueHolder(this.value);
 }
 
-class CustomValueHolderNamed with Equatable {
+class CustomValueHolderNamed with EquatableMixin {
   final CustomValue value;
 
   @override
@@ -155,7 +155,7 @@ class CustomValueHolderNamed with Equatable {
 
 // empty
 
-class CustomValueFromEmpty with Equatable {
+class CustomValueFromEmpty with EquatableMixin {
   final num numValue;
   final int intValue;
   final double doubleValue;
@@ -196,7 +196,7 @@ class CustomValueFromEmptyDto {
   const CustomValueFromEmptyDto();
 }
 
-class CustomFunctionFromEmpty with Equatable {
+class CustomFunctionFromEmpty with EquatableMixin {
   final num numValue;
   final int intValue;
   final double doubleValue;
@@ -242,7 +242,7 @@ class CustomFunctionFromEmptyDto {
 
 // positional and named
 
-class CustomValuePositional with Equatable {
+class CustomValuePositional with EquatableMixin {
   final String nameAndId;
 
   @override
@@ -258,7 +258,7 @@ class CustomValuePositionalDto {
   const CustomValuePositionalDto(this.id, this.name);
 }
 
-class CustomValueNamed with Equatable {
+class CustomValueNamed with EquatableMixin {
   final String nameAndId;
 
   @override
@@ -274,7 +274,7 @@ class CustomValueNamedDto {
   const CustomValueNamedDto({required this.id, required this.name});
 }
 
-class CustomFunctionPositional with Equatable {
+class CustomFunctionPositional with EquatableMixin {
   final String nameAndId;
 
   @override
@@ -290,7 +290,7 @@ class CustomFunctionPositionalDto {
   const CustomFunctionPositionalDto(this.id, this.name);
 }
 
-class CustomFunctionNamed with Equatable {
+class CustomFunctionNamed with EquatableMixin {
   final String nameAndId;
 
   @override

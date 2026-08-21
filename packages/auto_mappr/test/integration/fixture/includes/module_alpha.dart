@@ -15,7 +15,7 @@ class AlphaDto {
   const AlphaDto(this.value);
 }
 
-class Alpha with Equatable {
+class Alpha with EquatableMixin {
   final int value;
 
   @override

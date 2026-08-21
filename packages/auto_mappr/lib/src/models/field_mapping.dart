@@ -3,7 +3,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:equatable/equatable.dart';
 import 'package:source_gen/source_gen.dart';
 
-class FieldMapping with Equatable {
+class FieldMapping with EquatableMixin {
   final String field;
   final bool ignore;
   final String? from;

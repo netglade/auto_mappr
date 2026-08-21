@@ -16,7 +16,7 @@ class ConstructorRenameMappr extends $ConstructorRenameMappr {
   static String mapName(Source s) => s.name;
 }
 
-class Source with Equatable {
+class Source with EquatableMixin {
   final String name;
   final String address;
   final String note;
@@ -27,7 +27,7 @@ class Source with Equatable {
   const Source({required this.name, required this.address, required this.note});
 }
 
-class Target with Equatable {
+class Target with EquatableMixin {
   final String name;
   final String address;
   final String note;

@@ -24,30 +24,14 @@ jobs:
       - name: Analyze
         run: melos run lint:dart
 
-      - name: Get DCM version
-        id: dcm-version
-        run: |
-          dcmVersion=$(grep '^version:' packages/auto_mappr/dcm_global.yaml | cut -d'"' -f2)
-          if [ -z "$dcmVersion" ]; then
-            echo "Could not read version from packages/auto_mappr/dcm_global.yaml" >&2
-            exit 1
-          fi
-          echo "DCM_VERSION=$dcmVersion" >> "$GITHUB_OUTPUT"
-
       - name: Install DCM
         uses: CQLabs/setup-dcm@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          version: ${{ steps.dcm-version.outputs.DCM_VERSION }}
 
-      - name: Run DCM
-        uses: CQLabs/dcm-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          ci-key: ${{ secrets.DCM_KEY }}
-          email: ${{ secrets.DCM_EMAIL }}
-          folders: packages examples
-          fatal-found: true
+      - name: Run DCM (shell)
+        run: dcm analyze . --fatal-style --fatal-warnings
+        shell: bash
 
       - name: Test
         run: melos run test

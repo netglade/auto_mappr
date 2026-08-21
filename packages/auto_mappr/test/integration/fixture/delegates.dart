@@ -15,7 +15,7 @@ class GroupDto {
   const GroupDto(this.value);
 }
 
-class Group with Equatable {
+class Group with EquatableMixin {
   final int value;
 
   @override

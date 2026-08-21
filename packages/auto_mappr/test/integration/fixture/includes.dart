@@ -19,7 +19,7 @@ class GroupDto {
   const GroupDto(this.alpha, this.beta, this.gama);
 }
 
-class Group with Equatable {
+class Group with EquatableMixin {
   final alpha_feature.Alpha alpha;
   final Beta beta;
   final Gama gama;

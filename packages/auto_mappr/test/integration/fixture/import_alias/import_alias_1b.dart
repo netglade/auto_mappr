@@ -9,7 +9,7 @@ class XxxDto {
   const XxxDto({required this.name, required this.age});
 }
 
-class Xxx with Equatable {
+class Xxx with EquatableMixin {
   final String name;
   final int age;
 

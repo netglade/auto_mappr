@@ -21,7 +21,7 @@ class Mappr extends $Mappr {
 
 // Primitive
 
-class Primitive with Equatable {
+class Primitive with EquatableMixin {
   final int number;
   final String string;
 
@@ -31,7 +31,7 @@ class Primitive with Equatable {
   const Primitive({required this.number, required this.string});
 }
 
-class PrimitiveDto with Equatable {
+class PrimitiveDto with EquatableMixin {
   final int number;
   final String string;
 
@@ -43,7 +43,7 @@ class PrimitiveDto with Equatable {
 
 // User
 
-class User with Equatable {
+class User with EquatableMixin {
   final int id;
   final String name;
   final Address address;
@@ -54,7 +54,7 @@ class User with Equatable {
   const User({required this.id, required this.name, required this.address});
 }
 
-class UserDto with Equatable {
+class UserDto with EquatableMixin {
   final int id;
   final String name;
   final AddressDto address;
@@ -65,7 +65,7 @@ class UserDto with Equatable {
   const UserDto(this.id, {required this.name, required this.address});
 }
 
-class Address with Equatable {
+class Address with EquatableMixin {
   final String street;
   final String city;
 
@@ -75,7 +75,7 @@ class Address with Equatable {
   const Address({required this.street, required this.city});
 }
 
-class AddressDto with Equatable {
+class AddressDto with EquatableMixin {
   final String street;
   final String city;
 
@@ -85,7 +85,7 @@ class AddressDto with Equatable {
   const AddressDto({required this.street, required this.city});
 }
 
-class SpecialAddress with Equatable {
+class SpecialAddress with EquatableMixin {
   final String specialStreet;
   final String specialCity;
 

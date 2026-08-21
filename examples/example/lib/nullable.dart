@@ -15,7 +15,7 @@ class Mappr extends $Mappr {
   static Nested defaultNested() => const Nested(id: 1, name: 'default_TAG');
 }
 
-class User with Equatable {
+class User with EquatableMixin {
   final int id;
   final Nested? name;
   final Nested tag;

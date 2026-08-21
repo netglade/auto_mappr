@@ -63,7 +63,7 @@ class PrimitivesDto {
   const PrimitivesDto({required this.alpha, required this.beta});
 }
 
-class Primitives with Equatable {
+class Primitives with EquatableMixin {
   final String alpha;
   final String beta;
 
@@ -83,7 +83,7 @@ class NormalFieldDto {
   const NormalFieldDto({required this.xInt, required this.xString, required this.normalBool});
 }
 
-class NormalField with Equatable {
+class NormalField with EquatableMixin {
   final Value<int> xInt;
   final Value<String> xString;
   final bool normalBool;
@@ -104,7 +104,7 @@ class InListDto {
   const InListDto({required this.xInt, required this.xString, required this.normalBool});
 }
 
-class InList with Equatable {
+class InList with EquatableMixin {
   final List<Value<int>> xInt;
   final Value<String> xString;
   final bool normalBool;
@@ -125,7 +125,7 @@ class InMapDto {
   const InMapDto({required this.alpha, required this.beta, required this.gama});
 }
 
-class InMap with Equatable {
+class InMap with EquatableMixin {
   final Map<Value<String>, int> alpha;
   final Map<String, Value<int>> beta;
   final Map<Value<String>, Value<int>> gama;
@@ -144,7 +144,7 @@ class IncludesDto {
   const IncludesDto({required this.alpha});
 }
 
-class Includes with Equatable {
+class Includes with EquatableMixin {
   final bool alpha;
 
   @override
@@ -155,7 +155,7 @@ class Includes with Equatable {
 
 // Box
 
-class Value<T> with Equatable {
+class Value<T> with EquatableMixin {
   final T value;
 
   @override
@@ -166,7 +166,7 @@ class Value<T> with Equatable {
 
 // Post w/ reverse.
 
-class Post with Equatable {
+class Post with EquatableMixin {
   final User user;
 
   @override
@@ -175,7 +175,7 @@ class Post with Equatable {
   const Post({required this.user});
 }
 
-class PostDto with Equatable {
+class PostDto with EquatableMixin {
   final UserDto user;
 
   @override
@@ -184,7 +184,7 @@ class PostDto with Equatable {
   const PostDto({required this.user});
 }
 
-class User with Equatable {
+class User with EquatableMixin {
   final String id;
 
   @override
@@ -193,7 +193,7 @@ class User with Equatable {
   const User({required this.id});
 }
 
-class UserDto with Equatable {
+class UserDto with EquatableMixin {
   final String id;
 
   @override
@@ -215,7 +215,7 @@ class RequiredInput {
   const RequiredInput(this.xString);
 }
 
-class RequiredOutput with Equatable {
+class RequiredOutput with EquatableMixin {
   final Value<String> xString;
 
   @override
@@ -230,7 +230,7 @@ class NullableInput {
   const NullableInput(this.xString);
 }
 
-class NullableOutput with Equatable {
+class NullableOutput with EquatableMixin {
   final Value<String>? xString;
 
   @override

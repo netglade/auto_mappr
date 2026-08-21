@@ -9,7 +9,7 @@ class Mappr extends $Mappr {
 }
 
 // ignore: must_be_immutable, for testing
-class One with Equatable {
+class One with EquatableMixin {
   final int usingConstructor1;
   final String usingConstructor2;
   bool withoutConstructor1 = false;

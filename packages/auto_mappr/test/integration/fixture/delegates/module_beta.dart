@@ -15,7 +15,7 @@ class BetaDto {
   const BetaDto(this.value);
 }
 
-class Beta with Equatable {
+class Beta with EquatableMixin {
   final int value;
 
   @override

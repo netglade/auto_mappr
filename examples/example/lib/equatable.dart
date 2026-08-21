@@ -7,7 +7,7 @@ import 'package:examples_example/equatable.auto_mappr.dart';
 ])
 class Mappr extends $Mappr {}
 
-class User with Equatable {
+class User with EquatableMixin {
   final int id;
   final String name;
   final String? tag;

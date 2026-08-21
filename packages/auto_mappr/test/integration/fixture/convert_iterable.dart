@@ -18,7 +18,7 @@ class Mappr extends $Mappr {
   const Mappr();
 }
 
-class User with Equatable {
+class User with EquatableMixin {
   final String userName;
   final int age;
   final Address address;
@@ -57,7 +57,7 @@ class UserWithDefaultDto {
   });
 }
 
-class Address with Equatable {
+class Address with EquatableMixin {
   final String street;
   final String city;
   final String country;

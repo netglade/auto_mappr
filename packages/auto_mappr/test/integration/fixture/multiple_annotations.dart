@@ -18,7 +18,7 @@ class Mappr extends $Mappr {
   const Mappr();
 }
 
-class User with Equatable {
+class User with EquatableMixin {
   final int age;
   final String name;
 

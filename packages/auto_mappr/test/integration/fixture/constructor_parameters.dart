@@ -13,7 +13,7 @@ class MapprX extends $MapprX {
   const MapprX();
 }
 
-class Positional with Equatable {
+class Positional with EquatableMixin {
   final int age;
   final String name;
   final String? note;
@@ -24,7 +24,7 @@ class Positional with Equatable {
   const Positional(this.age, this.name, [this.note]);
 }
 
-class Named with Equatable {
+class Named with EquatableMixin {
   final int age;
   final String name;
   final String? note;

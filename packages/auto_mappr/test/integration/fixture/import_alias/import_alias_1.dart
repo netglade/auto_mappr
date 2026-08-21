@@ -9,7 +9,7 @@ class UserDto {
   const UserDto({required this.name, required this.age});
 }
 
-class User with Equatable {
+class User with EquatableMixin {
   final String name;
   final int age;
 
@@ -19,7 +19,7 @@ class User with Equatable {
   const User({required this.name, required this.age});
 }
 
-class Holder<A, B> with Equatable {
+class Holder<A, B> with EquatableMixin {
   final A first;
   final B second;
 
