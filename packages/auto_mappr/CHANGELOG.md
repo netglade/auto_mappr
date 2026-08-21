@@ -2,6 +2,7 @@
 
 ## 2.16.0
 - Bump minimum Dart SDK version to `3.12.0`.
+- Bump `auto_mappr_annotation` version to `^2.4.0`.
 - Bump `equatable` version to `^2.1.0`.
 - Use `Equatable` as a mixin instead of the deprecated `EquatableMixin`.
 
