@@ -46,7 +46,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           ci-key: ${{ secrets.DCM_KEY }}
           email: ${{ secrets.DCM_EMAIL }}
-          folders: packages/netglade_analysis
+          folders: packages examples
           fatal-found: true
 
       - name: Test
