@@ -24,14 +24,26 @@ jobs:
       - name: Analyze
         run: melos run lint:dart
 
+      - name: Get DCM version
+        id: dcm-version
+        run: |
+          dcmVersion=$(cat dcm_global.yaml | grep version | cut -d' ' -f2 | sed -r 's/"//g')
+          echo "DCM_VERSION=$dcmVersion" >> "$GITHUB_OUTPUT"
+
       - name: Install DCM
         uses: CQLabs/setup-dcm@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ steps.dcm-version.outputs.DCM_VERSION }}
 
-      - name: Run DCM (shell)
-        run: dcm analyze . --fatal-style --fatal-warnings
-        shell: bash
+      - name: Run DCM
+        uses: CQLabs/dcm-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          ci-key: ${{ secrets.DCM_KEY }}
+          email: ${{ secrets.DCM_EMAIL }}
+          folders: packages/netglade_analysis
+          fatal-found: true
 
       - name: Test
         run: melos run test
