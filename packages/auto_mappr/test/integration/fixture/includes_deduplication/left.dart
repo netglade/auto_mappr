@@ -15,7 +15,7 @@ class LeftSource {
   const LeftSource(this.shared);
 }
 
-class LeftTarget with Equatable {
+class LeftTarget with EquatableMixin {
   final SharedTarget shared;
 
   @override
