@@ -48,9 +48,7 @@ extension DartTypeExtension on DartType {
     }
 
     // Name matches.
-    // ignore: deprecated_member_use, avoid-deprecated-usage, without this it does not work - we have to fix this later
     final thisName = getDisplayString(withNullability: false);
-    // ignore: deprecated_member_use, avoid-deprecated-usage, without this it does not work - we have to fix this later
     final otherName = other.getDisplayString(withNullability: false);
     final isSameName = thisName == otherName;
 
