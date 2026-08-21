@@ -62,7 +62,7 @@ extension ExpressionExtension on Expression {
     return condition
         ? maybeNullSafeProperty(
             name,
-            isOnNullable: isOnNullable, // ignore: unnecessary-trailing-comma, false positive
+            isOnNullable: isOnNullable,
           ).call(positionalArguments, namedArguments, typeArguments)
         : this;
   }
