@@ -14,7 +14,7 @@ class GamaDto {
   const GamaDto(this.value);
 }
 
-class Gama with EquatableMixin {
+class Gama with Equatable {
   final int value;
 
   @override

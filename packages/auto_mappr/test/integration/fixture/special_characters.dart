@@ -49,7 +49,7 @@ class Mappr extends $Mappr {
   const Mappr();
 }
 
-class Dollar$Class with EquatableMixin {
+class Dollar$Class with Equatable {
   final int value;
 
   @override
@@ -58,7 +58,7 @@ class Dollar$Class with EquatableMixin {
   const Dollar$Class({required this.value});
 }
 
-class Underscore_Class with EquatableMixin {
+class Underscore_Class with Equatable {
   final int value;
 
   @override
@@ -67,7 +67,7 @@ class Underscore_Class with EquatableMixin {
   const Underscore_Class({required this.value});
 }
 
-class Number123Class with EquatableMixin {
+class Number123Class with Equatable {
   final int value;
 
   @override
@@ -76,7 +76,7 @@ class Number123Class with EquatableMixin {
   const Number123Class({required this.value});
 }
 
-class DollarField with EquatableMixin {
+class DollarField with Equatable {
   final int val$ue;
 
   @override
@@ -85,7 +85,7 @@ class DollarField with EquatableMixin {
   const DollarField({required this.val$ue});
 }
 
-class UnderscoreField with EquatableMixin {
+class UnderscoreField with Equatable {
   final int val_ue;
 
   @override
@@ -94,7 +94,7 @@ class UnderscoreField with EquatableMixin {
   const UnderscoreField({required this.val_ue});
 }
 
-class NumberField with EquatableMixin {
+class NumberField with Equatable {
   final int val123ue;
 
   @override

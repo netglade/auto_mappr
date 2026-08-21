@@ -7,7 +7,7 @@ class YyyDto {
   const YyyDto({required this.name, required this.age});
 }
 
-class Yyy with EquatableMixin {
+class Yyy with Equatable {
   final String name;
   final int age;
 

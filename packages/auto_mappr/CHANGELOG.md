@@ -1,5 +1,11 @@
 [//]: # (## Unreleased)
 
+## 2.16.0
+- Bump minimum Dart SDK version to `3.12.0`.
+- Bump `auto_mappr_annotation` version to `^2.4.0`.
+- Bump `equatable` version to `^2.1.0`.
+- Use `Equatable` as a mixin instead of the deprecated `EquatableMixin`.
+
 ## 2.15.1
 - Fix generation failing when the same mappr is included multiple times in the includes hierarchy. [#256](https://github.com/netglade/auto_mappr/issues/256)
 

@@ -24,7 +24,7 @@ class PairSource {
   const PairSource(this.left, this.right);
 }
 
-class PairTarget with EquatableMixin {
+class PairTarget with Equatable {
   final LeftTarget left;
   final RightTarget right;
 

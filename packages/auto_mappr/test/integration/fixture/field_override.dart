@@ -23,7 +23,7 @@ class Source implements IData {
   const Source({required this.value});
 }
 
-class Target with EquatableMixin implements IData {
+class Target with Equatable implements IData {
   @override
   final int value;
 
@@ -42,7 +42,7 @@ class SourceData implements IData {
   const SourceData({required this.value});
 }
 
-class TargetData with EquatableMixin implements IData {
+class TargetData with Equatable implements IData {
   @override
   final int value;
 
@@ -63,7 +63,7 @@ class NestedSource implements INestedData {
   const NestedSource({required this.value});
 }
 
-class NestedTarget with EquatableMixin implements INestedData {
+class NestedTarget with Equatable implements INestedData {
   @override
   final TargetData value;
 

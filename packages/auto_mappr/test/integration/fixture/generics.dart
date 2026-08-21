@@ -32,7 +32,7 @@ class AlphaDto<T> {
   const AlphaDto(this.first, this.second);
 }
 
-class Alpha<T> with EquatableMixin {
+class Alpha<T> with Equatable {
   final With<T, T> first;
   final int second;
 
@@ -42,7 +42,7 @@ class Alpha<T> with EquatableMixin {
   const Alpha(this.first, this.second);
 }
 
-class With<A, B> with EquatableMixin {
+class With<A, B> with Equatable {
   final A first;
   final B second;
 
@@ -52,7 +52,7 @@ class With<A, B> with EquatableMixin {
   const With({required this.first, required this.second});
 }
 
-class Without with EquatableMixin {
+class Without with Equatable {
   final String first;
   final int second;
 
@@ -64,7 +64,7 @@ class Without with EquatableMixin {
 
 // collections
 
-class ListHolder<A, B> with EquatableMixin {
+class ListHolder<A, B> with Equatable {
   final List<With<A, B>> values;
 
   @override
@@ -73,7 +73,7 @@ class ListHolder<A, B> with EquatableMixin {
   const ListHolder(this.values);
 }
 
-class SetHolder<A> with EquatableMixin {
+class SetHolder<A> with Equatable {
   final Set<With<A, A>> values;
 
   @override
@@ -82,7 +82,7 @@ class SetHolder<A> with EquatableMixin {
   const SetHolder(this.values);
 }
 
-class IterableHolder<A, B> with EquatableMixin {
+class IterableHolder<A, B> with Equatable {
   final Iterable<With<A, B>> values;
 
   @override
@@ -91,7 +91,7 @@ class IterableHolder<A, B> with EquatableMixin {
   const IterableHolder(this.values);
 }
 
-class MapHolder<A, B, C> with EquatableMixin {
+class MapHolder<A, B, C> with Equatable {
   final Map<A, With<B, C>> values;
 
   @override

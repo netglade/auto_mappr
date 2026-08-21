@@ -1,6 +1,6 @@
 {
-  "date": "2026-01-06 14:56:23.189774Z",
-  "version": "1.35.0",
+  "date": "2026-08-21 12:11:41.364172Z",
+  "version": "1.39.1",
   "sensitivity": "exact",
   "commands": {
     "unused-code": {

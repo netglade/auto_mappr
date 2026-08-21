@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.4.0
+- Bump minimum Dart SDK version to `3.12.0`.
+
 ## 2.3.0
 - Update dependencies
 

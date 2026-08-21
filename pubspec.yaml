@@ -13,7 +13,7 @@ workspace:
   - examples/json_serializable
 
 environment:
-  sdk: ^3.9.0
+  sdk: ^3.12.0
 
 dev_dependencies:
   melos: ^7.3.0
@@ -31,7 +31,9 @@ melos:
       description: Run Dart static analysis checks.
 
     lint:dcm:
-      run: melos exec -c 10 -- dcm analyze . --fatal-style --fatal-warnings
+      # DCM is configured from the workspace root (see dcm_global.yaml),
+      # so it is run once over the whole repository instead of per package.
+      run: dcm analyze . --fatal-style --fatal-warnings
       description: Run DCM static analysis checks.
 
     # GENERATION

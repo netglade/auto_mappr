@@ -97,7 +97,7 @@ class Mappr extends $Mappr {
 
 // same
 
-class SamePositional with EquatableMixin {
+class SamePositional with Equatable {
   final int id;
   final String name;
 
@@ -114,7 +114,7 @@ class SamePositionalDto {
   const SamePositionalDto(this.id, this.name);
 }
 
-class SameNamed with EquatableMixin {
+class SameNamed with Equatable {
   final int id;
   final String name;
 
@@ -133,7 +133,7 @@ class SameNamedDto {
 
 // primitive
 
-class PrimitivePositional with EquatableMixin {
+class PrimitivePositional with Equatable {
   final int id;
 
   @override
@@ -148,7 +148,7 @@ class PrimitivePositionalDto {
   const PrimitivePositionalDto(this.idx);
 }
 
-class PrimitiveNamed with EquatableMixin {
+class PrimitiveNamed with Equatable {
   final int id;
 
   @override
@@ -165,7 +165,7 @@ class PrimitiveNamedDto {
 
 // primitive reversed
 
-class PrimitivePositionalReversed with EquatableMixin {
+class PrimitivePositionalReversed with Equatable {
   final int alpha;
   final String beta;
 
@@ -182,7 +182,7 @@ class PrimitivePositionalReversedDto {
   const PrimitivePositionalReversedDto(this.alpha, this.beta);
 }
 
-class PrimitiveNamedReversed with EquatableMixin {
+class PrimitiveNamedReversed with Equatable {
   final int alpha;
   final String beta;
 
@@ -201,7 +201,7 @@ class PrimitiveNamedReversedDto {
 
 // complex
 
-class Nested with EquatableMixin {
+class Nested with Equatable {
   final int id;
   final String name;
 
@@ -219,7 +219,7 @@ class NestedDto {
   const NestedDto(this.idx, {required this.namex});
 }
 
-class ComplexPositional with EquatableMixin {
+class ComplexPositional with Equatable {
   final Nested data;
 
   @override
@@ -234,7 +234,7 @@ class ComplexPositionalDto {
   const ComplexPositionalDto(this.datax);
 }
 
-class ComplexNamed with EquatableMixin {
+class ComplexNamed with Equatable {
   final Nested data;
 
   @override
@@ -251,7 +251,7 @@ class ComplexNamedDto {
 
 // complex reversed
 
-class NestedReversed with EquatableMixin {
+class NestedReversed with Equatable {
   final int id;
   final String name;
 
@@ -268,7 +268,7 @@ class NestedReversedDto {
   const NestedReversedDto(this.idx, {required this.namex});
 }
 
-class ComplexPositionalReversed with EquatableMixin {
+class ComplexPositionalReversed with Equatable {
   final int first;
   final NestedReversed second;
 
@@ -285,7 +285,7 @@ class ComplexPositionalReversedDto {
   const ComplexPositionalReversedDto(this.first, this.second);
 }
 
-class ComplexNamedReversed with EquatableMixin {
+class ComplexNamedReversed with Equatable {
   final int first;
   final NestedReversed second;
 
@@ -304,7 +304,7 @@ class ComplexNamedReversedDto {
 
 // custom
 
-class CustomPositional with EquatableMixin {
+class CustomPositional with Equatable {
   final String nameAndId;
 
   @override
@@ -320,7 +320,7 @@ class CustomPositionalDto {
   const CustomPositionalDto(this.id, this.name);
 }
 
-class CustomNamed with EquatableMixin {
+class CustomNamed with Equatable {
   final String nameAndId;
 
   @override
@@ -346,7 +346,7 @@ class NoConstructorWithLateDto {
 }
 
 // ignore: must_be_immutable, ok in tests
-class NoConstructorWithLate with EquatableMixin {
+class NoConstructorWithLate with Equatable {
   late int alpha;
   late String beta;
 

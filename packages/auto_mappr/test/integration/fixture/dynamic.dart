@@ -51,7 +51,6 @@ abstract final class DynamicConverter {
 
   static dynamic intToDynamic(int source) => source < 50 ? source : source.toString();
 
-  // ignore: switch_on_type, should be ok
   static int dynamicToInt(dynamic source) => switch (source) {
     int() => source,
     String() => int.parse(source),

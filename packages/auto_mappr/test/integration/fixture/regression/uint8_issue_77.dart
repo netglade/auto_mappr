@@ -27,7 +27,7 @@ class Source {
   });
 }
 
-class Destination with EquatableMixin {
+class Destination with Equatable {
   final List<int> int8List;
   final List<int> int16List;
   final List<int> int32List;
