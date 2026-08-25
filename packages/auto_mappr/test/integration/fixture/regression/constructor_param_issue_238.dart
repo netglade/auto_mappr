@@ -4,13 +4,13 @@ import 'package:equatable/equatable.dart';
 import 'constructor_param_issue_238.auto_mappr.dart';
 
 @AutoMappr([
-  MapType<Source, Target>(constructor: 'foo'),
-  MapType<Source, PositionalTarget>(constructor: 'foo'),
+  MapType<Source, Target>(targetConstructor: 'foo'),
+  MapType<Source, PositionalTarget>(targetConstructor: 'foo'),
   MapType<Source, IgnoredTarget>(
-    constructor: 'foo',
+    targetConstructor: 'foo',
     fields: [Field('a', ignore: true)],
   ),
-  MapType<NestedSource, NestedTarget>(constructor: 'foo'),
+  MapType<NestedSource, NestedTarget>(targetConstructor: 'foo'),
   MapType<InnerSource, InnerTarget>(),
 ])
 class Issue238Mappr extends $Issue238Mappr {
