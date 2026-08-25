@@ -1,5 +1,9 @@
 [//]: # (## Unreleased)
 
+## 2.5.0
+- Add `sourceConstructor` option to `MapType`, selecting the constructor used by the reverse mapping. [#238](https://github.com/netglade/auto_mappr/issues/238)
+- Rename `constructor` on `MapType` to `targetConstructor`. The old name is deprecated but still works. [#238](https://github.com/netglade/auto_mappr/issues/238)
+
 ## 2.4.0
 - Bump minimum Dart SDK version to `3.12.0`.
 

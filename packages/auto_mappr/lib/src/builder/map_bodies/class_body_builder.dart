@@ -180,7 +180,31 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
             // support custom field rename mapping
             : targetClassGetters.firstWhereOrNull((field) => field.displayName == fieldMapping?.field);
 
-        if (targetField == null) continue;
+        // The constructor parameter does not correspond to any target class field
+        // (e.g. `Target.foo({required int a}) : secret = a;`).
+        // The source field still matches the parameter, so assign it directly.
+        if (targetField == null) {
+          // ignore: avoid-non-null-assertion, must not be empty
+          if (mapping.fieldShouldBeIgnored(param.name!)) {
+            _assertParamFieldCanBeIgnored(param, sourceField);
+
+            continue;
+          }
+
+          mappedTargetConstructorParams.add(
+            SourceAssignment(
+              sourceField: sourceField,
+              targetField: null,
+              targetConstructorParam: constructorAssignment,
+              fieldMapping: fieldMapping,
+              typeConverters: mapping.typeConverters,
+            ),
+          );
+          // ignore: avoid-non-null-assertion, must not be empty
+          mappedSourceFieldNames.add(param.name!);
+
+          continue;
+        }
 
         if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
           _assertParamFieldCanBeIgnored(param, sourceField);
