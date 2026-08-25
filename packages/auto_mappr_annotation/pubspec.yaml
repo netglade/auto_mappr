@@ -1,7 +1,7 @@
 name: auto_mappr_annotation
 resolution: workspace
 description: Annotations for the auto_mappr code-generator of mapping between objects with ease.
-version: 2.5.0
+version: 3.0.0
 repository: https://github.com/netglade/auto_mappr
 issue_tracker: https://github.com/netglade/auto_mappr/issues
 

@@ -8,11 +8,11 @@ environment:
 resolution: workspace
 
 dependencies:
-  auto_mappr_annotation: ^2.3.0
+  auto_mappr_annotation: ^3.0.0
   json_annotation: ^4.9.0
 
 dev_dependencies:
-  auto_mappr: ^2.10.0
+  auto_mappr: ^3.0.0
   build_runner: ^2.10.0
   json_serializable: ^6.11.1
   netglade_analysis: ^19.0.0

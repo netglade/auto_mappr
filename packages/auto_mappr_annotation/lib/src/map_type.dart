@@ -19,13 +19,16 @@ final class MapType<SOURCE, TARGET> {
   // ignore: no-object-declaration, is correct
   final Object? whenSourceIsNull;
 
-  /// Selects named (factory) constructor by name.
+  /// Selects the constructor to map into.
   ///
-  /// If no constructor with this name is found,
-  /// it will fallback to the most fitted constructor.
+  /// Accepts a constructor tearoff of [TARGET],
+  /// such as `User.fromDto` for a named one or `User.new` for the unnamed one.
   ///
-  /// To select the default constructor use the `null` value.
-  final String? constructor;
+  /// When null, the most fitted constructor is selected: the one with the most
+  /// parameters, preferring generative constructors over factory ones and never
+  /// selecting a `fromJson` factory.
+  // ignore: prefer-typedefs-for-callbacks, prefer-correct-callback-field-name, prefer-explicit-function-type, constructors have arbitrary signatures
+  final Function? constructor;
 
   /// Ignores if [SOURCE]'s field is nullable and [TARGET]'s field non-nullable.
   final bool? ignoreFieldNull;

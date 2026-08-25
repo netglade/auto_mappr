@@ -82,7 +82,13 @@ class BoxingFunction with Equatable {
   String toString() => function.displayName;
 
   static TypeParameterElement _singleTypeParameter(ExecutableElement function, {required String keyword}) {
-    final typeParameter = function.typeParameters.singleOrNull;
+    // A constructor has no type parameters of its own, they belong to its class,
+    // which lets a tearoff such as `Value.new` be used as a boxing function.
+    final typeParameters = function is ConstructorElement
+        ? function.enclosingElement.typeParameters
+        : function.typeParameters;
+
+    final typeParameter = typeParameters.singleOrNull;
 
     if (typeParameter == null) {
       throw _error(
@@ -164,12 +170,14 @@ class BoxingFunction with Equatable {
     required String problem,
   }) {
     final name = function.displayName;
-    final expected = keyword == 'boxing' ? 'BOX<T> $name<T>(T value)' : 'T $name<T>(BOX<T> value)';
+    final isBoxing = keyword == 'boxing';
+    final expected = isBoxing ? 'BOX<T> $name<T>(T value)' : 'T $name<T>(BOX<T> value)';
+    final hint = isBoxing ? ' Alternatively use a tearoff of the box constructor, such as `Value.new`.' : '';
 
     return InvalidGenerationSourceError(
       "Function '$name' cannot be used as '$keyword' because $problem.",
       element: function,
-      todo: 'Declare it as `$expected`.',
+      todo: 'Declare it as `$expected`.$hint',
     );
   }
 }

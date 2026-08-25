@@ -1,7 +1,7 @@
 name: auto_mappr
 resolution: workspace
 description: Code generation for mapping between different objects with ease.
-version: 2.17.0
+version: 3.0.0
 repository: https://github.com/netglade/auto_mappr
 issue_tracker: https://github.com/netglade/auto_mappr/issues
 
@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   analyzer: '>=9.0.0 <11.0.0' # Same as freezed
-  auto_mappr_annotation: ^2.5.0
+  auto_mappr_annotation: ^3.0.0
   build: ^4.0.0
   built_collection: ^5.1.1
   code_builder: ^4.10.1

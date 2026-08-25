@@ -38,6 +38,8 @@ T unbox<T>(Value<T> value) => value.value;
   MapType<Ignored, IgnoredCompanion>(boxing: box, fields: [Field.ignore('skip')]),
   // Nullable source mapped into a non-nullable boxed target.
   MapType<Nullable, NullableCompanion>(boxing: box, ignoreFieldNull: true),
+  // The box constructor itself works as the boxing function.
+  MapType<Tearoff, TearoffCompanion>(boxing: Value.new),
 ])
 class Mappr extends $Mappr {
   const Mappr();
@@ -294,4 +296,24 @@ class NullableCompanion with Equatable {
   List<Object?> get props => [amount];
 
   const NullableCompanion({this.amount = const Value.absent()});
+}
+
+// Boxing via the box constructor tearoff.
+
+class Tearoff with Equatable {
+  final int amount;
+
+  @override
+  List<Object?> get props => [amount];
+
+  const Tearoff(this.amount);
+}
+
+class TearoffCompanion with Equatable {
+  final Value<int> amount;
+
+  @override
+  List<Object?> get props => [amount];
+
+  const TearoffCompanion({this.amount = const Value.absent()});
 }

@@ -8,12 +8,12 @@ environment:
 resolution: workspace
 
 dependencies:
-  auto_mappr_annotation: ^2.3.0
+  auto_mappr_annotation: ^3.0.0
   equatable: ^2.0.7
   freezed_annotation: ^3.1.0
 
 dev_dependencies:
-  auto_mappr: ^2.6.0
+  auto_mappr: ^3.0.0
   build_runner: ^2.10.0
   freezed: ^3.0.0
   netglade_analysis: ^19.0.0

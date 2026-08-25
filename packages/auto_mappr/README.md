@@ -384,7 +384,7 @@ class Mappr extends $Mappr {}
 ### Constructor selection
 
 When you want to specifically select a certain constructor,
-set the `constructor` property on `MapType`.
+set the `constructor` property on `MapType` to a constructor tearoff of the target.
 Otherwise the mapping automatically selects a constructor with the most parameters.
 It prioritizes non factory constructors over factory ones
 and never selects `fromJson` factory constructor.
@@ -397,11 +397,19 @@ To change the selected constructor, do:
 ```dart
 @AutoMappr([
   MapType<UserDto, User>(
-    constructor: 'fromDto',
+    constructor: User.fromDto,
   ),
 ])
 class Mappr extends $Mappr {}
 ```
+
+Use `User.new` to force the unnamed constructor,
+which is useful when several constructors have the same number of parameters
+and you do not want the choice to depend on their declaration order.
+
+Because the constructor is a tearoff rather than a name,
+a typo is a compile error at the annotation instead of a silently different mapping.
+The tearoff must belong to the target type; a constructor of any other class is rejected.
 
 ### Enum mapping
 
@@ -911,6 +919,15 @@ The boxing function must be generic over the unboxed type
 and take it as its single positional parameter: `BOX<T> box<T>(T value)`.
 The unboxing function is its mirror: `T unbox<T>(BOX<T> value)`.
 The box type must have exactly one type argument.
+
+When the box's constructor already has that shape,
+you can pass its tearoff instead of writing a function at all:
+
+```dart
+MapType<Tearoff, TearoffCompanion>(boxing: Value.new)
+```
+
+Unboxing has no such shortcut, as a constructor always returns its own class.
 
 Nullable forms such as `T?` are rejected,
 because the unboxed type is read from the box's type argument.

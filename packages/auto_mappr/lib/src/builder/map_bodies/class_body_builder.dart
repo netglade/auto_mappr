@@ -6,7 +6,6 @@ import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
 import 'package:auto_mappr/src/extensions/interface_type_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/source_assignment.dart';
-import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart' show Code, Expression;
 import 'package:collection/collection.dart';
 import 'package:source_gen/source_gen.dart';
@@ -370,8 +369,10 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
       final selectedConstructor = classType.constructors.firstWhereOrNull((c) => c.name == forcedConstructor);
       if (selectedConstructor != null) return selectedConstructor;
 
-      log.warning(
-        "Couldn't find constructor '$forcedConstructor', fall-backing to using the most fitted one instead. ($mapping)",
+      // The constructor comes from a tearoff of this very type, so it is always
+      // found. Reaching this means the tearoff was resolved against the wrong type.
+      throw InvalidGenerationSourceError(
+        "Couldn't find constructor '$forcedConstructor' on ${classType.getDisplayString()}. ($mapping)",
       );
     }
 

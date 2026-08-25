@@ -179,6 +179,17 @@ void main() {
     expect(converted.skip.present, isFalse);
   });
 
+  test('the box constructor tearoff works as the boxing function', () {
+    // arrange
+    const dto = fixture.Tearoff(3);
+
+    // act
+    final converted = mappr.convert<fixture.Tearoff, fixture.TearoffCompanion>(dto);
+
+    // assert
+    expect(converted, equals(const fixture.TearoffCompanion(amount: fixture.Value(3))));
+  });
+
   test('ignoreFieldNull applies to the unboxed type', () {
     // arrange
     const dto = fixture.Nullable(5);

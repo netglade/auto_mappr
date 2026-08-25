@@ -138,7 +138,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
       final fields = mapper.getField(mapTypeFieldFields)?.toListValue();
       final mapTypeConverters = mapper.getField(mapTypeFieldConverters)?.toListValue() ?? [];
       final whenSourceIsNull = mapper.getField(mapTypeFieldWhenSourceIsNull)?.toCodeExpression();
-      final constructor = mapper.getField(mapTypeFieldConstructor)?.toStringValue();
+      final constructor = _toTargetConstructorName(mapper, target: targetType);
       final willIgnoreFieldNull = mapper.getField(mapTypeFieldIgnoreFieldNull)?.toBoolValue();
       final isReverse = mapper.getField(mapTypeFieldReverse)?.toBoolValue();
       final hasSafeMapping = mapper.getField(mapTypeSafeMapping)?.toBoolValue();
@@ -204,6 +204,39 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
     });
 
     return res.flattened.toList();
+  }
+
+  /// Reads the selected constructor of a single map type.
+  ///
+  /// The tearoff is resolved to a name so that the constructor is looked up on
+  /// the target type itself, which matters for generic targets where the tearoff
+  /// refers to the declaration rather than to the substituted constructor.
+  String? _toTargetConstructorName(DartObject mapper, {required InterfaceType target}) {
+    final element = mapper.getField(mapTypeFieldConstructor)?.toFunctionValue();
+
+    if (element == null) return null;
+
+    final targetName = target.element.displayName;
+
+    if (element is! ConstructorElement) {
+      throw InvalidGenerationSourceError(
+        "'${element.displayName}' is not a constructor and cannot be used as 'constructor'.",
+        element: element,
+        todo: "Use a constructor tearoff of $targetName, such as '$targetName.new'.",
+      );
+    }
+
+    final owner = element.enclosingElement;
+
+    if (owner.baseElement != target.element.baseElement) {
+      throw InvalidGenerationSourceError(
+        "'${element.displayName}' is a constructor of ${owner.displayName}, not of the target $targetName.",
+        element: element,
+        todo: "Use a constructor tearoff of $targetName, such as '$targetName.new'.",
+      );
+    }
+
+    return element.name;
   }
 
   /// Reads and validates the boxing and unboxing functions of a single map type.

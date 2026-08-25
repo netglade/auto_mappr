@@ -1,8 +1,14 @@
 [//]: # (## Unreleased)
 
-## 2.17.0
+## 3.0.0
+- **BREAKING** `MapType.constructor` now takes a constructor tearoff of the target
+  instead of a constructor name. Replace `constructor: 'fromDto'` with
+  `constructor: User.fromDto`, and use `User.new` to force the unnamed constructor.
+  A constructor that does not exist, or belongs to another class, is now a generation
+  error instead of falling back to the most fitted constructor with a warning.
 - Add support for boxing, wrapping mapped values into a box type such as drift's `Value`. [#240](https://github.com/netglade/auto_mappr/issues/240)
-- Bump `auto_mappr_annotation` version to `^2.5.0`.
+- Allow a box constructor tearoff, such as `Value.new`, as the `boxing` function.
+- Bump `auto_mappr_annotation` version to `^3.0.0`.
 
 ## 2.16.0
 - Bump minimum Dart SDK version to `3.12.0`.

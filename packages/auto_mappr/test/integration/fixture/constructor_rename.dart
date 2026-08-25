@@ -5,7 +5,7 @@ import 'constructor_rename.auto_mappr.dart';
 
 @AutoMappr([
   MapType<Source, Target>(
-    constructor: 'rename',
+    constructor: Target.rename,
     fields: [
       Field('nick', custom: ConstructorRenameMappr.mapName),
       Field('home', from: 'address'),

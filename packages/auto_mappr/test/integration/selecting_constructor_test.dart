@@ -121,13 +121,13 @@ void main() {
     });
   });
 
-  group('when nonsense constructor selected', () {
+  group('when the unnamed constructor is forced', () {
     test('with final target', () {
       // arrange
-      const dto = fixture.TestNonsenseDto(1, 2, 3);
+      const dto = fixture.TestUnnamedDto(1, 2, 3);
 
       // act
-      final converted = mappr.convert<fixture.TestNonsenseDto, fixture.FinalTarget>(dto);
+      final converted = mappr.convert<fixture.TestUnnamedDto, fixture.FinalTarget>(dto);
 
       // assert
       expect(converted.a, equals(1));
@@ -137,10 +137,10 @@ void main() {
 
     test('with non final target', () {
       // arrange
-      const dto = fixture.TestNonsenseDto(1, 2, 3);
+      const dto = fixture.TestUnnamedDto(1, 2, 3);
 
       // act
-      final converted = mappr.convert<fixture.TestNonsenseDto, fixture.NonFinalTarget>(dto);
+      final converted = mappr.convert<fixture.TestUnnamedDto, fixture.NonFinalTarget>(dto);
 
       // assert
       expect(converted.a, equals(1));

@@ -8,17 +8,17 @@ import 'selecting_constructor.auto_mappr.dart';
   MapType<TestEmptyDto, FinalTarget>(),
   MapType<TestEmptyDto, NonFinalTarget>(),
   // alpha
-  MapType<TestAlphaDto, FinalTarget>(constructor: 'alpha'),
-  MapType<TestAlphaDto, NonFinalTarget>(constructor: 'alpha'),
+  MapType<TestAlphaDto, FinalTarget>(constructor: FinalTarget.alpha),
+  MapType<TestAlphaDto, NonFinalTarget>(constructor: NonFinalTarget.alpha),
   // beta
-  MapType<TestBetaDto, FinalTarget>(constructor: 'beta'),
-  MapType<TestBetaDto, NonFinalTarget>(constructor: 'beta'),
+  MapType<TestBetaDto, FinalTarget>(constructor: FinalTarget.beta),
+  MapType<TestBetaDto, NonFinalTarget>(constructor: NonFinalTarget.beta),
   // gama
-  MapType<TestGamaDto, FinalTarget>(constructor: 'gama'),
-  MapType<TestGamaDto, NonFinalTarget>(constructor: 'gama'),
-  // nonsense
-  MapType<TestNonsenseDto, FinalTarget>(constructor: 'testtesttest'),
-  MapType<TestNonsenseDto, NonFinalTarget>(constructor: 'testtesttest'),
+  MapType<TestGamaDto, FinalTarget>(constructor: FinalTarget.gama),
+  MapType<TestGamaDto, NonFinalTarget>(constructor: NonFinalTarget.gama),
+  // unnamed, forced explicitly
+  MapType<TestUnnamedDto, FinalTarget>(constructor: FinalTarget.new),
+  MapType<TestUnnamedDto, NonFinalTarget>(constructor: NonFinalTarget.new),
   // factory
   MapType<TestFactoryDto, TestFactoryNotSelected>(),
   MapType<TestFactoryDto, TestFactorySelected>(),
@@ -106,12 +106,12 @@ class TestGamaDto {
   const TestGamaDto(this.a, this.b, this.c);
 }
 
-class TestNonsenseDto {
+class TestUnnamedDto {
   final int a;
   final int b;
   final int c;
 
-  const TestNonsenseDto(this.a, this.b, this.c);
+  const TestUnnamedDto(this.a, this.b, this.c);
 }
 
 // Factory selection

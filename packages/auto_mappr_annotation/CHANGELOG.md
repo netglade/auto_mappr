@@ -1,6 +1,9 @@
 [//]: # (## Unreleased)
 
-## 2.5.0
+## 3.0.0
+- **BREAKING** `MapType.constructor` now takes a constructor tearoff of the target
+  instead of a constructor name. Replace `constructor: 'fromDto'` with
+  `constructor: User.fromDto`, and use `User.new` to force the unnamed constructor.
 - Add `boxing` and `unboxing` options to `MapType`, and `boxing` to `Field`. [#240](https://github.com/netglade/auto_mappr/issues/240)
 
 ## 2.4.0
