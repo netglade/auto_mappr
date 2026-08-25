@@ -816,6 +816,110 @@ such as `whenSourceIsNull` or `constructor` is used.
 
 For more complicated scenarios two separate mappings are recommended instead.
 
+### Boxing
+
+Some libraries wrap every field of a class in a box type.
+Drift is the typical example: each field of an update companion is a `Value`.
+
+```dart
+class TodosCompanion extends UpdateCompanion<Todo> {
+  final Value<int> id;
+  final Value<String> title;
+  // ...
+}
+```
+
+Instead of writing a type converter for every single field type,
+set `boxing` on the `MapType` to a function that wraps a value into the box.
+
+```dart
+Value<T> box<T>(T value) => Value(value);
+
+@AutoMappr([
+  MapType<TodoItem, TodosCompanion>(boxing: box),
+])
+class Mappr extends $Mappr {}
+
+// generated
+TodosCompanion(id: box(model.id), title: box(model.title))
+```
+
+Every target field whose type is the box type is boxed, which is usually all of them.
+Fields of any other type are mapped as usual.
+
+Boxing applies on top of the normal mapping, not instead of it,
+so nested objects, iterables, maps, type converters
+and nullability handling all keep working on the unboxed type.
+For a target field of type `Value<AuthorEntity>` mapped from an `Author`,
+AutoMappr maps `Author` to `AuthorEntity` first and boxes the result afterwards.
+
+#### Unboxing
+
+The opposite direction needs a function that unwraps the box.
+Set `unboxing` for it, which is required when `reverse` is used.
+
+```dart
+Value<T> box<T>(T value) => Value(value);
+T unbox<T>(Value<T> value) => value.value;
+
+@AutoMappr([
+  MapType<TodoItem, TodosCompanion>(boxing: box, unboxing: unbox, reverse: true),
+])
+class Mappr extends $Mappr {}
+
+// generated
+TodosCompanion(id: box(model.id), title: box(model.title))
+TodoItem(id: unbox(model.id), title: unbox(model.title))
+```
+
+The reverse mapping uses the same configuration and needs no swapping,
+because `boxing` is decided by the target field's type
+and `unboxing` by the source field's type.
+When a field is boxed on both sides, neither applies and the value is copied as is.
+
+Note that unboxing an absent value is up to your unboxing function.
+Drift's `Value.absent()` holds no value at all,
+so `value.value` on it fails at runtime for a non-nullable field.
+Map such fields into a nullable type
+or handle the absent state in your own unboxing function.
+
+#### Opting out of a single field
+
+Set `boxing: false` on a `Field` to map it without boxing or unboxing,
+even though its type is the box type.
+The field then has to be mappable on its own, typically with a type converter
+or a custom mapping.
+
+```dart
+@AutoMappr([
+  MapType<OptOut, OptOutCompanion>(
+    boxing: box,
+    fields: [Field('amount', boxing: false)],
+    converters: [TypeConverter<int, Value<int>>(Mappr.intToValue)],
+  ),
+])
+```
+
+A field with a `custom` mapping is never boxed,
+because the custom mapping provides the whole value including the box.
+An ignored field of a boxed optional parameter is left out of the constructor call
+entirely, so the box's own default such as `Value.absent()` applies.
+
+#### Requirements on the functions
+
+The boxing function must be generic over the unboxed type
+and take it as its single positional parameter: `BOX<T> box<T>(T value)`.
+The unboxing function is its mirror: `T unbox<T>(BOX<T> value)`.
+The box type must have exactly one type argument.
+
+Nullable forms such as `T?` are rejected,
+because the unboxed type is read from the box's type argument.
+Declare the field as `Value<int?>` instead of returning `int?` from the unboxing function.
+
+Record types cannot be unboxed, as the record mapping reads the source field
+on its own and would skip the unboxing.
+Map such a field with `boxing: false` and a `custom` mapping instead.
+
 ### Records
 
 Converting records is supported for both positional and named record's fields.
@@ -889,6 +993,10 @@ By default the `auto_mappr` builder has defined required inputs for freezed and 
 This allows to depend on generated classes from these packages without need to modify project's build.yaml.
 
 #### Drift integration
+
+Drift's update companions wrap every field in a `Value`.
+See [boxing](#boxing) for mapping into and out of them without
+a type converter per field type.
 
 If you are using packages like `Drift` which generates classes you need to use as a source or a target in your mappings,
 use their not-shared builder, if they have any.

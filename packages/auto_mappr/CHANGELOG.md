@@ -1,5 +1,9 @@
 [//]: # (## Unreleased)
 
+## 2.17.0
+- Add support for boxing, wrapping mapped values into a box type such as drift's `Value`. [#240](https://github.com/netglade/auto_mappr/issues/240)
+- Bump `auto_mappr_annotation` version to `^2.5.0`.
+
 ## 2.16.0
 - Bump minimum Dart SDK version to `3.12.0`.
 - Bump `auto_mappr_annotation` version to `^2.4.0`.

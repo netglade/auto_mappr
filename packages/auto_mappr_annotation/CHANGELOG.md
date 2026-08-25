@@ -1,5 +1,8 @@
 [//]: # (## Unreleased)
 
+## 2.5.0
+- Add `boxing` and `unboxing` options to `MapType`, and `boxing` to `Field`. [#240](https://github.com/netglade/auto_mappr/issues/240)
+
 ## 2.4.0
 - Bump minimum Dart SDK version to `3.12.0`.
 

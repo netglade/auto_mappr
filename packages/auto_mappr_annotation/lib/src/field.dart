@@ -28,6 +28,13 @@ final class Field {
   /// Force non-nullable value if SOURCE's field is nullable and TARGET's field not.
   final bool? ignoreNull;
 
+  /// Whether `MapType.boxing` and `MapType.unboxing` apply to this field.
+  ///
+  /// Set to `false` to map this field without boxing or unboxing it, even though
+  /// its type is the box type. Null inherits the behaviour from the map type.
+  // ignore: prefer-boolean-prefixes, named after MapType.boxing it overrides
+  final bool? boxing;
+
   /// Universal constructor.
   const Field(
     this.field, {
@@ -36,10 +43,11 @@ final class Field {
     this.ignore = false,
     this.whenNull,
     this.ignoreNull,
+    this.boxing,
   });
 
   /// Field renaming using [from] or assigning default value with [whenNull].
-  const Field.from(this.field, {required this.from, this.whenNull})
+  const Field.from(this.field, {required this.from, this.whenNull, this.boxing})
       : custom = null,
         ignore = false,
         ignoreNull = null;
@@ -48,7 +56,8 @@ final class Field {
   const Field.custom(this.field, {required this.custom, this.whenNull})
       : from = null,
         ignore = false,
-        ignoreNull = null;
+        ignoreNull = null,
+        boxing = null;
 
   /// Field ignoring.
   const Field.ignore(this.field)
@@ -56,5 +65,6 @@ final class Field {
         from = null,
         custom = null,
         whenNull = null,
-        ignoreNull = null;
+        ignoreNull = null,
+        boxing = null;
 }

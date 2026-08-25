@@ -8,8 +8,6 @@ abstract class AssignmentBuilderBase {
   // ignore: prefer-typedefs-for-callbacks, private API
   final void Function(TypeMapping? mapping)? onUsedNullableMethodCallback;
 
-  static const Reference modelReference = Reference('model');
-
   const AssignmentBuilderBase({
     required this.assignment,
     required this.mapperConfig,

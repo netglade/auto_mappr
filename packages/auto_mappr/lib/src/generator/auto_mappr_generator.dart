@@ -34,6 +34,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
   static const String mapTypeFieldIgnoreFieldNull = 'ignoreFieldNull';
   static const String mapTypeFieldReverse = 'reverse';
   static const String mapTypeSafeMapping = 'safeMapping';
+  static const String mapTypeFieldBoxing = 'boxing';
+  static const String mapTypeFieldUnboxing = 'unboxing';
 
   // Constants for Field.
   static const String fieldFieldField = 'field';
@@ -42,6 +44,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
   static const String fieldFieldCustom = 'custom';
   static const String fieldFieldWhenNull = 'whenNull';
   static const String fieldFieldIgnoreNull = 'ignoreNull';
+  static const String fieldFieldBoxing = 'boxing';
 
   // Constants for TypeConverter.
   static const String typeConverterFieldConverter = 'converter';
@@ -139,6 +142,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
       final willIgnoreFieldNull = mapper.getField(mapTypeFieldIgnoreFieldNull)?.toBoolValue();
       final isReverse = mapper.getField(mapTypeFieldReverse)?.toBoolValue();
       final hasSafeMapping = mapper.getField(mapTypeSafeMapping)?.toBoolValue();
+      final boxing = _toBoxingFunctions(mapper);
 
       final fieldMappings = fields
           ?.map(
@@ -149,6 +153,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
               customExpression: fieldMapping.getField(fieldFieldCustom)!.toCodeExpression(maybePassModelArgument: true),
               whenNullExpression: fieldMapping.getField(fieldFieldWhenNull)!.toCodeExpression(),
               ignoreNull: fieldMapping.getField(fieldFieldIgnoreNull)!.toBoolValue(),
+              boxing: fieldMapping.getField(fieldFieldBoxing)?.toBoolValue(),
             ),
           )
           .toList();
@@ -163,6 +168,8 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
           constructor: constructor,
           ignoreFieldNull: willIgnoreFieldNull,
           safeMapping: hasSafeMapping,
+          boxing: boxing.boxing,
+          unboxing: boxing.unboxing,
         ),
         if (isReverse ?? false)
           TypeMapping(
@@ -179,6 +186,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
                               whenNullExpression: f.whenNullExpression,
                               ignore: f.ignore,
                               ignoreNull: f.ignoreNull,
+                              boxing: f.boxing,
                             )
                           : f,
                     )
@@ -189,11 +197,34 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
             constructor: constructor,
             ignoreFieldNull: willIgnoreFieldNull,
             safeMapping: hasSafeMapping,
+            boxing: boxing.boxing,
+            unboxing: boxing.unboxing,
           ),
       ];
     });
 
     return res.flattened.toList();
+  }
+
+  /// Reads and validates the boxing and unboxing functions of a single map type.
+  ({BoxingFunction? boxing, BoxingFunction? unboxing}) _toBoxingFunctions(DartObject mapper) {
+    final boxingElement = mapper.getField(mapTypeFieldBoxing)?.toFunctionValue();
+    final unboxingElement = mapper.getField(mapTypeFieldUnboxing)?.toFunctionValue();
+
+    final boxing = boxingElement == null ? null : BoxingFunction.boxing(boxingElement);
+    final unboxing = unboxingElement == null ? null : BoxingFunction.unboxing(unboxingElement);
+
+    if (boxing != null && unboxing != null && boxing.boxElement != unboxing.boxElement) {
+      final boxName = boxing.boxElement.displayName;
+      final unboxName = unboxing.boxElement.displayName;
+
+      throw InvalidGenerationSourceError(
+        "Functions '$boxing' and '$unboxing' do not box the same type: '$boxName' and '$unboxName'.",
+        todo: 'Use functions that box and unbox the same type.',
+      );
+    }
+
+    return (boxing: boxing, unboxing: unboxing);
   }
 
   /// Recursively returns all mappings from includes.

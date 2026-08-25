@@ -8,7 +8,7 @@ environment:
 resolution: workspace
 
 dependencies:
-  auto_mappr_annotation: ^2.3.0
+  auto_mappr_annotation: ^2.5.0
   drift: ^2.24.0
   equatable: ^2.0.7
 

@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/methods/method_builder_base.dart';
+import 'package:auto_mappr/src/models/boxing_function.dart';
 import 'package:auto_mappr/src/models/field_mapping.dart';
 import 'package:auto_mappr/src/models/type_converter.dart';
 import 'package:code_builder/code_builder.dart';
@@ -17,6 +18,12 @@ class TypeMapping with Equatable {
   final bool? ignoreFieldNull;
   final bool? safeMapping;
 
+  /// Wraps mapped values of boxed [target] fields.
+  final BoxingFunction? boxing;
+
+  /// Unwraps values of boxed [source] fields.
+  final BoxingFunction? unboxing;
+
   bool get isEnumMapping => source.element is EnumElement || target.element is EnumElement;
 
   @override
@@ -30,6 +37,8 @@ class TypeMapping with Equatable {
       constructor,
       ignoreFieldNull,
       safeMapping,
+      boxing,
+      unboxing,
     ];
   }
 
@@ -42,6 +51,8 @@ class TypeMapping with Equatable {
     this.whenSourceIsNullExpression,
     this.constructor,
     this.safeMapping,
+    this.boxing,
+    this.unboxing,
   });
 
   String mappingMethodName() => MethodBuilderBase.constructConvertMethodName(

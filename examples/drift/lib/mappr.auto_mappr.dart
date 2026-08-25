@@ -15,6 +15,8 @@ import 'package:examples_drift/mappr.dart' as _i3;
 /// {@template package:examples_drift/mappr.dart}
 /// Available mappings:
 /// - `Todo` → `TodoItem`.
+/// - `TodoItem` → `TodosCompanion`.
+/// - `TodosCompanion` → `TodoItem`.
 /// {@endtemplate}
 class $Mappr implements _i1.AutoMapprInterface {
   const $Mappr();
@@ -31,6 +33,18 @@ class $Mappr implements _i1.AutoMapprInterface {
     final targetTypeOf = _typeOf<TARGET>();
     if ((sourceTypeOf == _typeOf<_i2.Todo>() ||
             sourceTypeOf == _typeOf<_i2.Todo?>()) &&
+        (targetTypeOf == _typeOf<_i3.TodoItem>() ||
+            targetTypeOf == _typeOf<_i3.TodoItem?>())) {
+      return true;
+    }
+    if ((sourceTypeOf == _typeOf<_i3.TodoItem>() ||
+            sourceTypeOf == _typeOf<_i3.TodoItem?>()) &&
+        (targetTypeOf == _typeOf<_i2.TodosCompanion>() ||
+            targetTypeOf == _typeOf<_i2.TodosCompanion?>())) {
+      return true;
+    }
+    if ((sourceTypeOf == _typeOf<_i2.TodosCompanion>() ||
+            sourceTypeOf == _typeOf<_i2.TodosCompanion?>()) &&
         (targetTypeOf == _typeOf<_i3.TodoItem>() ||
             targetTypeOf == _typeOf<_i3.TodoItem?>())) {
       return true;
@@ -221,6 +235,28 @@ class $Mappr implements _i1.AutoMapprInterface {
       }
       return (_map__i2$Todo_To__i3$TodoItem((model as _i2.Todo?)) as TARGET);
     }
+    if ((sourceTypeOf == _typeOf<_i3.TodoItem>() ||
+            sourceTypeOf == _typeOf<_i3.TodoItem?>()) &&
+        (targetTypeOf == _typeOf<_i2.TodosCompanion>() ||
+            targetTypeOf == _typeOf<_i2.TodosCompanion?>())) {
+      if (canReturnNull && model == null) {
+        return null;
+      }
+      return (_map__i3$TodoItem_To__i2$TodosCompanion((model as _i3.TodoItem?))
+          as TARGET);
+    }
+    if ((sourceTypeOf == _typeOf<_i2.TodosCompanion>() ||
+            sourceTypeOf == _typeOf<_i2.TodosCompanion?>()) &&
+        (targetTypeOf == _typeOf<_i3.TodoItem>() ||
+            targetTypeOf == _typeOf<_i3.TodoItem?>())) {
+      if (canReturnNull && model == null) {
+        return null;
+      }
+      return (_map__i2$TodosCompanion_To__i3$TodoItem(
+            (model as _i2.TodosCompanion?),
+          )
+          as TARGET);
+    }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }
 
@@ -255,6 +291,47 @@ class $Mappr implements _i1.AutoMapprInterface {
         r'Consider setting the whenSourceIsNull parameter on the MapType<Todo, TodoItem> to handle null values during mapping.',
       );
     }
-    return _i3.TodoItem(id: model.id, title: model.title);
+    return _i3.TodoItem(
+      id: model.id,
+      title: model.title,
+      content: model.content,
+      category: model.category,
+    );
+  }
+
+  _i2.TodosCompanion _map__i3$TodoItem_To__i2$TodosCompanion(
+    _i3.TodoItem? input,
+  ) {
+    final model = input;
+    if (model == null) {
+      throw Exception(
+        r'Mapping TodoItem → TodosCompanion failed because TodoItem was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<TodoItem, TodosCompanion> to handle null values during mapping.',
+      );
+    }
+    return _i2.TodosCompanion(
+      id: _i3.box(model.id),
+      title: _i3.box(model.title),
+      content: _i3.box(model.content),
+      category: _i3.box(model.category),
+    );
+  }
+
+  _i3.TodoItem _map__i2$TodosCompanion_To__i3$TodoItem(
+    _i2.TodosCompanion? input,
+  ) {
+    final model = input;
+    if (model == null) {
+      throw Exception(
+        r'Mapping TodosCompanion → TodoItem failed because TodosCompanion was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<TodosCompanion, TodoItem> to handle null values during mapping.',
+      );
+    }
+    return _i3.TodoItem(
+      id: _i3.unbox(model.id),
+      title: _i3.unbox(model.title),
+      content: _i3.unbox(model.content),
+      category: _i3.unbox(model.category),
+    );
   }
 }

@@ -68,8 +68,7 @@ class MapAssignmentBuilder extends AssignmentBuilderBase with NestedObjectMixin 
     final shouldRemoveNullsValue =
         isSourceNullableValue && !isTargetNullableValue && (!(valueMapping?.hasWhenNullDefault() ?? false));
 
-    // ignore: avoid-non-null-assertion, ok for now
-    final sourceMapExpression = AssignmentBuilderBase.modelReference.property(assignment.sourceField!.name!);
+    final sourceMapExpression = assignment.sourceExpression;
 
     final defaultMapValueExpression = literalMap(
       {},

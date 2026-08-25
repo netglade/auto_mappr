@@ -11,6 +11,9 @@ class FieldMapping with Equatable {
   final Expression? whenNullExpression;
   final bool? ignoreNull;
 
+  /// Whether the map type's boxing and unboxing apply to this field.
+  final bool? boxing;
+
   @override
   List<Object?> get props => [
     field,
@@ -19,6 +22,7 @@ class FieldMapping with Equatable {
     customExpression,
     whenNullExpression,
     ignoreNull,
+    boxing,
   ];
 
   const FieldMapping({
@@ -28,6 +32,7 @@ class FieldMapping with Equatable {
     this.from,
     this.customExpression,
     this.whenNullExpression,
+    this.boxing,
   });
 
   bool hasCustomMapping() {

@@ -125,6 +125,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
             targetConstructorParam: constructorAssignment,
             fieldMapping: fieldMapping,
             typeConverters: mapping.typeConverters,
+            boxing: mapping.boxing,
+            unboxing: mapping.unboxing,
           );
 
           mappedTargetConstructorParams.add(sourceAssignment);
@@ -148,6 +150,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           targetConstructorParam: constructorAssignment,
           fieldMapping: fieldMapping,
           typeConverters: mapping.typeConverters,
+          boxing: mapping.boxing,
+          unboxing: mapping.unboxing,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -165,6 +169,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
             targetConstructorParam: constructorAssignment,
             fieldMapping: fieldMapping,
             typeConverters: mapping.typeConverters,
+            boxing: mapping.boxing,
+            unboxing: mapping.unboxing,
           );
 
           mappedTargetConstructorParams.add(sourceAssignment);
@@ -184,6 +190,15 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
 
         if (mapping.fieldShouldBeIgnored(targetField.displayName)) {
           _assertParamFieldCanBeIgnored(param, sourceField);
+
+          // An ignored boxed parameter has no meaningful default value, so leave
+          // it out entirely and let the box's own default apply instead.
+          if (param.isOptional && (mapping.boxing?.isBoxed(param.type) ?? false)) {
+            // ignore: avoid-non-null-assertion, must not be empty
+            mappedSourceFieldNames.add(param.name!);
+
+            continue;
+          }
         }
 
         final sourceAssignment = SourceAssignment(
@@ -192,6 +207,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
           targetConstructorParam: constructorAssignment,
           fieldMapping: fieldMapping,
           typeConverters: mapping.typeConverters,
+          boxing: mapping.boxing,
+          unboxing: mapping.unboxing,
         );
 
         mappedTargetConstructorParams.add(sourceAssignment);
@@ -216,6 +233,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
             fieldMapping: fieldMapping,
             targetConstructorParam: constructorAssignment,
             typeConverters: mapping.typeConverters,
+            boxing: mapping.boxing,
+            unboxing: mapping.unboxing,
           ),
         );
       }
@@ -331,6 +350,8 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
                 sourceField: sourceField,
                 targetField: targetField,
                 typeConverters: mapping.typeConverters,
+                boxing: mapping.boxing,
+                unboxing: mapping.unboxing,
               ),
               onUsedNullableMethodCallback: onUsedNullableMethodCallback,
             ).build(),

@@ -1,6 +1,5 @@
 import 'package:auto_mappr/src/builder/assignments/assignments.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
-import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/models.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
@@ -21,6 +20,12 @@ class ValueAssignmentBuilder {
   });
 
   Expression build() {
+    // Boxing wraps whatever the assignment produced, so every branch below
+    // maps into the unboxed target type and stays unaware of the box.
+    return assignment.maybeBox(_buildValue());
+  }
+
+  Expression _buildValue() {
     final sourceField = assignment.sourceField;
 
     final fieldMapping = assignment.fieldMapping;
@@ -37,15 +42,7 @@ class ValueAssignmentBuilder {
       return fieldMapping.apply(assignment);
     }
 
-    final rightSide = (sourceField.isStatic
-            // Static field.
-            ? EmitterHelper.current
-                // ignore: avoid-non-null-assertion, should be ok
-                .refer(sourceField.enclosingElement.name!, sourceField.enclosingElement.library?.uri.toString())
-            // Non static field.
-            : refer('model'))
-        // ignore: avoid-non-null-assertion, must not be empty
-        .property(sourceField.name!);
+    final rightSide = assignment.sourceExpression;
     final assignmentBuilders = [
       // Type converter.
       TypeConverterBuilder(
@@ -114,11 +111,7 @@ class ValueAssignmentBuilder {
         false;
 
     if (shouldIgnoreNull && isSourceNullable && !isTargetNullable) {
-      // ignore: avoid-nullable-interpolation, should be ok
-      return refer(sourceField.isStatic ? '${sourceField.enclosingElement.name}' : 'model')
-          // ignore: avoid-non-null-assertion, must not be empty
-          .property(sourceField.name!)
-          .nullChecked;
+      return rightSide.nullChecked;
     }
 
     if (assignment.sourceType!.isDynamic && !assignment.targetType.isDynamic) {
