@@ -1,4 +1,6 @@
-[//]: # (## Unreleased)
+## Unreleased
+- Bump minimum Dart SDK version to `3.13.0`.
+- Bump `analyzer` version to `>=13.1.0 <15.0.0`.
 
 ## 2.16.0
 - Bump minimum Dart SDK version to `3.12.0`.

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'freezed_example.dart';
@@ -9,12 +9,13 @@ part of 'freezed_example.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserInfoUnion {
 
- String get email; String get loginIdentifier; DateTime get updatedAt; int get primarySectionId;
+
 /// Create a copy of UserInfoUnion
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +26,21 @@ $UserInfoUnionCopyWith<UserInfoUnion> get copyWith => _$UserInfoUnionCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserInfoUnion&&(identical(other.email, email) || other.email == email)&&(identical(other.loginIdentifier, loginIdentifier) || other.loginIdentifier == loginIdentifier)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.primarySectionId, primarySectionId) || other.primarySectionId == primarySectionId));
+  final _this = this as UserInfoUnion;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserInfoUnion&&(identical(other.email, _this.email) || other.email == _this.email)&&(identical(other.loginIdentifier, _this.loginIdentifier) || other.loginIdentifier == _this.loginIdentifier)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt)&&(identical(other.primarySectionId, _this.primarySectionId) || other.primarySectionId == _this.primarySectionId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,email,loginIdentifier,updatedAt,primarySectionId);
+int get hashCode {
+  final _this = this as UserInfoUnion;
+  return Object.hash(runtimeType,_this.email,_this.loginIdentifier,_this.updatedAt,_this.primarySectionId);
+}
 
 @override
 String toString() {
-  return 'UserInfoUnion(email: $email, loginIdentifier: $loginIdentifier, updatedAt: $updatedAt, primarySectionId: $primarySectionId)';
+  final _this = this as UserInfoUnion;
+  return 'UserInfoUnion(email: ${_this.email}, loginIdentifier: ${_this.loginIdentifier}, updatedAt: ${_this.updatedAt}, primarySectionId: ${_this.primarySectionId})';
 }
 
 
