@@ -5,9 +5,9 @@
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: type=lint, unnecessary_cast, unused_local_variable
+// ignore_for_file: no_leading_underscores_for_library_prefixes, type=lint
+// ignore_for_file: unnecessary_cast, unused_local_variable
 
-// ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
 import 'package:examples_example/equatable.dart' as _i2;
 

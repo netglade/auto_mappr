@@ -35,6 +35,7 @@ Heavily inspired by [C# AutoMapper][auto_mapper_net_link].
   - [Default field value](#default-field-value)
   - [Default object value](#default-object-value)
   - [Constructor selection](#constructor-selection)
+  - [Primary constructors](#primary-constructors)
   - [Enum mapping](#enum-mapping)
   - [Positional and named constructor parameters](#positional-and-named-constructor-parameters)
   - [Mapping to target](#mapping-to-target)
@@ -398,6 +399,43 @@ To change the selected constructor, do:
 @AutoMappr([
   MapType<UserDto, User>(
     constructor: 'fromDto',
+  ),
+])
+class Mappr extends $Mappr {}
+```
+
+### Primary constructors
+
+Classes and enums declared with [primary constructors](https://dart.dev/language/primary-constructors) (Dart 3.13+)
+are supported like any other class.
+Declaring parameters (`final` or `var`) induce fields,
+so they are matched by name both when the class is a source and when it is a target.
+
+```dart
+class const UserDto(final String name, final int age);
+
+class const User({required final String name, required final int age});
+
+@AutoMappr([
+  MapType<UserDto, User>(),
+])
+class Mappr extends $Mappr {}
+```
+
+A non-declaring parameter (one without `final` or `var`) does not induce a field,
+so there is no target getter to match it against.
+Map it explicitly with `Field.from`, like any other constructor parameter without a backing field:
+
+```dart
+class const UserDto(final String name, final String surname);
+
+class User(final String name, String surname) {
+  final String fullName = '$name $surname';
+}
+
+@AutoMappr([
+  MapType<UserDto, User>(
+    fields: [Field.from('surname', from: 'surname')],
   ),
 ])
 class Mappr extends $Mappr {}

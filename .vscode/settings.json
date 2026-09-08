@@ -1,6 +1,7 @@
 {
   "yaml.schemaStore.enable": false,
-  "dart.flutterSdkPath": ".fvm/versions/3.44.0",
+  "dart.flutterSdkPath": ".fvm/versions/3.47.2",
+  "dart.sdkPath": ".fvm/flutter_sdk/bin/cache/dart-sdk",
   "search.exclude": {
     "**/.fvm": true
   },

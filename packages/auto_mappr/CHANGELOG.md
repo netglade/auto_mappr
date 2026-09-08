@@ -1,4 +1,7 @@
-[//]: # (## Unreleased)
+## Unreleased
+- Add support for classes and enums declared with primary constructors (Dart 3.13). Non-declaring constructor parameters are mapped with `Field(from:)`, like any constructor parameter without a backing field.
+- Bump minimum Dart SDK version to `3.13.0`.
+- Bump `analyzer` version to `>=13.1.0 <15.0.0`.
 
 ## 2.16.0
 - Bump minimum Dart SDK version to `3.12.0`.
