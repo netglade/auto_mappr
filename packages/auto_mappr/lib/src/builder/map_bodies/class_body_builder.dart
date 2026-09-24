@@ -3,6 +3,7 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:auto_mappr/src/builder/map_bodies/map_body_builder_base.dart';
 import 'package:auto_mappr/src/builder/value_assignment_builder.dart';
 import 'package:auto_mappr/src/extensions/dart_type_extension.dart';
+import 'package:auto_mappr/src/extensions/executable_element_extension.dart';
 import 'package:auto_mappr/src/extensions/interface_type_extension.dart';
 import 'package:auto_mappr/src/helpers/emitter_helper.dart';
 import 'package:auto_mappr/src/models/source_assignment.dart';
@@ -374,7 +375,7 @@ class ClassBodyBuilder extends MapBodyBuilderBase {
     required List<SourceAssignment> positional,
     required List<SourceAssignment> named,
   }) {
-    final constructorName = targetConstructor.displayName;
+    final constructorName = targetConstructor.referCallString;
 
     return EmitterHelper.current.refer(constructorName, targetConstructor.library.uri.toString()).newInstance(
       positional.map(
