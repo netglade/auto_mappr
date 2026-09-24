@@ -20,7 +20,6 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
   final BuilderOptions builderOptions;
 
   // Constants for AutoMappr.
-  static const String annotationAutoMappr = 'AutoMappr';
   static const String annotationFieldMappers = 'mappers';
   static const String annotationFieldConverters = 'converters';
   static const String annotationFieldDelegates = 'delegates';
@@ -205,10 +204,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
 
     for (final include in includesList) {
       // For each include locate AutoMappr annotation.
-      if (include.type?.element?.metadata.annotations
-              .firstWhereOrNull((data) => data.element?.displayName == annotationAutoMappr)
-              ?.computeConstantValue()
-          case final includeConstant?) {
+      if (_autoMapprAnnotationOf(include.type?.element) case final includeConstant?) {
         // This -- mappers.
         final mappers = includeConstant.getField(annotationFieldMappers)?.toListValue();
         if (mappers != null) {
@@ -226,6 +222,13 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
 
     return mappings.toSet();
   }
+
+  /// Returns the `@AutoMappr` annotation of an included mappr [element].
+  ///
+  /// The annotation is matched by its type using the same [typeChecker] that selects the annotated mappr itself.
+  /// Unresolved annotations are skipped.
+  DartObject? _autoMapprAnnotationOf(Element? element) =>
+      element == null ? null : typeChecker.firstAnnotationOf(element, throwOnUnresolved: false);
 
   List<TypeConverter> _toTypeConverters(List<DartObject> source) {
     return source.map((converter) {
@@ -258,10 +261,7 @@ class AutoMapprGenerator extends GeneratorForAnnotation<annotation.AutoMappr> {
       }
 
       // For each include locate AutoMappr annotation.
-      if (x.metadata.annotations
-              .firstWhereOrNull((data) => data.element?.displayName == annotationAutoMappr)
-              ?.computeConstantValue()
-          case final includeConstant?) {
+      if (_autoMapprAnnotationOf(x) case final includeConstant?) {
         // This -- converters.
         final converters = includeConstant.getField(annotationFieldConverters)?.toListValue();
         if (converters != null) {

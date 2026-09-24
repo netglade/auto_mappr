@@ -5,9 +5,9 @@
 // AutoMapprGenerator
 // **************************************************************************
 
-// ignore_for_file: type=lint, unnecessary_cast, unused_local_variable
+// ignore_for_file: no_leading_underscores_for_library_prefixes, type=lint
+// ignore_for_file: unnecessary_cast, unused_local_variable
 
-// ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
 import 'package:examples_freezed/freezed_example.dart' as _i2;
 
@@ -219,9 +219,8 @@ class $Mappr implements _i1.AutoMapprInterface {
         return null;
       }
       return (_map__i2$UserInfoUnion_To__i2$UserInfoCompanion(
-            (model as _i2.UserInfoUnion?),
-          )
-          as TARGET);
+        (model as _i2.UserInfoUnion?),
+      ) as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
   }

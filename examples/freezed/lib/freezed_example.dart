@@ -13,13 +13,9 @@ class UserInfoUnion with _$UserInfoUnion {
     this.primarySectionId = 0,
   });
 
-  @override
   final String email;
-  @override
   final String loginIdentifier;
-  @override
   final DateTime updatedAt;
-  @override
   final int primarySectionId;
 }
 
