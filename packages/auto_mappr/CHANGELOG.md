@@ -1,5 +1,13 @@
 [//]: # (## Unreleased)
 
+## 2.17.0
+- Bump minimum Dart SDK version to `3.13.0`.
+- Bump `auto_mappr_annotation` version to `^2.5.0`.
+- Bump dependencies:
+  - `analyzer` to `>=14.0.0 <15.0.0`
+  - `build` to `^4.0.11`
+  - `source_gen` to `^4.3.0`
+
 ## 2.16.0
 - Bump minimum Dart SDK version to `3.12.0`.
 - Bump `auto_mappr_annotation` version to `^2.4.0`.
