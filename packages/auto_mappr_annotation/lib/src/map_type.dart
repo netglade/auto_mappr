@@ -19,13 +19,38 @@ final class MapType<SOURCE, TARGET> {
   // ignore: no-object-declaration, is correct
   final Object? whenSourceIsNull;
 
-  /// Selects named (factory) constructor by name.
+  /// Selects [TARGET]'s named (factory) constructor by name.
   ///
   /// If no constructor with this name is found,
   /// it will fallback to the most fitted constructor.
   ///
   /// To select the default constructor use the `null` value.
+  @Deprecated('Use targetConstructor instead')
   final String? constructor;
+
+  /// Selects [TARGET]'s named (factory) constructor by name,
+  /// used by the mapping from [SOURCE] to [TARGET].
+  ///
+  /// If no constructor with this name is found,
+  /// it will fallback to the most fitted constructor.
+  ///
+  /// To select the default constructor use the `null` value.
+  final String? targetConstructor;
+
+  /// Selects [SOURCE]'s named (factory) constructor by name,
+  /// used by the reverse mapping generated with [reverse].
+  ///
+  /// [targetConstructor] names a constructor of [TARGET] and therefore is not
+  /// used by the reverse mapping. Use this to select a constructor for it.
+  ///
+  /// Requires [reverse] to be set, otherwise the mapping using it
+  /// is never generated and the build fails.
+  ///
+  /// If no constructor with this name is found,
+  /// it will fallback to the most fitted constructor.
+  ///
+  /// To select the default constructor use the `null` value.
+  final String? sourceConstructor;
 
   /// Ignores if [SOURCE]'s field is nullable and [TARGET]'s field non-nullable.
   final bool? ignoreFieldNull;
@@ -34,7 +59,10 @@ final class MapType<SOURCE, TARGET> {
   ///
   /// Warning: reverse warning might be suitable only for specific objects.
   /// Reverse mapping might not work properly when additional configuration
-  /// such as [whenSourceIsNull] or [constructor] is used.
+  /// such as [whenSourceIsNull] is used.
+  ///
+  /// The reverse mapping does not use [targetConstructor] as it names a
+  /// constructor of [TARGET]. Use [sourceConstructor] to select one for it.
   final bool reverse;
 
   /// If set to true and any exception is thrown during the mapping using tryConvert/tryConvertIterable/tryConvertSet/tryConverlList methods, it is caught and methods return null.
@@ -46,7 +74,9 @@ final class MapType<SOURCE, TARGET> {
     this.fields = const [],
     this.converters = const [],
     this.whenSourceIsNull,
-    this.constructor,
+    @Deprecated('Use targetConstructor instead') this.constructor,
+    this.targetConstructor,
+    this.sourceConstructor,
     this.ignoreFieldNull,
     this.reverse = false,
     this.safeMapping = false,

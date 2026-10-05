@@ -8,17 +8,17 @@ import 'selecting_constructor.auto_mappr.dart';
   MapType<TestEmptyDto, FinalTarget>(),
   MapType<TestEmptyDto, NonFinalTarget>(),
   // alpha
-  MapType<TestAlphaDto, FinalTarget>(constructor: 'alpha'),
-  MapType<TestAlphaDto, NonFinalTarget>(constructor: 'alpha'),
+  MapType<TestAlphaDto, FinalTarget>(targetConstructor: 'alpha'),
+  MapType<TestAlphaDto, NonFinalTarget>(targetConstructor: 'alpha'),
   // beta
-  MapType<TestBetaDto, FinalTarget>(constructor: 'beta'),
-  MapType<TestBetaDto, NonFinalTarget>(constructor: 'beta'),
+  MapType<TestBetaDto, FinalTarget>(targetConstructor: 'beta'),
+  MapType<TestBetaDto, NonFinalTarget>(targetConstructor: 'beta'),
   // gama
-  MapType<TestGamaDto, FinalTarget>(constructor: 'gama'),
-  MapType<TestGamaDto, NonFinalTarget>(constructor: 'gama'),
+  MapType<TestGamaDto, FinalTarget>(targetConstructor: 'gama'),
+  MapType<TestGamaDto, NonFinalTarget>(targetConstructor: 'gama'),
   // nonsense
-  MapType<TestNonsenseDto, FinalTarget>(constructor: 'testtesttest'),
-  MapType<TestNonsenseDto, NonFinalTarget>(constructor: 'testtesttest'),
+  MapType<TestNonsenseDto, FinalTarget>(targetConstructor: 'testtesttest'),
+  MapType<TestNonsenseDto, NonFinalTarget>(targetConstructor: 'testtesttest'),
   // factory
   MapType<TestFactoryDto, TestFactoryNotSelected>(),
   MapType<TestFactoryDto, TestFactorySelected>(),

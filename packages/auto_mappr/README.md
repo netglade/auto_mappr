@@ -384,7 +384,7 @@ class Mappr extends $Mappr {}
 ### Constructor selection
 
 When you want to specifically select a certain constructor,
-set the `constructor` property on `MapType`.
+set the `targetConstructor` property on `MapType`.
 Otherwise the mapping automatically selects a constructor with the most parameters.
 It prioritizes non factory constructors over factory ones
 and never selects `fromJson` factory constructor.
@@ -397,11 +397,39 @@ To change the selected constructor, do:
 ```dart
 @AutoMappr([
   MapType<UserDto, User>(
-    constructor: 'fromDto',
+    targetConstructor: 'fromDto',
   ),
 ])
 class Mappr extends $Mappr {}
 ```
+
+The `targetConstructor` property was previously named `constructor`,
+which still works but is deprecated.
+
+The `targetConstructor` property always selects a constructor of the **target**.
+When [reverse mapping](#reverse-mapping) is enabled, use `sourceConstructor`
+to select a constructor of the **source**, which the reverse mapping constructs:
+
+```dart
+@AutoMappr([
+  MapType<UserDto, User>(
+    targetConstructor: 'fromDto',
+    sourceConstructor: 'fromUser',
+    reverse: true,
+  ),
+])
+class Mappr extends $Mappr {}
+
+// generated mapping
+// UserDto -> User   uses User.fromDto(...)
+// User -> UserDto   uses UserDto.fromUser(...)
+```
+
+When `sourceConstructor` is not set, the reverse mapping selects a constructor
+using the default algorithm described above.
+
+Setting `sourceConstructor` without `reverse` fails the build,
+as the mapping it configures is never generated.
 
 ### Enum mapping
 
@@ -811,8 +839,12 @@ A.a mapts to B.b
 B.b maps to A.a
 ```
 
+The `targetConstructor` property selects a constructor of the target and therefore is not
+used by the reverse mapping. Use `sourceConstructor` to select one for it,
+see [Constructor selection](#constructor-selection).
+
 Also note that reverse mapping might not work properly when additional configuration
-such as `whenSourceIsNull` or `constructor` is used.
+such as `whenSourceIsNull` is used.
 
 For more complicated scenarios two separate mappings are recommended instead.
 
