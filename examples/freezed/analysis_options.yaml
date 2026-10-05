@@ -3,3 +3,10 @@ include: package:netglade_analysis/lints.yaml
 analyzer:
   exclude:
     - "**/*.freezed.dart"
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**

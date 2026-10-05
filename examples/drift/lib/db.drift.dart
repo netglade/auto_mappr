@@ -515,20 +515,18 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [todos, categories];
 }
 
-typedef $$TodosTableCreateCompanionBuilder =
-    TodosCompanion Function({
-      Value<int> id,
-      required String title,
-      required String content,
-      Value<int?> category,
-    });
-typedef $$TodosTableUpdateCompanionBuilder =
-    TodosCompanion Function({
-      Value<int> id,
-      Value<String> title,
-      Value<String> content,
-      Value<int?> category,
-    });
+typedef $$TodosTableCreateCompanionBuilder = TodosCompanion Function({
+  Value<int> id,
+  required String title,
+  required String content,
+  Value<int?> category,
+});
+typedef $$TodosTableUpdateCompanionBuilder = TodosCompanion Function({
+  Value<int> id,
+  Value<String> title,
+  Value<String> content,
+  Value<int?> category,
+});
 
 class $$TodosTableFilterComposer extends Composer<_$MyDatabase, $TodosTable> {
   $$TodosTableFilterComposer({
@@ -661,7 +659,12 @@ class $$TodosTableTableManager
                 category: category,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$TodosTable, Todo>(table),
+                  BaseReferences<_$MyDatabase, $TodosTable, Todo>(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -682,10 +685,14 @@ typedef $$TodosTableProcessedTableManager =
       Todo,
       PrefetchHooks Function()
     >;
-typedef $$CategoriesTableCreateCompanionBuilder =
-    CategoriesCompanion Function({Value<int> id, required String description});
-typedef $$CategoriesTableUpdateCompanionBuilder =
-    CategoriesCompanion Function({Value<int> id, Value<String> description});
+typedef $$CategoriesTableCreateCompanionBuilder = CategoriesCompanion Function({
+  Value<int> id,
+  required String description,
+});
+typedef $$CategoriesTableUpdateCompanionBuilder = CategoriesCompanion Function({
+  Value<int> id,
+  Value<String> description,
+});
 
 class $$CategoriesTableFilterComposer
     extends Composer<_$MyDatabase, $CategoriesTable> {
@@ -771,19 +778,25 @@ class $$CategoriesTableTableManager
               $$CategoriesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$CategoriesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> description = const Value.absent(),
-              }) => CategoriesCompanion(id: id, description: description),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String description,
-              }) =>
-                  CategoriesCompanion.insert(id: id, description: description),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> description = const Value.absent(),
+          }) => CategoriesCompanion(id: id, description: description),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String description,
+          }) => CategoriesCompanion.insert(id: id, description: description),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$CategoriesTable, Category>(table),
+                  BaseReferences<_$MyDatabase, $CategoriesTable, Category>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
